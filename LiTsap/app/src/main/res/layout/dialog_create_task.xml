@@ -13,44 +13,83 @@
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#C7E9FD">
-
-        <EditText
-            android:id="@+id/edit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:background="#FF8585"
-            android:ems="10"
-            android:text="@={viewModel.title}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edit_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@color/gray_999999"
-            android:ems="10"
-            android:text="@={viewModel.category}"
-            app:layout_constraintStart_toStartOf="@+id/edit_title"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_task_categories" />
+        android:background="@color/greek">
 
         <Spinner
             android:id="@+id/spinner_task_categories"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_category_editor"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:prompt="@string/select_category_method"
             android:selectedItemPosition="@={viewModel.selectedTaskCategoryPosition}"
             android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/task_name"
+            android:textSize="20sp"
+            android:fontFamily="@font/noto_sans"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_task_categories" />
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/water"
+            android:ems="10"
+            android:fontFamily="@font/noto_sans"
+            android:hint="@string/hint_task"
+            android:text="@={viewModel.title}"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/text_title"
+            app:layout_constraintTop_toTopOf="@+id/text_title" />
+
+        <TextView
+            android:id="@+id/text_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/noto_sans"
+            android:text="@string/task_period"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+            app:layout_constraintTop_toBottomOf="@+id/text_title" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="63dp"
+            android:layout_height="44dp"
+            android:background="@color/water"
             app:layout_constraintStart_toStartOf="@+id/edit_title"
-            app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+            app:layout_constraintTop_toTopOf="@+id/text_period" />
+
+
+        <EditText
+            android:id="@+id/edit_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@color/water"
+            android:ems="10"
+            android:fontFamily="@font/noto_sans"
+            android:text="@={viewModel.category}"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+            app:layout_constraintTop_toBottomOf="@+id/text_period" />
 
         <Button
             android:id="@+id/button_create"
@@ -58,9 +97,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:text="Button"
+            android:background="@color/darkRose"
+            android:fontFamily="@font/noto_sans"
+            android:padding="4dp"
+            android:text="@string/create_task"
+            android:textColor="@color/white"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/edit_title"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
             app:layout_constraintTop_toBottomOf="@+id/edit_category" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

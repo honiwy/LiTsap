@@ -4,6 +4,14 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+
+    <!-- Task Create Dialog -->
+    <color name="rose">#ff7e67</color>
+    <color name="darkRose">#cc4b45</color>
+    <color name="water">#a2d5f2</color>
+    <color name="greek">#07689f</color>
+
+
     <!-- Transparent Series -->
     <color name="translucent_80">#cc000000</color>
 
