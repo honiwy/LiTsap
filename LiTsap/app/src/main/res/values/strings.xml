@@ -9,7 +9,9 @@
     <!-- Task Create -->
     <string name="task_name">任務名稱: </string>
     <string name="hint_task">我要成為料理王</string>
-    <string name="task_period">任務時長: </string>
+    <string name="task_start">起始日期: </string>
+    <string name="task_end">截止日期: </string>
+    <string name="task_count">執行次數: </string>
     <string name="select_category_method">選擇任務類別</string>
     <string name="category_exercise">運動</string>
     <string name="category_wealth">財富</string>

@@ -17,6 +17,10 @@
         <item name="android:windowBackground">@color/translucent_80</item>
     </style>
 
+    <style name="AppTheme.NumberPicker">
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
