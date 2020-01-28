@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">LiTsap</string>
+    <string name="app_name">LiTsap 20</string>
+    <string name="action_settings">Settings</string>
+    <!-- Task -->
+    <string name="await_todo">待執行</string>
+    <string name="finished">已完成</string>
+    <string name="mock_task">煮飯練習</string>
+    <string name="mock_status">成為今天的前1%吧!</string>
+    <!-- Task Create -->
+    <string name="hint_task">我要成為料理王</string>
 </resources>
