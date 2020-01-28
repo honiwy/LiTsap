@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="task_category_list">
+        <item>@string/category_exercise</item>
+        <item>@string/category_food</item>
+        <item>@string/category_study</item>
+        <item>@string/category_networking</item>
+        <item>@string/category_wealth</item>
+    </string-array>
+</resources>
+

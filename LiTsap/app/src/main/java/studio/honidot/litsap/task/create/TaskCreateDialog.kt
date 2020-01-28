@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.DialogCreateTaskBinding
 
@@ -24,7 +25,13 @@ class TaskCreateDialog : DialogFragment() {
             DataBindingUtil.inflate(inflater, R.layout.dialog_create_task, container, false)
         binding.lifecycleOwner = this
 
+        binding.spinnerTaskCategories.adapter = CategorySpinnerAdapter( appContext.resources.getStringArray(R.array.task_category_list) )
+
+//        binding.spinnerTaskCategories.adapter = CategorySpinnerAdapter(
+//            instance.resources.getStringArray(R.array.task_category_list))
+
         binding.viewModel = viewModel
+
         binding.buttonCreate.setOnClickListener {
             viewModel.createTask()
             dismiss()

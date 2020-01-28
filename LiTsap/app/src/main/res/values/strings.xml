@@ -7,5 +7,11 @@
     <string name="mock_task">煮飯練習</string>
     <string name="mock_status">成為今天的前1%吧!</string>
     <!-- Task Create -->
-    <string name="hint_task">我要成為料理王</string>
+    <string name="hint_task">ex: 我要成為料理王</string>
+    <string name="select_category_method">選擇任務類別</string>
+    <string name="category_exercise">運動</string>
+    <string name="category_wealth">財富</string>
+    <string name="category_food">美食</string>
+    <string name="category_study">學習</string>
+    <string name="category_networking">社交</string>
 </resources>

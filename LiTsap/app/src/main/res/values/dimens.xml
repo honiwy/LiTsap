@@ -12,4 +12,8 @@
     <!-- General -->
     <dimen name="elevation_all">4dp</dimen>
     <dimen name="height_all_bottom_layout">60dp</dimen>
+
+    <!-- Category -->
+    <dimen name="height_category_editor">56dp</dimen>
+
 </resources>
