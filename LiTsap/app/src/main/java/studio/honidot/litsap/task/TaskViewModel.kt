@@ -1,26 +1,23 @@
 package studio.honidot.litsap.task
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import studio.honidot.litsap.ViewModelFactory
+import kotlinx.coroutines.launch
+import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.data.Task
-import studio.honidot.litsap.databinding.FragmentTaskBinding
+import studio.honidot.litsap.data.TaskItem
 
-class TaskViewModel() : ViewModel() {
+class TaskViewModel : ViewModel() {
 
-    // Get products from database to provide count number to bottom badge of cart
-    private val _tasks = MutableLiveData<List<Task>>()
-    val tasks: LiveData<List<Task>> = _tasks
+    private val _taskItems = MutableLiveData<List<TaskItem>>()
+
+    val taskItems: LiveData<List<TaskItem>>
+        get() = _taskItems
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -28,13 +25,23 @@ class TaskViewModel() : ViewModel() {
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    /**
-     * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
-     * Retrofit service to stop.
-     */
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    init {
+        getTasks()
+    }
+
+    private fun getTasks() {
+        val res = mutableListOf<TaskItem>()
+        res.add(TaskItem.Title("待執行"))
+        res.add(TaskItem.Assignment(Task(1L,"我要成為海賊王",TaskCategory.NETWORKING,30.0,0.0,false)))
+        res.add(TaskItem.Title("已完成"))
+        res.add(TaskItem.Assignment(Task(2L,"旅遊基金儲存計畫",TaskCategory.WEALTH,80.0,10.0,false)))
+
+        _taskItems.value = res
     }
 
 }

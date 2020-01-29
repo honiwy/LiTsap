@@ -17,6 +17,14 @@
         <item name="android:windowBackground">@color/translucent_80</item>
     </style>
 
+    <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="ProgressThemeDark" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
     <style name="AppTheme.NumberPicker">
         <item name="colorControlNormal">@color/colorAccent</item>
     </style>
