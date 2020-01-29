@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LiTsap 20</string>
+    <string name="app_name">LiTsap</string>
     <string name="action_settings">Settings</string>
     <!-- Task -->
     <string name="await_todo">待執行</string>
