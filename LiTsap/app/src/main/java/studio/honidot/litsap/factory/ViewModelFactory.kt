@@ -1,4 +1,4 @@
-package studio.honidot.litsap
+package studio.honidot.litsap.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

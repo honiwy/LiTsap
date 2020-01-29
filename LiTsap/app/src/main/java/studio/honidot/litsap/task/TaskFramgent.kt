@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import studio.honidot.litsap.LiTsapApplication
+import androidx.navigation.fragment.findNavController
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.FragmentTaskBinding
+import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.task.create.TaskCreateDialog
 
 class TaskFragment : Fragment() {
-    private val viewModel: TaskViewModel by lazy {
-        ViewModelProviders.of(this).get(TaskViewModel::class.java)
-    }//要用到的時候再創建才不會浪費記憶體資源
+    private val viewModel by viewModels<TaskViewModel> { getVmFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +27,7 @@ class TaskFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerTask.adapter = TaskAdapter(TaskAdapter.OnClickListener {
-            //viewModel.navigateToDetail(it)
+           // viewModel.navigateToDetail(it)
         })
         binding.fab.setOnClickListener {
             viewModel.taskItems.value?.let {
@@ -36,7 +37,12 @@ class TaskFragment : Fragment() {
                     TaskCreateDialog().show(childFragmentManager, "abc")
             }
         }
-
+//        viewModel.navigateToDetail.observe(this, Observer {
+//            it?.let {
+//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+//                viewModel.onDetailNavigated()
+//            }
+//        })
         return binding.root
     }
 }
