@@ -14,12 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_home_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/task_logo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:taskCategory="@{viewModel.task.category}"
+            tools:background="@drawable/category_food" />
+
+        <TextView
+            android:id="@+id/text_home_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
@@ -28,10 +38,11 @@
             android:maxLines="1"
             android:textColor="@color/black_3f3a3a"
             android:textSize="18sp"
+            android:text="@{viewModel.task.title}"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/await_todo" />
+            app:layout_constraintStart_toEndOf="@+id/task_logo"
+            app:layout_constraintTop_toTopOf="@+id/task_logo"
+            tools:text="@string/mock_task" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

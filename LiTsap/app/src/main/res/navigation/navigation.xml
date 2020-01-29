@@ -10,5 +10,17 @@
         android:name="studio.honidot.litsap.task.TaskFragment"
         android:label="TaskFragment"
         tools:layout="@layout/fragment_task"/>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="studio.honidot.litsap.task.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
 
+        <argument android:name="taskKey"
+        app:argType="studio.honidot.litsap.data.Task"
+        app:nullable="false"/>
+    </fragment>
+    <action
+        android:id="@+id/navigate_to_detailFragment"
+        app:destination="@id/detailFragment" />
 </navigation>

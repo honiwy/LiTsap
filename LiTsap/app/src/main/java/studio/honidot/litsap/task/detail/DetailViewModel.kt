@@ -20,14 +20,11 @@ class DetailViewModel(
     val task: LiveData<Task>
         get() = _task
 
-
-
     // Handle leave detail
     private val _leaveDetail = MutableLiveData<Boolean>()
 
     val leaveDetail: LiveData<Boolean>
         get() = _leaveDetail
-
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()

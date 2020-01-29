@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import studio.honidot.litsap.LiTsapApplication
 import androidx.navigation.fragment.findNavController
+import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.FragmentTaskBinding
 import studio.honidot.litsap.extension.getVmFactory
@@ -27,7 +28,7 @@ class TaskFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerTask.adapter = TaskAdapter(TaskAdapter.OnClickListener {
-           // viewModel.navigateToDetail(it)
+            viewModel.navigateToDetail(it)
         })
         binding.fab.setOnClickListener {
             viewModel.taskItems.value?.let {
@@ -37,12 +38,12 @@ class TaskFragment : Fragment() {
                     TaskCreateDialog().show(childFragmentManager, "abc")
             }
         }
-//        viewModel.navigateToDetail.observe(this, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
-//        })
+        viewModel.navigateToDetail.observe(this, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                viewModel.onDetailNavigated()
+            }
+        })
         return binding.root
     }
 }
