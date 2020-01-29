@@ -49,6 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
+            android:max="@{task.totalCount}"
+            android:progress="@{task.accumulatedCount}"
             app:layout_constraintBottom_toBottomOf="@+id/task_logo"
             app:layout_constraintEnd_toStartOf="@+id/image_live"
             app:layout_constraintStart_toEndOf="@+id/task_logo"

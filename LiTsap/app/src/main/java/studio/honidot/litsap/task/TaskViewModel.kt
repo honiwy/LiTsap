@@ -37,14 +37,14 @@ class TaskViewModel : ViewModel() {
     private fun getTasks() {
         val res = mutableListOf<TaskItem>()
         res.add(TaskItem.Title("待執行"))
-        res.add(TaskItem.Assignment(Task(0L, "我要成為海賊王", TaskCategory.NETWORKING, 3, 200, "",true,false)))
+        res.add(TaskItem.Assignment(Task(0L, "我要成為海賊王", TaskCategory.NETWORKING, 39, 200, "",true,false)))
         res.add(TaskItem.Assignment(Task(1L, "韓文小高手", TaskCategory.STUDY, 2, 15, "當第一個完成的吧",false,false)))
 
         res.add(TaskItem.Title("已完成"))
         res.add(TaskItem.Assignment(Task(2L, "旅遊基金儲存計畫", TaskCategory.WEALTH, 5, 10, "",true,true)))
         res.add(TaskItem.Assignment(Task(3L, "舞蹈成發練習", TaskCategory.EXERCISE, 5, 30, "",false,true)))
-        res.add(TaskItem.Assignment(Task(4L, "多益990", TaskCategory.STUDY, 1, 30, "HAHA",false,true)))
-        res.add(TaskItem.Assignment(Task(5L, "Potluck料理準備", TaskCategory.FOOD, 4, 30, "",false,true)))
+        res.add(TaskItem.Assignment(Task(4L, "成為哈佛生", TaskCategory.STUDY, 10, 30, "HAHA",false,true)))
+        res.add(TaskItem.Assignment(Task(5L, "Potluck 料理準備", TaskCategory.FOOD, 4, 30, "",false,true)))
 
         _taskItems.value = res
     }
