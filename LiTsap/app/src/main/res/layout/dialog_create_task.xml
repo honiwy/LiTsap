@@ -10,160 +10,166 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout"
+        android:id="@+id/constraint_background_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/greek">
+        android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/spinner_task_categories"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/height_category_editor"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:prompt="@string/select_category_method"
-            android:selectedItemPosition="@={viewModel.selectedTaskCategoryPosition}"
-            android:spinnerMode="dialog"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/greek"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/task_name"
-            android:textSize="20sp"
-            android:fontFamily="@font/noto_sans"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_task_categories" />
+            <Spinner
+                android:id="@+id/spinner_task_categories"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_category_editor"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:prompt="@string/select_category_method"
+                android:selectedItemPosition="@={viewModel.selectedTaskCategoryPosition}"
+                android:spinnerMode="dialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/edit_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@color/water"
-            android:ems="10"
-            android:fontFamily="@font/noto_sans"
-            android:hint="@string/hint_task"
-            android:text="@={viewModel.title}"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/text_title"
-            app:layout_constraintTop_toTopOf="@+id/text_title" />
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_sans"
+                android:text="@string/task_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_task_categories" />
 
-        <TextView
-            android:id="@+id/text_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:text="@string/task_start"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/start_date"
-            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
-            app:layout_constraintTop_toTopOf="@+id/start_date" />
+            <EditText
+                android:id="@+id/edit_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@color/water"
+                android:ems="10"
+                android:fontFamily="@font/noto_sans"
+                android:hint="@string/hint_task"
+                android:text="@={viewModel.title}"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/text_title"
+                app:layout_constraintTop_toTopOf="@+id/text_title" />
 
-        <DatePicker
-            android:id="@+id/start_date"
-            android:layout_width="0dp"
-            android:layout_height="96dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:gravity="center"
-            android:theme="@style/AppTheme.NumberPicker"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
-            app:layout_constraintStart_toStartOf="@+id/edit_title"
-            app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+            <TextView
+                android:id="@+id/text_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:text="@string/task_start"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/start_date"
+                app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+                app:layout_constraintTop_toTopOf="@+id/start_date" />
 
-        <TextView
-            android:id="@+id/text_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:text="@string/task_end"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/end_date"
-            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
-            app:layout_constraintTop_toTopOf="@+id/end_date" />
+            <DatePicker
+                android:id="@+id/start_date"
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:gravity="center"
+                android:theme="@style/AppTheme.NumberPicker"
+                app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
+                app:layout_constraintStart_toStartOf="@+id/edit_title"
+                app:layout_constraintTop_toBottomOf="@+id/edit_title" />
 
-        <DatePicker
-            android:id="@+id/end_date"
-            android:layout_width="0dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="76dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:gravity="center"
-            android:theme="@style/AppTheme.NumberPicker"
-            android:fadeScrollbars="true"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
-            app:layout_constraintStart_toStartOf="@+id/edit_title"
-            app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+            <TextView
+                android:id="@+id/text_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:text="@string/task_end"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/end_date"
+                app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+                app:layout_constraintTop_toTopOf="@+id/end_date" />
 
-        <TextView
-            android:id="@+id/text_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:text="@string/task_count"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
-            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
-            app:layout_constraintTop_toTopOf="@+id/numberPicker" />
+            <DatePicker
+                android:id="@+id/end_date"
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="76dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:fadeScrollbars="true"
+                android:gravity="center"
+                android:theme="@style/AppTheme.NumberPicker"
+                app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
+                app:layout_constraintStart_toStartOf="@+id/edit_title"
+                app:layout_constraintTop_toBottomOf="@+id/edit_title" />
 
-        <NumberPicker
-            android:id="@+id/numberPicker"
-            android:layout_width="64dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="180dp"
-            android:showDividers="beginning"
-            android:theme="@style/AppTheme.NumberPicker"
-            app:layout_constraintStart_toStartOf="@+id/edit_title"
-            app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+            <TextView
+                android:id="@+id/text_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:text="@string/task_count"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
+                app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+                app:layout_constraintTop_toTopOf="@+id/numberPicker" />
 
-
-
-        <EditText
-            android:id="@+id/edit_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@color/water"
-            android:ems="10"
-            android:fontFamily="@font/noto_sans"
-            android:text="@={viewModel.category}"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
-            app:layout_constraintTop_toBottomOf="@+id/text_count" />
-
-        <Button
-            android:id="@+id/button_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@color/darkRose"
-            android:fontFamily="@font/noto_sans"
-            android:padding="4dp"
-            android:text="@string/create_task"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
-            app:layout_constraintTop_toBottomOf="@+id/edit_category" />
+            <NumberPicker
+                android:id="@+id/numberPicker"
+                android:layout_width="64dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="180dp"
+                android:showDividers="beginning"
+                android:theme="@style/AppTheme.NumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/edit_title"
+                app:layout_constraintTop_toBottomOf="@+id/edit_title" />
 
 
+            <EditText
+                android:id="@+id/edit_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/water"
+                android:ems="10"
+                android:fontFamily="@font/noto_sans"
+                android:text="@={viewModel.category}"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/spinner_task_categories"
+                app:layout_constraintTop_toBottomOf="@+id/text_count" />
+
+            <Button
+                android:id="@+id/button_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/darkRose"
+                android:fontFamily="@font/noto_sans"
+                android:padding="4dp"
+                android:text="@string/create_task"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
+                app:layout_constraintTop_toBottomOf="@+id/edit_category" />
 
 
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

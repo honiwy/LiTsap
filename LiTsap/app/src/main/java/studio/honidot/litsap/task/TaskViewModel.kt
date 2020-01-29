@@ -56,7 +56,7 @@ class TaskViewModel : ViewModel() {
         res.add(TaskItem.Assignment(Task(2L, "旅遊基金儲存計畫", TaskCategory.WEALTH, 5, 10, "",true,true)))
         res.add(TaskItem.Assignment(Task(3L, "舞蹈成發練習", TaskCategory.EXERCISE, 5, 30, "",false,true)))
         res.add(TaskItem.Assignment(Task(4L, "成為哈佛生", TaskCategory.STUDY, 10, 30, "HAHA",false,true)))
-        res.add(TaskItem.Assignment(Task(5L, "Potluck 料理準備", TaskCategory.FOOD, 4, 30, "",false,true)))
+       // res.add(TaskItem.Assignment(Task(5L, "Potluck 料理準備", TaskCategory.FOOD, 4, 30, "",false,true)))
 
         _taskItems.value = res
     }

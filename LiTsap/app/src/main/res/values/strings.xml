@@ -20,4 +20,6 @@
     <string name="category_study">學習</string>
     <string name="category_networking">社交</string>
     <string name="create_task">建立任務</string>
+    <!-- Task Detail -->
+    <string name="task_go">開始任務</string>
 </resources>
