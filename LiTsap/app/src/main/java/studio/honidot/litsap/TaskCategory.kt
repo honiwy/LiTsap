@@ -5,5 +5,6 @@ enum class TaskCategory(val positionOnSpinner: Int) {
     FOOD(1),
     STUDY(2),
     NETWORKING(3),
-    WEALTH(4)
+    WEALTH(4),
+    OTHER(5)
 }

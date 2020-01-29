@@ -24,7 +24,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="50dp"
             app:srcCompat="@drawable/profile_man" />
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/layout_swipe_refresh_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,6 +39,5 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
             </androidx.recyclerview.widget.RecyclerView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
