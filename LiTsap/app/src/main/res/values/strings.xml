@@ -6,6 +6,7 @@
     <string name="finished">已完成</string>
     <string name="mock_task">煮飯練習</string>
     <string name="mock_status">成為今天的前1%吧!</string>
+    <string name="plenty_task_info">先完成手邊任務吧!</string>
     <!-- Task Create -->
     <string name="task_name">任務名稱: </string>
     <string name="hint_task">我要成為料理王</string>
