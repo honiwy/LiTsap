@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="studio.honidot.litsap.util.CurrentFragmentType"/>
+        <import type="android.view.View"/>
+        <variable name="viewModel" type="studio.honidot.litsap.MainViewModel"/>
     </data>
 
 
@@ -34,6 +36,13 @@
                 android:layout_gravity="center"
                 tools:visibility="visible"
                 tools:text="@string/app_name"/>
+
+            <ImageView
+                android:id="@+id/image_toolbar_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/logo_litsap"/>
 
         </androidx.appcompat.widget.Toolbar>
         <fragment

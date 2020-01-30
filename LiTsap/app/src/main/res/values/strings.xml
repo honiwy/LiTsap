@@ -21,5 +21,6 @@
     <string name="category_networking">社交</string>
     <string name="create_task">建立任務</string>
     <!-- Task Detail -->
+    <string name="task_detail">任務詳情</string>
     <string name="task_go">開始任務</string>
 </resources>
