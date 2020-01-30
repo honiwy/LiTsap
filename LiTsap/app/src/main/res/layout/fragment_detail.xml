@@ -13,26 +13,16 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/task_logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:taskCategory="@{viewModel.task.category}"
-            tools:background="@drawable/category_food" />
-
 
         <TextView
             android:id="@+id/text_task_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
@@ -42,10 +32,56 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/task_logo"
-            app:layout_constraintTop_toTopOf="@+id/task_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/mock_task" />
 
+        <TextView
+            android:id="@+id/text_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/task_choose"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/text_task_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_task_title" />
+
+        <ImageButton
+            android:id="@+id/button_updown_module"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:background="@{viewModel.moduleDetailOpen?@drawable/down_arrow:@drawable/up_arrow}"
+            android:onClick="@{() -> viewModel.clickModuleDetailArrow()}"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_choose"
+            app:layout_constraintStart_toEndOf="@+id/text_choose"
+            app:layout_constraintTop_toTopOf="@+id/text_choose"
+            tools:background="@drawable/up_arrow" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="@{viewModel.moduleDetailOpen?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/text_task_title"
+            app:layout_constraintStart_toStartOf="@+id/text_task_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_choose">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_module_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </RadioGroup>
 
         <TextView
             android:id="@+id/text_module_detail"
@@ -56,45 +92,46 @@
             android:letterSpacing="0.15"
             android:text="@string/task_module"
             android:textColor="@color/black_3f3a3a"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/task_logo"
-            app:layout_constraintTop_toBottomOf="@+id/task_logo" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/text_task_title"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
         <ImageButton
-            android:id="@+id/button_updown"
+            android:id="@+id/button_updown_status"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
-            android:background="@{viewModel.moduleDetailOpen?@drawable/down_arrow:@drawable/up_arrow}"
-            android:onClick="@{() -> viewModel.clickModuleDetailArrow()}"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:background="@{viewModel.moduleStatusOpen?@drawable/down_arrow:@drawable/up_arrow}"
+            android:onClick="@{() -> viewModel.clickModuleStatusArrow()}"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/text_module_detail"
             app:layout_constraintStart_toEndOf="@+id/text_module_detail"
             app:layout_constraintTop_toTopOf="@+id/text_module_detail"
             tools:background="@drawable/up_arrow" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_module_detail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="@+id/text_task_title"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/task_logo"
-            app:layout_constraintTop_toBottomOf="@+id/piechart">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/piechart"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:layout_marginTop="8dp"
-            android:visibility="@{viewModel.moduleDetailOpen?View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
-            app:layout_constraintStart_toStartOf="@+id/task_logo"
+            app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_module_detail" />
+
+        <ImageView
+            android:id="@+id/task_logo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/piechart"
+            app:layout_constraintEnd_toEndOf="@+id/piechart"
+            app:layout_constraintStart_toStartOf="@+id/piechart"
+            app:layout_constraintTop_toTopOf="@+id/piechart"
+            app:taskCategory="@{viewModel.task.category}"
+            tools:background="@drawable/category_food" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_detail_bottom"
             android:layout_width="0dp"

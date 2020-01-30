@@ -27,15 +27,24 @@ class DetailViewModel(
         get() = _task
 
 
-    val moduleDetailOpen= MutableLiveData<Boolean>()
+    val moduleDetailOpen = MutableLiveData<Boolean>()
+    val moduleStatusOpen = MutableLiveData<Boolean>()
 
     init{
         moduleDetailOpen.value = false
+        moduleStatusOpen.value = false
+
     }
 
     fun clickModuleDetailArrow(){
         moduleDetailOpen.value?.let{
             moduleDetailOpen.value = !it
+        }
+    }
+
+    fun clickModuleStatusArrow(){
+        moduleStatusOpen.value?.let{
+            moduleStatusOpen.value = !it
         }
     }
 
