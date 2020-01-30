@@ -72,8 +72,22 @@ class TaskViewModel : ViewModel() {
             Module("即席翻譯",1),
             Module("其他項目",0)
         ), 5, 10, "",true,true)))
-//        res.add(TaskItem.Assignment(Task(3L, "舞蹈成發練習", TaskCategory.EXERCISE, 5, 30, "",false,true)))
-//        res.add(TaskItem.Assignment(Task(4L, "成為哈佛生", TaskCategory.STUDY, 10, 30, "HAHA",false,true)))
+        res.add(TaskItem.Assignment(Task(3L, "舞蹈成發練習", TaskCategory.EXERCISE, listOf(
+            Module("基本動作",1),
+            Module("舞序熟練",3),
+            Module("音樂剪輯",2),
+            Module("情感揣摩",4),
+            Module("進場謝幕走位",8),
+            Module("其他項目",1)
+        ),19, 30, "",false,true)))
+        res.add(TaskItem.Assignment(Task(4L, "成為哈佛生", TaskCategory.STUDY, listOf(
+            Module("國文",10),
+            Module("英文",3),
+            Module("數學",2),
+            Module("社會",4),
+            Module("自然",8),
+            Module("軟實力培養",1)
+        ),19, 30, "HAHA",false,true)))
 //        res.add(TaskItem.Assignment(Task(5L, "Potluck 料理準備", TaskCategory.FOOD, 4, 30, "",false,true)))
 
         _taskItems.value = res

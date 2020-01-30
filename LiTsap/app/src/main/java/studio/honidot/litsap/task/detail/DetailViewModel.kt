@@ -8,9 +8,7 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import studio.honidot.litsap.data.Task
 
 
@@ -28,14 +26,20 @@ class DetailViewModel(
 
 
     val moduleDetailOpen = MutableLiveData<Boolean>()
+    val moduleTime = MutableLiveData<Int>()
+
     val moduleStatusOpen = MutableLiveData<Boolean>()
 
     init{
         moduleDetailOpen.value = true
-        moduleStatusOpen.value = false
+        moduleTime.value=0
+        moduleStatusOpen.value = true
 
     }
 
+    fun onSetWorkoutTime(time: Int){
+        moduleTime.value = time
+    }
     fun clickModuleDetailArrow(){
         moduleDetailOpen.value?.let{
             moduleDetailOpen.value = !it

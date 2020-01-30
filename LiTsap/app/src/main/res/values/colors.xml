@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#a2d5f2</color>
+    <color name="colorPrimary">#88CDF6</color>
     <color name="colorPrimaryDark">#07689f</color>
-    <color name="colorAccent">#ffb147</color>
+    <color name="colorAccent">#f1ab10</color>
 
 
     <!-- Task Create Dialog -->
     <color name="darkRse">#f5e0b0</color>
     <color name="rose">#f9c267</color>
     <color name="darkRose">#f1ab10</color>
-    <color name="watr">#015c92</color>
+    <color name="watr">#07689f</color>
     <color name="water">#2D82B6</color>
     <color name="greek">#88CDF6</color>
 

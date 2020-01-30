@@ -43,11 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/noto_sans"
-            android:textStyle="bold"
             android:letterSpacing="0.15"
             android:text="@string/task_choose"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_task_title" />
 
@@ -65,8 +65,8 @@
             app:layout_constraintTop_toTopOf="@+id/text_choose"
             tools:background="@drawable/up_arrow" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_module"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -75,16 +75,111 @@
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_choose">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_module_detail"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:modules="@{viewModel.task.modules}"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </RadioGroup>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_module_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:modules="@{viewModel.task.modules}"
+                    app:spanCount="2">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/text_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:text="@string/task_section"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <ImageButton
+                android:id="@+id/button_power1"
+                android:layout_width="25dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:background="@{(viewModel.moduleTime&lt;1)?@drawable/battery_low:@drawable/battery_high}"
+                android:onClick="@{()-> viewModel.onSetWorkoutTime(1)}"
+                app:layout_constraintBottom_toBottomOf="@+id/text_section"
+                app:layout_constraintStart_toEndOf="@+id/text_section"
+                app:layout_constraintTop_toTopOf="@+id/text_section"
+                tools:background="@drawable/battery_low" />
+
+            <ImageButton
+                android:id="@+id/button_power2"
+                android:layout_width="25dp"
+                android:layout_height="0dp"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;2)?@dimen/battery_margin:@dimen/battery_margin_null}"
+                android:background="@{(viewModel.moduleTime&lt;2)?@drawable/battery_low:@drawable/battery_high}"
+                android:onClick="@{()-> viewModel.onSetWorkoutTime(2)}"
+                app:layout_constraintBottom_toBottomOf="@+id/text_section"
+                app:layout_constraintStart_toEndOf="@+id/button_power1"
+                app:layout_constraintTop_toTopOf="@+id/text_section"
+                tools:background="@drawable/battery_low" />
+
+            <ImageButton
+                android:id="@+id/button_power3"
+                android:layout_width="25dp"
+                android:layout_height="0dp"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;3)?@dimen/battery_margin:@dimen/battery_margin_null}"
+                android:background="@{(viewModel.moduleTime&lt;3)?@drawable/battery_low:@drawable/battery_high}"
+                android:onClick="@{()-> viewModel.onSetWorkoutTime(3)}"
+                app:layout_constraintBottom_toBottomOf="@+id/text_section"
+                app:layout_constraintStart_toEndOf="@+id/button_power2"
+                app:layout_constraintTop_toTopOf="@+id/text_section"
+                tools:background="@drawable/battery_low" />
+
+            <ImageButton
+                android:id="@+id/button_power4"
+                android:layout_width="25dp"
+                android:layout_height="0dp"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;4)?@dimen/battery_margin:@dimen/battery_margin_null}"
+                android:background="@{(viewModel.moduleTime&lt;4)?@drawable/battery_low:@drawable/battery_high}"
+                android:onClick="@{()-> viewModel.onSetWorkoutTime(4)}"
+                app:layout_constraintBottom_toBottomOf="@+id/text_section"
+                app:layout_constraintStart_toEndOf="@+id/button_power3"
+                app:layout_constraintTop_toTopOf="@+id/text_section"
+                tools:background="@drawable/battery_low" />
+
+            <ImageButton
+                android:id="@+id/button_power5"
+                android:layout_width="25dp"
+                android:layout_height="0dp"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;5)?@dimen/battery_margin:@dimen/battery_margin_null}"
+                android:background="@{(viewModel.moduleTime&lt;5)?@drawable/battery_low:@drawable/battery_high}"
+                android:onClick="@{()-> viewModel.onSetWorkoutTime(5)}"
+                app:layout_constraintBottom_toBottomOf="@+id/text_section"
+                app:layout_constraintStart_toEndOf="@+id/button_power4"
+                app:layout_constraintTop_toTopOf="@+id/text_section"
+                tools:background="@drawable/battery_low" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:time="@{viewModel.moduleTime}"
+                tools:text="@string/task_time" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/text_module_detail"
@@ -94,11 +189,11 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/task_module"
-            android:textStyle="bold"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/constraint_module" />
 
         <ImageButton
             android:id="@+id/button_updown_status"
@@ -114,27 +209,34 @@
             app:layout_constraintTop_toTopOf="@+id/text_module_detail"
             tools:background="@drawable/up_arrow" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_status"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_module_detail" />
-
-        <ImageView
-            android:id="@+id/task_logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/piechart"
-            app:layout_constraintEnd_toEndOf="@+id/piechart"
-            app:layout_constraintStart_toStartOf="@+id/piechart"
-            app:layout_constraintTop_toTopOf="@+id/piechart"
-            app:taskCategory="@{viewModel.task.category}"
-            tools:background="@drawable/category_food" />
+            app:layout_constraintTop_toBottomOf="@+id/text_module_detail">
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/task_logo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:taskCategory="@{viewModel.task.category}"
+                tools:background="@drawable/category_food" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_detail_bottom"

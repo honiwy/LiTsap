@@ -1,6 +1,9 @@
 package studio.honidot.litsap
 
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
@@ -8,7 +11,7 @@ import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
-
+//Task List
 @BindingAdapter("taskItems")
 fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<TaskItem>?) {
     taskItems?.let {
@@ -20,6 +23,8 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
     }
 }
 
+
+//Global
 @BindingAdapter("taskCategory")
 fun bindTaskCategories(imageView: ImageView, category: TaskCategory) {
     category?.let {
@@ -35,6 +40,8 @@ fun bindTaskCategories(imageView: ImageView, category: TaskCategory) {
     }
 }
 
+
+//Task Detail
 @BindingAdapter("modules")
 fun bindRecyclerViewWithModules(recyclerView: RecyclerView, modules: List<Module>?) {
     modules?.let {
@@ -44,4 +51,16 @@ fun bindRecyclerViewWithModules(recyclerView: RecyclerView, modules: List<Module
             }
         }
     }
+}
+
+@BindingAdapter("layoutMarginStart")
+fun setLayoutMarginStart(view: View, dimen: Float) {
+    val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
+    layoutParams.marginStart = dimen.toInt()
+    view.layoutParams = layoutParams
+}
+
+@BindingAdapter("time")
+fun bindTime(textView: TextView, time: Int?) {
+    time?.let { textView.text = instance.getString(R.string.task_time, it*20) }
 }
