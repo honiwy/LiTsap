@@ -41,39 +41,10 @@ class DetailFragment : Fragment() {
 //                if (it) findNavController().popBackStack()
 //            }
 //        })
-        addDataSet(binding.piechart)
+        viewModel.addDataSet(binding.piechart)
 
         return binding.root
     }
 
-    private fun addDataSet(chart: PieChart) {
-        val yEntry = ArrayList<PieEntry>()
-        yEntry.add(PieEntry(20f, "Rachel"))
-        yEntry.add(PieEntry(30f, "Tina"))
-        yEntry.add(PieEntry(40f, "Angela"))
-        yEntry.add(PieEntry(10f, "HsiaoLing"))
 
-        val pieDataSet = PieDataSet(yEntry, "")
-        pieDataSet.valueTextSize = 12f
-        val colors = ArrayList<Int>()
-        colors.add(Color.rgb(94,183,183))
-        colors.add(Color.rgb(252,121,120))
-        colors.add(Color.rgb(150,209,199))
-        colors.add(Color.rgb(255,175,176))
-        pieDataSet.colors = colors
-
-        chart.apply {
-            data = PieData(pieDataSet)
-            holeRadius= 15f
-            chart.description.isEnabled = false
-            contentDescription="Yo yo"
-            setTransparentCircleAlpha(80)
-            chart.legend.isEnabled = false
-            centerText="How are you?"
-            setCenterTextSize(10f)
-            setDrawEntryLabels(true)
-            invalidate()
-        }
-
-    }
 }
