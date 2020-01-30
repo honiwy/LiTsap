@@ -1,15 +1,23 @@
 package studio.honidot.litsap.task.detail
 
+import android.R
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.android.synthetic.main.fragment_detail.*
 import studio.honidot.litsap.databinding.FragmentDetailBinding
 import studio.honidot.litsap.extension.getVmFactory
+
 
 class DetailFragment : Fragment() {
     private val viewModel by viewModels<DetailViewModel> {
@@ -28,11 +36,44 @@ class DetailFragment : Fragment() {
         val binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        viewModel.leaveDetail.observe(this, Observer {
-            it?.let {
-                if (it) findNavController().popBackStack()
-            }
-        })
+//        viewModel.leaveDetail.observe(this, Observer {
+//            it?.let {
+//                if (it) findNavController().popBackStack()
+//            }
+//        })
+        addDataSet(binding.piechart)
+
         return binding.root
+    }
+
+    private fun addDataSet(chart: PieChart) {
+        val yEntry = ArrayList<PieEntry>()
+        yEntry.add(PieEntry(20f, "Rachel"))
+        yEntry.add(PieEntry(30f, "Tina"))
+        yEntry.add(PieEntry(40f, "Angela"))
+        yEntry.add(PieEntry(10f, "HsiaoLing"))
+
+        val pieDataSet = PieDataSet(yEntry, "")
+        pieDataSet.valueTextSize = 12f
+        val colors = ArrayList<Int>()
+        colors.add(Color.rgb(94,183,183))
+        colors.add(Color.rgb(252,121,120))
+        colors.add(Color.rgb(150,209,199))
+        colors.add(Color.rgb(255,175,176))
+        pieDataSet.colors = colors
+
+        chart.apply {
+            data = PieData(pieDataSet)
+            holeRadius= 15f
+            chart.description.isEnabled = false
+            contentDescription="Yo yo"
+            setTransparentCircleAlpha(80)
+            chart.legend.isEnabled = false
+            centerText="How are you?"
+            setCenterTextSize(10f)
+            setDrawEntryLabels(true)
+            invalidate()
+        }
+
     }
 }
