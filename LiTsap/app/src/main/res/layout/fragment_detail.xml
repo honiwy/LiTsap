@@ -28,6 +28,7 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@{viewModel.task.title}"
+            android:textAlignment="center"
             android:textColor="@color/black_3f3a3a"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/noto_sans"
+            android:textStyle="bold"
             android:letterSpacing="0.15"
             android:text="@string/task_choose"
             android:textColor="@color/black_3f3a3a"
@@ -77,6 +79,7 @@
                 android:id="@+id/recycler_module_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:modules="@{viewModel.task.modules}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2">
 
@@ -91,6 +94,7 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/task_module"
+            android:textStyle="bold"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"

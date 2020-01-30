@@ -4,8 +4,10 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
+import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.task.TaskAdapter
+import studio.honidot.litsap.task.detail.DetailModuleAdapter
 
 @BindingAdapter("taskItems")
 fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<TaskItem>?) {
@@ -29,6 +31,17 @@ fun bindTaskCategories(imageView: ImageView, category: TaskCategory) {
                 TaskCategory.WEALTH ->  instance.getDrawable(R.drawable.category_wealth)
                 TaskCategory.NETWORKING ->  instance.getDrawable(R.drawable.category_networking)
             else -> instance.getDrawable(R.drawable.category_other)
+        }
+    }
+}
+
+@BindingAdapter("modules")
+fun bindRecyclerViewWithModules(recyclerView: RecyclerView, modules: List<Module>?) {
+    modules?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is DetailModuleAdapter -> submitList(it)
+            }
         }
     }
 }

@@ -59,11 +59,11 @@ class TaskViewModel : ViewModel() {
             ),39, 200, "",true,false)))
         res.add(TaskItem.Assignment(Task(1L, "韓文小高手", TaskCategory.STUDY,
             listOf(
-                Module("聽",1),
-                Module("說",1),
-                Module("讀",0),
-                Module("寫",0)
-            ),2, 15, "當第一個完成的吧",false,false)))
+                Module("聽力",1),
+                Module("口說",2),
+                Module("閱讀",0),
+                Module("寫作",0)
+            ),3, 15, "當第一個完成的吧",false,false)))
         res.add(TaskItem.Title("已完成"))
         res.add(TaskItem.Assignment(Task(2L, "旅遊基金儲存計畫", TaskCategory.WEALTH, listOf(
             Module("超商工讀",1),

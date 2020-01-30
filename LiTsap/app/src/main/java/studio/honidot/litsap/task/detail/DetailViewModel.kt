@@ -31,7 +31,7 @@ class DetailViewModel(
     val moduleStatusOpen = MutableLiveData<Boolean>()
 
     init{
-        moduleDetailOpen.value = false
+        moduleDetailOpen.value = true
         moduleStatusOpen.value = false
 
     }

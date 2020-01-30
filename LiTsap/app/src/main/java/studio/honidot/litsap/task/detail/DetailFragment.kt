@@ -41,6 +41,7 @@ class DetailFragment : Fragment() {
 //                if (it) findNavController().popBackStack()
 //            }
 //        })
+        binding.recyclerModuleDetail.adapter = DetailModuleAdapter()
         viewModel.addDataSet(binding.piechart)
 
         return binding.root

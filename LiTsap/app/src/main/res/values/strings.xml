@@ -4,7 +4,7 @@
     <!-- Task -->
     <string name="await_todo">待執行</string>
     <string name="finished">已完成</string>
-    <string name="mock_task">煮飯練習</string>
+    <string name="mock_task">烹飪練習</string>
     <string name="mock_status">成為今天的前1%吧!</string>
     <string name="plenty_task_info">先完成手邊任務吧!</string>
     <!-- Task Create -->
@@ -25,4 +25,5 @@
     <string name="task_choose">選擇執行細項</string>
     <string name="task_module">細項執行狀況</string>
     <string name="task_go">開始任務</string>
+    <string name="mock_module">煎蛋</string>
 </resources>

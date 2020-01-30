@@ -4,6 +4,9 @@
 
     <data>
         <variable name="title" type="String"/>
+        <variable
+            name="module"
+            type="studio.honidot.litsap.data.Module" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,12 +18,14 @@
             android:id="@+id/radio_module"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="RadioButton"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@{module.name}"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/mock_module" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
