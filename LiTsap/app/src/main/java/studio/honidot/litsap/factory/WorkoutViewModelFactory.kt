@@ -2,19 +2,19 @@ package studio.honidot.litsap.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import studio.honidot.litsap.data.TaskInfo
-import studio.honidot.litsap.task.detail.DetailViewModel
+import studio.honidot.litsap.data.Workout
+import studio.honidot.litsap.task.workout.WorkoutViewModel
 
 @Suppress("UNCHECKED_CAST")
-class TaskViewModelFactory(
-    private val task: TaskInfo
+class WorkoutViewModelFactory(
+    private val workout: Workout
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(DetailViewModel::class.java) ->
-                    DetailViewModel(task)
+                isAssignableFrom(WorkoutViewModel::class.java) ->
+                    WorkoutViewModel(workout)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

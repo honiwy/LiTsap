@@ -40,9 +40,10 @@
             <ImageView
                 android:id="@+id/image_toolbar_logo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@drawable/logo_litsap"/>
+                android:background="@drawable/logo_litsap"
+                tools:layout_editor_absoluteX="184dp" />
 
         </androidx.appcompat.widget.Toolbar>
         <fragment

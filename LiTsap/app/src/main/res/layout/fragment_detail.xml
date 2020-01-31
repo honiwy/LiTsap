@@ -17,25 +17,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/image_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.leaveDetail()}"
+            android:tint="@color/maya"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/return_back" />
+
         <TextView
             android:id="@+id/text_task_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:text="@{viewModel.task.title}"
+            android:text="@{viewModel.taskInfo.task.title}"
             android:textAlignment="center"
             android:textColor="@color/black_3f3a3a"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/image_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_back"
             tools:text="@string/mock_task" />
+
+        <ImageView
+            android:id="@+id/image_live"
+            android:layout_width="49dp"
+            android:layout_height="41dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{viewModel.taskInfo.chatStatus? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/image_back"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_back"
+            app:srcCompat="@drawable/live_news" />
 
         <TextView
             android:id="@+id/text_choose"
@@ -88,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:modules="@{viewModel.task.modules}"
+                    app:modules="@{viewModel.taskInfo.modules}"
                     app:spanCount="2">
 
                 </androidx.recyclerview.widget.RecyclerView>
@@ -123,9 +147,9 @@
                 android:id="@+id/button_power2"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
-                app:layoutMarginStart="@{(viewModel.moduleTime&lt;2)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 android:background="@{(viewModel.moduleTime&lt;2)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(2)}"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;2)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power1"
                 app:layout_constraintTop_toTopOf="@+id/text_section"
@@ -135,9 +159,9 @@
                 android:id="@+id/button_power3"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
-                app:layoutMarginStart="@{(viewModel.moduleTime&lt;3)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 android:background="@{(viewModel.moduleTime&lt;3)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(3)}"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;3)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power2"
                 app:layout_constraintTop_toTopOf="@+id/text_section"
@@ -147,9 +171,9 @@
                 android:id="@+id/button_power4"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
-                app:layoutMarginStart="@{(viewModel.moduleTime&lt;4)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 android:background="@{(viewModel.moduleTime&lt;4)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(4)}"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;4)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power3"
                 app:layout_constraintTop_toTopOf="@+id/text_section"
@@ -159,9 +183,9 @@
                 android:id="@+id/button_power5"
                 android:layout_width="25dp"
                 android:layout_height="0dp"
-                app:layoutMarginStart="@{(viewModel.moduleTime&lt;5)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 android:background="@{(viewModel.moduleTime&lt;5)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(5)}"
+                app:layoutMarginStart="@{(viewModel.moduleTime&lt;5)?@dimen/battery_margin:@dimen/battery_margin_null}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power4"
                 app:layout_constraintTop_toTopOf="@+id/text_section"
@@ -218,6 +242,7 @@
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_module_detail">
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="0dp"
@@ -226,6 +251,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/task_logo"
                 android:layout_width="70dp"
@@ -234,7 +260,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:taskCategory="@{viewModel.task.category}"
+                app:taskCategory="@{viewModel.taskInfo.task.category}"
                 tools:background="@drawable/category_food" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -257,8 +283,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/greek"
+                android:background="@color/royal"
                 android:letterSpacing="0.15"
+                android:onClick="@{()->viewModel.navigateToWorkout(viewModel.workout)}"
                 android:text="@string/task_go"
                 android:textColor="@color/white"
                 android:textSize="16sp"

@@ -27,17 +27,15 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
 //Global
 @BindingAdapter("taskCategory")
 fun bindTaskCategories(imageView: ImageView, category: TaskCategory) {
-    category?.let {
         imageView.background =
-            when (it) {
-            TaskCategory.EXERCISE ->  instance.getDrawable(R.drawable.category_exercise)
+            when (category) {
+                TaskCategory.EXERCISE ->  instance.getDrawable(R.drawable.category_exercise)
                 TaskCategory.FOOD ->  instance.getDrawable(R.drawable.category_food)
                 TaskCategory.STUDY ->  instance.getDrawable(R.drawable.category_study)
                 TaskCategory.WEALTH ->  instance.getDrawable(R.drawable.category_wealth)
                 TaskCategory.NETWORKING ->  instance.getDrawable(R.drawable.category_networking)
-            else -> instance.getDrawable(R.drawable.category_other)
-        }
-    }
+                else -> instance.getDrawable(R.drawable.category_other)
+            }
 }
 
 

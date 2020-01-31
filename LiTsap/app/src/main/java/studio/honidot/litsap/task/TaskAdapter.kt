@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.honidot.litsap.data.Task
+import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.databinding.ItemTaskBinding
 import studio.honidot.litsap.databinding.ItemTaskClassBinding
 
 class TaskAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<TaskItem, RecyclerView.ViewHolder>(DiffCallback) {
-    class OnClickListener(val clickListener: (task: Task) -> Unit) {
-        fun onClick(task: Task) = clickListener(task)
+    class OnClickListener(val clickListener: (taskInfo: TaskInfo) -> Unit) {
+        fun onClick(taskInfo: TaskInfo) = clickListener(taskInfo)
     }
 
     class TitleViewHolder(private var binding: ItemTaskClassBinding) :
@@ -28,9 +28,9 @@ class TaskAdapter(private val onClickListener: OnClickListener) :
     class AssignmentViewHolder(private var binding: ItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(task: Task, onClickListener: OnClickListener) {
-            binding.task = task
-            binding.root.setOnClickListener { onClickListener.onClick(task) }
+        fun bind(taskInfo: TaskInfo, onClickListener: OnClickListener) {
+            binding.taskInfo = taskInfo
+            binding.root.setOnClickListener { onClickListener.onClick(taskInfo) }
             binding.executePendingBindings()
         }
     }
@@ -74,7 +74,7 @@ class TaskAdapter(private val onClickListener: OnClickListener) :
                 holder.bind((getItem(position) as TaskItem.Title).title)
             }
             is AssignmentViewHolder -> {
-                holder.bind((getItem(position) as TaskItem.Assignment).task, onClickListener)
+                holder.bind((getItem(position) as TaskItem.Assignment).taskInfo, onClickListener)
             }
         }
     }

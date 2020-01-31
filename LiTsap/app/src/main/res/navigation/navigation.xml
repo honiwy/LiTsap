@@ -16,11 +16,23 @@
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
 
-        <argument android:name="taskKey"
-        app:argType="studio.honidot.litsap.data.Task"
+        <argument android:name="taskInfoKey"
+        app:argType="studio.honidot.litsap.data.TaskInfo"
         app:nullable="false"/>
     </fragment>
     <action
         android:id="@+id/navigate_to_detailFragment"
         app:destination="@id/detailFragment" />
+    <fragment
+        android:id="@+id/workoutFragment"
+        android:name="studio.honidot.litsap.task.workout.WorkoutFragment"
+        android:label="WorkoutFragment"
+        tools:layout="@layout/fragment_workout">
+        <argument
+            android:name="workoutKey"
+            app:argType="studio.honidot.litsap.data.Workout" />
+    </fragment>
+    <action
+        android:id="@+id/navigate_to_workoutFragment"
+        app:destination="@id/workoutFragment" />
 </navigation>

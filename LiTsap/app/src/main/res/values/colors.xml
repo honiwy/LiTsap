@@ -6,12 +6,12 @@
 
 
     <!-- Task Create Dialog -->
-    <color name="darkRse">#f5e0b0</color>
-    <color name="rose">#f9c267</color>
-    <color name="darkRose">#f1ab10</color>
-    <color name="watr">#07689f</color>
-    <color name="water">#2D82B6</color>
-    <color name="greek">#88CDF6</color>
+    <color name="cream">#f5e0b0</color>
+    <color name="mustard">#f9c267</color>
+    <color name="honey">#f1ab10</color>
+    <color name="royal">#07689f</color>
+    <color name="yale">#2D82B6</color>
+    <color name="maya">#88CDF6</color>
 
     <!-- Transparent Series -->
     <color name="translucent_80">#cc000000</color>

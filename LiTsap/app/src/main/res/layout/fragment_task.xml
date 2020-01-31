@@ -22,7 +22,7 @@
             android:layout_margin="@dimen/fab_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:backgroundTint="@color/water"
+            android:backgroundTint="@color/yale"
             app:maxImageSize="50dp"
             app:srcCompat="@drawable/profile_man" />
 
