@@ -26,6 +26,9 @@
     <string name="task_module">細項執行狀況</string>
     <string name="task_section">本次動力: </string>
     <string name="task_go">開始任務</string>
+    <string name="task_hint">請在上方選擇...</string>
     <string name="mock_module">煎蛋</string>
     <string name="task_time">可堅持%d分鐘</string>
+    <!-- Task Workout -->
+    <string name="completed_ahead">提前完成任務</string>
 </resources>

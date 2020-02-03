@@ -122,5 +122,39 @@
             app:layout_constraintTop_toTopOf="@+id/countdown_bar"
             tools:text="18:23" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_detail_bottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_all_bottom_layout"
+            android:background="@color/cream"
+            android:elevation="@dimen/elevation_all"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/button_task_go"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/round_button"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:text="@string/completed_ahead"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
