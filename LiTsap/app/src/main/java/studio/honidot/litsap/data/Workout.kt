@@ -10,4 +10,7 @@ data class Workout(
     var workoutTime: Long,
     val chatWithGroup: Boolean,
     val message: List<String>
-): Parcelable
+): Parcelable {
+    val displayProcess
+        get() = workoutTime.toInt()
+}

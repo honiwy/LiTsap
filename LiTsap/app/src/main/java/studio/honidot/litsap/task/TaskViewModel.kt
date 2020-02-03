@@ -1,18 +1,22 @@
 package studio.honidot.litsap.task
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.TaskItem
+import studio.honidot.litsap.source.LiTsapRepository
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel(private val liTsapRepository: LiTsapRepository) : ViewModel() {
 
     private val _taskItems = MutableLiveData<List<TaskItem>>()
 

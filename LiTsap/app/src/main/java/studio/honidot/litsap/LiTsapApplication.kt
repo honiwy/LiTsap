@@ -2,9 +2,16 @@ package studio.honidot.litsap
 
 import android.app.Application
 import android.content.Context
+import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.ServiceLocator
 import kotlin.properties.Delegates
 
 class LiTsapApplication : Application() {
+
+    // Depends on the flavor,
+    val liTsapRepository: LiTsapRepository
+        get() = ServiceLocator.provideTasksRepository(this)
+
 
     companion object {
         var instance: LiTsapApplication by Delegates.notNull()

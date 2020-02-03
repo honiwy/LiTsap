@@ -1,6 +1,7 @@
 package studio.honidot.litsap.task.detail
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +14,12 @@ import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.Workout
+import studio.honidot.litsap.source.LiTsapRepository
 
-private const val section = 20*60*1000L //20 minutes
+private const val section = 20*60L //20 minutes
 
 class DetailViewModel(
+    private val liTsapRepository: LiTsapRepository,
     private val arguments: TaskInfo
 ) : ViewModel() {
 
@@ -69,6 +72,7 @@ class DetailViewModel(
     fun onSetWorkoutTime(time: Int) {
         _workout.value?.apply{
             workoutTime = time * section
+
         }
         moduleTime.value = time
     }
@@ -86,7 +90,7 @@ class DetailViewModel(
     }
 
     fun addDataSet(chart: PieChart) {
-        val colorTable = listOf("#f5e0b0", "#f9c267", "#015c92", "#2D82B6", "#f1ab10", "#88CDF6")
+        val colorTable = listOf("#f5e0b0", "#f9c267", "#015c92", "#88CDF6", "#2D82B6", "#f1ab10")
         _taskInfo.value?.let {
             val yEntry = ArrayList<PieEntry>()
             val colors = ArrayList<Int>()

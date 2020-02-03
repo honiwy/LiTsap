@@ -89,5 +89,36 @@
                 app:layout_constraintTop_toTopOf="@+id/task_logo"
                 tools:text="@string/mock_task" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/countdown_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="24dp"
+            android:indeterminate="false"
+            android:max="@{viewModel.workout.displayProcess}"
+            android:progress="@{viewModel.totalRemained}"
+            android:progressDrawable="@drawable/circular_progress"
+            android:secondaryProgress="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_title" />
+
+        <TextView
+            android:id="@+id/remain_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@{String.valueOf(viewModel.totalRemained)}"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/countdown_bar"
+            app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
+            app:layout_constraintStart_toStartOf="@+id/countdown_bar"
+            app:layout_constraintTop_toTopOf="@+id/countdown_bar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

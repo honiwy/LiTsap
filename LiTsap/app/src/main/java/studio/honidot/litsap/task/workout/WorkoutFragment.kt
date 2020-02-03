@@ -34,7 +34,6 @@ class WorkoutFragment : Fragment() {
                 if (it) findNavController().popBackStack()
             }
         })
-
         return binding.root
     }
 
