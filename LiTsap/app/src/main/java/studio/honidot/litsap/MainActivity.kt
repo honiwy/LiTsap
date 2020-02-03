@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            item
+
             when (item.itemId) {
                 R.id.navigation_task -> {
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTaskFragment())

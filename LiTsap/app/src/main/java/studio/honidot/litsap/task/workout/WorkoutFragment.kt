@@ -31,7 +31,7 @@ class WorkoutFragment : Fragment() {
         binding.viewModel = viewModel
         viewModel.leaveWorkout.observe(this, Observer {
             it?.let {
-                if (it) findNavController().popBackStack()
+                if (it) findNavController().navigateUp()
             }
         })
         return binding.root

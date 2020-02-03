@@ -32,7 +32,7 @@ class DetailFragment : Fragment() {
         binding.viewModel = viewModel
         viewModel.leaveDetail.observe(this, Observer {
             it?.let {
-                if (it) findNavController().popBackStack()
+                if (it) findNavController().navigateUp()
             }
         })
         viewModel.navigateToWorkout.observe(this, Observer {
