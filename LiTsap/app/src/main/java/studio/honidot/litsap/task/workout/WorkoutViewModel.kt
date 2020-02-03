@@ -22,15 +22,13 @@ class WorkoutViewModel(
     //*60*1000
 
     lateinit var countDownTimer: CountDownTimer
-    private val _minuteRemained = MutableLiveData<Long>()
-    val minuteRemained: LiveData<Long>
-        get() = _minuteRemained
-    private val _secondRemained = MutableLiveData<Long>()
-    val secondRemained: LiveData<Long>
-        get() = _secondRemained
     private val _totalRemained = MutableLiveData<Int>()
     val totalRemained: LiveData<Int>
         get() = _totalRemained
+
+    private val _sec = MutableLiveData<Int>()
+    val sec: LiveData<Int>
+        get() = _sec
 
     // Detail has product data from arguments
     private val _workout = MutableLiveData<Workout>().apply {
@@ -42,7 +40,6 @@ class WorkoutViewModel(
 
     init {
         _totalRemained.value = arguments.displayProcess
-        Log.i("HAHA","Workout:${arguments.displayProcess}")
         startCountDownTimer(arguments.workoutTime*1000)
     }
 
@@ -76,8 +73,7 @@ class WorkoutViewModel(
         countDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 _totalRemained.value = (millisUntilFinished/1000).toInt()
-                _minuteRemained.value = millisUntilFinished/1000/ 60
-                _secondRemained.value = _totalRemained.value!! - _minuteRemained.value!! * 60
+                _sec.value = (millisUntilFinished/1000).toInt()%60
                 Log.i("HAHA","Total: ${(workout.value as Workout).displayProcess}, Remain: ${totalRemained.value}")
             }
             override fun onFinish() {

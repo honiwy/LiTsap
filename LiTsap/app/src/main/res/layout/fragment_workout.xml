@@ -98,9 +98,10 @@
             android:layout_marginTop="24dp"
             android:indeterminate="false"
             android:max="@{viewModel.workout.displayProcess}"
-            android:progress="@{viewModel.totalRemained}"
+            android:progress="@{viewModel.workout.displayProcess-viewModel.totalRemained}"
             android:progressDrawable="@drawable/circular_progress"
             android:secondaryProgress="100"
+            tools:progress="50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraint_title" />
@@ -111,14 +112,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:text="@{String.valueOf(viewModel.totalRemained)}"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="bold"
+            app:countDownTime="@{viewModel.totalRemained}"
             app:layout_constraintBottom_toBottomOf="@+id/countdown_bar"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
-            app:layout_constraintTop_toTopOf="@+id/countdown_bar" />
+            app:layout_constraintTop_toTopOf="@+id/countdown_bar"
+            tools:text="18:23" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

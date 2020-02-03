@@ -83,7 +83,7 @@ class TaskViewModel(private val liTsapRepository: LiTsapRepository) : ViewModel(
             Module("舞序熟練",3),
             Module("音樂剪輯",2),
             Module("情感揣摩",4),
-            Module("進場謝幕走位",8),
+            Module("進場謝幕",8),
             Module("其他項目",1)
         ),19, 30, "",false,true)))
         res.add(TaskItem.Assignment(TaskInfo(Task(4L, "成為哈佛生", TaskCategory.STUDY), listOf(

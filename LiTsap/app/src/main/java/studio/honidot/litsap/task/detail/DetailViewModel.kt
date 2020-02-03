@@ -1,7 +1,6 @@
 package studio.honidot.litsap.task.detail
 
 import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,12 +8,15 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import studio.honidot.litsap.data.Module
-import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
+import java.text.DecimalFormat
+
 
 private const val section = 20*60L //20 minutes
 
@@ -106,8 +108,9 @@ class DetailViewModel(
                 }
             }
             val pieDataSet = PieDataSet(yEntry, "")
-            pieDataSet.valueTextSize = 12f
             pieDataSet.colors = colors
+            pieDataSet.setDrawValues(false)
+
 
             chart.apply {
                 data = PieData(pieDataSet)
@@ -116,7 +119,6 @@ class DetailViewModel(
                 setTransparentCircleAlpha(0)
                 setEntryLabelColor(Color.BLACK)
                 chart.legend.isEnabled = false
-                setCenterTextSize(10f)
                 invalidate()
             }
 
