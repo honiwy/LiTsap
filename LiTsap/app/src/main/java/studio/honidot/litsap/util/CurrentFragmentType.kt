@@ -4,7 +4,8 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.util.Util.getString
 
 enum class CurrentFragmentType(val value: String) {
-    TASKLIST(""),
-    TASKCREATED(getString(R.string.create_task)),
+    TASK(""),
+    POST(""),
+    PROFILE(""),
     DETAIL(getString(R.string.task_detail))
 }

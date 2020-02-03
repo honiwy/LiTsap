@@ -11,6 +11,7 @@ import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
+import studio.honidot.litsap.util.CurrentFragmentType
 
 //Task List
 @BindingAdapter("taskItems")
@@ -39,6 +40,17 @@ fun bindTaskCategories(imageView: ImageView, category: TaskCategory) {
         }
 }
 
+@BindingAdapter("upDownVisibility")
+fun bindVisibility(view: View, fragment: CurrentFragmentType) {
+   view.visibility =
+        when (fragment) {
+            CurrentFragmentType.TASK  -> View.VISIBLE
+            CurrentFragmentType.POST -> View.VISIBLE
+            CurrentFragmentType.PROFILE -> View.VISIBLE
+            else -> View.GONE
+        }
+}
+
 
 //Task Detail
 @BindingAdapter("modules")
@@ -64,6 +76,7 @@ fun bindTime(textView: TextView, time: Int?) {
     time?.let { textView.text = instance.getString(R.string.task_time, it * 20) }
 }
 
+//Task CountDown
 @BindingAdapter("countDownTime")
 fun bindCountDownTime(textView: TextView, time: Int) {
     val min = time / 60

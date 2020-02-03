@@ -35,4 +35,23 @@
     <action
         android:id="@+id/navigate_to_workoutFragment"
         app:destination="@id/workoutFragment" />
+    <action
+        android:id="@+id/navigate_to_taskFragment"
+        app:destination="@id/taskFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="studio.honidot.litsap.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+    <action
+        android:id="@+id/navigate_to_profileFragment"
+        app:destination="@id/profileFragment" />
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="studio.honidot.litsap.post.PostFragment"
+        android:label="PostFragment"
+        tools:layout="@layout/fragment_post"/>
+    <action
+        android:id="@+id/navigate_to_postFragment"
+        app:destination="@id/postFragment" />
 </navigation>

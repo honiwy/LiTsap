@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.CurrentFragmentType
 import studio.honidot.litsap.util.DrawerToggleType
 
-class MainViewModel() : ViewModel() {
+class MainViewModel(private val liTsapRepository: LiTsapRepository) : ViewModel() {
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
