@@ -20,4 +20,7 @@
     <dimen name="battery_margin_null">0dp</dimen>
     <dimen name="battery_margin">6dp</dimen>
 
+    <!-- Create -->
+    <dimen name="edge_create_select">2dp</dimen>
+
 </resources>

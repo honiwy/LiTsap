@@ -59,7 +59,7 @@
                 android:id="@+id/task_logo"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/text_workout_module"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -72,7 +72,7 @@
                 android:id="@+id/text_workout_module"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
@@ -130,7 +130,7 @@
                 tools:text="08:31" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/timer_text"
                 android:layout_width="wrap_content"
                 android:layout_height="27dp"
                 android:layout_marginTop="8dp"
@@ -145,37 +145,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/remain_time" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_detail_bottom"
+        <Button
+            android:id="@+id/button_create"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_all_bottom_layout"
-            android:background="@color/maya"
-            android:elevation="@dimen/elevation_all"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_button"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/start_ahead"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/button_task_go"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/round_button"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:text="@string/start_ahead"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/text_ad"
@@ -194,7 +180,7 @@
             android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:background="@color/honey"
-            app:layout_constraintBottom_toTopOf="@+id/layout_detail_bottom"
+            app:layout_constraintBottom_toTopOf="@+id/button_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 

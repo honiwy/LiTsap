@@ -94,6 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:elevation="4dp"
             android:visibility="@{viewModel.moduleDetailOpen?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
@@ -264,38 +265,26 @@
                 tools:background="@drawable/category_food" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_detail_bottom"
+        <Button
+            android:id="@+id/button_create"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_all_bottom_layout"
-            android:background="@color/cream"
-            android:elevation="@dimen/elevation_all"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_button"
+            android:enabled="@{viewModel.moduleTime&lt;1?false:true}"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:onClick="@{()->viewModel.navigateToWorkout(viewModel.workout)}"
+            android:text="@{viewModel.moduleTime&lt;1?@string/task_hint:@string/task_go}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/button_task_go"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/round_button"
-                android:enabled="@{viewModel.moduleTime&lt;1?false:true}"
-                android:letterSpacing="0.15"
-                android:onClick="@{()->viewModel.navigateToWorkout(viewModel.workout)}"
-                android:text="@{viewModel.moduleTime&lt;1?@string/task_hint:@string/task_go}"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/task_go" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

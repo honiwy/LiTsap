@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.R
+import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.databinding.DialogCreateTaskBinding
 
 
@@ -27,15 +28,10 @@ class TaskCreateDialog : DialogFragment() {
             DataBindingUtil.inflate(inflater, R.layout.dialog_create_task, container, false)
         binding.lifecycleOwner = this
 
+        val arrayCategory = arrayOf(TaskCategory.EXERCISE, TaskCategory.FOOD,TaskCategory.STUDY,TaskCategory.NETWORKING,TaskCategory.WEALTH,TaskCategory.OTHER)
         binding.spinnerTaskCategories.adapter = CategorySpinnerAdapter( appContext.resources.getStringArray(
-            R.array.task_category_list) )
+            R.array.task_category_list), arrayCategory)
 
-        binding.numberPicker.apply {
-            minValue = 2
-            maxValue = 20
-        }
-
-       // np.setOnValueChangedListener(onValueChangeListener)
 
         binding.viewModel = viewModel
 
@@ -43,9 +39,9 @@ class TaskCreateDialog : DialogFragment() {
             viewModel.createTask()
             dismiss()
         }
-//        binding.buttonClose.setOnClickListener {
-//            dismiss()
-//        }
+        binding.buttonClose.setOnClickListener {
+            dismiss()
+        }
 
         return binding.root
     }
