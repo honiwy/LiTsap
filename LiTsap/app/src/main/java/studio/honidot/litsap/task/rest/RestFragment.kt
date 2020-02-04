@@ -1,4 +1,4 @@
-package studio.honidot.litsap.task.workout
+package studio.honidot.litsap.task.rest
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import studio.honidot.litsap.databinding.FragmentWorkoutBinding
-import studio.honidot.litsap.extension.getVmFactory
 import androidx.navigation.fragment.findNavController
-import studio.honidot.litsap.NavigationDirections
+import studio.honidot.litsap.databinding.FragmentRestBinding
+import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.task.workout.WorkoutFragmentArgs
 
-
-class WorkoutFragment : Fragment() {
-    private val viewModel by viewModels<WorkoutViewModel> {
+class RestFragment : Fragment() {
+    private val viewModel by viewModels<RestViewModel> {
         getVmFactory(
             WorkoutFragmentArgs.fromBundle(
                 arguments!!
@@ -27,18 +26,10 @@ class WorkoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentWorkoutBinding.inflate(inflater, container, false)
+        val binding = FragmentRestBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        viewModel.navigateToRest.observe(this, Observer {
-            it?.let {
-                findNavController().navigate(NavigationDirections.navigateToRestFragment(it))
-                viewModel.onRestNavigated()
-            }
-        })
-
-
-        viewModel.leaveWorkout.observe(this, Observer {
+        viewModel.leaveRest.observe(this, Observer {
             it?.let {
                 if (it) findNavController().navigateUp()
             }

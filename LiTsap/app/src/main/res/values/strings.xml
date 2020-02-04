@@ -31,4 +31,8 @@
     <string name="task_time">可堅持%d分鐘</string>
     <!-- Task Workout -->
     <string name="completed_ahead">提前完成任務</string>
+    <!-- Task Break -->
+    <string name="start_ahead">提前繼續任務</string>
+    <string name="break_hint">該休息上廁所囉!</string>
+    <string name="ad">看則廣告有益身心健康~</string>
 </resources>

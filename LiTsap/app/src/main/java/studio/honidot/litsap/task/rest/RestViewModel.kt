@@ -1,6 +1,5 @@
-package studio.honidot.litsap.task.workout
+package studio.honidot.litsap.task.rest
 
-import android.R
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,15 +10,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
-import java.util.concurrent.TimeUnit
 
-
-class WorkoutViewModel(
+class RestViewModel(
     private val liTsapRepository: LiTsapRepository,
     private val arguments: Workout
 ) : ViewModel() {
 
-    //*60*1000
+    private val breakTime = 10*60L
+    val breakTimeInt:Int
+            get() = breakTime.toInt()
 
     lateinit var countDownTimer: CountDownTimer
     private val _totalRemained = MutableLiveData<Int>()
@@ -38,24 +37,17 @@ class WorkoutViewModel(
     val workout: LiveData<Workout>
         get() = _workout
 
-
-    // Handle navigation to detail
-    private val _navigateToRest = MutableLiveData<Workout>()
-
-    val navigateToRest: LiveData<Workout>
-        get() = _navigateToRest
-
-
     init {
-        _totalRemained.value = arguments.displayProcess
-        startCountDownTimer(arguments.workoutTime*1000)
+        _totalRemained.value = breakTimeInt
+        startCountDownTimer(breakTime*1000)
+        Log.i("HAHAA","Total: ${breakTimeInt}, Remain: ${totalRemained.value}")
     }
 
     // Handle leave detail
-    private val _leaveWorkout = MutableLiveData<Boolean>()
+    private val _leaveRest = MutableLiveData<Boolean>()
 
-    val leaveWorkout: LiveData<Boolean>
-        get() = _leaveWorkout
+    val leaveRest: LiveData<Boolean>
+        get() = _leaveRest
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -72,17 +64,9 @@ class WorkoutViewModel(
         viewModelJob.cancel()
     }
 
-    fun navigateToRest(workout: Workout) {
-        _navigateToRest.value = workout
-    }
-
-    fun onRestNavigated() {
-        _navigateToRest.value = null
-    }
-
-    fun leaveWorkout() {
+    fun leaveRest() {
         countDownTimer.cancel()
-        _leaveWorkout.value = true
+        _leaveRest.value = true
     }
 
     private fun startCountDownTimer(timeCountInMilliSeconds: Long) {
@@ -90,7 +74,7 @@ class WorkoutViewModel(
             override fun onTick(millisUntilFinished: Long) {
                 _totalRemained.value = (millisUntilFinished/1000).toInt()
                 _sec.value = (millisUntilFinished/1000).toInt()%60
-                Log.i("HAHA","Total: ${(workout.value as Workout).displayProcess}, Remain: ${totalRemained.value}")
+                Log.i("HAHAA","Remain: ${totalRemained.value}")
             }
             override fun onFinish() {
 
