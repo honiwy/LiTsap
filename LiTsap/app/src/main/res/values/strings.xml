@@ -9,7 +9,7 @@
     <string name="plenty_task_info">先完成手邊任務吧!</string>
     <!-- Task Create -->
     <string name="task_name">任務名稱: </string>
-    <string name="hint_task">我要成為料理王</string>
+    <string name="hint_task">成為最強工程師</string>
     <string name="set_module">任務細項: </string>
     <string name="task_end">截止日期: </string>
     <string name="task_count">執行次數: </string>
@@ -20,7 +20,9 @@
     <string name="category_study">學習</string>
     <string name="category_networking">社交</string>
     <string name="category_other">其他</string>
+    <string name="plenty_module_info">最多 6 則細項</string>
     <string name="create_task">建立任務</string>
+    <string name="something_miss">尚有未輸入項目</string>
     <!-- Task Detail -->
     <string name="task_detail">任務詳情</string>
     <string name="task_choose">選擇執行細項</string>
@@ -29,7 +31,7 @@
     <string name="task_go">開始任務</string>
     <string name="task_hint">請在上方選擇...</string>
     <string name="mock_module">煎蛋</string>
-    <string name="task_time">可堅持%d分鐘</string>
+    <string name="task_time">堅持 %d 分鐘</string>
     <!-- Task Workout -->
     <string name="completed_ahead">提前完成任務</string>
     <!-- Task Break -->

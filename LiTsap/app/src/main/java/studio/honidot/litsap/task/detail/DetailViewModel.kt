@@ -38,10 +38,6 @@ class DetailViewModel(
     val workout: LiveData<Workout>
         get() = _workout
 
-
-    val selectedModuleRadio = MutableLiveData<Int>() //await to fix with radio group/recyclerView
-
-
     val moduleDetailOpen = MutableLiveData<Boolean>()
     val moduleTime = MutableLiveData<Int>()
 

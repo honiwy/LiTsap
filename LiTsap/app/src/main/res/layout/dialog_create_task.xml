@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="studio.honidot.litsap.task.create.TaskCreateViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,13 +40,12 @@
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-
-                android:layout_marginTop="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="48dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_name"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,20 +53,21 @@
             <EditText
                 android:id="@+id/edit_title"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/noto_sans"
                 android:hint="@string/hint_task"
                 android:letterSpacing="0.15"
-                android:maxLength="8"
+                android:maxLength="15"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:singleLine="true"
                 android:text="@={viewModel.title}"
-                android:textSize="18sp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_title"
                 app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintStart_toEndOf="@+id/text_title"
                 app:layout_constraintTop_toTopOf="@+id/text_title" />
@@ -75,11 +76,11 @@
                 android:id="@+id/text_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_category"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_title" />
@@ -100,24 +101,67 @@
                 android:id="@+id/module_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/set_module"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_category" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_module"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="@+id/module_task"
+                app:layout_constraintEnd_toEndOf="@+id/edit_title"
+                app:layout_constraintStart_toStartOf="@+id/edit_title"
+                app:layout_constraintTop_toTopOf="@+id/module_task"
+                app:tags="@{viewModel.moduleNameList}" />
+
+            <EditText
+                android:id="@+id/edit_module"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:fontFamily="@font/noto_sans"
+                android:hint="加入論壇"
+                android:letterSpacing="0.15"
+                android:maxLength="7"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:singleLine="true"
+                android:text="@={viewModel.newModule}"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/recycler_module"
+                app:layout_constraintStart_toStartOf="@+id/recycler_module" />
+
+            <ImageButton
+                android:id="@+id/button_task_add"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/plus"
+                android:backgroundTint="@color/honey"
+                android:onClick="@{() -> viewModel.addModule()}"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_module"
+                app:layout_constraintStart_toEndOf="@+id/edit_module"
+                app:layout_constraintTop_toTopOf="@+id/edit_module" />
+
             <TextView
-                android:id="@+id/text_end"
+                android:id="@+id/text_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_end"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/module_task" />
@@ -131,29 +175,28 @@
                 android:fadeScrollbars="true"
                 android:gravity="center"
                 android:theme="@style/AppTheme.NumberPicker"
-                app:layout_constraintBottom_toBottomOf="@+id/text_end"
+                app:layout_constraintBottom_toBottomOf="@+id/text_end_date"
                 app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
                 app:layout_constraintStart_toStartOf="@+id/edit_title"
-                app:layout_constraintTop_toTopOf="@+id/text_end" />
+                app:layout_constraintTop_toTopOf="@+id/text_end_date" />
 
             <TextView
                 android:id="@+id/text_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_count"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
-                app:layout_constraintTop_toBottomOf="@+id/text_end" />
+                app:layout_constraintTop_toBottomOf="@+id/text_end_date" />
 
             <EditText
-                android:id="@+id/edit_add2cart_amount_editor"
-                android:layout_width="0dp"
+                android:id="@+id/edit_task_amount_editor"
+                android:layout_width="100dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
                 android:background="@color/white"
                 android:fontFamily="@font/noto_sans"
                 android:gravity="center"
@@ -162,35 +205,35 @@
                 android:maxLines="1"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@={viewModel.convertLongToString(viewModel.amount)}"
+                android:text="@={viewModel.convertIntToString(viewModel.amount)}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
-                app:layout_constraintEnd_toStartOf="@+id/button_add2cart_decrease"
                 app:layout_constraintStart_toStartOf="@+id/edit_title"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
             <ImageButton
-                android:id="@+id/button_add2cart_increase"
+                android:id="@+id/button_time_increase"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginStart="4dp"
                 android:background="@drawable/plus"
                 android:backgroundTint="@color/honey"
                 android:onClick="@{() -> viewModel.increaseAmount()}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
-                app:layout_constraintEnd_toEndOf="@+id/edit_title"
+                app:layout_constraintStart_toEndOf="@+id/button_add2cart_decrease"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
             <ImageButton
                 android:id="@+id/button_add2cart_decrease"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="4dp"
                 android:background="@drawable/minus"
                 android:backgroundTint="@{viewModel.amount > 1 ? @color/honey : @color/gray_999999}"
                 android:onClick="@{() -> viewModel.decreaseAmount()}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
-                app:layout_constraintEnd_toStartOf="@+id/button_add2cart_increase"
+                app:layout_constraintStart_toEndOf="@+id/edit_task_amount_editor"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
             <Button
@@ -199,13 +242,15 @@
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/round_button"
+                android:enabled="@{(viewModel.title==null||viewModel.moduleNameList.size()==0)?false:true}"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:text="@string/create_task"
+                tools:text="@string/create_task"
+                android:text="@{(viewModel.title==null||viewModel.moduleNameList.size()==0)?@string/something_miss:@string/create_task}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"

@@ -63,7 +63,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:text="@{taskInfo.phrase}"
+            android:text="@{taskInfo.dueDate}"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/task_title"
             app:layout_constraintStart_toEndOf="@+id/task_title"

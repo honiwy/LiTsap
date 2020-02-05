@@ -2,7 +2,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- Toolbar -->
-    <dimen name="height_toolbar">60dp</dimen>
+    <dimen name="height_toolbar">50dp</dimen>
     <dimen name="height_status_bar_origin">24dp</dimen>
 
     <!-- Bottom Navigation -->

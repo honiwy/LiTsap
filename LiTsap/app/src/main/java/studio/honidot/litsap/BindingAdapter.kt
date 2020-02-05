@@ -17,6 +17,7 @@ import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.task.TaskAdapter
+import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
 import studio.honidot.litsap.util.Util.getColor
@@ -58,51 +59,15 @@ fun bindVisibility(view: View, fragment: CurrentFragmentType) {
             else -> View.GONE
         }
 }
-
-//Tssk Create
-@BindingAdapter("editorControllerStatus")
-fun bindEditorControllerStatus(imageButton: ImageButton, enabled: Boolean) {
-
-    imageButton.apply {
-        foreground = ShapeDrawable(object : Shape() {
-            override fun draw(canvas: Canvas, paint: Paint) {
-
-                paint.color = getColor(R.color.black)
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = instance.resources
-                    .getDimensionPixelSize(R.dimen.edge_create_select).toFloat()
-                canvas.drawRect(0f, 0f, this.width, this.height, paint)
+//Task Create
+@BindingAdapter("tags")
+fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
+    tags?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is ModuleCreateAdapter -> submitList(it)
             }
-        })
-        isClickable = enabled
-        backgroundTintList = ColorStateList.valueOf(
-            getColor(
-                when (enabled) {
-                    true -> R.color.black_3f3a3a
-                    false -> R.color.gray_999999
-                }))
-        foregroundTintList = ColorStateList.valueOf(
-            getColor(
-                when (enabled) {
-                    true -> R.color.black_3f3a3a
-                    false -> R.color.gray_999999
-                }))
-    }
-}
-
-@BindingAdapter("amount", "stock")
-fun bindEditorStatus(textView: TextView, amount: Long, stock: Int) {
-    textView.apply {
-        background = ShapeDrawable(object : Shape() {
-            override fun draw(canvas: Canvas, paint: Paint) {
-
-                paint.color = android.graphics.Color.BLACK
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = instance.resources
-                    .getDimensionPixelSize(R.dimen.edge_create_select).toFloat()
-                canvas.drawRect(0f, 0f, this.width, this.height, paint)
-            }
-        })
+        }
     }
 }
 

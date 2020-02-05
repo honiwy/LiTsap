@@ -10,7 +10,7 @@ data class TaskInfo(
     val modules: List<Module>,
     val accumulatedCount: Int,
     val totalCount: Int,
-    val phrase: String,
+    val dueDate: String,
     val chatStatus: Boolean, //whether somebody is in the chat room
     val taskStatus: Boolean //whether finish the task today
 ):Parcelable
