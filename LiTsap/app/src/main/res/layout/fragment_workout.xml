@@ -49,15 +49,15 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/task_logo"
-                app:layout_constraintEnd_toStartOf="@+id/task_logo"
+                app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
+                app:layout_constraintEnd_toStartOf="@+id/task_logo_medium"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/task_logo"
+                app:layout_constraintTop_toTopOf="@+id/task_logo_medium"
                 tools:text="@string/mock_task" />
 
             <ImageView
-                android:id="@+id/task_logo"
+                android:id="@+id/task_logo_medium"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -82,11 +82,11 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/task_logo"
+                app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/task_logo"
-                app:layout_constraintTop_toTopOf="@+id/task_logo"
+                app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
+                app:layout_constraintTop_toTopOf="@+id/task_logo_medium"
                 tools:text="@string/mock_task" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,6 +106,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraint_title" />
 
+        <ImageView
+            android:id="@+id/pause_play"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            tools:background="@drawable/pause"
+            android:backgroundTint="@color/yale"
+            android:background="@{viewModel.counting?@drawable/pause:@drawable/play}"
+            android:onClick="@{()->viewModel.pausePlayTimer()}"
+            app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
+            app:layout_constraintStart_toStartOf="@+id/countdown_bar"
+            app:layout_constraintTop_toBottomOf="@+id/remain_time" />
+
         <TextView
             android:id="@+id/remain_time"
             android:layout_width="wrap_content"
@@ -123,7 +135,7 @@
             tools:text="18:23" />
 
         <Button
-            android:id="@+id/button_create"
+            android:id="@+id/button_finish"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="32dp"
@@ -133,7 +145,7 @@
             android:background="@drawable/round_button"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:onClick="@{()->viewModel.navigateToRest(viewModel.workout)}"
+            android:onClick="@{()->viewModel.navigateDependOnRemainTime()}"
             android:text="@string/completed_ahead"
             android:textColor="@color/white"
             android:textSize="16sp"

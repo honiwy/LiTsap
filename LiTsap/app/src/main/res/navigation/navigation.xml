@@ -66,4 +66,21 @@
     <action
         android:id="@+id/navigate_to_restFragment"
         app:destination="@id/restFragment" />
+    <fragment
+        android:id="@+id/finishFragment"
+        android:name="studio.honidot.litsap.task.Finish.FinishFragment"
+        android:label="FinishFragment"
+        tools:layout="@layout/fragment_finish">
+        <argument
+            android:name="workoutKey"
+            app:argType="studio.honidot.litsap.data.Workout" />
+    </fragment>
+    <action
+        android:id="@+id/navigate_to_finishFragment"
+        app:destination="@id/finishFragment" />
+    <dialog
+        android:id="@+id/taskCreateDialog"
+        android:name="studio.honidot.litsap.task.create.TaskCreateDialog"
+        android:label="TaskCreateDialog"
+        tools:layout="@layout/dialog_create_task"/>
 </navigation>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/text_workout_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:textAlignment="textEnd"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_workout_module"
+            app:layout_constraintTop_toTopOf="@+id/task_logo_big"
+            tools:text="@string/mock_task" />
+
+        <ImageView
+            android:id="@+id/task_logo_medium"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
+            app:layout_constraintStart_toEndOf="@+id/task_logo_big"
+            app:layout_constraintTop_toTopOf="@+id/task_logo_big"
+            tools:background="@drawable/category_food" />
+
+        <ImageView
+            android:id="@+id/task_logo_big"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/category_food" />
+
+        <TextView
+            android:id="@+id/text_workout_module"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
+            app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
+            app:layout_constraintTop_toTopOf="@+id/task_logo_big"
+            tools:text="@string/mock_task" />
+
+        <TextView
+            android:id="@+id/text_footprint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/footprint"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/task_logo_big"
+            app:layout_constraintTop_toBottomOf="@+id/task_logo_big" />
+
+        <TextView
+            android:id="@+id/text_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/feedback"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/task_logo_big"
+            app:layout_constraintTop_toBottomOf="@+id/text_footprint" />
+
+        <ImageButton
+            android:id="@+id/button_updown_footprint"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_footprint"
+            app:layout_constraintStart_toEndOf="@+id/text_footprint"
+            app:layout_constraintTop_toTopOf="@+id/text_footprint"
+            tools:background="@drawable/up_arrow" />
+
+        <ImageButton
+            android:id="@+id/button_updown_feedback"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_feedback"
+            app:layout_constraintStart_toEndOf="@+id/text_feedback"
+            app:layout_constraintTop_toTopOf="@+id/text_feedback"
+            app:layout_constraintVertical_bias="1.0"
+            tools:background="@drawable/up_arrow" />
+
+        <Button
+            android:id="@+id/button_finish"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_button"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/get_point"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

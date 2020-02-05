@@ -26,10 +26,6 @@ class WorkoutViewModel(
     val totalRemained: LiveData<Int>
         get() = _totalRemained
 
-    private val _sec = MutableLiveData<Int>()
-    val sec: LiveData<Int>
-        get() = _sec
-
     // Detail has product data from arguments
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
@@ -39,11 +35,22 @@ class WorkoutViewModel(
         get() = _workout
 
 
+    private val _counting = MutableLiveData<Boolean>()
+
+    val counting: LiveData<Boolean>
+        get() = _counting
+
+
     // Handle navigation to detail
     private val _navigateToRest = MutableLiveData<Workout>()
 
     val navigateToRest: LiveData<Workout>
         get() = _navigateToRest
+
+    private val _navigateToFinish = MutableLiveData<Workout>()
+
+    val navigateToFinish: LiveData<Workout>
+        get() = _navigateToFinish
 
 
     init {
@@ -63,6 +70,7 @@ class WorkoutViewModel(
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+
     /**
      * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
      * Retrofit service to stop.
@@ -72,12 +80,12 @@ class WorkoutViewModel(
         viewModelJob.cancel()
     }
 
-    fun navigateToRest(workout: Workout) {
-        _navigateToRest.value = workout
-    }
-
     fun onRestNavigated() {
         _navigateToRest.value = null
+    }
+
+    fun onFinishNavigated() {
+        _navigateToFinish.value = null
     }
 
     fun leaveWorkout() {
@@ -89,15 +97,32 @@ class WorkoutViewModel(
         countDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 _totalRemained.value = (millisUntilFinished/1000).toInt()
-                _sec.value = (millisUntilFinished/1000).toInt()%60
-                Log.i("HAHA","Total: ${(workout.value as Workout).displayProcess}, Remain: ${totalRemained.value}")
             }
             override fun onFinish() {
 
             }
         }
+        _counting.value = true
         countDownTimer.start()
     }
 
+    fun pausePlayTimer()
+    {
+        if(_counting.value == true){
+            countDownTimer.cancel()
+            _counting.value = false
+        }
+        else{
+            startCountDownTimer(_totalRemained.value!!*1000L)
+            _counting.value = true
+        }
+    }
 
+    fun navigateDependOnRemainTime() {
+        if (totalRemained.value!!.compareTo(1200) == 1) {
+            _navigateToRest.value = _workout.value
+        } else {
+            _navigateToFinish.value = _workout.value
+        }
+    }
 }

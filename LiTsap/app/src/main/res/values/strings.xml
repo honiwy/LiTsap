@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">LiTsap</string>
     <string name="action_settings">Settings</string>
-    <!-- Task -->
+    <!-- Task List-->
     <string name="await_todo">待執行</string>
     <string name="finished">已完成</string>
     <string name="mock_task">烹飪練習</string>
@@ -38,4 +38,8 @@
     <string name="start_ahead">提前繼續任務</string>
     <string name="break_hint">該休息上廁所囉!</string>
     <string name="ad">看則廣告有益身心健康~</string>
+    <!-- Task Finish -->
+    <string name="get_point">領取任務經驗值</string>
+    <string name="footprint">任務足跡</string>
+    <string name="feedback">任務心得</string>
 </resources>

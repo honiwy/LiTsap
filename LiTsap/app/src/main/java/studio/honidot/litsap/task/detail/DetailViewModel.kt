@@ -15,7 +15,6 @@ import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
-import java.text.DecimalFormat
 
 
 private const val section = 20*60L //20 minutes

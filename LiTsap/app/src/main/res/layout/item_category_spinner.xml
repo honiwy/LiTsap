@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/task_logo"
+            android:id="@+id/task_logo_medium"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/task_logo"
+            app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/category_food" />
 

@@ -48,15 +48,15 @@
                 android:textAlignment="textEnd"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/task_logo"
-                app:layout_constraintEnd_toStartOf="@+id/task_logo"
+                app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
+                app:layout_constraintEnd_toStartOf="@+id/task_logo_medium"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/task_logo"
+                app:layout_constraintTop_toTopOf="@+id/task_logo_medium"
                 tools:text="@string/mock_task" />
 
             <ImageView
-                android:id="@+id/task_logo"
+                android:id="@+id/task_logo_medium"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -80,11 +80,11 @@
                 android:textAlignment="textStart"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/task_logo"
+                app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/task_logo"
-                app:layout_constraintTop_toTopOf="@+id/task_logo"
+                app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
+                app:layout_constraintTop_toTopOf="@+id/task_logo_medium"
                 tools:text="@string/mock_task" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

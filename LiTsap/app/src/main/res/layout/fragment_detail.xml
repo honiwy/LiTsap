@@ -254,7 +254,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/task_logo"
+                android:id="@+id/task_logo_medium"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"
