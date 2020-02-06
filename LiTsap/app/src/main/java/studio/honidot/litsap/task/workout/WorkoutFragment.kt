@@ -30,12 +30,13 @@ class WorkoutFragment : Fragment() {
         val binding = FragmentWorkoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        viewModel.navigateToRest.observe(this, Observer {
-            it?.let {
-                    findNavController().navigate(NavigationDirections.navigateToRestFragment(it))
-                viewModel.onRestNavigated()
-            }
-        })
+
+//        viewModel.navigateToRest.observe(this, Observer {
+//            it?.let {
+//                    findNavController().navigate(NavigationDirections.navigateToRestFragment(it))
+//                viewModel.onRestNavigated()
+//            }
+//        })
 
         viewModel.navigateToFinish.observe(this, Observer {
             it?.let {

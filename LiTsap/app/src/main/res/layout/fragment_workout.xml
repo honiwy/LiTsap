@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="studio.honidot.litsap.task.workout.WorkoutViewModel" />
@@ -13,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/royal">
+        tools:background="@color/royal"
+        android:background="@{viewModel.isCountingRest==true?@color/maya:@color/royal}">
 
         <ImageView
             android:id="@+id/image_back"
@@ -22,7 +25,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.leaveWorkout()}"
-            android:tint="@color/cream"
+            android:tint="@color/mustard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/return_back" />
@@ -46,7 +49,7 @@
                 android:letterSpacing="0.15"
                 android:text="@{viewModel.workout.task.title}"
                 android:textAlignment="textEnd"
-                android:textColor="@color/white"
+                android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
@@ -79,7 +82,7 @@
                 android:letterSpacing="0.15"
                 android:text="@{viewModel.workout.selectedModule.name}"
                 android:textAlignment="textStart"
-                android:textColor="@color/white"
+                android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
@@ -97,26 +100,28 @@
             android:layout_height="300dp"
             android:layout_marginTop="24dp"
             android:indeterminate="false"
-            android:max="@{viewModel.workout.displayProcess}"
-            android:progress="@{viewModel.workout.displayProcess-viewModel.totalRemained}"
+            android:max="@{viewModel.isCountingRest==true? viewModel.restSec :60}"
+            android:progress="@{viewModel.isCountingRest==true? (viewModel.restSec-viewModel.totalRestRemained) :60-viewModel.totalTaskRemained}"
             android:progressDrawable="@drawable/circular_progress"
             android:secondaryProgress="100"
-            tools:progress="50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_title" />
+            app:layout_constraintTop_toBottomOf="@+id/constraint_title"
+            tools:progress="50" />
 
         <ImageView
             android:id="@+id/pause_play"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            tools:background="@drawable/pause"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:background="@{viewModel.isCountingTask? @drawable/pause : @drawable/play}"
             android:backgroundTint="@color/yale"
-            android:background="@{viewModel.counting?@drawable/pause:@drawable/play}"
             android:onClick="@{()->viewModel.pausePlayTimer()}"
+            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
-            app:layout_constraintTop_toBottomOf="@+id/remain_time" />
+            app:layout_constraintTop_toBottomOf="@+id/remain_time"
+            tools:background="@drawable/pause" />
 
         <TextView
             android:id="@+id/remain_time"
@@ -124,15 +129,63 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:textColor="@color/white"
+            android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:countDownTime="@{viewModel.totalRemained}"
+            app:countDownTime="@{viewModel.isCountingRest==true? viewModel.totalRestRemained : viewModel.totalTaskRemained}"
             app:layout_constraintBottom_toBottomOf="@+id/countdown_bar"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
             app:layout_constraintTop_toTopOf="@+id/countdown_bar"
             tools:text="18:23" />
+
+        <TextView
+            android:id="@+id/timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/break_hint"
+            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
+            app:layout_constraintStart_toStartOf="@+id/countdown_bar"
+            app:layout_constraintTop_toBottomOf="@+id/remain_time" />
+
+        <TextView
+            android:id="@+id/text_ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/ad"
+            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/constraint_ad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_ad"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/mustard"
+            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/button_finish"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!--com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" /-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/button_finish"
@@ -145,10 +198,11 @@
             android:background="@drawable/round_button"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:onClick="@{()->viewModel.navigateDependOnRemainTime()}"
+            android:onClick="@{()->viewModel.navigateToFinish()}"
             android:text="@string/completed_ahead"
-            android:textColor="@color/white"
+            android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
             android:textSize="16sp"
+            android:visibility="@{(60-viewModel.totalTaskRemained)>=viewModel.sectionSec ? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

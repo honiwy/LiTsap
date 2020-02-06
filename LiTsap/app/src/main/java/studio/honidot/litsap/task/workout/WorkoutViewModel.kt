@@ -1,6 +1,5 @@
 package studio.honidot.litsap.task.workout
 
-import android.R
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
-import java.util.concurrent.TimeUnit
 
 
 class WorkoutViewModel(
@@ -21,42 +19,100 @@ class WorkoutViewModel(
 
     //*60*1000
 
-    lateinit var countDownTimer: CountDownTimer
-    private val _totalRemained = MutableLiveData<Int>()
-    val totalRemained: LiveData<Int>
-        get() = _totalRemained
+    lateinit var taskCountDownTimer: CountDownTimer
+
+    private val _totalTaskRemained = MutableLiveData<Int>()
+    val totalTaskRemained: LiveData<Int>
+        get() = _totalTaskRemained
+
+    private val _isCountingTask = MutableLiveData<Boolean>()
+    val isCountingTask: LiveData<Boolean>
+        get() = _isCountingTask
+
+    init {
+//        _totalTaskRemained.value = arguments.displayProcess
+//        startTaskCountDownTimer(arguments.workoutTime*1000)
+        _totalTaskRemained.value = 60 //60 sec
+        startTaskCountDownTimer(60L*1000)
+
+    }
+    val sectionSec = 10 //1200: 20 min, 10: 10 sec
+    val restSec = 5 //300: 5 min, 5: 5 sec
+
+    private val _isCountingRest = MutableLiveData<Boolean>()
+    val isCountingRest: LiveData<Boolean>
+        get() = _isCountingRest
+
+    fun pausePlayTimer(){
+        if(_isCountingTask.value == true){
+            taskCountDownTimer.cancel()
+            _isCountingTask.value = false
+        }
+        else{
+//            _isCountingTask.value = true
+            startTaskCountDownTimer(_totalTaskRemained.value!!*1000L)
+        }
+    }
+
+    fun navigateToFinish() {
+        _navigateToFinish.value = _workout.value
+    }
+
+    fun onFinishNavigated() {
+        _navigateToFinish.value = null
+    }
+
+    private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
+        taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                _totalTaskRemained.value = (millisUntilFinished/1000).toInt()
+                if(_totalTaskRemained.value!!.rem(sectionSec)==0&&_totalTaskRemained.value!=0)
+                {
+                    _isCountingRest.value = true
+                    pausePlayTimer()
+                    startRestCountDownTimer(restSec*1000L)
+                }
+            }
+            override fun onFinish() {
+                navigateToFinish()
+            }
+        }
+        _isCountingTask.value = true
+        taskCountDownTimer.start()
+    }
+
+    lateinit var restCountDownTimer: CountDownTimer
+
+    private val _totalRestRemained = MutableLiveData<Int>()
+    val totalRestRemained: LiveData<Int>
+        get() = _totalRestRemained
+
+    private fun startRestCountDownTimer(timeCountInMilliSeconds: Long) {
+        restCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                _totalRestRemained.value = (millisUntilFinished/1000).toInt()
+            }
+            override fun onFinish() {
+                _isCountingRest.value = false
+                pausePlayTimer()
+            }
+        }
+        restCountDownTimer.start()
+    }
+
 
     // Detail has product data from arguments
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
     }
-
     val workout: LiveData<Workout>
         get() = _workout
 
-
-    private val _counting = MutableLiveData<Boolean>()
-
-    val counting: LiveData<Boolean>
-        get() = _counting
-
-
-    // Handle navigation to detail
-    private val _navigateToRest = MutableLiveData<Workout>()
-
-    val navigateToRest: LiveData<Workout>
-        get() = _navigateToRest
 
     private val _navigateToFinish = MutableLiveData<Workout>()
 
     val navigateToFinish: LiveData<Workout>
         get() = _navigateToFinish
-
-
-    init {
-        _totalRemained.value = arguments.displayProcess
-        startCountDownTimer(arguments.workoutTime*1000)
-    }
 
     // Handle leave detail
     private val _leaveWorkout = MutableLiveData<Boolean>()
@@ -71,6 +127,9 @@ class WorkoutViewModel(
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
+
+
+
     /**
      * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
      * Retrofit service to stop.
@@ -80,49 +139,16 @@ class WorkoutViewModel(
         viewModelJob.cancel()
     }
 
-    fun onRestNavigated() {
-        _navigateToRest.value = null
-    }
 
-    fun onFinishNavigated() {
-        _navigateToFinish.value = null
-    }
 
     fun leaveWorkout() {
-        countDownTimer.cancel()
+        taskCountDownTimer.cancel()
         _leaveWorkout.value = true
     }
 
-    private fun startCountDownTimer(timeCountInMilliSeconds: Long) {
-        countDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                _totalRemained.value = (millisUntilFinished/1000).toInt()
-            }
-            override fun onFinish() {
 
-            }
-        }
-        _counting.value = true
-        countDownTimer.start()
-    }
 
-    fun pausePlayTimer()
-    {
-        if(_counting.value == true){
-            countDownTimer.cancel()
-            _counting.value = false
-        }
-        else{
-            startCountDownTimer(_totalRemained.value!!*1000L)
-            _counting.value = true
-        }
-    }
 
-    fun navigateDependOnRemainTime() {
-        if (totalRemained.value!!.compareTo(1200) == 1) {
-            _navigateToRest.value = _workout.value
-        } else {
-            _navigateToFinish.value = _workout.value
-        }
-    }
+
+
 }
