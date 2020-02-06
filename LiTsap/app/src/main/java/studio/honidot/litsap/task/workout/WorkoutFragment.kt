@@ -31,21 +31,11 @@ class WorkoutFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-//        viewModel.navigateToRest.observe(this, Observer {
-//            it?.let {
-//                    findNavController().navigate(NavigationDirections.navigateToRestFragment(it))
-//                viewModel.onRestNavigated()
-//            }
-//        })
-
         viewModel.navigateToFinish.observe(this, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToFinishFragment(it))
                 viewModel.onFinishNavigated()
             }
-//            when (it is Int) {
-//
-//            }
         })
 
         viewModel.leaveWorkout.observe(this, Observer {

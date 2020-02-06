@@ -17,8 +17,6 @@ class WorkoutViewModel(
     private val arguments: Workout
 ) : ViewModel() {
 
-    //*60*1000
-
     lateinit var taskCountDownTimer: CountDownTimer
 
     private val _totalTaskRemained = MutableLiveData<Int>()
@@ -30,27 +28,26 @@ class WorkoutViewModel(
         get() = _isCountingTask
 
     init {
-//        _totalTaskRemained.value = arguments.displayProcess
-//        startTaskCountDownTimer(arguments.workoutTime*1000)
-        _totalTaskRemained.value = 60 //60 sec
-        startTaskCountDownTimer(60L*1000)
+        _totalTaskRemained.value = arguments.displayProcess
+        startTaskCountDownTimer(arguments.workoutTime * 1000)
+//        _totalTaskRemained.value = 60 //60 sec
+//        startTaskCountDownTimer(60L*1000)
 
     }
-    val sectionSec = 10 //1200: 20 min, 10: 10 sec
-    val restSec = 5 //300: 5 min, 5: 5 sec
+
+    val sectionSec = 1200 //1200: 20 min, 10: 10 sec
+    val restSec = 300 //300: 5 min, 5: 5 sec
 
     private val _isCountingRest = MutableLiveData<Boolean>()
     val isCountingRest: LiveData<Boolean>
         get() = _isCountingRest
 
-    fun pausePlayTimer(){
-        if(_isCountingTask.value == true){
+    fun pausePlayTimer() {
+        if (_isCountingTask.value == true) {
             taskCountDownTimer.cancel()
             _isCountingTask.value = false
-        }
-        else{
-//            _isCountingTask.value = true
-            startTaskCountDownTimer(_totalTaskRemained.value!!*1000L)
+        } else {
+            startTaskCountDownTimer(_totalTaskRemained.value!! * 1000L)
         }
     }
 
@@ -65,14 +62,14 @@ class WorkoutViewModel(
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
         taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                _totalTaskRemained.value = (millisUntilFinished/1000).toInt()
-                if(_totalTaskRemained.value!!.rem(sectionSec)==0&&_totalTaskRemained.value!=0)
-                {
+                _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
+                if (_totalTaskRemained.value!!.rem(sectionSec) == 0 && _totalTaskRemained.value != 0) {
                     _isCountingRest.value = true
                     pausePlayTimer()
-                    startRestCountDownTimer(restSec*1000L)
+                    startRestCountDownTimer(restSec * 1000L)
                 }
             }
+
             override fun onFinish() {
                 navigateToFinish()
             }
@@ -90,8 +87,9 @@ class WorkoutViewModel(
     private fun startRestCountDownTimer(timeCountInMilliSeconds: Long) {
         restCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                _totalRestRemained.value = (millisUntilFinished/1000).toInt()
+                _totalRestRemained.value = (millisUntilFinished / 1000).toInt()
             }
+
             override fun onFinish() {
                 _isCountingRest.value = false
                 pausePlayTimer()
@@ -127,9 +125,6 @@ class WorkoutViewModel(
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
-
-
-
     /**
      * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
      * Retrofit service to stop.
@@ -140,15 +135,10 @@ class WorkoutViewModel(
     }
 
 
-
     fun leaveWorkout() {
         taskCountDownTimer.cancel()
         _leaveWorkout.value = true
     }
-
-
-
-
 
 
 }

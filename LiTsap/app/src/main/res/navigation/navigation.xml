@@ -55,18 +55,6 @@
         android:id="@+id/navigate_to_postFragment"
         app:destination="@id/postFragment" />
     <fragment
-        android:id="@+id/restFragment"
-        android:name="studio.honidot.litsap.task.rest.RestFragment"
-        android:label="BreakFragment"
-        tools:layout="@layout/fragment_rest">
-        <argument
-            android:name="workoutKey"
-            app:argType="studio.honidot.litsap.data.Workout" />
-    </fragment>
-    <action
-        android:id="@+id/navigate_to_restFragment"
-        app:destination="@id/restFragment" />
-    <fragment
         android:id="@+id/finishFragment"
         android:name="studio.honidot.litsap.task.Finish.FinishFragment"
         android:label="FinishFragment"

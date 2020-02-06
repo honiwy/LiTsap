@@ -1,20 +1,30 @@
 package studio.honidot.litsap.task.detail
 
+import android.R
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.databinding.ItemDetailModuleBinding
 
+
 class DetailModuleAdapter : ListAdapter<Module, DetailModuleAdapter.ModuleViewHolder>(DiffCallback) {
+
+    private var checkedPosition = -1
 
     class ModuleViewHolder(private var binding: ItemDetailModuleBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(module: Module) {
+
+        val radioModule = binding.radioModule
+
+        fun bind(module: Module, isChecked:Boolean) {
             module.let {
                 binding.module = it
+                binding.radioModule.isChecked = isChecked
                 binding.executePendingBindings()
             }
         }
@@ -39,6 +49,14 @@ class DetailModuleAdapter : ListAdapter<Module, DetailModuleAdapter.ModuleViewHo
      * Replaces the contents of a view (invoked by the layout manager)
      */
     override fun onBindViewHolder(holder: ModuleViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position),checkedPosition==position) //singleViewHolder.bind(employees[position])
+        holder.radioModule.setOnClickListener {
+            if (checkedPosition != position) {
+                notifyItemChanged(checkedPosition)
+                checkedPosition = position
+            }
+        }
+
     }
 }
+

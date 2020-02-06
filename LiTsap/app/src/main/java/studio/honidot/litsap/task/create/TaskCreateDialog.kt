@@ -56,12 +56,12 @@ class TaskCreateDialog : DialogFragment() {
         })
         binding.endDate.apply {
             minDate = System.currentTimeMillis()
-            setOnDateChangedListener { datePicker, year, month, date ->
+            setOnDateChangedListener { _, year, month, date ->
                 viewModel.dueDate.value = "截止日期: ${year}年, ${month + 1}月, ${date}日"
             }
         }
 
-        binding.editModule.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.editModule.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 viewModel.addModule()
                 true

@@ -100,24 +100,14 @@
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_choose">
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_module_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_module_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:modules="@{viewModel.taskInfo.modules}"
-                    app:spanCount="2">
-
-                </androidx.recyclerview.widget.RecyclerView>
-            </RadioGroup>
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:modules="@{viewModel.taskInfo.modules}"
+                app:spanCount="2">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/text_section"
@@ -130,7 +120,7 @@
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_module_detail" />
 
             <ImageButton
                 android:id="@+id/button_power1"
