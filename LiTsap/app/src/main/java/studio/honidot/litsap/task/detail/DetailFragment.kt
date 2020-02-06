@@ -41,7 +41,7 @@ class DetailFragment : Fragment() {
                 viewModel.onWorkoutNavigated()
             }
         })
-        binding.recyclerModuleDetail.adapter = DetailModuleAdapter()
+        binding.recyclerModuleDetail.adapter = DetailModuleAdapter(viewModel)
         viewModel.addDataSet(binding.piechart)
 
         return binding.root

@@ -12,16 +12,17 @@ import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.databinding.ItemDetailModuleBinding
 
 
-class DetailModuleAdapter : ListAdapter<Module, DetailModuleAdapter.ModuleViewHolder>(DiffCallback) {
+class DetailModuleAdapter(val viewModel: DetailViewModel) :
+    ListAdapter<Module, DetailModuleAdapter.ModuleViewHolder>(DiffCallback) {
 
-    private var checkedPosition = -1
+    private var checkedPosition = 0
 
-    class ModuleViewHolder(private var binding: ItemDetailModuleBinding):
+    class ModuleViewHolder(private var binding: ItemDetailModuleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         val radioModule = binding.radioModule
 
-        fun bind(module: Module, isChecked:Boolean) {
+        fun bind(module: Module, isChecked: Boolean) {
             module.let {
                 binding.module = it
                 binding.radioModule.isChecked = isChecked
@@ -34,6 +35,7 @@ class DetailModuleAdapter : ListAdapter<Module, DetailModuleAdapter.ModuleViewHo
         override fun areItemsTheSame(oldItem: Module, newItem: Module): Boolean {
             return oldItem === newItem
         }
+
         override fun areContentsTheSame(oldItem: Module, newItem: Module): Boolean {
             return oldItem == newItem
         }
@@ -42,21 +44,25 @@ class DetailModuleAdapter : ListAdapter<Module, DetailModuleAdapter.ModuleViewHo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModuleViewHolder {
         return ModuleViewHolder(
             ItemDetailModuleBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
     override fun onBindViewHolder(holder: ModuleViewHolder, position: Int) {
-        holder.bind(getItem(position),checkedPosition==position) //singleViewHolder.bind(employees[position])
+        holder.bind(
+            getItem(position),
+            checkedPosition == position
+        )
         holder.radioModule.setOnClickListener {
             if (checkedPosition != position) {
                 notifyItemChanged(checkedPosition)
                 checkedPosition = position
+                viewModel.changeModule(checkedPosition)
             }
         }
 
     }
+
 }
 

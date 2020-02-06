@@ -48,14 +48,12 @@ class DetailViewModel(
     val leaveDetail: LiveData<Boolean>
         get() = _leaveDetail
 
-    // Handle navigation to detail
     private val _navigateToWorkout = MutableLiveData<Workout>()
 
     val navigateToWorkout: LiveData<Workout>
         get() = _navigateToWorkout
 
     init {
-        moduleDetailOpen.value = true
         _taskInfo.value?.apply {
             _workout.value =
                 Workout(
@@ -64,6 +62,14 @@ class DetailViewModel(
         }
         moduleTime.value = 0
         moduleStatusOpen.value = true
+        moduleDetailOpen.value = true
+    }
+
+
+    fun changeModule(selectedPosition: Int){
+        _workout.value?.apply {
+            this.selectedModule = _taskInfo.value!!.modules[selectedPosition]
+        }
     }
 
     fun onSetWorkoutTime(time: Int) {
