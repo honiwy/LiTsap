@@ -2,6 +2,7 @@ package studio.honidot.litsap
 
 import android.app.Application
 import android.content.Context
+import com.google.firebase.firestore.FirebaseFirestore
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.ServiceLocator
 import kotlin.properties.Delegates
@@ -16,6 +17,7 @@ class LiTsapApplication : Application() {
     companion object {
         var instance: LiTsapApplication by Delegates.notNull()
         lateinit var appContext: Context
+        lateinit var db: FirebaseFirestore
     }
 
     override fun onCreate() {

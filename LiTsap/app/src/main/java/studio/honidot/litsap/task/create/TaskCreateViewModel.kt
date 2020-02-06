@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
@@ -15,6 +16,7 @@ import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.TaskInfo
+import studio.honidot.litsap.LiTsapApplication.Companion.db
 
 class TaskCreateViewModel : ViewModel() {
 
@@ -86,7 +88,7 @@ class TaskCreateViewModel : ViewModel() {
         moduleNameList.value!!.forEach {
             moduleList.add(Module(it, 0))
         }
-        _newTaskInfo.value = TaskInfo(
+        val a = TaskInfo(
             Task(
                 123,
                 title.value ?: "沒有名稱",
@@ -99,7 +101,21 @@ class TaskCreateViewModel : ViewModel() {
             false,
             false
         )
+
+        val ab = hashMapOf<String,Any>(
+            "name" to "hahaha"
+        )
+        db.collection("tasks").document("HAHA").set(ab).addOnSuccessListener {
+            Log.i("HAHA","Success")
+        }.addOnFailureListener {
+            Log.i("HAHA","On no")
+        }.addOnCompleteListener {
+            Log.i("HAHAHA", "THIS")
+        }
+        _newTaskInfo.value = a
         Log.i("HAHA", "TaskCreate, Task title: ${_newTaskInfo.value}")
+
+
     }
 
 

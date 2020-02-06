@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -46,7 +47,7 @@ dependencies {
 
     //Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
 
@@ -58,6 +59,10 @@ dependencies {
 
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$version_room"
+    //implementation 'com.google.firebase:firebase-firestore:17.1.2'
+    implementation 'com.google.firebase:firebase-firestore:17.1.2'
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-auth:18.0.0'
     kapt "androidx.room:room-compiler:$version_room"
 
     // Navigation
@@ -100,7 +105,7 @@ dependencies {
     implementation "androidx.fragment:fragment-testing:$version_fragment"
 
     // Facebook
-    implementation 'com.facebook.android:facebook-login:5.0.0'
+//    implementation 'com.facebook.android:facebook-login:5.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
