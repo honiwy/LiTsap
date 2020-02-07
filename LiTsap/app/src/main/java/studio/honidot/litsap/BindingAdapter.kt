@@ -12,6 +12,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.Module
@@ -37,9 +39,12 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
 
 //Global
 @BindingAdapter("taskCategory")
-fun bindTaskCategories(imageView: ImageView, category: TaskCategory) {
+fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
+
+    val taskCategory= TaskCategory.values()[categoryId]
+
     imageView.background =
-        when (category) {
+        when (taskCategory) {
             TaskCategory.EXERCISE -> instance.getDrawable(R.drawable.category_exercise)
             TaskCategory.FOOD -> instance.getDrawable(R.drawable.category_food)
             TaskCategory.STUDY -> instance.getDrawable(R.drawable.category_study)

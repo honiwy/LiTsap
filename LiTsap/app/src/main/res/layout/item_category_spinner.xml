@@ -6,8 +6,8 @@
     <data>
         <variable name="title" type="String"/>
         <variable
-            name="category"
-            type="studio.honidot.litsap.TaskCategory" />
+            name="categoryId"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:taskCategory="@{category}"
+            app:taskCategory="@{categoryId}"
             tools:background="@drawable/category_food" />
 
         <TextView

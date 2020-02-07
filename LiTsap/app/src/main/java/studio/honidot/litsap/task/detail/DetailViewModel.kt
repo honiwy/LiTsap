@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import studio.honidot.litsap.data.FireTask
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.Workout
@@ -21,15 +22,15 @@ private const val section = 20*60L //20 minutes
 
 class DetailViewModel(
     private val liTsapRepository: LiTsapRepository,
-    private val arguments: TaskInfo
+    private val arguments: FireTask
 ) : ViewModel() {
 
     // Detail has product data from arguments
-    private val _taskInfo = MutableLiveData<TaskInfo>().apply {
+    private val _taskInfo = MutableLiveData<FireTask>().apply {
         value = arguments
     }
 
-    val taskInfo: LiveData<TaskInfo>
+    val taskInfo: LiveData<FireTask>
         get() = _taskInfo
 
     private val _workout = MutableLiveData<Workout>()
@@ -57,7 +58,7 @@ class DetailViewModel(
         _taskInfo.value?.apply {
             _workout.value =
                 Workout(
-                    task,Module(modules[0].name, modules[0].progressCount),
+                    this,Module(modules[0].name, modules[0].progressCount),
                     0, false, listOf(""))
         }
         moduleTime.value = 0

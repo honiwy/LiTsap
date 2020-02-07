@@ -31,18 +31,10 @@ class TaskCreateDialog : DialogFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val arrayCategory = arrayOf(
-            TaskCategory.EXERCISE,
-            TaskCategory.FOOD,
-            TaskCategory.STUDY,
-            TaskCategory.NETWORKING,
-            TaskCategory.WEALTH,
-            TaskCategory.OTHER
-        )
         binding.spinnerTaskCategories.adapter = CategorySpinnerAdapter(
             appContext.resources.getStringArray(
                 R.array.task_category_list
-            ), arrayCategory
+            )
         )
         val adapter = ModuleCreateAdapter(viewModel)
         binding.recyclerModule.adapter = adapter

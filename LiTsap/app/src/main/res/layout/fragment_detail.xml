@@ -38,7 +38,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:text="@{viewModel.taskInfo.task.title}"
+            android:text="@{viewModel.taskInfo.title}"
             android:textAlignment="center"
             android:textColor="@color/black_3f3a3a"
             android:textSize="18sp"
@@ -251,7 +251,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:taskCategory="@{viewModel.taskInfo.task.category}"
+                app:taskCategory="@{viewModel.taskInfo.categoryId}"
                 tools:background="@drawable/category_food" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

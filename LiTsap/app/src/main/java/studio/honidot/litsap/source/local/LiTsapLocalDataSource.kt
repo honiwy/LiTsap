@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
@@ -16,5 +18,7 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
 //            StylishDatabase.getInstance(context).stylishDatabaseDao.getCart(id, colorCode, size) != null
 //        }
 //    }
-
+override suspend fun getTasks(): Result<List<TaskItem>> {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+}
 }

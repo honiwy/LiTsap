@@ -88,7 +88,7 @@ class TaskCreateViewModel : ViewModel() {
         val tasksDocument = db.collection("users").document("Rachel").collection("tasks").document()
         tasksDocument.set(
             FireTask(
-                tasksDocument.id, title.value ?: "無任務名稱", selectedTaskCategoryPosition.value?:5, 0,
+                tasksDocument.id, title.value ?: "無任務名稱", selectedTaskCategoryPosition.value?:5, listOf(Module("",0)),0,
                 amount.value ?: 100,
                 dueDate.value ?: "沒有截止日期",
                 false,
@@ -107,10 +107,7 @@ class TaskCreateViewModel : ViewModel() {
 
     val selectedTaskCategoryPosition = MutableLiveData<Int>()
 
-    val taskCategory: LiveData<TaskCategory> =
-        Transformations.map(selectedTaskCategoryPosition) {
-            TaskCategory.values()[it]
-        }
+
 
 
 }

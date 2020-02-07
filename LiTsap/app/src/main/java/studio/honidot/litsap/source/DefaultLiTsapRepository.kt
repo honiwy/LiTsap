@@ -3,17 +3,21 @@ package studio.honidot.litsap.source
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import studio.honidot.litsap.data.FireTask
+import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.TaskItem
 
-class DefaultLiTsapRepository(private val liTsapRemoteDataSource: LiTsapDataSource,
-                               private val liTsapLocalDataSource: LiTsapDataSource,
-                               private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+class DefaultLiTsapRepository(
+    private val remoteDataSource: LiTsapDataSource,
+    private val localDataSource: LiTsapDataSource,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
-//    override  fun getProductsCollected(): LiveData<List<ProductCollected>> {
+    //    override  fun getProductsCollected(): LiveData<List<ProductCollected>> {
 //        return stylishLocalDataSource.getProductsCollected()
 //    }
-//
-//    override suspend fun isProductInCart(id: Long, colorCode: String, size: String): Boolean {
-//        return stylishLocalDataSource.isProductCart(id, colorCode, size)
-//    }
+
+    override suspend fun getTasks(): Result<List<TaskItem>> {
+        return remoteDataSource.getTasks()
+    }
 }

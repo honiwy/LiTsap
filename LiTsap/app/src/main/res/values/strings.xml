@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">LiTsap</string>
     <string name="action_settings">Settings</string>
+    <string name="you_know_nothing">You know nothing</string>
     <!-- Task List-->
     <string name="await_todo">待執行</string>
     <string name="finished">已完成</string>

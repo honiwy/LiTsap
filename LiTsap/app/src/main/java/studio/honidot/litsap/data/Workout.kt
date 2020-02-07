@@ -5,7 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Workout(
-    val task:Task,
+
+    val task:FireTask,
     var selectedModule: Module,
     var workoutTime: Long,
     val chatWithGroup: Boolean,
