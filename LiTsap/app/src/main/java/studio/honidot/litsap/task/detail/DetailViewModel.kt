@@ -93,7 +93,7 @@ class DetailViewModel(
     }
 
     fun addDataSet(chart: PieChart) {
-        val colorTable = listOf("#f5e0b0", "#f9c267", "#015c92", "#88CDF6", "#2D82B6", "#f1ab10")
+        val colorTable = listOf("#b0c364", "#f9c267", "#2d82b6", "#009ab7", "#00aea2", "#63bc80")
         _taskInfo.value?.let {
             val yEntry = ArrayList<PieEntry>()
             val colors = ArrayList<Int>()
