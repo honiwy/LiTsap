@@ -34,6 +34,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val list = mutableListOf<TaskItem>()
+                    list.add(TaskItem.Title("待執行"))
+
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
 
@@ -60,6 +62,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                             taskStatus = document.data["taskStatus"].toString().toBoolean()))//document.toObject(TaskItem::class.java)
                         list.add(taskFound)
                     }
+                    list.add(TaskItem.Title("已完成"))
                     continuation.resume(Result.Success(list))
                 } else {
                     task.exception?.let {

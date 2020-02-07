@@ -42,7 +42,6 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
     }
 
     init {
-        //getMockTasks()
         retrieveTasks()
     }
 

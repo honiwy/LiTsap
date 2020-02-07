@@ -8,7 +8,7 @@ data class FireTask(
     val taskId: String = "",
     val title: String = "",
     val categoryId: Int = -1,
-    val modules: List<Module> = listOf(),
+    var modules: List<Module> = listOf(),
     val accumulatedCount: Int = -1,
     val totalCount: Int = -1,
     val dueDate: String = "",
