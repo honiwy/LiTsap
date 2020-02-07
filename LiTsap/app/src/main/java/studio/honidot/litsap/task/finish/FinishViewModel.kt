@@ -1,19 +1,9 @@
-package studio.honidot.litsap.task.Finish
+package studio.honidot.litsap.task.finish
 
-import android.graphics.Color
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import studio.honidot.litsap.data.Module
-import studio.honidot.litsap.data.TaskInfo
-import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
 
 class FinishViewModel(

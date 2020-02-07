@@ -9,4 +9,10 @@ data class Task(
     val taskId: Long,
     val title: String,
     val category: TaskCategory
-): Parcelable
+): Parcelable {
+//    val category = when (categoryId) {
+//        0 -> TaskCategory.EXERCISE
+//        else -> TaskCategory.FOOD
+//    }
+//    val category = TaskCategory.values()[categoryId]
+}

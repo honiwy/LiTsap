@@ -1,4 +1,4 @@
-package studio.honidot.litsap.task.Finish
+package studio.honidot.litsap.task.finish
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -17,6 +17,7 @@ import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.LiTsapApplication.Companion.db
+import studio.honidot.litsap.data.FireTask
 
 class TaskCreateViewModel : ViewModel() {
 
@@ -84,42 +85,25 @@ class TaskCreateViewModel : ViewModel() {
     var title = MutableLiveData<String>()
 
     fun createTask() {
-        val moduleList = mutableListOf<Module>()
+        val tasksDocument = db.collection("users").document("Rachel").collection("tasks").document()
+        tasksDocument.set(
+            FireTask(
+                tasksDocument.id, title.value ?: "無任務名稱", selectedTaskCategoryPosition.value?:5, 0,
+                amount.value ?: 100,
+                dueDate.value ?: "沒有截止日期",
+                false,
+                false
+            )
+        )
         moduleNameList.value!!.forEach {
-            moduleList.add(Module(it, 0))
+            tasksDocument.collection("modules").document().set(Module(it, 0)).addOnSuccessListener {
+                Log.i("HAHA", "Success")
+            }.addOnFailureListener {
+                Log.i("HAHA", "Oh no")
+            }
         }
-        val a = TaskInfo(
-            Task(
-                123,
-                title.value ?: "沒有名稱",
-                taskCategory.value ?: TaskCategory.OTHER
-            ),
-            moduleList,
-            0,
-            amount.value ?: 100,
-            dueDate.value?:"沒有截止日期",
-            false,
-            false
-        )
-
-        val ab = hashMapOf<String,Any>(
-            "name" to "hahaha"
-        )
-        db.collection("tasks").document("HAHA").set(ab).addOnSuccessListener {
-            Log.i("HAHA","Success")
-        }.addOnFailureListener {
-            Log.i("HAHA","On no")
-        }.addOnCompleteListener {
-            Log.i("HAHAHA", "THIS")
-        }
-        _newTaskInfo.value = a
-        Log.i("HAHA", "TaskCreate, Task title: ${_newTaskInfo.value}")
-
-
+        Toast.makeText(appContext,instance.getString(R.string.create_task_success),Toast.LENGTH_SHORT).show()
     }
-
-
-    private var _newTaskInfo = MutableLiveData<TaskInfo>()
 
     val selectedTaskCategoryPosition = MutableLiveData<Int>()
 

@@ -51,9 +51,9 @@ class TaskCreateDialog : DialogFragment() {
             binding.recyclerModule.smoothScrollToPosition(adapter.itemCount)
         })
 
-        viewModel.taskCategory.observe(this, Observer {
-            Log.i("HAHA","viewModel.taskCategory.observe, You select No ${it}")
-        })
+//        viewModel.taskCategory.observe(this, Observer {
+//            Log.i("HAHA","viewModel.taskCategory.observe, You select No ${it}")
+//        })
         binding.endDate.apply {
             minDate = System.currentTimeMillis()
             setOnDateChangedListener { _, year, month, date ->

@@ -6,7 +6,7 @@ import studio.honidot.litsap.MainViewModel
 import studio.honidot.litsap.post.PostViewModel
 import studio.honidot.litsap.profile.ProfileViewModel
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.task.Finish.FinishViewModel
+import studio.honidot.litsap.task.finish.FinishViewModel
 import studio.honidot.litsap.task.TaskViewModel
 
 class ViewModelFactory(

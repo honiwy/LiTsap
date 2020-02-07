@@ -22,6 +22,7 @@
     <string name="category_other">其他</string>
     <string name="plenty_module_info">最多 6 則細項</string>
     <string name="create_task">建立任務</string>
+    <string name="create_task_success">成功建立任務</string>
     <string name="something_miss">尚有未輸入項目</string>
     <!-- Task Detail -->
     <string name="task_detail">任務詳情</string>

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.task.Finish.FinishViewModel
 import studio.honidot.litsap.task.detail.DetailViewModel
 
 @Suppress("UNCHECKED_CAST")
