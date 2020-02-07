@@ -88,7 +88,11 @@ class TaskCreateViewModel : ViewModel() {
         val tasksDocument = db.collection("users").document("Rachel").collection("tasks").document()
         tasksDocument.set(
             FireTask(
-                tasksDocument.id, title.value ?: "無任務名稱", selectedTaskCategoryPosition.value?:5, listOf(Module("",0)),0,
+                tasksDocument.id,
+                title.value ?: "無任務名稱",
+                selectedTaskCategoryPosition.value ?: 5,
+                listOf(Module("", 0)),
+                0,
                 amount.value ?: 100,
                 dueDate.value ?: "沒有截止日期",
                 false,
@@ -102,12 +106,14 @@ class TaskCreateViewModel : ViewModel() {
                 Log.i("HAHA", "Oh no")
             }
         }
-        Toast.makeText(appContext,instance.getString(R.string.create_task_success),Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            appContext,
+            instance.getString(R.string.create_task_success),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     val selectedTaskCategoryPosition = MutableLiveData<Int>()
-
-
 
 
 }

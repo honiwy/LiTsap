@@ -49,6 +49,20 @@
             app:layout_constraintTop_toTopOf="@+id/image_back"
             tools:text="@string/mock_task" />
 
+        <TextView
+            android:id="@+id/task_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@{viewModel.taskInfo.dueDate}"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/text_task_title"
+            app:layout_constraintStart_toStartOf="@+id/image_back"
+            app:layout_constraintTop_toBottomOf="@+id/text_task_title"
+            tools:text="@string/mock_module" />
+
         <ImageView
             android:id="@+id/image_live"
             android:layout_width="49dp"
@@ -73,7 +87,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_task_title" />
+            app:layout_constraintTop_toBottomOf="@+id/task_status" />
 
         <ImageButton
             android:id="@+id/button_updown_module"

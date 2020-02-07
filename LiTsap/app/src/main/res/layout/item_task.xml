@@ -65,6 +65,7 @@
             android:letterSpacing="0.15"
             android:text="@{taskInfo.dueDate}"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/task_title"
             app:layout_constraintStart_toEndOf="@+id/task_title"
             app:layout_constraintTop_toTopOf="@+id/task_title" />

@@ -30,11 +30,10 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun getTasks(): Result<List<TaskItem>> = suspendCoroutine { continuation ->
     val taskCollection = FirebaseFirestore.getInstance().collection(PATH_USERS).document("Rachel").collection(PATH_TASKS)
 
-    taskCollection.get()
+    taskCollection.orderBy("taskStatus").get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val list = mutableListOf<TaskItem>()
-                    list.add(TaskItem.Title("待執行"))
+                    val list = mutableListOf<FireTask>()
 
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
@@ -50,7 +49,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                             }
                         }
 
-                        val taskFound =  TaskItem.Assignment( FireTask(
+                        val taskFound =  FireTask(
                             taskId = document.data["id"].toString(),
                             title = document.data["title"].toString(),
                             categoryId = document.data["categoryId"].toString().toInt(),
@@ -59,11 +58,27 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                             totalCount = document.data["totalCount"].toString().toInt(),
                             dueDate = document.data["dueDate"].toString(),
                             chatStatus = document.data["chatStatus"].toString().toBoolean(),
-                            taskStatus = document.data["taskStatus"].toString().toBoolean()))//document.toObject(TaskItem::class.java)
+                            taskStatus = document.data["taskStatus"].toString().toBoolean())//document.toObject(TaskItem::class.java)
                         list.add(taskFound)
                     }
-                    list.add(TaskItem.Title("已完成"))
-                    continuation.resume(Result.Success(list))
+
+                    fun transFireTasksToTaskItems(fireTasks: MutableList<FireTask>): List<TaskItem> {
+
+                        val taskItems = mutableListOf<TaskItem>()
+                        taskItems.add(TaskItem.Title("待完成"))
+
+                        var lastStatus = false
+                        fireTasks.forEach {
+                            if (it.taskStatus != lastStatus) {
+                                taskItems.add(TaskItem.Title("已完成"))
+                            }
+                            taskItems.add(TaskItem.Assignment(it))
+                            lastStatus = it.taskStatus
+                        }
+                        return taskItems
+                    }
+
+                    continuation.resume(Result.Success(transFireTasksToTaskItems(list)))
                 } else {
                     task.exception?.let {
 
