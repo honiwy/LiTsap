@@ -19,7 +19,8 @@ class ProfileFragment : Fragment() {
     ): View? {
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-
+        binding.viewModel = viewModel
+        viewModel.addDataSet(binding.barChart)
         return binding.root
     }
 }

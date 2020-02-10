@@ -84,6 +84,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
                         Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                         continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
                     }
                     continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
                 }
@@ -92,54 +93,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
 
 
-//    val taskCollection = LiTsapApplication.db.collection("users").document("Rachel").collection("tasks")
-//    val taskList = ArrayList<TaskItem>()
-//    coroutineScope.launch {
-//        taskCollection.get()
-//            .addOnCompleteListener { thisTask ->
-//                if (thisTask.isSuccessful) {
-//                    for (document in thisTask.result!!) {
-                        //val authorData = document.data["author"] as HashMap<*, *>
-//                        val modules = ArrayList<Module>()
-//                        taskCollection.document(document.id).collection("modules").get().addOnCompleteListener {
-//                            if (thisTask.isSuccessful) {
-//                                for (document in thisTask.result!!) {
-//                                    modules.add(
-//                                        Module(
-//                                            name = document.data["name"].toString(),
-//                                            progressCount = document.data["progressCount"].toString().toInt()
-//                                        )
-//                                    )
-//                                }
-//                            }
-//                        }.await()
-//                        taskList.add(
-//                            TaskItem.Assignment( FireTask(
-//                                taskId = document.data["id"].toString(),
-//                                title = document.data["title"].toString(),
-//                                categoryId = document.data["categoryId"].toString().toInt(),
-//                                modules = modules.toList(),
-//                                accumulatedCount = document.data["accumulatedCount"].toString().toInt(),
-//                                totalCount = document.data["totalCount"].toString().toInt(),
-//                                dueDate = document.data["dueDate"].toString(),
-//                                chatStatus = document.data["chatStatus"].toString().toBoolean(),
-//                                taskStatus = document.data["taskStatus"].toString().toBoolean()
-//                            )
-//                            ))
-//
-//                        Log.d("HAHA", document.id + " => " + document.data)
-//                    }
-//
-//                } else {
-//                    Log.w(
-//                        "HAHA",
-//                        "Error getting documents.",
-//                        thisTask.exception
-//                    )
-//                }
-//            }
-//            .await()
-//        _taskItems.value = taskList.toList()
-//    }
+
 
 }
