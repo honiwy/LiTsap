@@ -54,9 +54,19 @@ fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
         }
 }
 
-@BindingAdapter("upDownVisibility")
-fun bindVisibility(view: View, fragment: CurrentFragmentType) {
+@BindingAdapter("toolbarVisibility")
+fun bindToolbarVisibility(view: View, fragment: CurrentFragmentType) {
    view.visibility =
+        when (fragment) {
+            CurrentFragmentType.TASK  -> View.VISIBLE
+            CurrentFragmentType.POST -> View.VISIBLE
+            else -> View.GONE
+        }
+}
+
+@BindingAdapter("bottomNavVisibility")
+fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
+    view.visibility =
         when (fragment) {
             CurrentFragmentType.TASK  -> View.VISIBLE
             CurrentFragmentType.POST -> View.VISIBLE
