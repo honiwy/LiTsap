@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#88CDF6</color>
+    <color name="colorPrimary">#84eaff</color>
     <color name="colorPrimaryDark">#07689f</color>
-    <color name="colorAccent">#f9c267</color>
+    <color name="colorAccent">#f8cd72</color>
 
 
     <!-- Task Create Dialog -->
-    <color name="cream">#f5e0b0</color>
-    <color name="mustard">#f9c267</color>
+    <color name="cream">#ffecc0</color>
+    <color name="mustard">#f8cd72</color>
     <color name="honey">#f1ab10</color>
     <color name="royal">#07689f</color>
-    <color name="yale">#2D82B6</color>
-    <color name="maya">#88CDF6</color>
+    <color name="yale">#41a8d1</color>
+    <color name="maya">#84eaff</color>
 
     <!-- Transparent Series -->
     <color name="translucent_80">#cc000000</color>

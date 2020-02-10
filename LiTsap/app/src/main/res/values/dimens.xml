@@ -23,4 +23,9 @@
     <!-- Create -->
     <dimen name="edge_create_select">2dp</dimen>
 
+    <!-- Profile  -->
+    <dimen name="height_profile_header">92dp</dimen>
+    <dimen name="radius_profile_avatar">60dp</dimen>
+
+
 </resources>

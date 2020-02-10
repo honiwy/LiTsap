@@ -44,4 +44,10 @@
     <string name="get_point">領取任務經驗值</string>
     <string name="footprint">任務足跡</string>
     <string name="feedback">任務心得</string>
+
+    <!-- Profile -->
+    <string name="profile_default_name">Rachel</string>
+    <string name="profile_default_level">等級 100</string>
+    <string name="profile_default_level_info">經驗值 100/1200</string>
+    <string name="profile_default_information">今天還有 6 個任務還沒完成，\n不要再混囉!</string>
 </resources>
