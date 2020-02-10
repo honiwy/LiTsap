@@ -26,8 +26,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/profile_actor"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -67,41 +67,6 @@
                 app:layout_constraintStart_toEndOf="@+id/text_profile_name"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="@string/profile_default_level" />
-
-            <TextView
-                android:id="@+id/text_profile_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:maxLines="2"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                android:text="@string/profile_default_information"
-                app:layout_constraintBottom_toBottomOf="@+id/image_profile_avatar"
-                app:layout_constraintEnd_toEndOf="@+id/text_profile_level_info"
-                app:layout_constraintStart_toStartOf="@+id/text_profile_level_info"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar_level"
-                tools:text="@string/profile_default_information" />
-
-            <TextView
-                android:id="@+id/text_profile_level_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="12dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:maxLines="2"
-                android:text="@string/profile_default_level_info"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/progress_bar_level"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/text_profile_level"
-                app:layout_constraintTop_toTopOf="@+id/image_profile_avatar"
-                tools:text="@string/profile_default_level_info" />
 
             <ImageButton
                 android:id="@+id/button_task1"
@@ -170,6 +135,25 @@
                 app:layout_constraintTop_toTopOf="@+id/button_task1"
                 tools:background="@drawable/column_done" />
 
+            <TextView
+                android:id="@+id/text_profile_level_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:text="@string/profile_default_level_info"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/progress_bar_level"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/text_profile_level"
+                app:layout_constraintTop_toTopOf="@+id/image_profile_avatar"
+                tools:text="@string/profile_default_level_info" />
+
             <ProgressBar
                 android:id="@+id/progress_bar_level"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -181,7 +165,186 @@
                 app:layout_constraintStart_toStartOf="@+id/text_profile_level_info"
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_level_info" />
 
+            <TextView
+                android:id="@+id/text_profile_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:text="@string/profile_default_information"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_profile_avatar"
+                app:layout_constraintEnd_toEndOf="@+id/text_profile_level_info"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_level_info"
+                app:layout_constraintTop_toBottomOf="@+id/progress_bar_level"
+                tools:text="@string/profile_default_information" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_competition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/profile_competition"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/layout_profile_header"
+            app:layout_constraintTop_toBottomOf="@+id/layout_profile_header" />
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_profile_header">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_competition"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/cream"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_competition">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager_catalog"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs_catalog"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_competition_tab"
+                    app:tabIndicatorColor="@color/black_3f3a3a"
+                    app:tabSelectedTextColor="@color/black_3f3a3a"
+                    app:tabTextColor="@color/gray_888888">
+
+                </com.google.android.material.tabs.TabLayout>
+
+            </androidx.viewpager.widget.ViewPager>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/profile_complete"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_competition"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_competition" />
+
+        <ImageButton
+            android:id="@+id/button_updown_complete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/up_arrow"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_complete"
+            app:layout_constraintStart_toEndOf="@+id/text_complete"
+            app:layout_constraintTop_toTopOf="@+id/text_complete"
+            tools:background="@drawable/up_arrow" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_complete"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/cream"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_complete">
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/profile_calendar"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_complete"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_complete" />
+
+        <ImageButton
+            android:id="@+id/button_updown_calendar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/up_arrow"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_calendar"
+            app:layout_constraintStart_toEndOf="@+id/text_calendar"
+            app:layout_constraintTop_toTopOf="@+id/text_calendar"
+            tools:background="@drawable/up_arrow" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_calendar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/cream"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_calendar">
+
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
