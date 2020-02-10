@@ -25,9 +25,9 @@
                 android:id="@+id/image_profile_avatar"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/profile_actor"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -56,16 +56,17 @@
                 android:id="@+id/text_profile_level"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="1"
                 android:text="@string/profile_default_level"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/text_profile_name"
-                app:layout_constraintStart_toEndOf="@+id/text_profile_name"
-                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toTopOf="@+id/progress_bar_level"
+                app:layout_constraintStart_toEndOf="@+id/button_task6"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/profile_default_level" />
 
             <ImageButton
@@ -73,25 +74,25 @@
                 android:layout_width="15dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/column_done"
+                android:background="@drawable/column_yet"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button_task2"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_name"
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
-                tools:background="@drawable/column_done" />
+                tools:background="@drawable/column_yet" />
 
             <ImageButton
                 android:id="@+id/button_task2"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:background="@drawable/column_done"
+                android:background="@drawable/column_yet"
                 app:layout_constraintEnd_toStartOf="@+id/button_task3"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_task1"
                 app:layout_constraintTop_toTopOf="@+id/button_task1"
-                tools:background="@drawable/column_done" />
+                tools:background="@drawable/column_yet" />
 
             <ImageButton
                 android:id="@+id/button_task3"
@@ -139,7 +140,6 @@
                 android:id="@+id/text_profile_level_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="12dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
@@ -147,11 +147,11 @@
                 android:text="@string/profile_default_level_info"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/progress_bar_level"
+                android:textSize="12sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text_profile_level"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/text_profile_level"
-                app:layout_constraintTop_toTopOf="@+id/image_profile_avatar"
                 tools:text="@string/profile_default_level_info" />
 
             <ProgressBar
@@ -162,188 +162,199 @@
                 android:progress="70"
                 app:layout_constraintBottom_toTopOf="@+id/text_profile_info"
                 app:layout_constraintEnd_toEndOf="@+id/text_profile_level_info"
-                app:layout_constraintStart_toStartOf="@+id/text_profile_level_info"
-                app:layout_constraintTop_toBottomOf="@+id/text_profile_level_info" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_level"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_level" />
 
             <TextView
                 android:id="@+id/text_profile_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="2"
                 android:text="@string/profile_default_information"
                 android:textColor="@color/white"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/image_profile_avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/text_profile_level_info"
-                app:layout_constraintStart_toStartOf="@+id/text_profile_level_info"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_level"
                 app:layout_constraintTop_toBottomOf="@+id/progress_bar_level"
                 tools:text="@string/profile_default_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/text_competition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:text="@string/profile_competition"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/layout_profile_header"
-            app:layout_constraintTop_toBottomOf="@+id/layout_profile_header" />
 
         <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_profile_header">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/text_competition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/profile_competition"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_competition"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cream"
+                    android:elevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_competition">
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewpager_catalog"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabs_catalog"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_competition_tab"
+                            app:tabIndicatorColor="@color/black_3f3a3a"
+                            app:tabSelectedTextColor="@color/black_3f3a3a"
+                            app:tabTextColor="@color/gray_888888">
+
+                        </com.google.android.material.tabs.TabLayout>
+
+                    </androidx.viewpager.widget.ViewPager>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/text_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/profile_complete"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/text_competition"
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_competition" />
+
+                <ImageButton
+                    android:id="@+id/button_updown_complete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/up_arrow"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_complete"
+                    app:layout_constraintStart_toEndOf="@+id/text_complete"
+                    app:layout_constraintTop_toTopOf="@+id/text_complete"
+                    tools:background="@drawable/up_arrow" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_complete"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cream"
+                    android:elevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_complete">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/text_calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/profile_calendar"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/text_complete"
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_complete" />
+
+                <ImageButton
+                    android:id="@+id/button_updown_calendar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/up_arrow"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_calendar"
+                    app:layout_constraintStart_toEndOf="@+id/text_calendar"
+                    app:layout_constraintTop_toTopOf="@+id/text_calendar"
+                    tools:background="@drawable/up_arrow" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_calendar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/cream"
+                    android:elevation="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_calendar">
+
+
+                    <CalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_competition"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/cream"
-            android:elevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_competition">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewpager_catalog"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs_catalog"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_competition_tab"
-                    app:tabIndicatorColor="@color/black_3f3a3a"
-                    app:tabSelectedTextColor="@color/black_3f3a3a"
-                    app:tabTextColor="@color/gray_888888">
-
-                </com.google.android.material.tabs.TabLayout>
-
-            </androidx.viewpager.widget.ViewPager>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/text_complete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:text="@string/profile_complete"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_competition"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_competition" />
-
-        <ImageButton
-            android:id="@+id/button_updown_complete"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/up_arrow"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_complete"
-            app:layout_constraintStart_toEndOf="@+id/text_complete"
-            app:layout_constraintTop_toTopOf="@+id/text_complete"
-            tools:background="@drawable/up_arrow" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_complete"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/cream"
-            android:elevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_complete">
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/text_calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:text="@string/profile_calendar"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_complete"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_complete" />
-
-        <ImageButton
-            android:id="@+id/button_updown_calendar"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/up_arrow"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_calendar"
-            app:layout_constraintStart_toEndOf="@+id/text_calendar"
-            app:layout_constraintTop_toTopOf="@+id/text_calendar"
-            tools:background="@drawable/up_arrow" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_calendar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/cream"
-            android:elevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_calendar">
-
-
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
