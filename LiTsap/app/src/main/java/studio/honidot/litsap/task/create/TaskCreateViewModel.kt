@@ -1,21 +1,14 @@
 package studio.honidot.litsap.task.create
 
 import android.util.Log
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.databinding.InverseMethod
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.FirebaseFirestore
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
-import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.data.Module
-import studio.honidot.litsap.data.Task
-import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.LiTsapApplication.Companion.db
 import studio.honidot.litsap.data.FireTask
 
@@ -88,15 +81,14 @@ class TaskCreateViewModel : ViewModel() {
         val tasksDocument = db.collection("users").document("Rachel").collection("tasks").document()
         tasksDocument.set(
             FireTask(
-                tasksDocument.id,
-                title.value ?: "無任務名稱",
-                selectedTaskCategoryPosition.value ?: 5,
-                listOf(Module("", 0)),
-                0,
-                amount.value ?: 100,
-                dueDate.value ?: "沒有截止日期",
-                false,
-                false
+                taskId = tasksDocument.id,
+                title = title.value ?: "無任務名稱",
+                categoryId = selectedTaskCategoryPosition.value ?: 5,
+                accumulatedCount = 0,
+                totalCount = amount.value ?: 100,
+                dueDate = dueDate.value ?: "沒有截止日期",
+                chatStatus = false,
+                taskStatus = false
             )
         )
         moduleNameList.value!!.forEach {

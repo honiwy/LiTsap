@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import studio.honidot.litsap.data.FireTask
 import studio.honidot.litsap.data.Module
-import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
 

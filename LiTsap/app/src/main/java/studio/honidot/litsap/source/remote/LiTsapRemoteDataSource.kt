@@ -15,7 +15,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.TaskItem
-import java.util.ArrayList
 
 
 object LiTsapRemoteDataSource : LiTsapDataSource {
@@ -23,10 +22,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_USERS = "users"
 
     private const val PATH_TASKS = "tasks"
-//    override fun getProductsCollected(): LiveData<List<ProductCollected>> {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//
+
     override suspend fun getTasks(): Result<List<TaskItem>> = suspendCoroutine { continuation ->
     val taskCollection = FirebaseFirestore.getInstance().collection(PATH_USERS).document("Rachel").collection(PATH_TASKS)
 

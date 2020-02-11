@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.data.FireTask
-import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.databinding.ItemTaskBinding
 import studio.honidot.litsap.databinding.ItemTaskClassBinding

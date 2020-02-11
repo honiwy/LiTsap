@@ -2,7 +2,6 @@ package studio.honidot.litsap.extension
 
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.data.FireTask
-import studio.honidot.litsap.data.TaskInfo
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.factory.TaskViewModelFactory
 import studio.honidot.litsap.factory.ViewModelFactory
