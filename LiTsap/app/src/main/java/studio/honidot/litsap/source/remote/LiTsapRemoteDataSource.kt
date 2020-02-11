@@ -1,41 +1,34 @@
 package studio.honidot.litsap.source.remote
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
-import studio.honidot.litsap.data.FireTask
-import studio.honidot.litsap.data.Module
+import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 import studio.honidot.litsap.util.Logger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import studio.honidot.litsap.data.Result
-import studio.honidot.litsap.data.TaskItem
 
 
 object LiTsapRemoteDataSource : LiTsapDataSource {
 
     private const val PATH_USERS = "users"
-
+    private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
     private const val PATH_TASKS = "tasks"
+    private const val PATH_MODULES = "modules"
 
     override suspend fun getTasks(): Result<List<TaskItem>> = suspendCoroutine { continuation ->
-    val taskCollection = FirebaseFirestore.getInstance().collection(PATH_USERS).document("Rachel").collection(PATH_TASKS)
-
-    taskCollection.orderBy("taskStatus").get()
+    val taskCollection = FirebaseFirestore.getInstance().collection(PATH_USERS).document(PATH_USERS_DOCUMENT).collection(PATH_TASKS)
+    taskCollection.whereEqualTo("taskDone",false).orderBy("todayDone").get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val list = mutableListOf<FireTask>()
+                    val list = mutableListOf<Task>()
 
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
 
                         val listM = mutableListOf<Module>()
-                        taskCollection.document(document.id).collection("modules").get().addOnCompleteListener {moduleTask->
+                        taskCollection.document(document.id).collection(PATH_MODULES).get().addOnCompleteListener {moduleTask->
                             if (moduleTask.isSuccessful) {
                                 for (documentM in moduleTask.result!!) {
 
@@ -45,36 +38,38 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                             }
                         }
 
-                        val taskFound =  FireTask(
-                            taskId = document.data["id"].toString(),
-                            title = document.data["title"].toString(),
-                            categoryId = document.data["categoryId"].toString().toInt(),
+                        val taskFound =  Task(
+                            accumCount = document.data["accumCount"].toString().toInt(),
+                            dueDate = document.data["dueDate"].toString().toLong(),
+                            goalCount = document.data["goalCount"].toString().toInt(),
+                            groupId = document.data["groupId"].toString(),
+                            taskCategoryId = document.data["taskCategoryId"].toString().toInt(),
+                            taskDone = document.data["taskDone"].toString().toBoolean(),
+                            taskId = document.data["taskId"].toString(),
+                            taskName = document.data["taskName"].toString(),
+                            todayDone = document.data["todayDone"].toString().toBoolean(),
                             modules = listM,
-                            accumulatedCount = document.data["accumulatedCount"].toString().toInt(),
-                            totalCount = document.data["totalCount"].toString().toInt(),
-                            dueDate = document.data["dueDate"].toString(),
-                            chatStatus = document.data["chatStatus"].toString().toBoolean(),
-                            taskStatus = document.data["taskStatus"].toString().toBoolean())//document.toObject(TaskItem::class.java)
+                            userId = document.data["userId"].toString())//document.toObject(TaskItem::class.java)
                         list.add(taskFound)
                     }
 
-                    fun transFireTasksToTaskItems(fireTasks: MutableList<FireTask>): List<TaskItem> {
+                    fun transTasksToTaskItems(fireTasks: MutableList<Task>): List<TaskItem> {
 
                         val taskItems = mutableListOf<TaskItem>()
                         taskItems.add(TaskItem.Title("待完成"))
 
                         var lastStatus = false
                         fireTasks.forEach {
-                            if (it.taskStatus != lastStatus) {
+                            if (it.todayDone != lastStatus) {
                                 taskItems.add(TaskItem.Title("已完成"))
                             }
                             taskItems.add(TaskItem.Assignment(it))
-                            lastStatus = it.taskStatus
+                            lastStatus = it.todayDone
                         }
                         return taskItems
                     }
 
-                    continuation.resume(Result.Success(transFireTasksToTaskItems(list)))
+                    continuation.resume(Result.Success(transTasksToTaskItems(list)))
                 } else {
                     task.exception?.let {
 

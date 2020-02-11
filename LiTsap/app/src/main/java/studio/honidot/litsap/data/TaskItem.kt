@@ -7,8 +7,8 @@ sealed class TaskItem {
     data class Title(val title: String): TaskItem() {
         override val id: String = ""
     }
-    data class Assignment(val taskInfo: FireTask): TaskItem() {
+    data class Assignment(val task: Task): TaskItem() {
         override val id: String
-            get() = taskInfo.taskId
+            get() = task.taskId
     }
 }

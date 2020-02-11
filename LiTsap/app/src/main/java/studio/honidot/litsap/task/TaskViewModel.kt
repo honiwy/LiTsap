@@ -25,9 +25,9 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
         get() = _taskItems
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<FireTask>()
+    private val _navigateToDetail = MutableLiveData<Task>()
 
-    val navigateToDetail: LiveData<FireTask>
+    val navigateToDetail: LiveData<Task>
         get() = _navigateToDetail
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -45,7 +45,7 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
         retrieveTasks()
     }
 
-    fun navigateToDetail(task: FireTask) {
+    fun navigateToDetail(task: Task) {
         _navigateToDetail.value = task
     }
 

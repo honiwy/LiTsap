@@ -1,19 +1,11 @@
 package studio.honidot.litsap
 
-import android.content.res.ColorStateList
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.Shape
+import android.text.format.DateFormat
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.Module
@@ -22,7 +14,7 @@ import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
-import studio.honidot.litsap.util.Util.getColor
+import java.util.*
 
 //Task List
 @BindingAdapter("taskItems")
@@ -116,4 +108,15 @@ fun bindCountDownTime(textView: TextView, time: Int) {
     val min = time / 60
     val sec = time - min * 60
     textView.text = String.format("%02d:%02d", min, sec)
+}
+
+
+@BindingAdapter("timerStampConverter")
+fun bindTimeStamp(textView: TextView, timeStamp: com.google.firebase.Timestamp) {
+    textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",timeStamp.toDate()).toString()
+}
+
+@BindingAdapter("timerLongConverter")
+fun bindTimeLong(textView: TextView, timeLong: Long) {
+    textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
 }

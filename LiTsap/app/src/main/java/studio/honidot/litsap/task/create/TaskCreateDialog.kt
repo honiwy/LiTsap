@@ -14,6 +14,7 @@ import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.R
 import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.databinding.DialogCreateTaskBinding
+import java.text.SimpleDateFormat
 
 
 class TaskCreateDialog : DialogFragment() {
@@ -46,7 +47,9 @@ class TaskCreateDialog : DialogFragment() {
         binding.endDate.apply {
             minDate = System.currentTimeMillis()
             setOnDateChangedListener { _, year, month, date ->
-                viewModel.dueDate.value = "截止日期: ${year}年, ${month + 1}月, ${date}日"
+                val stringDate = "$date/$month/$year"
+                val format = SimpleDateFormat("dd/MM/yyyy")
+                viewModel.dueDate.value = format.parse(stringDate).time
             }
         }
 

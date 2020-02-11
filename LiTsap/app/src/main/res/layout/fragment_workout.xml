@@ -47,7 +47,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:text="@{viewModel.workout.task.title}"
+                android:text="@{viewModel.workout.taskName}"
                 android:textAlignment="textEnd"
                 android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
                 android:textSize="18sp"
@@ -69,7 +69,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/text_workout_task"
                 app:layout_constraintTop_toTopOf="parent"
-                app:taskCategory="@{viewModel.workout.task.categoryId}"
+                app:taskCategory="@{viewModel.workout.taskCategoryId}"
                 tools:background="@drawable/category_food" />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:text="@{viewModel.workout.selectedModule.name}"
+                android:text="@{viewModel.workout.moduleName}"
                 android:textAlignment="textStart"
                 android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
                 android:textSize="18sp"

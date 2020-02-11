@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Module(
-    val name: String = "",
-    val progressCount: Int = -1
+    val moduleName: String = "",
+    val achieveSection: Int = -1
 ) : Parcelable

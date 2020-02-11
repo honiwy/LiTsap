@@ -10,8 +10,12 @@ import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.LiTsapApplication.Companion.db
-import studio.honidot.litsap.data.FireTask
+import studio.honidot.litsap.data.Task
 
+private const val PATH_USERS = "users"
+private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
+private const val PATH_TASKS = "tasks"
+private const val PATH_MODULES = "modules"
 class TaskCreateViewModel : ViewModel() {
 
     var moduleNameList = MutableLiveData<MutableList<String>>().apply {
@@ -45,8 +49,8 @@ class TaskCreateViewModel : ViewModel() {
         value = 1
     }
 
-    var dueDate = MutableLiveData<String>().apply {
-        value = "沒有截止日期"
+    var dueDate = MutableLiveData<Long>().apply {
+        value = 1
     }
 
     fun increaseAmount() {
@@ -77,22 +81,26 @@ class TaskCreateViewModel : ViewModel() {
 
     var title = MutableLiveData<String>()
 
+
+
     fun createTask() {
-        val tasksDocument = db.collection("users").document("Rachel").collection("tasks").document()
+        val tasksDocument = db.collection(PATH_USERS).document(PATH_USERS_DOCUMENT).collection(PATH_TASKS).document()
         tasksDocument.set(
-            FireTask(
+            Task(
+                userId = "",
                 taskId = tasksDocument.id,
-                title = title.value ?: "無任務名稱",
-                categoryId = selectedTaskCategoryPosition.value ?: 5,
-                accumulatedCount = 0,
-                totalCount = amount.value ?: 100,
-                dueDate = dueDate.value ?: "沒有截止日期",
-                chatStatus = false,
-                taskStatus = false
+                taskName = title.value ?: "無任務名稱",
+                taskCategoryId = selectedTaskCategoryPosition.value ?: 5,
+                accumCount = 0,
+                goalCount = amount.value ?: 1,
+                dueDate = dueDate.value ?: 1,
+                groupId = "",
+                todayDone = false,
+                taskDone = false
             )
         )
         moduleNameList.value!!.forEach {
-            tasksDocument.collection("modules").document().set(Module(it, 0)).addOnSuccessListener {
+            tasksDocument.collection(PATH_MODULES).document().set(Module(it, 0)).addOnSuccessListener {
                 Log.i("HAHA", "Success")
             }.addOnFailureListener {
                 Log.i("HAHA", "Oh no")

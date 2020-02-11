@@ -1,7 +1,7 @@
 package studio.honidot.litsap.extension
 
 import studio.honidot.litsap.LiTsapApplication
-import studio.honidot.litsap.data.FireTask
+import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.factory.TaskViewModelFactory
 import studio.honidot.litsap.factory.ViewModelFactory
@@ -12,7 +12,7 @@ fun getVmFactory(): ViewModelFactory {
     return ViewModelFactory(repository)
 }
 
-fun getVmFactory(task: FireTask): TaskViewModelFactory {
+fun getVmFactory(task: Task): TaskViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
     return TaskViewModelFactory(repository,task)
 }

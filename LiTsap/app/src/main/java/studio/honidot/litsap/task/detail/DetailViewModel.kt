@@ -11,7 +11,7 @@ import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import studio.honidot.litsap.data.FireTask
+import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
@@ -21,16 +21,16 @@ private const val section = 20*60L //20 minutes
 
 class DetailViewModel(
     private val liTsapRepository: LiTsapRepository,
-    private val arguments: FireTask
+    private val arguments: Task
 ) : ViewModel() {
 
     // Detail has product data from arguments
-    private val _taskInfo = MutableLiveData<FireTask>().apply {
+    private val _task = MutableLiveData<Task>().apply {
         value = arguments
     }
 
-    val taskInfo: LiveData<FireTask>
-        get() = _taskInfo
+    val task: LiveData<Task>
+        get() = _task
 
     private val _workout = MutableLiveData<Workout>()
 
@@ -38,7 +38,6 @@ class DetailViewModel(
         get() = _workout
 
     val moduleDetailOpen = MutableLiveData<Boolean>()
-    val moduleTime = MutableLiveData<Int>()
 
     val moduleStatusOpen = MutableLiveData<Boolean>()
 
@@ -54,13 +53,12 @@ class DetailViewModel(
         get() = _navigateToWorkout
 
     init {
-        _taskInfo.value?.apply {
+        _task.value?.apply {
             _workout.value =
                 Workout(
-                    this,Module(modules[0].name, modules[0].progressCount),
-                    0, false, listOf(""))
+                    taskName,taskCategoryId,modules[0].moduleName,userId,taskId,groupId,
+                    0, 0,false, listOf(""))
         }
-        moduleTime.value = 0
         moduleStatusOpen.value = true
         moduleDetailOpen.value = true
     }
@@ -68,16 +66,14 @@ class DetailViewModel(
 
     fun changeModule(selectedPosition: Int){
         _workout.value?.apply {
-            this.selectedModule = _taskInfo.value!!.modules[selectedPosition]
+            moduleName = _task.value!!.modules[selectedPosition].moduleName
         }
     }
 
     fun onSetWorkoutTime(time: Int) {
         _workout.value?.apply{
-            workoutTime = time * section
-
+            planSectionCount = time
         }
-        moduleTime.value = time
     }
 
     fun clickModuleDetailArrow() {
@@ -94,16 +90,16 @@ class DetailViewModel(
 
     fun addDataSet(chart: PieChart) {
         val colorTable = listOf( "#41a8d1", "#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8")
-        _taskInfo.value?.let {
+        _task.value?.let {
             val yEntry = ArrayList<PieEntry>()
             val colors = ArrayList<Int>()
             it.modules.forEach { moduleItem ->
-                if (moduleItem.progressCount > 0) {
+                if (moduleItem.achieveSection > 0) {
                     colors.add(Color.parseColor(colorTable[yEntry.size]))
                     yEntry.add(
                         PieEntry(
-                            (moduleItem.progressCount.toFloat() / it.accumulatedCount),
-                            moduleItem.name
+                            (moduleItem.achieveSection.toFloat() / it.accumCount),
+                            moduleItem.moduleName
                         )
                     )
                 }
