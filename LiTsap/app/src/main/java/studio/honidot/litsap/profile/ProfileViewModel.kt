@@ -31,9 +31,9 @@ class ProfileViewModel(private val liTsapRepository: LiTsapRepository) : ViewMod
             val dataVals = ArrayList<BarEntry>()
         dataVals.add(BarEntry(0f,floatArrayOf(2f,3f,2f,3f,2f,1f)))
         dataVals.add(BarEntry(1f,floatArrayOf(0f,3f,1f,4f,4f,0f)))
-        dataVals.add(BarEntry(2f,floatArrayOf(2f,2f,3f,0f,3f,4f)))
+        dataVals.add(BarEntry(2f,floatArrayOf(2f,2f,3f,0f,3f,0f)))
         dataVals.add(BarEntry(3f,floatArrayOf(0f,0f, 0f, 2f,4f,1f)))
-        dataVals.add(BarEntry(4f,floatArrayOf(2f,3f,1f,3f,4f,1f)))
+        dataVals.add(BarEntry(4f,floatArrayOf(2f,3f,1f,0f,4f,1f)))
         dataVals.add(BarEntry(5f,floatArrayOf(3f,1f,0f,2f,1f,2f)))
 
             val barDataSet = BarDataSet(dataVals, "HAHA")
@@ -44,6 +44,7 @@ class ProfileViewModel(private val liTsapRepository: LiTsapRepository) : ViewMod
             chart.apply {
                 data = BarData(barDataSet)
                 xAxis.setDrawGridLines(false)
+                chart.description.isEnabled = false
             }
 
     }
