@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="studio.honidot.litsap.profile.ProfileViewModel" />
@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/cream">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_profile_header"
@@ -202,8 +203,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cream"
-
                 android:orientation="vertical">
 
                 <TextView
@@ -277,8 +276,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/up_arrow"
+                    android:background="@{viewModel.completeOpen?@drawable/down_arrow:@drawable/up_arrow}"
                     android:paddingTop="6dp"
+                    android:onClick="@{() -> viewModel.clickCompleteArrow()}"
                     android:paddingBottom="6dp"
                     app:layout_constraintBottom_toBottomOf="@+id/text_complete"
                     app:layout_constraintStart_toEndOf="@+id/text_complete"
@@ -293,6 +293,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@color/white"
+                    android:visibility="@{viewModel.completeOpen?View.VISIBLE:View.GONE}"
                     android:elevation="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -302,6 +303,10 @@
                         android:id="@+id/bar_chart"
                         android:layout_width="0dp"
                         android:layout_height="250dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -328,7 +333,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/up_arrow"
+                    android:background="@{viewModel.calendarOpen?@drawable/down_arrow:@drawable/up_arrow}"
+                    android:onClick="@{() -> viewModel.clickCalendarArrow()}"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
                     app:layout_constraintBottom_toBottomOf="@+id/text_calendar"
@@ -344,6 +350,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
+                    android:visibility="@{viewModel.calendarOpen?View.VISIBLE:View.GONE}"
                     android:background="@color/white"
                     android:elevation="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"

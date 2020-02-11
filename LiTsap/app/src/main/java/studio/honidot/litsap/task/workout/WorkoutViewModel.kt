@@ -35,8 +35,8 @@ class WorkoutViewModel(
 
     }
 
-    val sectionSec = 10 //1200: 20 min, 10: 10 sec
-    val restSec = 5 //300: 5 min, 5: 5 sec
+    val sectionSec = 1200 //1200: 20 min, 10: 10 sec
+    val restSec = 300 //300: 5 min, 5: 5 sec
 
     private val _isCountingRest = MutableLiveData<Boolean>()
     val isCountingRest: LiveData<Boolean>
