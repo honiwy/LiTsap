@@ -137,14 +137,19 @@ fun bindLevelInfo(textView: TextView, remaining: Int) {
 
 @BindingAdapter("userProfile")
 fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
-    val taskCategory= TaskCategory.values()[userProfileId]
+    val userProfile= UserProfile.values()[userProfileId]
     imageView.background =
-        when (taskCategory) {
-            TaskCategory.EXERCISE -> instance.getDrawable(R.drawable.category_exercise)
-            TaskCategory.FOOD -> instance.getDrawable(R.drawable.category_food)
-            TaskCategory.STUDY -> instance.getDrawable(R.drawable.category_study)
-            TaskCategory.WEALTH -> instance.getDrawable(R.drawable.category_wealth)
-            TaskCategory.NETWORKING -> instance.getDrawable(R.drawable.category_networking)
-            else -> instance.getDrawable(R.drawable.category_other)
+        when (userProfile) {
+            UserProfile.ACTOR -> instance.getDrawable(R.drawable.profile_actor)
+            UserProfile.ARTIST -> instance.getDrawable(R.drawable.profile_artist)
+            UserProfile.DETECTIVE -> instance.getDrawable(R.drawable.profile_detective)
+            UserProfile.GIRL -> instance.getDrawable(R.drawable.profile_girl)
+            UserProfile.MAAM -> instance.getDrawable(R.drawable.profile_maam)
+            UserProfile.MAN -> instance.getDrawable(R.drawable.profile_man)
+            UserProfile.PIRATE -> instance.getDrawable(R.drawable.profile_pirate)
+            UserProfile.POLITICIAN -> instance.getDrawable(R.drawable.profile_politician)
+            UserProfile.STUDENT -> instance.getDrawable(R.drawable.profile_student)
+            UserProfile.USER -> instance.getDrawable(R.drawable.profile_user)
+            UserProfile.WOMEN -> instance.getDrawable(R.drawable.profile_woman)
         }
 }

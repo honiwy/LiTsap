@@ -1,6 +1,7 @@
 package studio.honidot.litsap.profile
 
 import android.graphics.Color
+import android.util.Log
 import androidx.constraintlayout.solver.widgets.Analyzer.setPosition
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.honidot.litsap.data.History
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.data.User
@@ -29,6 +31,11 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     val user: LiveData<User>
         get() = _user
+
+    private val _historyPoints = MutableLiveData<List<History>>()
+
+    val historyPoints: LiveData<List<History>>
+        get() = _historyPoints
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -69,6 +76,28 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
             val result = repository.getUser()
             _user.value = when (result) {
                 is Result.Success -> {
+                    retrieveHistoryPoints(result.data)
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+
+    private fun retrieveHistoryPoints(user: User) {
+        coroutineScope.launch {
+            val result = repository.getHistoryPoints(user)
+            _historyPoints.value = when (result) {
+                is Result.Success -> {
                     result.data
                 }
                 is Result.Fail -> {
@@ -95,6 +124,9 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
             Color.parseColor("#41a8d1")
         )
         val dataVals = ArrayList<BarEntry>()
+//        for (history in historyList) {
+//
+//        }
         dataVals.add(BarEntry(0f, floatArrayOf(2f, 3f, 2f, 3f, 2f, 1f)))
         dataVals.add(BarEntry(1f, floatArrayOf(0f, 3f, 1f, 4f, 4f, 0f)))
         dataVals.add(BarEntry(2f, floatArrayOf(2f, 2f, 3f, 0f, 3f, 0f)))

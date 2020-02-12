@@ -42,7 +42,7 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
     }
 
     init {
-        retrieveTasks()
+        retrieveUserInfo()
     }
 
     fun navigateToDetail(task: Task) {
@@ -53,14 +53,59 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
         _navigateToDetail.value = null
     }
 
+    private fun transTasksToTaskItems(fireTasks: List<Task>): List<TaskItem> {
+        val taskItems = mutableListOf<TaskItem>()
+        taskItems.add(TaskItem.Title("待完成"))
 
+        var lastStatus = false
+        fireTasks.forEach {
+            if (it.todayDone != lastStatus) {
+                taskItems.add(TaskItem.Title("已完成"))
+            }
+            taskItems.add(TaskItem.Assignment(it))
+            lastStatus = it.todayDone
+        }
+        return taskItems
+    }
 
-    private fun retrieveTasks(){
+    private val _user = MutableLiveData<User>()
+
+    val user: LiveData<User>
+        get() = _user
+
+    private fun retrieveUserInfo() {
         coroutineScope.launch {
-            val result = repository.getTasks()
-            _taskItems.value =  when (result) {
+            val result = repository.getUser()
+            _user.value = when (result) {
                 is Result.Success -> {
+                    Log.i("HAHA","user data: ${result.data}")
+                    retrieveTasks(result.data)
                     result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+    private fun retrieveTasks(user: User) {
+        coroutineScope.launch {
+            val result = repository.getOngoingTaskList(user)
+            _taskItems.value = when (result) {
+                is Result.Success -> {
+                    Log.i("HAHA","task data: ${result.data}")
+                    val sortList = result.data.sortedBy {
+                        it.todayDone
+                    }
+                    Log.i("HAHA","sorted task data: ${result.data}")
+                    transTasksToTaskItems(sortList)
                 }
                 is Result.Fail -> {
                     null

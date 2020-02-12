@@ -1,6 +1,7 @@
 package studio.honidot.litsap.task.detail
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -53,6 +54,7 @@ class DetailViewModel(
         get() = _navigateToWorkout
 
     init {
+        Log.i("HAHA","TASK VALUE: ${_task.value}")
         _task.value?.apply {
             _workout.value =
                 Workout(
@@ -74,6 +76,7 @@ class DetailViewModel(
         _workout.value?.apply{
             planSectionCount = time
         }
+        _workout.value = _workout.value
     }
 
     fun clickModuleDetailArrow() {
