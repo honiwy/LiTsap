@@ -21,21 +21,30 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun getTasks(): Result<List<TaskItem>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(PATH_USERS_DOCUMENT).get()
             .addOnCompleteListener { findUserResult ->
-                if (findUserResult.isSuccessful){
+                if (findUserResult.isSuccessful) {
                     val list = mutableListOf<Task>()
                     findUserResult.result!!.toObject(User::class.java)!!.ongoingTasks.forEach { taskId ->
-                        Log.i("HAHA","task id: $taskId")
-                        val taskDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
+
+                        Log.i("HAHA", "task id: $taskId")
+                        val taskDocument =
+                            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
                         taskDocument.get().addOnCompleteListener { findTaskResult ->
+
                             if (findTaskResult.isSuccessful) {
+
                                 val listM = mutableListOf<Module>()
-                                taskDocument.collection(PATH_MODULES).get().addOnCompleteListener { findModuleResult ->
-                                    if (findModuleResult.isSuccessful) {
+                                taskDocument.collection(PATH_MODULES).get()
+                                    .addOnCompleteListener { findModuleResult ->
+
+                                        if (findModuleResult.isSuccessful) {
                                             for (documentM in findModuleResult.result!!) {
-                                                Log.i("HAHA","a document id is found: ${documentM.id}")
+                                                Log.i(
+                                                    "HAHA",
+                                                    "a document id is found: ${documentM.id}"
+                                                )
                                                 listM.add(documentM.toObject(Module::class.java))
                                             }
-                                    }else {
+                                        } else {
                                             findUserResult.exception?.let {
                                                 Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                                                 continuation.resume(Result.Error(it))
@@ -43,7 +52,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                                             }
                                             continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
                                         }
-                                }
+                                    }
                                 val taskFound = Task(
                                     accumCount = findTaskResult.result!!.data!!["accumCount"].toString().toInt(),
                                     dueDate = findTaskResult.result!!.data!!["dueDate"].toString().toLong(),
@@ -73,17 +82,17 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                                     return taskItems
                                 }
                                 continuation.resume(Result.Success(transTasksToTaskItems(list)))
-                            }else {
-                                        findUserResult.exception?.let {
-                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                                            continuation.resume(Result.Error(it))
-                                            return@addOnCompleteListener
-                                        }
-                                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                                    }
+                            } else {
+                                findUserResult.exception?.let {
+                                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                    continuation.resume(Result.Error(it))
+                                    return@addOnCompleteListener
+                                }
+                                continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                            }
                         }
                     }
-                }else {
+                } else {
                     findUserResult.exception?.let {
                         Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                         continuation.resume(Result.Error(it))
@@ -95,4 +104,24 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     }
 
+    override suspend fun getUser(): Result<User> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance().collection(PATH_USERS).document(PATH_USERS_DOCUMENT).get()
+            .addOnCompleteListener { findUserResult ->
+
+
+                if (findUserResult.isSuccessful) {
+                    val user = findUserResult.result!!.toObject(User::class.java)!!
+                    continuation.resume(Result.Success(user))
+                } else {
+                    findUserResult.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+
+
+            }
+    }
 }

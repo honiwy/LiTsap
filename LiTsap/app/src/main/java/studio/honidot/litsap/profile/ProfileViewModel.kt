@@ -2,6 +2,7 @@ package studio.honidot.litsap.profile
 
 import android.graphics.Color
 import androidx.constraintlayout.solver.widgets.Analyzer.setPosition
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.charts.BarChart
@@ -15,11 +16,19 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.TaskItem
+import studio.honidot.litsap.data.User
 import studio.honidot.litsap.source.LiTsapRepository
 
 
-class ProfileViewModel(private val liTsapRepository: LiTsapRepository) : ViewModel() {
+class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
+    private val _user = MutableLiveData<User>()
+
+    val user: LiveData<User>
+        get() = _user
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -51,6 +60,31 @@ class ProfileViewModel(private val liTsapRepository: LiTsapRepository) : ViewMod
         }
     }
 
+    init {
+        retrieveUserInfo()
+    }
+
+    private fun retrieveUserInfo() {
+        coroutineScope.launch {
+            val result = repository.getUser()
+            _user.value = when (result) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+
     fun addDataSet(chart: BarChart) {
         val colorTable = listOf(
             Color.parseColor("#f8cd72"),
@@ -73,7 +107,7 @@ class ProfileViewModel(private val liTsapRepository: LiTsapRepository) : ViewMod
         barDataSet.setDrawValues(false)
 
 
-        val xLabels = listOf("Feb 5","Feb 6","Feb 7","Feb 8","昨日","今日")
+        val xLabels = listOf("Feb 5", "Feb 6", "Feb 7", "Feb 8", "昨日", "今日")
         val legendEntryA = LegendEntry()
         legendEntryA.label = "吃東西"
         legendEntryA.formColor = colorTable[0]
@@ -98,10 +132,19 @@ class ProfileViewModel(private val liTsapRepository: LiTsapRepository) : ViewMod
             xAxis.setDrawGridLines(false)
             chart.description.isEnabled = false
             xAxis.valueFormatter = IndexAxisValueFormatter(xLabels)
-            legend.setCustom(listOf(legendEntryA , legendEntryB, legendEntryC, legendEntryD, legendEntryE, legendEntryF))
+            legend.setCustom(
+                listOf(
+                    legendEntryA,
+                    legendEntryB,
+                    legendEntryC,
+                    legendEntryD,
+                    legendEntryE,
+                    legendEntryF
+                )
+            )
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
-           // xAxis.position = XAxis.XAxisPosition.BOTTOM
+            // xAxis.position = XAxis.XAxisPosition.BOTTOM
         }
 
     }

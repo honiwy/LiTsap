@@ -47,7 +47,7 @@
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="1"
-                android:text="@string/profile_default_name"
+                android:text="@{viewModel.user.userName}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/button_task1"
@@ -65,44 +65,47 @@
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="1"
-                android:text="@string/profile_default_level"
+                app:level="@{viewModel.user.level}"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/progress_bar_level"
                 app:layout_constraintStart_toEndOf="@+id/button_task6"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/profile_default_level" />
+                tools:text="LV 100" />
 
             <ImageButton
                 android:id="@+id/button_task1"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/column_yet"
+                android:background="@{viewModel.user.todayDoneCount >0? @drawable/column_done:@drawable/column_yet}"
+                android:visibility="@{viewModel.user.ongoingTasks.size()>0? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button_task2"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_name"
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
-                tools:background="@drawable/column_yet" />
+                tools:background="@drawable/column_done" />
 
             <ImageButton
                 android:id="@+id/button_task2"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:background="@drawable/column_yet"
+                android:background="@{viewModel.user.todayDoneCount >1? @drawable/column_done:@drawable/column_yet}"
+                android:visibility="@{viewModel.user.ongoingTasks.size()>1? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/button_task3"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_task1"
                 app:layout_constraintTop_toTopOf="@+id/button_task1"
-                tools:background="@drawable/column_yet" />
+                tools:background="@drawable/column_done" />
 
             <ImageButton
                 android:id="@+id/button_task3"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:background="@drawable/column_done"
+                android:background="@{viewModel.user.todayDoneCount >2? @drawable/column_done:@drawable/column_yet}"
+                android:visibility="@{viewModel.user.ongoingTasks.size()>2? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/button_task4"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_task2"
@@ -113,32 +116,35 @@
                 android:id="@+id/button_task4"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:background="@drawable/column_done"
+                android:background="@{viewModel.user.todayDoneCount >3? @drawable/column_done:@drawable/column_yet}"
+                android:visibility="@{viewModel.user.ongoingTasks.size()>3? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/button_task5"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_task3"
                 app:layout_constraintTop_toTopOf="@+id/button_task1"
-                tools:background="@drawable/column_done" />
+                tools:background="@drawable/column_yet" />
 
             <ImageButton
                 android:id="@+id/button_task5"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:background="@drawable/column_done"
+                android:background="@{viewModel.user.todayDoneCount >4? @drawable/column_done:@drawable/column_yet}"
+                android:visibility="@{viewModel.user.ongoingTasks.size()>4? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/button_task6"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_task4"
                 app:layout_constraintTop_toTopOf="@+id/button_task1"
-                tools:background="@drawable/column_done" />
+                tools:background="@drawable/column_yet" />
 
             <ImageButton
                 android:id="@+id/button_task6"
                 android:layout_width="15dp"
                 android:layout_height="30dp"
-                android:background="@drawable/column_done"
+                android:background="@{viewModel.user.todayDoneCount >5? @drawable/column_done:@drawable/column_yet}"
+                android:visibility="@{viewModel.user.ongoingTasks.size()>5? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintStart_toEndOf="@+id/button_task5"
                 app:layout_constraintTop_toTopOf="@+id/button_task1"
-                tools:background="@drawable/column_done" />
+                tools:background="@drawable/column_yet" />
 
             <TextView
                 android:id="@+id/text_profile_level_info"
@@ -148,7 +154,7 @@
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="2"
-                android:text="@string/profile_default_level_info"
+                app:experience="@{viewModel.user.experience}"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp"
@@ -156,14 +162,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/text_profile_level"
-                tools:text="@string/profile_default_level_info" />
+                tools:text="XP 100/1200" />
 
             <ProgressBar
                 android:id="@+id/progress_bar_level"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:progress="70"
+                android:progress="@{viewModel.user.levelProcess}"
+                android:max="@{viewModel.user.intervalConstant}"
                 app:layout_constraintBottom_toTopOf="@+id/text_profile_info"
                 app:layout_constraintEnd_toEndOf="@+id/text_profile_level_info"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -178,7 +185,7 @@
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="2"
-                android:text="@string/profile_default_information"
+                app:levelInfo="@{viewModel.user.ongoingTasks.size() - viewModel.user.todayDoneCount}"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -186,7 +193,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_level"
                 app:layout_constraintTop_toBottomOf="@+id/progress_bar_level"
-                tools:text="@string/profile_default_information" />
+                tools:text="再努力一下吧!" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

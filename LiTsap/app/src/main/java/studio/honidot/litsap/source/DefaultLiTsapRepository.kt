@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.TaskItem
+import studio.honidot.litsap.data.User
 
 class DefaultLiTsapRepository(
     private val remoteDataSource: LiTsapDataSource,
@@ -18,5 +19,9 @@ class DefaultLiTsapRepository(
 
     override suspend fun getTasks(): Result<List<TaskItem>> {
         return remoteDataSource.getTasks()
+    }
+
+    override suspend fun getUser(): Result<User> {
+        return remoteDataSource.getUser()
     }
 }

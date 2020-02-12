@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class History(
     val note: String = "",
     val achieveCount: Int = 0,
-    val recordDate: com.google.firebase.Timestamp? = null
+    val recordDate: Long = 0
 ) : Parcelable

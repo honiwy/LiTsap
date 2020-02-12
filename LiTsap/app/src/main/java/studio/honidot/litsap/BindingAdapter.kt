@@ -32,9 +32,7 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
 //Global
 @BindingAdapter("taskCategory")
 fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
-
     val taskCategory= TaskCategory.values()[categoryId]
-
     imageView.background =
         when (taskCategory) {
             TaskCategory.EXERCISE -> instance.getDrawable(R.drawable.category_exercise)
@@ -119,4 +117,34 @@ fun bindTimeStamp(textView: TextView, timeStamp: com.google.firebase.Timestamp) 
 @BindingAdapter("timerLongConverter")
 fun bindTimeLong(textView: TextView, timeLong: Long) {
     textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
+}
+
+//Profile
+@BindingAdapter("experience")
+fun bindExperience(textView: TextView, xp: Long) {
+    textView.text = instance.getString(R.string.profile_experience, xp)
+}
+
+@BindingAdapter("level")
+fun bindLevel(textView: TextView, level: Long) {
+    textView.text = instance.getString(R.string.profile_level, level)
+}
+
+@BindingAdapter("levelInfo")
+fun bindLevelInfo(textView: TextView, remaining: Int) {
+    textView.text = instance.getString(R.string.profile_level_information, remaining)
+}
+
+@BindingAdapter("userProfile")
+fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
+    val taskCategory= TaskCategory.values()[userProfileId]
+    imageView.background =
+        when (taskCategory) {
+            TaskCategory.EXERCISE -> instance.getDrawable(R.drawable.category_exercise)
+            TaskCategory.FOOD -> instance.getDrawable(R.drawable.category_food)
+            TaskCategory.STUDY -> instance.getDrawable(R.drawable.category_study)
+            TaskCategory.WEALTH -> instance.getDrawable(R.drawable.category_wealth)
+            TaskCategory.NETWORKING -> instance.getDrawable(R.drawable.category_networking)
+            else -> instance.getDrawable(R.drawable.category_other)
+        }
 }
