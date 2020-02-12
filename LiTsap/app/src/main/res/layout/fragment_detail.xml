@@ -56,7 +56,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:timerLongConverter="@{viewModel.task.dueDate}"
+            app:timerLongConverter="@{viewModel.task.dueDate}"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/image_back"

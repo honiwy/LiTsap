@@ -18,7 +18,7 @@ class DetailFragment : Fragment() {
         getVmFactory(
             DetailFragmentArgs.fromBundle(
                 arguments!!
-            ).taskInfoKey
+            ).taskKey
         )
     }
 

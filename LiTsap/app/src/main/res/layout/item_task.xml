@@ -63,7 +63,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:timerLongConverter="@{task.dueDate}"
+            app:timerLongConverter="@{task.dueDate}"
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/task_title"

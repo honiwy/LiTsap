@@ -16,8 +16,8 @@
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
 
-        <argument android:name="taskInfoKey"
-        app:argType="studio.honidot.litsap.data.FireTask"
+        <argument android:name="taskKey"
+        app:argType="studio.honidot.litsap.data.Task"
         app:nullable="false"/>
     </fragment>
     <action
