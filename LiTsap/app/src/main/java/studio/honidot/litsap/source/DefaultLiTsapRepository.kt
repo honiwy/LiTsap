@@ -29,4 +29,8 @@ class DefaultLiTsapRepository(
     override suspend fun getModules(taskId: String): Result<List<Module>>{
         return remoteDataSource.getModules(taskId)
     }
+
+    override suspend fun createTask(task: Task): Result<String>{
+        return remoteDataSource.createTask(task)
+    }
 }

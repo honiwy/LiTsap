@@ -9,16 +9,16 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Task(
-    val taskId: String = "",
-    val groupId: String = "",
-    val userId: String = "",
-    val taskName: String = "",
-    val goalCount: Int = -1,
-    val accumCount: Int = -1,
-    val taskCategoryId: Int = -1,
-    val dueDate: Long = 0,
-    val taskDone: Boolean = false, //whether a history task or not
-    val todayDone: Boolean = false //whether finish the task today
+    var taskId: String = "",
+    var groupId: String = "",
+    var userId: String = "",
+    var taskName: String = "",
+    var goalCount: Int = -1,
+    var accumCount: Int = -1,
+    var taskCategoryId: Int = -1,
+    var dueDate: Long = 0,
+    var taskDone: Boolean = false, //whether a history task or not
+    var todayDone: Boolean = false //whether finish the task today
 ) : Parcelable
 
 

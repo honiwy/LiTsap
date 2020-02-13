@@ -3,20 +3,26 @@ package studio.honidot.litsap.task.create
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.InverseMethod
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.LiTsapApplication.Companion.db
+import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Task
+import studio.honidot.litsap.data.User
+import studio.honidot.litsap.source.LiTsapRepository
 
-private const val PATH_USERS = "users"
+
 private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
-private const val PATH_TASKS = "tasks"
-private const val PATH_MODULES = "modules"
-class TaskCreateViewModel : ViewModel() {
+class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     var moduleNameList = MutableLiveData<MutableList<String>>().apply {
         value = mutableListOf()
@@ -81,14 +87,24 @@ class TaskCreateViewModel : ViewModel() {
 
     var title = MutableLiveData<String>()
 
+    // Create a Coroutine scope using a job to be able to cancel when needed
+    private var viewModelJob = Job()
+
+    // the Coroutine runs using the Main (UI) dispatcher
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    private val _taskId = MutableLiveData<String>()
+
+    val taskId: LiveData<String>
+        get() = _taskId
+
 
 
     fun createTask() {
-        val tasksDocument = db.collection(PATH_USERS).document(PATH_USERS_DOCUMENT).collection(PATH_TASKS).document()
-        tasksDocument.set(
-            Task(
-                userId = "",
-                taskId = tasksDocument.id,
+        coroutineScope.launch {
+            val task = Task(
+                userId = PATH_USERS_DOCUMENT,
+                taskId = "",
                 taskName = title.value ?: "無任務名稱",
                 taskCategoryId = selectedTaskCategoryPosition.value ?: 5,
                 accumCount = 0,
@@ -98,19 +114,50 @@ class TaskCreateViewModel : ViewModel() {
                 todayDone = false,
                 taskDone = false
             )
-        )
-        moduleNameList.value!!.forEach {
-            tasksDocument.collection(PATH_MODULES).document().set(Module(it, 0)).addOnSuccessListener {
-                Log.i("HAHA", "Success")
-            }.addOnFailureListener {
-                Log.i("HAHA", "Oh no")
+            val result = repository.createTask(task )
+            _taskId.value = when (result) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
             }
         }
-        Toast.makeText(
-            appContext,
-            instance.getString(R.string.create_task_success),
-            Toast.LENGTH_SHORT
-        ).show()
+
+//        val tasksDocument = db.collection(PATH_USERS).document(PATH_USERS_DOCUMENT).collection(PATH_TASKS).document()
+//        tasksDocument.set(
+//            Task(
+//                userId = "",
+//                taskId = tasksDocument.id,
+//                taskName = title.value ?: "無任務名稱",
+//                taskCategoryId = selectedTaskCategoryPosition.value ?: 5,
+//                accumCount = 0,
+//                goalCount = amount.value ?: 1,
+//                dueDate = dueDate.value ?: 1,
+//                groupId = "",
+//                todayDone = false,
+//                taskDone = false
+//            )
+//        )
+//        moduleNameList.value!!.forEach {
+//            tasksDocument.collection(PATH_MODULES).document().set(Module(it, 0)).addOnSuccessListener {
+//                Log.i("HAHA", "Success")
+//            }.addOnFailureListener {
+//                Log.i("HAHA", "Oh no")
+//            }
+//        }
+//        Toast.makeText(
+//            appContext,
+//            instance.getString(R.string.create_task_success),
+//            Toast.LENGTH_SHORT
+//        ).show()
     }
 
     val selectedTaskCategoryPosition = MutableLiveData<Int>()

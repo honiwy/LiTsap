@@ -14,4 +14,6 @@ interface LiTsapRepository {
     suspend fun getHistory(taskIdList: List<String>): Result<List<History>>
 
     suspend fun getModules(taskId: String): Result<List<Module>>
+
+    suspend fun createTask(task: Task): Result<String>
 }

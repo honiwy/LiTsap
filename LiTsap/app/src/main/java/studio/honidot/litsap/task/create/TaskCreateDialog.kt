@@ -8,20 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.R
 import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.databinding.DialogCreateTaskBinding
+import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.task.TaskViewModel
 import java.text.SimpleDateFormat
 
 
 class TaskCreateDialog : DialogFragment() {
 
-    private val viewModel: TaskCreateViewModel by lazy {
-        ViewModelProviders.of(this).get(TaskCreateViewModel::class.java)
-    }//要用到的時候再創建才不會浪費記憶體資源
+    private val viewModel by viewModels<TaskCreateViewModel> { getVmFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
