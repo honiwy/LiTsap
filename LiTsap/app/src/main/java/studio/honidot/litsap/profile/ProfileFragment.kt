@@ -39,35 +39,15 @@ class ProfileFragment : Fragment() {
         })
 
         viewModel.user.observe(this, Observer {
-            Logger.d("user=$it")
+            it?.let {
+                viewModel.retrieveOngoingTasks(it.ongoingTasks)
+                viewModel.retrieveHistoryPoints(it.ongoingTasks)
+
+            }
         })
 
         return binding.root
     }
-
-//    val colorTable = listOf("#41a8d1", "#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8")
-//    val yEntry = ArrayList<PieEntry>()
-//    val colors = ArrayList<Int>()
-//    modules.forEach { module ->
-//        if (module.achieveSection > 0) {
-//            colors.add(Color.parseColor(colorTable[yEntry.size]))
-//            yEntry.add(PieEntry(module.achieveSection.toFloat(), module.moduleName))
-//        }
-//    }
-//    val pieDataSet = PieDataSet(yEntry, "")
-//    pieDataSet.colors = colors
-//    pieDataSet.setDrawValues(false)
-//
-//    chart.apply {
-//        data = PieData(pieDataSet)
-//        holeRadius = 20f
-//        chart.description.isEnabled = false
-//        setTransparentCircleAlpha(0)
-//        setEntryLabelColor(Color.BLACK)
-//        chart.legend.isEnabled = false
-//        invalidate()
-//    }
-
 
     private fun drawBarChart(chart: BarChart, taskNames: List<String>) {
         val colorTable = listOf( "#f8cd72","#bdd176","#81ce8f","#45c6af","#15b9c8","#41a8d1")

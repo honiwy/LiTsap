@@ -2,6 +2,8 @@ package studio.honidot.litsap.source.remote
 
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import studio.honidot.litsap.LiTsapApplication
@@ -21,39 +23,25 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
 
-    override suspend fun getUser(userId: String): Result<User> = suspendCoroutine { continuation ->
+    override fun getUser(userId: String): LiveData<User> {
+        val user = MutableLiveData<User>()
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
-//            .addSnapshotListener{snapshot, e->
-//                if (e != null) {
-//                    Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
-//                   // continuation.resume(Result.Error(e))
-//                    return@addSnapshotListener
-//                }
-//
-//                if (snapshot != null && snapshot.exists()) {
-//                    Logger.d("Current data: ${snapshot.data}")
-//                    val user = snapshot.toObject(User::class.java)!!
-//                    //continuation.resume(Result.Success(user))
-//                } else {
-//                    Logger.d( "Current data: null")
-//                }
-//            }
-            .get().addOnCompleteListener { findUser ->
-                if (findUser.isSuccessful) {
-                    val user = findUser.result!!.toObject(User::class.java)!!
-                    continuation.resume(Result.Success(user))
-                } else {
-                    findUser.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
-                    }
-                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+            .addSnapshotListener{snapshot, e->
+                if (e != null) {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
+                    return@addSnapshotListener
                 }
 
+                if (snapshot != null && snapshot.exists()) {
+                    Logger.d("Current data: ${snapshot.data}")
+                    user.value = snapshot.toObject(User::class.java)!!
+
+                } else {
+                    Logger.d( "Current data: null")
+                }
             }
 
-
+        return user
     }
 
     override suspend fun getTasks(taskIdList: List<String>): Result<List<Task>> =

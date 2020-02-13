@@ -11,10 +11,7 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
-    //    override  fun getProductsCollected(): LiveData<List<ProductCollected>> {
-//        return stylishLocalDataSource.getProductsCollected()
-//    }
-    override suspend fun getUser(userId: String): Result<User> {
+    override fun getUser(userId: String): LiveData<User> {
         return remoteDataSource.getUser(userId)
     }
 

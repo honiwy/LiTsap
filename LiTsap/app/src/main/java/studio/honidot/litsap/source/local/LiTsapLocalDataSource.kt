@@ -1,15 +1,13 @@
 package studio.honidot.litsap.source.local
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
-    //    override  fun getProductsCollected(): LiveData<List<ProductCollected>> {
-//        return StylishDatabase.getInstance(context).stylishDatabaseDao.getAllProductsCollected()
-//    }
-//
-    override suspend fun getUser(userId: String): Result<User> {
+
+    override fun getUser(userId: String): LiveData<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

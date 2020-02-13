@@ -1,6 +1,5 @@
 package studio.honidot.litsap.task
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,44 +10,20 @@ import kotlinx.coroutines.launch
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 
+
 private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
 class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
-    private val _user = MutableLiveData<User>()
+    private val _user = repository.getUser(PATH_USERS_DOCUMENT)
 
     val user: LiveData<User>
         get() = _user
-
-    private fun retrieveUserInfo(userId:String) {
-        coroutineScope.launch {
-            val result = repository.getUser(userId)
-            _user.value = when (result) {
-                is Result.Success -> {
-                    retrieveOngoingTasks(result.data.ongoingTasks)
-                    result.data
-                }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
-                }
-                else -> {
-                    null
-                }
-            }
-        }
-    }
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    init {
-        retrieveUserInfo(PATH_USERS_DOCUMENT)
-    }
 
     private val _taskItems = MutableLiveData<List<TaskItem>>()
 
@@ -74,7 +49,7 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
         return taskItems
     }
 
-    private fun retrieveOngoingTasks(taskIdList: List<String>) {
+    fun retrieveOngoingTasks(taskIdList: List<String>) {
         coroutineScope.launch {
             val result = repository.getTasks(taskIdList)
             _taskItems.value = when (result) {

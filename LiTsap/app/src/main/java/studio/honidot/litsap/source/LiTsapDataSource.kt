@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import studio.honidot.litsap.data.*
 
 interface LiTsapDataSource {
-    //    fun getProductsCollected(): LiveData<List<ProductCollected>>
-//
 
-    suspend fun getUser(userId : String): Result<User>
+    fun getUser(userId : String): LiveData<User>
 
     suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
 
