@@ -23,6 +23,21 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun getUser(userId: String): Result<User> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
+//            .addSnapshotListener{snapshot, e->
+//                if (e != null) {
+//                    Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
+//                   // continuation.resume(Result.Error(e))
+//                    return@addSnapshotListener
+//                }
+//
+//                if (snapshot != null && snapshot.exists()) {
+//                    Logger.d("Current data: ${snapshot.data}")
+//                    val user = snapshot.toObject(User::class.java)!!
+//                    //continuation.resume(Result.Success(user))
+//                } else {
+//                    Logger.d( "Current data: null")
+//                }
+//            }
             .get().addOnCompleteListener { findUser ->
                 if (findUser.isSuccessful) {
                     val user = findUser.result!!.toObject(User::class.java)!!
@@ -37,6 +52,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
 
             }
+
+
     }
 
     override suspend fun getTasks(taskIdList: List<String>): Result<List<Task>> =
@@ -145,11 +162,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 .collection(PATH_MODULES)
                 .document().set(modules).addOnCompleteListener { addModule ->
                     if (addModule.isSuccessful) {
-                        Toast.makeText(
-                            LiTsapApplication.appContext,
-                            instance.getString(R.string.create_module_success),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Logger.d("Add module success!")
                         continuation.resume(Result.Success(true))
                     } else {
                         addModule.exception?.let {
