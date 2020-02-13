@@ -18,4 +18,6 @@ interface LiTsapRepository {
     suspend fun createTask(task: Task): Result<String>
 
     suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>
+
+    suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
 }

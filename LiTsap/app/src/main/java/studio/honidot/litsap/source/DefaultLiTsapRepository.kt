@@ -37,4 +37,8 @@ class DefaultLiTsapRepository(
     override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> {
         return remoteDataSource.createTaskModules(taskId, modules)
     }
+
+    override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>{
+        return remoteDataSource.addUserOngoingList(userId, taskId)
+    }
 }

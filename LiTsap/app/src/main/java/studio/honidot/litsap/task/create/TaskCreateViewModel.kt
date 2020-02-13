@@ -99,6 +99,18 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     val taskId: LiveData<String>
         get() = _taskId
 
+    private fun updateTaskIdList(userId: String, taskId: String){
+        coroutineScope.launch {
+            val result = repository.addUserOngoingList(userId, taskId)
+            when (result) {
+                is Result.Success -> {
+                    Logger.i("Task ongoing list update!")
+                }
+                else -> null
+            }
+        }
+    }
+
     private fun createTaskModules(taskId: String, modules: Module){
         coroutineScope.launch {
             val result = repository.createTaskModules(taskId,modules)
@@ -131,6 +143,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     moduleNameList.value!!.forEach {moduleName->
                         createTaskModules(result.data,Module(moduleName,0))
                     }
+                    updateTaskIdList(PATH_USERS_DOCUMENT,result.data)
                     result.data
                 }
                 else -> {
