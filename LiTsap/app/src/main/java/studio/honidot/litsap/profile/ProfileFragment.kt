@@ -17,7 +17,11 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
-import studio.honidot.litsap.util.Logger
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class ProfileFragment : Fragment() {
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
@@ -41,8 +45,9 @@ class ProfileFragment : Fragment() {
         viewModel.user.observe(this, Observer {
             it?.let {
                 viewModel.retrieveOngoingTasks(it.ongoingTasks)
-                viewModel.retrieveHistoryPoints(it.ongoingTasks)
-
+//                it.ongoingTasks.forEach {taskId->
+//                    viewModel.retrieveHistoryPoints(taskId)
+//                }
             }
         })
 
@@ -51,17 +56,20 @@ class ProfileFragment : Fragment() {
 
     private fun drawBarChart(chart: BarChart, taskNames: List<String>) {
         val colorTable = listOf( "#f8cd72","#bdd176","#81ce8f","#45c6af","#15b9c8","#41a8d1")
-        val dateInXAxis = listOf("Feb 5", "Feb 6", "Feb 7", "Feb 8", "昨日", "今日")
+        val formatter = DateTimeFormatter.ofPattern("MMM dd")
 
+        val xDate = ArrayList<String>()
         val yEntry = ArrayList<BarEntry>()
         val colors = ArrayList<Int>()
         val legends = ArrayList<LegendEntry>()
+        colorTable.forEach {color->
+            colors.add(Color.parseColor(color))
+            xDate.add(LocalDateTime.now().minusDays(colorTable.size.toLong()-colors.size).format(formatter))
+        }
         taskNames.forEach {name->
-            val color = Color.parseColor(colorTable[colors.size])
-            colors.add(color)
             val legendEntry = LegendEntry()
             legendEntry.label = name
-            legendEntry.formColor = color
+            legendEntry.formColor = colors[legends.size]
             legends.add(legendEntry)
         }
         yEntry.add(BarEntry(0f, floatArrayOf(2f, 3f, 2f, 3f, 2f, 1f)))
@@ -79,7 +87,7 @@ class ProfileFragment : Fragment() {
             data = BarData(barDataSet)
             xAxis.setDrawGridLines(false)
             chart.description.isEnabled = false
-            xAxis.valueFormatter = IndexAxisValueFormatter(dateInXAxis)
+            xAxis.valueFormatter = IndexAxisValueFormatter(xDate)
             legend.setCustom( legends )
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true

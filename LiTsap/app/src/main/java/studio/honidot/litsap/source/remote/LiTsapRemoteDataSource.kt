@@ -26,7 +26,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override fun getUser(userId: String): LiveData<User> {
         val user = MutableLiveData<User>()
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
-            .addSnapshotListener{snapshot, e->
+            .addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     Logger.w("[${this::class.simpleName}] Error getting documents. ${e.message}")
                     return@addSnapshotListener
@@ -37,7 +37,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     user.value = snapshot.toObject(User::class.java)!!
 
                 } else {
-                    Logger.d( "Current data: null")
+                    Logger.d("Current data: null")
                 }
             }
 
@@ -89,31 +89,19 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistory(taskIdList: List<String>): Result<List<History>> =
+    override suspend fun getHistory(taskId: String): Result<List<History>> =
         suspendCoroutine { continuation ->
             val listH = mutableListOf<History>()
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).whereIn("taskId", taskIdList)
-                .get().addOnCompleteListener { findTask ->
-                    if (findTask.isSuccessful) {
-                        for (documentT in findTask.result!!) {
-                            FirebaseFirestore.getInstance().collection(PATH_TASKS)
-                                .document(documentT.id).collection(PATH_HISTORY)
-                                .get().addOnCompleteListener { findHistory ->
-                                    if (findHistory.isSuccessful) {
-                                        for (documentH in findHistory.result!!) {
-                                            listH.add(documentH.toObject(History::class.java))
-                                        }
-                                    } else {
-                                        findHistory.exception?.let {
-                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                                            return@addOnCompleteListener
-                                        }
-                                    }
-                                }
+            FirebaseFirestore.getInstance().collection(PATH_TASKS)
+                .document(taskId).collection(PATH_HISTORY)
+                .get().addOnCompleteListener { findHistory ->
+                    if (findHistory.isSuccessful) {
+                        for (documentH in findHistory.result!!) {
+                            listH.add(documentH.toObject(History::class.java))
                         }
                         continuation.resume(Result.Success(listH))
                     } else {
-                        findTask.exception?.let {
+                        findHistory.exception?.let {
                             Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                             continuation.resume(Result.Error(it))
                             return@addOnCompleteListener
