@@ -7,9 +7,11 @@ interface LiTsapRepository {
     //    fun getProductsCollected(): LiveData<List<ProductCollected>>
 //
 //    suspend fun isProductInCart(id: Long, colorCode: String, size: String): Boolean
-    suspend fun getOngoingTaskList(user: User): Result<List<Task>>
+    suspend fun getUser(userId : String): Result<User>
 
-    suspend fun getUser(): Result<User>
+    suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
 
-    suspend fun getHistoryPoints(user: User): Result<List<History>>
+    suspend fun getHistory(taskIdList: List<String>): Result<List<History>>
+
+    suspend fun getModules(taskId: String): Result<List<Module>>
 }

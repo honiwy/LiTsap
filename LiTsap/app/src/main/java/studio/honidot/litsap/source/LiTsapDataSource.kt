@@ -6,9 +6,12 @@ import studio.honidot.litsap.data.*
 interface LiTsapDataSource {
     //    fun getProductsCollected(): LiveData<List<ProductCollected>>
 //
-    suspend fun getOngoingTaskList(user: User): Result<List<Task>>
 
-    suspend fun getUser(): Result<User>
+    suspend fun getUser(userId : String): Result<User>
 
-    suspend fun getHistoryPoints(user: User): Result<List<History>>
+    suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
+
+    suspend fun getHistory(taskIdList: List<String>): Result<List<History>>
+
+    suspend fun getModules(taskId: String): Result<List<Module>>
 }

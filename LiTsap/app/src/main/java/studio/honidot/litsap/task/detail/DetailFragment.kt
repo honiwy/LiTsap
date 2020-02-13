@@ -1,5 +1,6 @@
 package studio.honidot.litsap.task.detail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,12 @@ import androidx.lifecycle.Observer
 import studio.honidot.litsap.databinding.FragmentDetailBinding
 import studio.honidot.litsap.extension.getVmFactory
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import studio.honidot.litsap.NavigationDirections
+import studio.honidot.litsap.data.Module
 
 
 class DetailFragment : Fragment() {
@@ -42,10 +48,39 @@ class DetailFragment : Fragment() {
             }
         })
         binding.recyclerModuleDetail.adapter = DetailModuleAdapter(viewModel)
-        viewModel.addDataSet(binding.piechart)
+
+        viewModel.awaitDrawModules.observe(this, Observer {
+            it?.let {
+                drawPieChart(binding.piechart, it)
+                viewModel.onPieDrew()
+            }
+        })
 
         return binding.root
     }
 
+    private fun drawPieChart(chart: PieChart, modules: List<Module>) {
+        val colorTable = listOf("#41a8d1", "#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8")
+        val yEntry = ArrayList<PieEntry>()
+        val colors = ArrayList<Int>()
+        modules.forEach { module ->
+            if (module.achieveSection > 0) {
+                colors.add(Color.parseColor(colorTable[colors.size]))
+                yEntry.add(PieEntry(module.achieveSection.toFloat(), module.moduleName))
+            }
+        }
+        val pieDataSet = PieDataSet(yEntry, "")
+        pieDataSet.colors = colors
+        pieDataSet.setDrawValues(false)
 
+        chart.apply {
+            data = PieData(pieDataSet)
+            holeRadius = 20f
+            chart.description.isEnabled = false
+            setTransparentCircleAlpha(0)
+            setEntryLabelColor(Color.BLACK)
+            chart.legend.isEnabled = false
+            invalidate()
+        }
+    }
 }

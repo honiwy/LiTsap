@@ -8,7 +8,6 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-@IgnoreExtraProperties
 data class Task(
     val taskId: String = "",
     val groupId: String = "",
@@ -18,8 +17,6 @@ data class Task(
     val accumCount: Int = -1,
     val taskCategoryId: Int = -1,
     val dueDate: Long = 0,
-    @Exclude var modules: List<Module> = listOf(),
-    @Exclude var history: List<History> = listOf(),
     val taskDone: Boolean = false, //whether a history task or not
     val todayDone: Boolean = false //whether finish the task today
 ) : Parcelable
