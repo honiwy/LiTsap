@@ -19,6 +19,7 @@ import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.User
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 
 
 private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
@@ -98,7 +99,17 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     val taskId: LiveData<String>
         get() = _taskId
 
-
+    private fun createTaskModules(taskId: String, modules: Module){
+        coroutineScope.launch {
+            val result = repository.createTaskModules(taskId,modules)
+            when (result) {
+                is Result.Success -> {
+                    Logger.i("Modules update!")
+                }
+                else -> null
+            }
+        }
+    }
 
     fun createTask() {
         coroutineScope.launch {
@@ -117,47 +128,16 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
             val result = repository.createTask(task )
             _taskId.value = when (result) {
                 is Result.Success -> {
+                    moduleNameList.value!!.forEach {moduleName->
+                        createTaskModules(result.data,Module(moduleName,0))
+                    }
                     result.data
-                }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
                 }
                 else -> {
                     null
                 }
             }
         }
-
-//        val tasksDocument = db.collection(PATH_USERS).document(PATH_USERS_DOCUMENT).collection(PATH_TASKS).document()
-//        tasksDocument.set(
-//            Task(
-//                userId = "",
-//                taskId = tasksDocument.id,
-//                taskName = title.value ?: "無任務名稱",
-//                taskCategoryId = selectedTaskCategoryPosition.value ?: 5,
-//                accumCount = 0,
-//                goalCount = amount.value ?: 1,
-//                dueDate = dueDate.value ?: 1,
-//                groupId = "",
-//                todayDone = false,
-//                taskDone = false
-//            )
-//        )
-//        moduleNameList.value!!.forEach {
-//            tasksDocument.collection(PATH_MODULES).document().set(Module(it, 0)).addOnSuccessListener {
-//                Log.i("HAHA", "Success")
-//            }.addOnFailureListener {
-//                Log.i("HAHA", "Oh no")
-//            }
-//        }
-//        Toast.makeText(
-//            appContext,
-//            instance.getString(R.string.create_task_success),
-//            Toast.LENGTH_SHORT
-//        ).show()
     }
 
     val selectedTaskCategoryPosition = MutableLiveData<Int>()

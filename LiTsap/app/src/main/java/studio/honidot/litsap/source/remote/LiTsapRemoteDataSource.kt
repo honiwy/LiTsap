@@ -116,8 +116,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun createTask(task: Task): Result<String> = suspendCoroutine { continuation ->
         val newTaskDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document()
         task.taskId = newTaskDocument.id
-        newTaskDocument.set(task).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
+        newTaskDocument.set(task).addOnCompleteListener { addTask ->
+            if (addTask.isSuccessful) {
                 Toast.makeText(
                     LiTsapApplication.appContext,
                     instance.getString(R.string.create_task_success),
@@ -125,7 +125,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 ).show()
                 continuation.resume(Result.Success(newTaskDocument.id))
             } else {
-                task.exception?.let {
+                addTask.exception?.let {
                     Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                     continuation.resume(Result.Error(it))
                 }
@@ -134,47 +134,29 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         }
     }
 
-//    override suspend fun createTaskModules(taskId: String, module: List<Module>): Result<Boolean> = suspendCoroutine { continuation ->
-//        val newTaskDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId).collection(PATH_MODULES)
-//        task.taskId = newTaskDocument.id
-//        newTaskDocument.set(task).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                Toast.makeText(
-//                    LiTsapApplication.appContext,
-//                    instance.getString(R.string.create_task_success),
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//                continuation.resume(Result.Success(true))
-//            } else {
-//                task.exception?.let {
-//                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-//                    continuation.resume(Result.Error(it))
-//                }
-//                continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-//            }
-//        }
-//    }
-//
-//    override suspend fun addUserOngoingList(userId : String, taskId: String): Result<Boolean> = suspendCoroutine { continuation ->
-//        val userCollection = FirebaseFirestore.getInstance().collection(PATH_USERS)
-//        userCollection.whereEqualTo("userId",userId).get().addOnCompleteListener {findUser->
-//            if (findUser.isSuccessful) {
-//                for (doc in findUser.result!! ) {
-//                    userCollection.document(doc.id).update("userCollection", FieldValue.arrayUnion(taskId))
-//                }
-//                continuation.resume(Result.Success(true))
-//            }else {
-//                findUser.exception?.let {
-//
-//                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-//                    continuation.resume(Result.Error(it))
-//                }
-//                continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-//            }
-//        }
-//    }
-//
-//    fun createTask() {
+    override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> = suspendCoroutine { continuation ->
+        val moduleCollection = FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId).collection(PATH_MODULES)
+
+            moduleCollection.document().set(modules).addOnCompleteListener { addModule ->
+                if (addModule.isSuccessful) {
+                    Toast.makeText(
+                        LiTsapApplication.appContext,
+                        instance.getString(R.string.create_module_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    continuation.resume(Result.Success(true))
+                } else {
+                    addModule.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
+
+
+//        fun createTask() {
 //        val tasksDocument = LiTsapApplication.db.collection(studio.honidot.litsap.task.create.PATH_USERS).document(
 //            PATH_USERS_DOCUMENT
 //        ).collection(studio.honidot.litsap.task.create.PATH_TASKS).document()
@@ -205,4 +187,24 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 //            Toast.LENGTH_SHORT
 //        ).show()
 //    }
+//    override suspend fun addUserOngoingList(userId : String, taskId: String): Result<Boolean> = suspendCoroutine { continuation ->
+//        val userCollection = FirebaseFirestore.getInstance().collection(PATH_USERS)
+//        userCollection.whereEqualTo("userId",userId).get().addOnCompleteListener {findUser->
+//            if (findUser.isSuccessful) {
+//                for (doc in findUser.result!! ) {
+//                    userCollection.document(doc.id).update("userCollection", FieldValue.arrayUnion(taskId))
+//                }
+//                continuation.resume(Result.Success(true))
+//            }else {
+//                findUser.exception?.let {
+//
+//                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+//                    continuation.resume(Result.Error(it))
+//                }
+//                continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+//            }
+//        }
+//    }
+//
+
 }

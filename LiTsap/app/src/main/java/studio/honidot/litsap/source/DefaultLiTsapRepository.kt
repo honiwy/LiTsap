@@ -14,7 +14,7 @@ class DefaultLiTsapRepository(
     //    override  fun getProductsCollected(): LiveData<List<ProductCollected>> {
 //        return stylishLocalDataSource.getProductsCollected()
 //    }
-    override suspend fun getUser(userId : String): Result<User> {
+    override suspend fun getUser(userId: String): Result<User> {
         return remoteDataSource.getUser(userId)
     }
 
@@ -22,15 +22,19 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getTasks(taskIdList)
     }
 
-    override suspend fun getHistory(taskIdList: List<String>): Result<List<History>>{
+    override suspend fun getHistory(taskIdList: List<String>): Result<List<History>> {
         return remoteDataSource.getHistory(taskIdList)
     }
 
-    override suspend fun getModules(taskId: String): Result<List<Module>>{
+    override suspend fun getModules(taskId: String): Result<List<Module>> {
         return remoteDataSource.getModules(taskId)
     }
 
-    override suspend fun createTask(task: Task): Result<String>{
+    override suspend fun createTask(task: Task): Result<String> {
         return remoteDataSource.createTask(task)
+    }
+
+    override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> {
+        return remoteDataSource.createTaskModules(taskId, modules)
     }
 }

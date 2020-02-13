@@ -29,4 +29,8 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
     override suspend fun createTask(task: Task): Result<String>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
