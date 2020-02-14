@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -44,6 +45,8 @@ class ProfileFragment : Fragment() {
 
         viewModel.user.observe(this, Observer {
             it?.let {
+                Logger.d("intervalConstant: ${it.intervalConstant}")
+               // Logger.i("levelProcess: ${it.levelProcess}")
                 viewModel.retrieveOngoingTasks(it.ongoingTasks)
 //                it.ongoingTasks.forEach {taskId->
 //                    viewModel.retrieveHistoryPoints(taskId)

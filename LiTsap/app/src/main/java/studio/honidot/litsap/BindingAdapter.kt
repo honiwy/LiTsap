@@ -4,12 +4,14 @@ import android.text.format.DateFormat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskItem
+import studio.honidot.litsap.data.User
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
@@ -122,7 +124,9 @@ fun bindTimeLong(textView: TextView, timeLong: Long) {
 //Profile
 @BindingAdapter("experience")
 fun bindExperience(textView: TextView, xp: Long) {
-    textView.text = instance.getString(R.string.profile_experience, xp)
+//    textView.text = instance.getString(R.string.profile_experience, xp)
+    val next = xp+ 10- (xp%10)
+    textView.text = instance.getString(R.string.profile_experience, xp)+ " / $next"
 }
 
 @BindingAdapter("level")
