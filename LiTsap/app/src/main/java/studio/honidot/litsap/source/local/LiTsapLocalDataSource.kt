@@ -16,7 +16,7 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
     }
 
 
-    override suspend fun getHistory(taskId: String): Result<List<History>> {
+    override suspend fun getHistory(taskId: String,passNday:Long): Result<List<History>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

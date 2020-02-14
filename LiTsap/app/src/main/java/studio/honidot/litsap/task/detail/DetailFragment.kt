@@ -52,7 +52,6 @@ class DetailFragment : Fragment() {
         viewModel.awaitDrawModules.observe(this, Observer {
             it?.let {
                 drawPieChart(binding.piechart, it)
-                viewModel.onPieDrew()
             }
         })
 

@@ -15,10 +15,12 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import studio.honidot.litsap.data.History
 import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
@@ -36,18 +38,19 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.tasks.observe(this, Observer {
+        viewModel.historyPoints.observe(this, Observer {
+            Logger.d("viewModel.historyPoints.observe, it=$it")
             it?.let {
-                drawBarChart(binding.barChart, it)
-                viewModel.onPieDrew()
+                viewModel.tasks.value?.let { tasks ->
+                    drawBarChart(binding.barChart, tasks,it)
+                }
             }
         })
 
         viewModel.user.observe(this, Observer {
             it?.let {
-                Logger.d("intervalConstant: ${it.intervalConstant}")
-               // Logger.i("levelProcess: ${it.levelProcess}")
                 viewModel.retrieveOngoingTasks(it.ongoingTasks)
+                viewModel.retrieveHistoryPoints("43UemQVQwjlFcTw3iVn0",5)
 //                it.ongoingTasks.forEach {taskId->
 //                    viewModel.retrieveHistoryPoints(taskId)
 //                }
@@ -57,7 +60,7 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun drawBarChart(chart: BarChart, taskNames: List<String>) {
+    private fun drawBarChart(chart: BarChart, taskNames: List<String>, history: List<History>) {
         val colorTable = listOf( "#f8cd72","#bdd176","#81ce8f","#45c6af","#15b9c8","#41a8d1")
         val formatter = DateTimeFormatter.ofPattern("MMM dd")
 
@@ -65,6 +68,20 @@ class ProfileFragment : Fragment() {
         val yEntry = ArrayList<BarEntry>()
         val colors = ArrayList<Int>()
         val legends = ArrayList<LegendEntry>()
+        val pointArray  = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f)
+
+        for(i in 5 downTo 0)
+        {
+            val timeMin =  LocalDateTime.now().minusDays(i.toLong()).toEpochSecond(ZoneOffset.MIN)*1000
+            val timeMax =  LocalDateTime.now().minusDays(i-1.toLong()).toEpochSecond(ZoneOffset.MIN)*1000
+            history.forEach {
+                if (it.recordDate in (timeMin + 1) until timeMax){
+                    Logger.v("You have a history in $i day ago, which got ${it.achieveCount}")
+                    pointArray[5-i] = it.achieveCount.toFloat()
+                }
+            }
+        }
+
         colorTable.forEach {color->
             colors.add(Color.parseColor(color))
             xDate.add(LocalDateTime.now().minusDays(colorTable.size.toLong()-colors.size).format(formatter))
@@ -75,12 +92,12 @@ class ProfileFragment : Fragment() {
             legendEntry.formColor = colors[legends.size]
             legends.add(legendEntry)
         }
-        yEntry.add(BarEntry(0f, floatArrayOf(2f, 3f, 2f, 3f, 2f, 1f)))
-        yEntry.add(BarEntry(1f, floatArrayOf(0f, 3f, 1f, 4f, 4f, 0f)))
-        yEntry.add(BarEntry(2f, floatArrayOf()))
-        yEntry.add(BarEntry(3f, floatArrayOf(0f, 0f, 0f, 2f, 4f, 1f)))
-        yEntry.add(BarEntry(4f, floatArrayOf(2f, 3f, 1f, 0f, 4f, 1f)))
-        yEntry.add(BarEntry(5f, floatArrayOf()))
+        yEntry.add(BarEntry(0f, floatArrayOf(pointArray[0], 3f, 2f, 3f, 2f, 1f)))
+        yEntry.add(BarEntry(1f, floatArrayOf(pointArray[1], 3f, 1f, 4f, 4f, 0f)))
+        yEntry.add(BarEntry(2f, floatArrayOf(pointArray[2], 3f, 1f, 4f, 4f, 0f)))
+        yEntry.add(BarEntry(3f, floatArrayOf(pointArray[3], 3f, 1f, 4f, 4f, 0f)))
+        yEntry.add(BarEntry(4f, floatArrayOf(pointArray[4], 3f, 1f, 0f, 4f, 1f)))
+        yEntry.add(BarEntry(5f, floatArrayOf(pointArray[5], 3f, 1f, 4f, 4f, 0f)))
 
         val barDataSet = BarDataSet(yEntry, "")
         barDataSet.colors = colors

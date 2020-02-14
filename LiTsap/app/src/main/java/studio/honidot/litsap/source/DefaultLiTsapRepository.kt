@@ -19,8 +19,8 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getTasks(taskIdList)
     }
 
-    override suspend fun getHistory(taskId: String): Result<List<History>> {
-        return remoteDataSource.getHistory(taskId)
+    override suspend fun getHistory(taskId: String,passNday:Long): Result<List<History>> {
+        return remoteDataSource.getHistory(taskId,passNday)
     }
 
     override suspend fun getModules(taskId: String): Result<List<Module>> {

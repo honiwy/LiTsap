@@ -7,6 +7,9 @@ import kotlinx.coroutines.*
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
 class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
@@ -45,20 +48,17 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
         }
     }
 
-    fun onPieDrew() {
-        _tasks.value = null
-    }
-
     private val _historyPoints = MutableLiveData<List<History>>()
 
     val historyPoints: LiveData<List<History>>
         get() = _historyPoints
 
-    fun retrieveHistoryPoints(taskId: String) {
+    fun retrieveHistoryPoints(taskId: String,passNday:Long) {
         coroutineScope.launch {
-            val result = repository.getHistory(taskId)
+            val result = repository.getHistory(taskId,passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
+                    Logger.d("history: ${result.data}")
                     result.data
                 }
                 is Result.Fail -> {

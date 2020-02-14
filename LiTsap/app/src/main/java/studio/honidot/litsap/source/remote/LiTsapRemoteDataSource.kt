@@ -12,6 +12,8 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 import studio.honidot.litsap.util.Logger
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -33,7 +35,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    Logger.d("Current data: ${snapshot.data}")
                     user.value = snapshot.toObject(User::class.java)!!
 
                 } else {
@@ -89,14 +90,18 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistory(taskId: String): Result<List<History>> =
+    override suspend fun getHistory(taskId: String,passNday:Long): Result<List<History>> =
         suspendCoroutine { continuation ->
+            val timeMin =  LocalDateTime.now().minusDays(passNday).toEpochSecond(ZoneOffset.MIN)*1000
             val listH = mutableListOf<History>()
             FirebaseFirestore.getInstance().collection(PATH_TASKS)
-                .document(taskId).collection(PATH_HISTORY)
+                .document(taskId).collection(PATH_HISTORY).whereGreaterThan("recordDate",timeMin)
                 .get().addOnCompleteListener { findHistory ->
+                    Logger.d("hi $timeMin")
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
+                            val history =documentH.toObject(History::class.java)
+                                Logger.d("one history: ${history.recordDate}")
                             listH.add(documentH.toObject(History::class.java))
                         }
                         continuation.resume(Result.Success(listH))

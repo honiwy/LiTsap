@@ -37,7 +37,9 @@
         app:destination="@id/workoutFragment" />
     <action
         android:id="@+id/navigate_to_taskFragment"
-        app:destination="@id/taskFragment" />
+        app:destination="@id/taskFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/profileFragment"
         android:name="studio.honidot.litsap.profile.ProfileFragment"
@@ -45,7 +47,9 @@
         tools:layout="@layout/fragment_profile"/>
     <action
         android:id="@+id/navigate_to_profileFragment"
-        app:destination="@id/profileFragment" />
+        app:destination="@id/profileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/postFragment"
         android:name="studio.honidot.litsap.post.PostFragment"
@@ -53,7 +57,9 @@
         tools:layout="@layout/fragment_post"/>
     <action
         android:id="@+id/navigate_to_postFragment"
-        app:destination="@id/postFragment" />
+        app:destination="@id/postFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/finishFragment"
         android:name="studio.honidot.litsap.task.finish.FinishFragment"

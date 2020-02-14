@@ -40,6 +40,7 @@ class TaskFragment : Fragment() {
                     TaskCreateDialog().show(childFragmentManager, "abc")
             }
         }
+
         viewModel.navigateToDetail.observe(this, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
@@ -48,9 +49,7 @@ class TaskFragment : Fragment() {
         })
 
         viewModel.user.observe(this, Observer {
-
             it?.let {
-                Logger.d("viewModel.user.observe, it=$it")
                 viewModel.retrieveOngoingTasks(it.ongoingTasks)
             }
         })
