@@ -25,29 +25,6 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val _tasks = MutableLiveData<List<String>>()
-
-    val tasks: LiveData<List<String>>
-        get() = _tasks
-
-    fun retrieveOngoingTasks(taskIdList: List<String>) {
-        coroutineScope.launch {
-            val result = repository.getTasks(taskIdList)
-            _tasks.value = when (result){
-                is Result.Success->{
-                    val tmpList = mutableListOf<String>()
-                    result.data.forEach { task->
-                        tmpList.add(task.taskName)
-                    }
-                     tmpList
-                }
-                else ->{
-                    null
-                }
-            }
-        }
-    }
-
     private val _historyPoints = MutableLiveData<List<History>>()
 
     val historyPoints: LiveData<List<History>>

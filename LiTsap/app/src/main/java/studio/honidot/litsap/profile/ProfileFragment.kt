@@ -39,31 +39,21 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.historyPoints.observe(this, Observer {
-            Logger.w("Hello")
             it?.let {
-                Logger.w("Hey")
-                viewModel.tasks.value?.let { tasks ->
-                    drawBarChart(binding.barChart, tasks, it)
-                }
-            }
-        })
-
-        viewModel.tasks.observe(this, Observer {
-            it?.let {
-                viewModel.retrieveHistoryPoints(viewModel.user.value!!.ongoingTasks, 5)
+                    drawBarChart(binding.barChart, it)
             }
         })
 
         viewModel.user.observe(this, Observer {
             it?.let {
-                viewModel.retrieveOngoingTasks(it.ongoingTasks)
+                viewModel.retrieveHistoryPoints(it.ongoingTasks, 5)
             }
         })
 
         return binding.root
     }
 
-    private fun drawBarChart(chart: BarChart, taskNames: List<String>, history: List<History>) {
+    private fun drawBarChart(chart: BarChart, history: List<History>) {
         val colorTable = listOf("#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8", "#41a8d1")
         val formatter = DateTimeFormatter.ofPattern("MMM dd")
 
@@ -84,19 +74,20 @@ class ProfileFragment : Fragment() {
             pointArrayList.add(floatArrayOf(0f, 0f, 0f))
         }
 
-        taskNames.forEach { name ->
-            val legendEntry = LegendEntry()
-            legendEntry.label = name
-            legendEntry.formColor = colors[legends.size]
-            legends.add(legendEntry)
-        }
-
         val sortedHistory = history.sortedBy { it.taskName }
 
         var historyIndex = 0
-        var a = taskNames[0]
+        var a = history[0].taskName
+        var legendEntry = LegendEntry()
+        legendEntry.label = history[0].taskName
+        legendEntry.formColor = colors[legends.size]
+        legends.add(legendEntry)
         sortedHistory.forEach {
             if (it.taskName != a) {
+                legendEntry = LegendEntry()
+                legendEntry.label = it.taskName
+                legendEntry.formColor = colors[legends.size]
+                legends.add(legendEntry)
                 historyIndex += 1
                 a = it.taskName
             }
@@ -111,22 +102,13 @@ class ProfileFragment : Fragment() {
             }
 
         }
-        Logger.i("0 ${pointArrayList[0][0]},0 ${pointArrayList[0][1]},0 ${pointArrayList[0][2]}")
-        Logger.i("1 ${pointArrayList[1][0]},0 ${pointArrayList[1][1]},0 ${pointArrayList[1][2]}")
-        Logger.i("2 ${pointArrayList[2][0]},0 ${pointArrayList[2][1]},0 ${pointArrayList[2][2]}")
-        Logger.i("3 ${pointArrayList[3][0]},0 ${pointArrayList[3][1]},0 ${pointArrayList[3][2]}")
-        Logger.i("4 ${pointArrayList[4][0]},0 ${pointArrayList[4][1]},0 ${pointArrayList[4][2]}")
-        Logger.i("5 ${pointArrayList[5][0]},0 ${pointArrayList[5][1]},0 ${pointArrayList[5][2]}")
 
         yEntry.add(BarEntry(0f, pointArrayList[0]))
-        yEntry.add(BarEntry(1f, pointArrayList[1]))//2
+        yEntry.add(BarEntry(1f, pointArrayList[1]))
         yEntry.add(BarEntry(2f, pointArrayList[2]))
         yEntry.add(BarEntry(3f, pointArrayList[3]))
         yEntry.add(BarEntry(4f, pointArrayList[4]))
         yEntry.add(BarEntry(5f, pointArrayList[5]))
-//        yEntry.add(BarEntry(3f, floatArrayOf(pointArray[3], 3f, 1f, 4f, 4f, 0f)))
-//        yEntry.add(BarEntry(4f, floatArrayOf(pointArray[4], 3f, 1f, 0f, 4f, 1f)))
-//        yEntry.add(BarEntry(5f, floatArrayOf(pointArray[5], 3f, 1f, 4f, 4f, 0f)))
 
         val barDataSet = BarDataSet(yEntry, "")
         barDataSet.colors = colors
