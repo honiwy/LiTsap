@@ -5,8 +5,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class History(
-    val note: String = "",
-    val achieveCount: Int = 0,
-    val recordDate: Long = 0,
-    val taskId: String = ""
+    var note: String = "",
+    var achieveCount: Int = 0,
+    var recordDate: Long = 0,
+    var taskId: String = "",
+    var taskName: String = ""
 ) : Parcelable

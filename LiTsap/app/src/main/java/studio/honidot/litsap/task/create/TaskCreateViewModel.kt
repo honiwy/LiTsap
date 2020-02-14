@@ -1,5 +1,6 @@
 package studio.honidot.litsap.task.create
 
+import android.icu.util.Calendar
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.InverseMethod
@@ -13,16 +14,14 @@ import kotlinx.coroutines.launch
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
-import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.LiTsapApplication.Companion.db
-import studio.honidot.litsap.data.Result
-import studio.honidot.litsap.data.Task
-import studio.honidot.litsap.data.User
+import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
 
 
 private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
+
 class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     var moduleNameList = MutableLiveData<MutableList<String>>().apply {
@@ -99,7 +98,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     val taskId: LiveData<String>
         get() = _taskId
 
-    private fun updateTaskIdList(userId: String, taskId: String){
+    private fun updateTaskIdList(userId: String, taskId: String) {
         coroutineScope.launch {
             val result = repository.addUserOngoingList(userId, taskId)
             when (result) {
@@ -111,12 +110,24 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
-    private fun createTaskModules(taskId: String, modules: Module){
+    private fun createTaskModules(taskId: String, modules: Module) {
         coroutineScope.launch {
-            val result = repository.createTaskModules(taskId,modules)
+            val result = repository.createTaskModules(taskId, modules)
             when (result) {
                 is Result.Success -> {
                     Logger.i("Modules update!")
+                }
+                else -> null
+            }
+        }
+    }
+
+    private fun createFirstTaskHistory(taskId: String, history: History) {
+        coroutineScope.launch {
+            val result = repository.createFirstTaskHistory(taskId, history)
+            when (result) {
+                is Result.Success -> {
+                    Logger.i("History create!")
                 }
                 else -> null
             }
@@ -137,13 +148,22 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 todayDone = false,
                 taskDone = false
             )
-            val result = repository.createTask(task )
+            val history = History(
+                note = "First day of task be created",
+                achieveCount = 0,
+                recordDate = Calendar.getInstance().timeInMillis,
+                taskId = "",
+                taskName = title.value ?: "無任務名稱"
+            )
+            val result = repository.createTask(task)
             _taskId.value = when (result) {
                 is Result.Success -> {
-                    moduleNameList.value!!.forEach {moduleName->
-                        createTaskModules(result.data,Module(moduleName,0))
+                    moduleNameList.value!!.forEach { moduleName ->
+                        createTaskModules(result.data, Module(moduleName, 0))
                     }
-                    updateTaskIdList(PATH_USERS_DOCUMENT,result.data)
+                    history.taskId = result.data
+                    createFirstTaskHistory(result.data, history)
+                    updateTaskIdList(PATH_USERS_DOCUMENT, result.data)
                     result.data
                 }
                 else -> {

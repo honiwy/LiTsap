@@ -30,13 +30,12 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val taskItems: LiveData<List<TaskItem>>
         get() = _taskItems
 
-    private fun sortTasksAndAddHeader(unsortedTasks: List<Task>): List<TaskItem> {
+    private fun addHeader(sortedTasks: List<Task>): List<TaskItem> {
         val taskItems = mutableListOf<TaskItem>()
-        if(unsortedTasks.isNotEmpty()){
-            val sortTasks = unsortedTasks.sortedBy { it.todayDone }
+        if(sortedTasks.isNotEmpty()){
             taskItems.add(TaskItem.Title("待完成"))
             var lastStatus = false
-            sortTasks.forEach {
+            sortedTasks.forEach {
                 if (it.todayDone != lastStatus) {
                     taskItems.add(TaskItem.Title("已完成"))
                 }
@@ -54,7 +53,7 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
             val result = repository.getTasks(taskIdList)
             _taskItems.value = when (result) {
                 is Result.Success -> {
-                    sortTasksAndAddHeader(result.data)
+                    addHeader(result.data)
                 }
                 is Result.Fail -> {
                     null

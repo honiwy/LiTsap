@@ -48,10 +48,11 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun getTasks(taskIdList: List<String>): Result<List<Task>> =
         suspendCoroutine { continuation ->
             val tasks = mutableListOf<Task>()
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).whereIn("taskId", taskIdList)
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).whereIn("taskId", taskIdList).orderBy("todayDone")
                 .get().addOnCompleteListener { findTask ->
                     if (findTask.isSuccessful) {
                         for (documentT in findTask.result!!) {
+                            Logger.i("taskFound: ${documentT.id}")
                             val taskFound = documentT.toObject(Task::class.java)
                             tasks.add(taskFound)
                         }
@@ -90,18 +91,17 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistory(taskId: String,passNday:Long): Result<List<History>> =
+    override suspend fun getHistory(taskIdList: List<String>,passNday:Long): Result<List<History>> =
         suspendCoroutine { continuation ->
             val timeMin =  LocalDateTime.now().minusDays(passNday).toEpochSecond(ZoneOffset.MIN)*1000
+            Logger.i("timeMin: $timeMin")
             val listH = mutableListOf<History>()
-            FirebaseFirestore.getInstance().collection(PATH_TASKS)
-                .document(taskId).collection(PATH_HISTORY).whereGreaterThan("recordDate",timeMin)
-                .get().addOnCompleteListener { findHistory ->
-                    Logger.d("hi $timeMin")
+            FirebaseFirestore.getInstance().collectionGroup("history").whereIn("taskId",taskIdList).whereGreaterThan("recordDate",timeMin).get()
+                .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
                             val history =documentH.toObject(History::class.java)
-                                Logger.d("one history: ${history.recordDate}")
+                                Logger.d("one history: ${history.taskName}, note ${history.note}, point ${history.achieveCount}")
                             listH.add(documentH.toObject(History::class.java))
                         }
                         continuation.resume(Result.Success(listH))
@@ -144,6 +144,24 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 .document().set(modules).addOnCompleteListener { addModule ->
                     if (addModule.isSuccessful) {
                         Logger.d("Add module success!")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addModule.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
+                .collection(PATH_HISTORY)
+                .document().set(history).addOnCompleteListener { addModule ->
+                    if (addModule.isSuccessful) {
+                        Logger.d("Add first history success!")
                         continuation.resume(Result.Success(true))
                     } else {
                         addModule.exception?.let {

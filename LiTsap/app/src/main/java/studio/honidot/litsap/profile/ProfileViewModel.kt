@@ -53,9 +53,9 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val historyPoints: LiveData<List<History>>
         get() = _historyPoints
 
-    fun retrieveHistoryPoints(taskId: String,passNday:Long) {
+    fun retrieveHistoryPoints(taskIdList: List<String>,passNday:Long) {
         coroutineScope.launch {
-            val result = repository.getHistory(taskId,passNday)
+            val result = repository.getHistory(taskIdList,passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
                     Logger.d("history: ${result.data}")

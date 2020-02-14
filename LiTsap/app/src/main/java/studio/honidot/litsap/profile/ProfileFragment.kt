@@ -39,7 +39,6 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.historyPoints.observe(this, Observer {
-            Logger.d("viewModel.historyPoints.observe, it=$it")
             it?.let {
                 viewModel.tasks.value?.let { tasks ->
                     drawBarChart(binding.barChart, tasks,it)
@@ -50,10 +49,7 @@ class ProfileFragment : Fragment() {
         viewModel.user.observe(this, Observer {
             it?.let {
                 viewModel.retrieveOngoingTasks(it.ongoingTasks)
-                viewModel.retrieveHistoryPoints("43UemQVQwjlFcTw3iVn0",5)
-//                it.ongoingTasks.forEach {taskId->
-//                    viewModel.retrieveHistoryPoints(taskId)
-//                }
+                viewModel.retrieveHistoryPoints(it.ongoingTasks,5)
             }
         })
 
