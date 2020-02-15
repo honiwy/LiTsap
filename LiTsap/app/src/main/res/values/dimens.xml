@@ -2,7 +2,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- Toolbar -->
-    <dimen name="height_toolbar">60dp</dimen>
+    <dimen name="height_toolbar">64dp</dimen>
     <dimen name="height_status_bar_origin">24dp</dimen>
 
     <!-- Bottom Navigation -->
@@ -24,7 +24,7 @@
     <dimen name="edge_create_select">2dp</dimen>
 
     <!-- Profile  -->
-    <dimen name="height_profile_header">92dp</dimen>
+    <dimen name="height_profile_header">98dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
     <dimen name="height_competition_tab">48dp</dimen>
 

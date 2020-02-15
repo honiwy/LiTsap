@@ -186,14 +186,14 @@
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:maxLines="2"
-                app:levelInfo="@{viewModel.user.ongoingTasks.size() - viewModel.user.todayDoneCount}"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/text_profile_level_info"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_level"
                 app:layout_constraintTop_toBottomOf="@+id/progress_bar_level"
+                app:levelInfo="@{viewModel.user.ongoingTasks.size() - viewModel.user.todayDoneCount}"
                 tools:text="再努力一下吧!" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -217,13 +217,13 @@
                     android:id="@+id/text_competition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/noto_sans"
                     android:letterSpacing="0.15"
                     android:text="@string/profile_competition"
                     android:textColor="@color/black_3f3a3a"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -274,7 +274,7 @@
                     android:letterSpacing="0.15"
                     android:text="@string/profile_complete"
                     android:textColor="@color/black_3f3a3a"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/text_competition"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_competition" />
@@ -331,7 +331,7 @@
                     android:letterSpacing="0.15"
                     android:text="@string/profile_calendar"
                     android:textColor="@color/black_3f3a3a"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/text_complete"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_complete" />
@@ -369,7 +369,7 @@
 
                     <CalendarView
                         android:id="@+id/calendarView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
