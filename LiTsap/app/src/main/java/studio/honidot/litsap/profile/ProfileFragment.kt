@@ -22,9 +22,9 @@ import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
 import kotlin.collections.ArrayList
 
+private const val BAR_CHART_DRAW_DAYS = 6
 
 class ProfileFragment : Fragment() {
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
@@ -40,7 +40,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
-                    drawBarChart(binding.barChart, it)
+                drawBarChart(binding.barChart, it, BAR_CHART_DRAW_DAYS,viewModel.user.value!!.ongoingTasks.size)
             }
         })
 
@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun drawBarChart(chart: BarChart, history: List<History>) {
+    private fun drawBarChart(chart: BarChart, history: List<History>, dayCount: Int, taskCount: Int) {
         val colorTable = listOf("#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8", "#41a8d1")
         val formatter = DateTimeFormatter.ofPattern("MMM dd")
 
@@ -63,52 +63,51 @@ class ProfileFragment : Fragment() {
         val legends = ArrayList<LegendEntry>()
 
         val pointArrayList = mutableListOf<FloatArray>()
+        val time = LocalDateTime.now()
 
-        colorTable.forEach { color ->
-            colors.add(Color.parseColor(color))
-            xDate.add(
-                LocalDateTime.now().minusDays(colorTable.size.toLong() - colors.size).format(
-                    formatter
-                )
-            )
-            pointArrayList.add(floatArrayOf(0f, 0f, 0f))
+        for (i in dayCount downTo 1) {
+            xDate.add(time.minusDays((i - 1).toLong()).format(formatter)) //set each date format in x axis
+            pointArrayList.add(FloatArray(taskCount)) //prepare ${dayCount} FloatArray(taskCount)
         }
+
 
         val sortedHistory = history.sortedBy { it.taskName }
-
+        var taskIndex = 0  // indicate n-th task
         var historyIndex = 0
-        var a = history[0].taskName
-        var legendEntry = LegendEntry()
-        legendEntry.label = history[0].taskName
-        legendEntry.formColor = colors[legends.size]
+        var name = sortedHistory[historyIndex].taskName
+        val legendEntry = LegendEntry().apply {
+            label = sortedHistory[historyIndex].taskName
+            formColor = Color.parseColor(colorTable[taskIndex])
+        }
+        colors.add(Color.parseColor(colorTable[taskIndex]))
         legends.add(legendEntry)
         sortedHistory.forEach {
-            if (it.taskName != a) {
-                legendEntry = LegendEntry()
-                legendEntry.label = it.taskName
-                legendEntry.formColor = colors[legends.size]
+            if (it.taskName != name) { // found a different task
+                taskIndex += 1
+                val legendEntry = LegendEntry().apply {
+                    label = it.taskName
+                    formColor = Color.parseColor(colorTable[taskIndex])
+                }
+                colors.add(Color.parseColor(colorTable[taskIndex]))
                 legends.add(legendEntry)
-                historyIndex += 1
-                a = it.taskName
+                name = it.taskName
             }
-            for (i in 5 downTo 0) {
-                val timeMin =
-                    LocalDateTime.now().minusDays(i.toLong()).toEpochSecond(ZoneOffset.MIN) * 1000
-                val timeMax =
-                    LocalDateTime.now().minusDays(i - 1.toLong()).toEpochSecond(ZoneOffset.MIN) * 1000
-                if (it.recordDate in (timeMin + 1) until timeMax) {
-                    pointArrayList[5 - i][historyIndex] = it.achieveCount.toFloat()
+            for (i in dayCount downTo 1) {
+                val timeFrom = time.minusDays(i-1.toLong()).toEpochSecond(ZoneOffset.MAX) * 1000
+                val timeTo = time.minusDays(i-1.toLong()).toEpochSecond(ZoneOffset.MIN) * 1000
+                if (it.recordDate in timeFrom until timeTo) {
+                    pointArrayList[dayCount - i][taskIndex] += it.achieveCount.toFloat()
+                    Logger.e("The history ${it.taskName} is done in ${dayCount - i}th day, got ${it.achieveCount} points")
+                    break //if found the day belong, no need to run the remaining for loop
                 }
             }
-
+            historyIndex += 1
         }
 
-        yEntry.add(BarEntry(0f, pointArrayList[0]))
-        yEntry.add(BarEntry(1f, pointArrayList[1]))
-        yEntry.add(BarEntry(2f, pointArrayList[2]))
-        yEntry.add(BarEntry(3f, pointArrayList[3]))
-        yEntry.add(BarEntry(4f, pointArrayList[4]))
-        yEntry.add(BarEntry(5f, pointArrayList[5]))
+        for (i in 0 until dayCount) {
+            yEntry.add(BarEntry(i.toFloat(), pointArrayList[i]))
+        }
+
 
         val barDataSet = BarDataSet(yEntry, "")
         barDataSet.colors = colors
