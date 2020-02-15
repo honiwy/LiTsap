@@ -91,9 +91,9 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistory(taskIdList: List<String>,passNday:Long): Result<List<History>> =
+    override suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>> =
         suspendCoroutine { continuation ->
-            val timeMin =  LocalDateTime.now().minusDays(passNday).toEpochSecond(ZoneOffset.MIN)*1000
+            val timeMin =  LocalDateTime.now().minusDays(passNday.toLong()).toEpochSecond(ZoneOffset.MAX)*1000
             Logger.i("timeMin: $timeMin")
             val listH = mutableListOf<History>()
             FirebaseFirestore.getInstance().collectionGroup("history").whereIn("taskId",taskIdList).whereGreaterThan("recordDate",timeMin).get()

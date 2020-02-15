@@ -32,6 +32,6 @@
     <color name="gray_f5f5f5">#f5f5f5</color>
 
     <!-- Bottom Navigation -->
-    <color name="bottom_navigation_item_normal">@color/gray_999999</color>
-    <color name="bottom_navigation_item_selected">@color/black_3f3a3a</color>
+    <color name="bottom_navigation_item_normal">@color/cream</color>
+    <color name="bottom_navigation_item_selected">@color/honey</color>
 </resources>

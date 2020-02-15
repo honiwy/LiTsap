@@ -30,7 +30,7 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val historyPoints: LiveData<List<History>>
         get() = _historyPoints
 
-    fun retrieveHistoryPoints(taskIdList: List<String>,passNday:Long) {
+    fun retrieveHistoryPoints(taskIdList: List<String>,passNday:Int) {
         coroutineScope.launch {
             val result = repository.getHistory(taskIdList,passNday)
             _historyPoints.value = when (result) {

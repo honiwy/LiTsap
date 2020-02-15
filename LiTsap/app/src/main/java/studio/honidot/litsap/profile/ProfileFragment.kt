@@ -24,7 +24,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 
-private const val BAR_CHART_DRAW_DAYS = 6
+private const val BAR_CHART_DRAW_DAYS = 7
 
 class ProfileFragment : Fragment() {
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.user.observe(this, Observer {
             it?.let {
-                viewModel.retrieveHistoryPoints(it.ongoingTasks, 5)
+                viewModel.retrieveHistoryPoints(it.ongoingTasks, BAR_CHART_DRAW_DAYS-1)
             }
         })
 

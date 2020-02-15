@@ -62,7 +62,7 @@
             android:id="@+id/bottomNavView"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_bottom_nav_view_main"
-            android:background="@color/white"
+            android:background="@color/mustard"
             android:elevation="@dimen/elevation_all"
             app:itemIconTint="@drawable/bottom_nav_item_selector"
             app:labelVisibilityMode="unlabeled"
