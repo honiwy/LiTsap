@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="message"
+            type="String" />
+        <variable
+            name="viewModel"
+            type="studio.honidot.litsap.task.workout.WorkoutViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/create_task_round_editor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/user_logo_medium"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/profile_girl"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/profile_actor" />
+
+            <TextView
+                android:id="@+id/workout_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:text="@{message}"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/user_logo_medium"
+                app:layout_constraintStart_toEndOf="@+id/user_logo_medium"
+                app:layout_constraintTop_toTopOf="@+id/user_logo_medium"
+                tools:text="@string/mock_task" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

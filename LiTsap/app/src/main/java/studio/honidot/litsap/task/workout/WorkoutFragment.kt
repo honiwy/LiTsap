@@ -1,6 +1,7 @@
 package studio.honidot.litsap.task.workout
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import studio.honidot.litsap.databinding.FragmentWorkoutBinding
 import studio.honidot.litsap.extension.getVmFactory
 import androidx.navigation.fragment.findNavController
 import studio.honidot.litsap.NavigationDirections
+import studio.honidot.litsap.task.create.ModuleCreateAdapter
+import studio.honidot.litsap.util.Logger
 
 
 class WorkoutFragment : Fragment() {
@@ -37,6 +40,22 @@ class WorkoutFragment : Fragment() {
                 viewModel.onFinishNavigated()
             }
         })
+
+        val adapter = RecordAdapter(viewModel)
+        binding.recyclerMessage.adapter = adapter
+        viewModel.messageList.observe(this, Observer {
+            binding.recyclerMessage.adapter?.notifyDataSetChanged()
+            binding.recyclerMessage.smoothScrollToPosition(adapter.itemCount)
+        })
+
+
+        binding.editTalk.setOnKeyListener { _, keyCode, keyEvent ->
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                Logger.d("YAYA")
+                viewModel.addMessage()
+                true
+            } else false
+        }
 
         viewModel.leaveWorkout.observe(this, Observer {
             it?.let {

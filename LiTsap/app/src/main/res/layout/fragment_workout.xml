@@ -98,7 +98,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:indeterminate="false"
             android:max="@{viewModel.isCountingRest==true? viewModel.workout.breakTimeConstant :viewModel.workout.displayProcess}"
             android:progress="@{viewModel.isCountingRest==true? (viewModel.workout.breakTimeConstant-viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
@@ -207,6 +207,45 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_talk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/workout_talk_editor"
+            android:ems="10"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@={viewModel.newMessage}"
+            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
+            android:textSize="14sp"
+            android:hint="@string/hint_write_something"
+            app:layout_constraintBottom_toTopOf="@+id/button_finish"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_message"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp"
+            app:messages="@{viewModel.messageList}"
+            app:layout_constraintBottom_toTopOf="@+id/edit_talk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countdown_bar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

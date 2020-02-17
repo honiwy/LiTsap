@@ -1,20 +1,40 @@
 package studio.honidot.litsap.task.workout
 
 import android.os.CountDownTimer
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 
 
 class WorkoutViewModel(
     private val liTsapRepository: LiTsapRepository,
     private val arguments: Workout
 ) : ViewModel() {
+
+    var messageList = MutableLiveData<MutableList<String>>().apply {
+        value = mutableListOf()
+    }
+
+    var newMessage = MutableLiveData<String>()
+
+    fun addMessage() {
+        newMessage.value?.let {
+            Logger.d("HIHI")
+            messageList.value!!.add(it)
+            messageList.value = messageList.value//Let observer detect the change
+            newMessage.value = ""
+            }
+    }
+
 
     lateinit var taskCountDownTimer: CountDownTimer
 
@@ -53,9 +73,9 @@ class WorkoutViewModel(
     }
 
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
-        _workout.value?.let { wo ->
-            taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
+        taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                _workout.value?.let {wo->
                     _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
                     if (_totalTaskRemained.value!!.rem(wo.sectionConstant) == 0 && _totalTaskRemained.value != 0) {
                         _isCountingRest.value = true
@@ -64,15 +84,15 @@ class WorkoutViewModel(
                         startRestCountDownTimer(wo.breakTimeConstant * 1000L)
                     }
                 }
-
-                override fun onFinish() {
-                    wo.achieveSectionCount += 1
-                    navigateToFinish()
-                }
             }
-            _isCountingTask.value = true
-            taskCountDownTimer.start()
+
+            override fun onFinish() {
+                _workout.value!!.achieveSectionCount += 1
+                navigateToFinish()
+            }
         }
+        _isCountingTask.value = true
+        taskCountDownTimer.start()
     }
 
     lateinit var restCountDownTimer: CountDownTimer

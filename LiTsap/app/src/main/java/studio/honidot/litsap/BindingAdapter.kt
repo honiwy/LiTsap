@@ -15,6 +15,7 @@ import studio.honidot.litsap.data.User
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
+import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
 import java.util.*
 
@@ -119,6 +120,17 @@ fun bindTimeStamp(textView: TextView, timeStamp: com.google.firebase.Timestamp) 
 @BindingAdapter("timerLongConverter")
 fun bindTimeLong(textView: TextView, timeLong: Long) {
     textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
+}
+
+@BindingAdapter("messages")
+fun bindRecyclerViewWithMessages(recyclerView: RecyclerView, tags: List<String>?) {
+    tags?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is RecordAdapter -> submitList(it)
+            }
+        }
+    }
 }
 
 //Task Finish
