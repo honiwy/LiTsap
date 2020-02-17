@@ -98,18 +98,8 @@ class DetailViewModel(
         _workout.value = _workout.value
     }
 
-    val moduleDetailOpen = MutableLiveData<Boolean>().apply {
-        value = true
-    }
-
     val moduleStatusOpen = MutableLiveData<Boolean>().apply {
         value = true
-    }
-
-    fun clickModuleDetailArrow() {
-        moduleDetailOpen.value?.let {
-            moduleDetailOpen.value = !it
-        }
     }
 
     fun clickModuleStatusArrow() {
@@ -135,10 +125,6 @@ class DetailViewModel(
 
     fun onWorkoutNavigated() {
         _navigateToWorkout.value = null
-    }
-
-    fun onPieDrew() {
-        _awaitDrawModules.value = null
     }
 
     fun leaveDetail() {

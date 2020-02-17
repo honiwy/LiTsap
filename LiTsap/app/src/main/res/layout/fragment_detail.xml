@@ -61,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/image_back"
             app:layout_constraintTop_toBottomOf="@+id/text_task_title"
-            tools:text="@string/mock_module" />
+            tools:text="@string/task_end" />
 
         <ImageView
             android:id="@+id/image_live"
@@ -87,27 +87,12 @@
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/task_status" />
 
-        <ImageButton
-            android:id="@+id/button_updown_module"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:background="@{viewModel.moduleDetailOpen?@drawable/down_arrow:@drawable/up_arrow}"
-            android:onClick="@{() -> viewModel.clickModuleDetailArrow()}"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_choose"
-            app:layout_constraintStart_toEndOf="@+id/text_choose"
-            app:layout_constraintTop_toTopOf="@+id/text_choose"
-            tools:background="@drawable/up_arrow" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_module"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:elevation="4dp"
-            android:visibility="@{viewModel.moduleDetailOpen?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_choose">
@@ -117,22 +102,130 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:modules="@{viewModel.modules}"
-                app:spanCount="2">
-            </androidx.recyclerview.widget.RecyclerView>
+                app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_module_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/task_module"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_task_title"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_time" />
+
+        <ImageButton
+            android:id="@+id/button_updown_status"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:background="@{viewModel.moduleStatusOpen?@drawable/down_arrow:@drawable/up_arrow}"
+            android:onClick="@{() -> viewModel.clickModuleStatusArrow()}"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_module_detail"
+            app:layout_constraintStart_toEndOf="@+id/text_module_detail"
+            app:layout_constraintTop_toTopOf="@+id/text_module_detail"
+            tools:background="@drawable/up_arrow" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/text_task_title"
+            app:layout_constraintStart_toStartOf="@+id/text_task_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_module_detail">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/task_logo_medium"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:taskCategory="@{viewModel.task.taskCategoryId}"
+                tools:background="@drawable/category_food" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/button_create"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_button"
+            android:enabled="@{viewModel.workout.planSectionCount&lt;1?false:true}"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:onClick="@{()->viewModel.navigateToWorkout(viewModel.workout)}"
+            android:text="@{viewModel.workout.planSectionCount&lt;1?@string/task_hint:@string/task_go}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/task_go" />
+
+        <TextView
+            android:id="@+id/text_workout_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/task_workout_time"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_choose"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_module" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/text_task_title"
+            app:layout_constraintStart_toStartOf="@+id/image_back"
+            app:layout_constraintTop_toBottomOf="@+id/text_workout_time">
 
             <TextView
                 android:id="@+id/text_section"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_section"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_module_detail" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/button_power1"
@@ -206,87 +299,8 @@
                 app:layout_constraintTop_toTopOf="@+id/text_section"
                 app:time="@{viewModel.workout.planSectionCount}"
                 tools:text="@string/task_time" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/text_module_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:text="@string/task_module"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_task_title"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_module" />
-
-        <ImageButton
-            android:id="@+id/button_updown_status"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:background="@{viewModel.moduleStatusOpen?@drawable/down_arrow:@drawable/up_arrow}"
-            android:onClick="@{() -> viewModel.clickModuleStatusArrow()}"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_module_detail"
-            app:layout_constraintStart_toEndOf="@+id/text_module_detail"
-            app:layout_constraintTop_toTopOf="@+id/text_module_detail"
-            tools:background="@drawable/up_arrow" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_status"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
-            app:layout_constraintEnd_toEndOf="@+id/text_task_title"
-            app:layout_constraintStart_toStartOf="@+id/text_task_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_module_detail">
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/piechart"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/task_logo_medium"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:taskCategory="@{viewModel.task.taskCategoryId}"
-                tools:background="@drawable/category_food" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Button
-            android:id="@+id/button_create"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/round_button"
-            android:enabled="@{viewModel.workout.planSectionCount&lt;1?false:true}"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:onClick="@{()->viewModel.navigateToWorkout(viewModel.workout)}"
-            android:text="@{viewModel.workout.planSectionCount&lt;1?@string/task_hint:@string/task_go}"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/task_go" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

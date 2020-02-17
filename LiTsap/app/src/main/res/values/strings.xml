@@ -29,9 +29,10 @@
     <string name="something_miss">尚有未輸入項目</string>
     <!-- Task Detail -->
     <string name="task_detail">任務詳情</string>
-    <string name="task_choose">選擇執行細項</string>
+    <string name="task_choose">欲執行細項:</string>
+    <string name="task_workout_time">欲執行時間:</string>
     <string name="task_module">細項執行狀況</string>
-    <string name="task_section">本次動力: </string>
+    <string name="task_section">本次動力 </string>
     <string name="task_go">開始任務</string>
     <string name="task_hint">請在上方選擇...</string>
     <string name="mock_module">煎蛋</string>
