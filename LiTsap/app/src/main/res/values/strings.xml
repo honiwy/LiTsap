@@ -11,7 +11,7 @@
     <!-- Task Create -->
     <string name="task_name">任務名稱: </string>
     <string name="hint_task">成為最強工程師</string>
-    <string name="hint_module">最多 6 字</string>
+    <string name="hint_module">限 6 字內</string>
     <string name="set_module">任務細項: </string>
     <string name="task_end">截止日期: </string>
     <string name="task_count">執行次數: </string>
@@ -47,7 +47,9 @@
     <string name="get_point">領取任務經驗值</string>
     <string name="footprint">任務足跡</string>
     <string name="feedback">任務心得</string>
-
+    <string name="finish_point">本次積點</string>
+    <string name="insert_text">插入圖片</string>
+    <string name="feedback_hint">限 150 字內</string>
     <!-- Profile -->
     <string name="profile_default_name">Rachel</string>
     <string name="profile_level">LV %d</string>

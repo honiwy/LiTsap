@@ -14,6 +14,16 @@
         android:layout_height="match_parent">
 
 
+        <ImageView
+            android:id="@+id/task_logo_big"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/category_food" />
+
         <TextView
             android:id="@+id/text_workout_task"
             android:layout_width="wrap_content"
@@ -25,46 +35,33 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text_workout_module"
+            app:layout_constraintStart_toEndOf="@+id/task_logo_big"
             app:layout_constraintTop_toTopOf="@+id/task_logo_big"
             tools:text="@string/mock_task" />
 
         <ImageView
             android:id="@+id/task_logo_medium"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
-            app:layout_constraintStart_toEndOf="@+id/task_logo_big"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/task_logo_big"
-            tools:background="@drawable/category_food" />
-
-        <ImageView
-            android:id="@+id/task_logo_big"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:background="@drawable/category_food" />
 
         <TextView
             android:id="@+id/text_workout_module"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:textAlignment="textStart"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
-            app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
-            app:layout_constraintTop_toTopOf="@+id/task_logo_big"
-            tools:text="@string/mock_task" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_workout_task"
+            app:layout_constraintEnd_toStartOf="@+id/task_logo_medium"
+            tools:text="@string/mock_module" />
 
         <TextView
             android:id="@+id/text_footprint"
@@ -80,11 +77,46 @@
             app:layout_constraintStart_toStartOf="@+id/task_logo_big"
             app:layout_constraintTop_toBottomOf="@+id/task_logo_big" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constriant_footprint"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/profile_round_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_footprint"
+            app:layout_constraintTop_toBottomOf="@+id/text_footprint">
+
+            <TextView
+                android:id="@+id/text_footprint_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/finish_point"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/task_logo_big"
+            app:layout_constraintTop_toBottomOf="@+id/constriant_footprint" />
+
         <TextView
             android:id="@+id/text_feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/feedback"
@@ -92,32 +124,54 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/task_logo_big"
-            app:layout_constraintTop_toBottomOf="@+id/text_footprint" />
+            app:layout_constraintTop_toBottomOf="@+id/text_point" />
 
-        <ImageButton
-            android:id="@+id/button_updown_footprint"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_footprint"
-            app:layout_constraintStart_toEndOf="@+id/text_footprint"
-            app:layout_constraintTop_toTopOf="@+id/text_footprint"
-            tools:background="@drawable/up_arrow" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/profile_round_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_feedback"
+            app:layout_constraintTop_toBottomOf="@+id/text_feedback">
 
-        <ImageButton
-            android:id="@+id/button_updown_feedback"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_feedback"
-            app:layout_constraintStart_toEndOf="@+id/text_feedback"
-            app:layout_constraintTop_toTopOf="@+id/text_feedback"
-            app:layout_constraintVertical_bias="1.0"
-            tools:background="@drawable/up_arrow" />
+            <EditText
+                android:id="@+id/task_finish_thought"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/feedback_hint"
+                android:maxLines="15"
+                android:singleLine="false"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:lines="15" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/gallery" />
+
+            <TextView
+                android:id="@+id/text_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:text="@string/insert_text"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/button_finish"
@@ -130,35 +184,69 @@
             android:background="@drawable/round_button"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
+            android:text="@string/get_point"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:text="@string/get_point"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/profile_round_recycler"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_feedback">
+        <TextView
+            android:id="@+id/text_experience"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/create_task_round_editor"
+            android:text="12 xp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_point"
+            app:layout_constraintStart_toEndOf="@+id/text_point"
+            app:layout_constraintTop_toTopOf="@+id/text_point" />
 
-            <EditText
-                android:id="@+id/task_finish_thought"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="Name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/image_star"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
+            app:layout_constraintStart_toEndOf="@+id/text_experience"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/image_star2"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
+            app:layout_constraintStart_toEndOf="@+id/image_star"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/image_star4"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
+            app:layout_constraintStart_toEndOf="@+id/image_star3"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/image_star5"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
+            app:layout_constraintStart_toEndOf="@+id/image_star4"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/image_star3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
+            app:layout_constraintStart_toEndOf="@+id/image_star2"
+            app:srcCompat="@drawable/star" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
