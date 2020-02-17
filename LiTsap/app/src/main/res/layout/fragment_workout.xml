@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:background="@color/royal"
-        android:background="@{viewModel.isCountingRest==true?@color/maya:@color/royal}">
+        android:background="@{viewModel.isCountingRest==true?@color/white:@color/royal}">
 
         <ImageView
             android:id="@+id/image_back"
@@ -100,8 +100,8 @@
             android:layout_height="300dp"
             android:layout_marginTop="24dp"
             android:indeterminate="false"
-            android:max="@{viewModel.isCountingRest==true? viewModel.restSec :viewModel.workout.displayProcess}"
-            android:progress="@{viewModel.isCountingRest==true? (viewModel.restSec-viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
+            android:max="@{viewModel.isCountingRest==true? viewModel.workout.breakTimeConstant :viewModel.workout.displayProcess}"
+            android:progress="@{viewModel.isCountingRest==true? (viewModel.workout.breakTimeConstant-viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
             android:progressDrawable="@drawable/circular_progress"
             android:secondaryProgress="100"
             app:layout_constraintEnd_toEndOf="parent"
@@ -200,9 +200,10 @@
             android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.navigateToFinish()}"
             android:text="@string/completed_ahead"
-            android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:textSize="16sp"
-            android:visibility="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.sectionSec ? View.VISIBLE:View.INVISIBLE}"
+            android:visibility="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.workout.sectionConstant ? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

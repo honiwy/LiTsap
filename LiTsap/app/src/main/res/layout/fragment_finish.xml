@@ -5,13 +5,18 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="studio.honidot.litsap.task.finish.FinishViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_parent"
         android:layout_width="match_parent"
-        android:background="@color/cream"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/cream">
 
 
         <ImageView
@@ -22,15 +27,18 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:taskCategory="@{viewModel.workout.taskCategoryId}"
             tools:background="@drawable/category_food" />
 
         <TextView
             android:id="@+id/text_workout_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
+            android:text="@{viewModel.workout.taskName}"
             android:textAlignment="textEnd"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -47,15 +55,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/task_logo_big"
+            app:taskCategory="@{viewModel.workout.taskCategoryId}"
             tools:background="@drawable/category_food" />
 
         <TextView
             android:id="@+id/text_workout_module"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
+            android:text="@{viewModel.workout.moduleName}"
             android:textAlignment="textStart"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -80,7 +90,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constriant_footprint"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/profile_round_recycler"
@@ -93,7 +103,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="@string/feedback_hint"
-                android:maxLines="15"
+                android:lines="15"
                 android:singleLine="false"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -162,11 +171,11 @@
                 android:id="@+id/text_insert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/insert_text"
-                android:textColor="@color/black_3f3a3a"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -198,7 +207,10 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/create_task_round_editor"
-            android:text="12 xp"
+            android:textColor="@color/royal"
+            tools:text="12 xp"
+            android:textStyle="bold"
+            app:receiveExperience="@{viewModel.workout.achieveSectionCount}"
             app:layout_constraintBottom_toBottomOf="@+id/text_point"
             app:layout_constraintStart_toEndOf="@+id/text_point"
             app:layout_constraintTop_toTopOf="@+id/text_point" />
@@ -208,6 +220,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginStart="4dp"
+            android:visibility="@{viewModel.workout.achieveSectionCount>0? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
@@ -217,8 +230,19 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="4dp"
+            android:visibility="@{viewModel.workout.achieveSectionCount>1? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star"
+            app:srcCompat="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/image_star3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="4dp"
+            android:visibility="@{viewModel.workout.achieveSectionCount>2? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
+            app:layout_constraintStart_toEndOf="@+id/image_star2"
             app:srcCompat="@drawable/star" />
 
         <ImageView
@@ -226,6 +250,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="4dp"
+            android:visibility="@{viewModel.workout.achieveSectionCount>3? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star3"
             app:srcCompat="@drawable/star" />
@@ -235,19 +260,10 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="4dp"
+            android:visibility="@{viewModel.workout.achieveSectionCount>4? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star4"
             app:srcCompat="@drawable/star" />
-
-        <ImageView
-            android:id="@+id/image_star3"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_experience"
-            app:layout_constraintStart_toEndOf="@+id/image_star2"
-            app:srcCompat="@drawable/star" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

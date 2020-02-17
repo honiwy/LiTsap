@@ -32,8 +32,6 @@ class ViewModelFactory(
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(liTsapRepository)
 
-                isAssignableFrom(FinishViewModel::class.java) ->
-                    FinishViewModel(liTsapRepository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

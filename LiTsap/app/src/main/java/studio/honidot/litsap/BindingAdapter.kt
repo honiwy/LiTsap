@@ -121,10 +121,16 @@ fun bindTimeLong(textView: TextView, timeLong: Long) {
     textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
 }
 
+//Task Finish
+@BindingAdapter("receiveExperience")
+fun bindReceiveExperience(textView: TextView, achieveSection: Int) {
+    val xpAcquired = achieveSection * achieveSection
+    textView.text = instance.getString(R.string.profile_experience, xpAcquired)
+}
+
 //Profile
 @BindingAdapter("experience")
 fun bindExperience(textView: TextView, xp: Long) {
-//    textView.text = instance.getString(R.string.profile_experience, xp)
     val next = xp+ 10- (xp%10)
     textView.text = instance.getString(R.string.profile_experience, xp)+ " / $next"
 }

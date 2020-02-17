@@ -8,9 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import studio.honidot.litsap.databinding.FragmentFinishBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.task.workout.WorkoutFragmentArgs
+import studio.honidot.litsap.task.workout.WorkoutViewModel
 
 class FinishFragment : Fragment() {
-    private val viewModel by viewModels<FinishViewModel> { getVmFactory() }
+    private val viewModel by viewModels<FinishViewModel> {
+        getVmFactory(
+            FinishFragmentArgs.fromBundle(
+                arguments!!
+            ).finishKey
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +27,7 @@ class FinishFragment : Fragment() {
     ): View? {
         val binding = FragmentFinishBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         return binding.root
     }

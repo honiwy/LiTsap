@@ -1,7 +1,6 @@
 package studio.honidot.litsap.task.workout
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,13 +29,7 @@ class WorkoutViewModel(
     init {
         _totalTaskRemained.value = arguments.displayProcess
         startTaskCountDownTimer(arguments.workoutTime * 1000)
-//        _totalTaskRemained.value = 60 //60 sec
-//        startTaskCountDownTimer(60L*1000)
-
     }
-
-    val sectionSec = 1200 //1200: 20 min, 10: 10 sec
-    val restSec = 300 //300: 5 min, 5: 5 sec
 
     private val _isCountingRest = MutableLiveData<Boolean>()
     val isCountingRest: LiveData<Boolean>
@@ -60,22 +53,26 @@ class WorkoutViewModel(
     }
 
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
-        taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
-                if (_totalTaskRemained.value!!.rem(sectionSec) == 0 && _totalTaskRemained.value != 0) {
-                    _isCountingRest.value = true
-                    pausePlayTimer()
-                    startRestCountDownTimer(restSec * 1000L)
+        _workout.value?.let { wo ->
+            taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
+                    if (_totalTaskRemained.value!!.rem(wo.sectionConstant) == 0 && _totalTaskRemained.value != 0) {
+                        _isCountingRest.value = true
+                        wo.achieveSectionCount += 1
+                        pausePlayTimer()
+                        startRestCountDownTimer(wo.breakTimeConstant * 1000L)
+                    }
+                }
+
+                override fun onFinish() {
+                    wo.achieveSectionCount += 1
+                    navigateToFinish()
                 }
             }
-
-            override fun onFinish() {
-                navigateToFinish()
-            }
+            _isCountingTask.value = true
+            taskCountDownTimer.start()
         }
-        _isCountingTask.value = true
-        taskCountDownTimer.start()
     }
 
     lateinit var restCountDownTimer: CountDownTimer

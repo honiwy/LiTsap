@@ -66,7 +66,7 @@
         android:label="FinishFragment"
         tools:layout="@layout/fragment_finish">
         <argument
-            android:name="workoutKey"
+            android:name="finishKey"
             app:argType="studio.honidot.litsap.data.Workout" />
     </fragment>
     <action
@@ -77,4 +77,9 @@
         android:name="studio.honidot.litsap.task.create.TaskCreateDialog"
         android:label="TaskCreateDialog"
         tools:layout="@layout/dialog_create_task"/>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="studio.honidot.litsap.MainActivity"
+        android:label="MainActivity"
+        tools:layout="@layout/activity_main"/>
 </navigation>
