@@ -10,10 +10,14 @@ import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.databinding.ItemTaskBinding
 import studio.honidot.litsap.databinding.ItemTaskClassBinding
 
-class TaskAdapter(private val onClickListener: OnClickListener) :
+class TaskAdapter(private val onClickListener: OnClickListener, private val onLongClickListener: OnLongClickListener) :
     ListAdapter<TaskItem, RecyclerView.ViewHolder>(DiffCallback) {
     class OnClickListener(val clickListener: (task: Task) -> Unit) {
         fun onClick(task: Task) = clickListener(task)
+    }
+
+    class OnLongClickListener(val clickLongListener: (task: Task) -> Unit) {
+        fun onLongClick(task: Task) = clickLongListener(task)
     }
 
     class TitleViewHolder(private var binding: ItemTaskClassBinding) :
@@ -28,9 +32,11 @@ class TaskAdapter(private val onClickListener: OnClickListener) :
     class AssignmentViewHolder(private var binding: ItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(task: Task, onClickListener: OnClickListener) {
+        fun bind(task: Task, onClickListener: OnClickListener, onLongClickListener: OnLongClickListener) {
             binding.task = task
             binding.root.setOnClickListener { onClickListener.onClick(task) }
+            binding.root.setOnLongClickListener { onLongClickListener.onLongClick(task)
+            true}
             binding.executePendingBindings()
         }
     }
@@ -74,7 +80,7 @@ class TaskAdapter(private val onClickListener: OnClickListener) :
                 holder.bind((getItem(position) as TaskItem.Title).title)
             }
             is AssignmentViewHolder -> {
-                holder.bind((getItem(position) as TaskItem.Assignment).task, onClickListener)
+                holder.bind((getItem(position) as TaskItem.Assignment).task, onClickListener, onLongClickListener)
             }
         }
     }

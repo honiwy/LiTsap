@@ -1,5 +1,8 @@
 package studio.honidot.litsap.task
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,8 +10,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import studio.honidot.litsap.data.*
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.Task
+import studio.honidot.litsap.data.TaskItem
+import studio.honidot.litsap.data.User
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 
 
 private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
@@ -66,6 +74,62 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
                 }
             }
         }
+    }
+
+
+
+    fun deleteUserOngoingTask(userId: String, taskId: String) {
+        coroutineScope.launch {
+            Logger.d("Hello you are in viewModel $taskId is deleted")
+            val result = repository.deleteUserOngoingTask(userId, taskId)
+            when (result) {
+                is Result.Success -> {
+                    deleteTaskFromCollection(taskId)
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+    fun deleteTaskFromCollection(taskId: String) {
+        coroutineScope.launch {
+            val result = repository.deleteTask(taskId)
+            when (result) {
+                is Result.Success -> {
+                    Logger.d("Delete success")
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+    private val _longPressTaskItem = MutableLiveData<Task>()
+
+    val longPressTaskItem: LiveData<Task>
+        get() = _longPressTaskItem
+
+    fun longPressTaskItem (task: Task) {
+        _longPressTaskItem.value = task
+    }
+
+    fun onlongPressTaskItemFinish () {
+        _longPressTaskItem.value = null
     }
 
     // Handle navigation to detail

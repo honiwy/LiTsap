@@ -9,6 +9,10 @@ interface LiTsapDataSource {
 
     suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
 
+    suspend fun deleteUserOngoingTask(userId : String, taskId: String): Result<Boolean>
+
+    suspend fun deleteTask(taskId: String): Result<Boolean>
+
     suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>>
 
     suspend fun getModules(taskId: String): Result<List<Module>>

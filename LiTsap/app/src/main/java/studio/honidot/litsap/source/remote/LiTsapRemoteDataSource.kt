@@ -45,6 +45,45 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         return user
     }
 
+    override suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
+                .update("ongoingTasks", FieldValue.arrayRemove(taskId))
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun deleteTask(taskId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            Logger.e("You choose delete $taskId")
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
+                .delete()
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        Logger.d(" override suspend fun deleteTask!")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun getTasks(taskIdList: List<String>): Result<List<Task>> =
         suspendCoroutine { continuation ->
             val tasks = mutableListOf<Task>()
@@ -100,7 +139,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
-                            val history =documentH.toObject(History::class.java)
+                            val history = documentH.toObject(History::class.java)
                                 Logger.d("one history: ${history.taskName}, note ${history.note}, point ${history.achieveCount}")
                             listH.add(documentH.toObject(History::class.java))
                         }

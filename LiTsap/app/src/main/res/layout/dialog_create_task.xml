@@ -135,6 +135,7 @@
                 android:fontFamily="@font/noto_sans"
                 android:hint="@string/hint_module"
                 android:letterSpacing="0.15"
+                android:textAlignment="center"
                 android:maxLength="7"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
@@ -145,13 +146,14 @@
                 app:layout_constraintStart_toStartOf="@+id/recycler_module" />
 
             <ImageButton
-                android:id="@+id/button_task_add"
+                android:id="@+id/button_module_add"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/plus"
                 android:backgroundTint="@{(viewModel.newModule.empty ||viewModel.newModule == null )? @color/gray_888888:@color/honey}"
                 android:onClick="@{() -> viewModel.addModule()}"
+                android:clickable="@{(viewModel.newModule.empty ||viewModel.newModule == null )? false : true}"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_module"
                 app:layout_constraintStart_toEndOf="@+id/edit_module"
                 app:layout_constraintTop_toTopOf="@+id/edit_module" />

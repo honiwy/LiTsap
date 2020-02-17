@@ -19,6 +19,14 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getTasks(taskIdList)
     }
 
+    override suspend fun deleteUserOngoingTask(userId : String, taskId: String): Result<Boolean>{
+        return remoteDataSource.deleteUserOngoingTask(userId, taskId)
+    }
+
+    override suspend fun deleteTask(taskId: String): Result<Boolean>{
+        return remoteDataSource.deleteTask(taskId)
+    }
+
     override suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>> {
         return remoteDataSource.getHistory(taskIdList,passNday)
     }
