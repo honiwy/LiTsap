@@ -51,7 +51,6 @@ class WorkoutFragment : Fragment() {
 
         binding.editTalk.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                Logger.d("YAYA")
                 viewModel.addMessage()
                 true
             } else false

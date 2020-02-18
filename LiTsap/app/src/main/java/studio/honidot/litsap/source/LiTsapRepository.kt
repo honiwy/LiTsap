@@ -24,4 +24,10 @@ interface LiTsapRepository {
     suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean>
 
     suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
+
+    suspend fun updateTaskStatus(workout: Workout): Result<Boolean>
+
+    suspend fun updateUserStatus(workout: Workout): Result<Boolean>
+
+    suspend fun updateUserExperience(workout: Workout): Result<Boolean>
 }

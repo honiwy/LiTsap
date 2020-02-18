@@ -111,9 +111,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:id="@+id/image_foot"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/recycler_footprint"
                 app:srcCompat="@drawable/footprint" />
@@ -214,7 +214,7 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/get_point"
-            android:onClick="@{()->viewModel.navigateToProfile()}"
+            android:onClick="@{()->viewModel.navigateToProfile(viewModel.workout)}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

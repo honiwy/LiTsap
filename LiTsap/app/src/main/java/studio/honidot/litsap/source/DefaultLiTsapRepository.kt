@@ -19,16 +19,19 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getTasks(taskIdList)
     }
 
-    override suspend fun deleteUserOngoingTask(userId : String, taskId: String): Result<Boolean>{
+    override suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean> {
         return remoteDataSource.deleteUserOngoingTask(userId, taskId)
     }
 
-    override suspend fun deleteTask(taskId: String): Result<Boolean>{
+    override suspend fun deleteTask(taskId: String): Result<Boolean> {
         return remoteDataSource.deleteTask(taskId)
     }
 
-    override suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>> {
-        return remoteDataSource.getHistory(taskIdList,passNday)
+    override suspend fun getHistory(
+        taskIdList: List<String>,
+        passNday: Int
+    ): Result<List<History>> {
+        return remoteDataSource.getHistory(taskIdList, passNday)
     }
 
     override suspend fun getModules(taskId: String): Result<List<Module>> {
@@ -43,11 +46,23 @@ class DefaultLiTsapRepository(
         return remoteDataSource.createTaskModules(taskId, modules)
     }
 
-    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean>{
+    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean> {
         return remoteDataSource.createFirstTaskHistory(taskId, history)
     }
 
-    override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>{
+    override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> {
         return remoteDataSource.addUserOngoingList(userId, taskId)
+    }
+
+    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean> {
+        return remoteDataSource.updateTaskStatus(workout)
+    }
+
+    override suspend fun updateUserStatus(workout: Workout): Result<Boolean> {
+        return remoteDataSource.updateUserStatus(workout)
+    }
+
+    override suspend fun updateUserExperience(workout: Workout): Result<Boolean>{
+        return remoteDataSource.updateUserExperience(workout)
     }
 }

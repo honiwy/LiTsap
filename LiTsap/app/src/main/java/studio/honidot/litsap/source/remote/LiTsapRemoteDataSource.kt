@@ -218,7 +218,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 .update("ongoingTasks", FieldValue.arrayUnion(taskId))
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
-                        Logger.d("Update task id in user collection success!")
                         continuation.resume(Result.Success(true))
                     } else {
                         addId.exception?.let {
@@ -230,6 +229,66 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     }
                 }
         }
+
+    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            Logger.d("Hello! userId: ${workout.userId}, achieve: ${workout.achieveSectionCount}")
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId)
+                .update(mapOf("todayDone" to true, "accumCount" to FieldValue.increment(workout.achieveSectionCount.toLong())))
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        Logger.d("Update task status success! userId: ${workout.userId}, achieve: ${workout.achieveSectionCount}")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
+                .update(mapOf("experience" to FieldValue.increment(workout.achieveSectionCount.toLong()), "todayDoneCount" to FieldValue.increment(1L)))
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        Logger.w("updateUserStatus: ${workout.achieveSectionCount} is ${workout.achieveSectionCount*workout.achieveSectionCount}")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun updateUserExperience(workout: Workout): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
+                .update("experience", FieldValue.increment(workout.achieveSectionCount*workout.achieveSectionCount.toLong()))
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+
+
 
 
 }

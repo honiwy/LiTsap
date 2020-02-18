@@ -46,4 +46,16 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun updateUserStatus(workout: Workout): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun updateUserExperience(workout: Workout): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

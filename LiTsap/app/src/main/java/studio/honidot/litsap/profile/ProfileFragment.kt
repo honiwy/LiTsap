@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -121,7 +122,7 @@ class ProfileFragment : Fragment() {
             legend.setCustom(legends)
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
-            // xAxis.position = XAxis.XAxisPosition.BOTTOM
+             xAxis.position = XAxis.XAxisPosition.BOTTOM
             invalidate()
         }
     }

@@ -80,7 +80,7 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     fun deleteUserOngoingTask(userId: String, taskId: String) {
         coroutineScope.launch {
-            Logger.d("Hello you are in viewModel $taskId is deleted")
+
             val result = repository.deleteUserOngoingTask(userId, taskId)
             when (result) {
                 is Result.Success -> {

@@ -28,7 +28,6 @@ class WorkoutViewModel(
 
     fun addMessage() {
         newMessage.value?.let {
-            Logger.d("HIHI")
             messageList.value!!.add(it)
             messageList.value = messageList.value//Let observer detect the change
             newMessage.value = ""
