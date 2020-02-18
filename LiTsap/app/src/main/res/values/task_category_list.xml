@@ -6,6 +6,7 @@
         <item>@string/category_study</item>
         <item>@string/category_networking</item>
         <item>@string/category_wealth</item>
+        <item>@string/category_art</item>
         <item>@string/category_other</item>
     </string-array>
 </resources>

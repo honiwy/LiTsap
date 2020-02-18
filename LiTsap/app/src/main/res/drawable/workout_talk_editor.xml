@@ -4,8 +4,8 @@
 <!--    <stroke android:width="1.5dp" android:color="@color/yale" />-->
     <gradient
         android:angle="180"
-        android:endColor="#80000000"
-        android:startColor="#80000000" />
+        android:endColor="@color/translucent_half"
+        android:startColor="@color/translucent_half" />
 
     <corners
         android:topLeftRadius="12dp"

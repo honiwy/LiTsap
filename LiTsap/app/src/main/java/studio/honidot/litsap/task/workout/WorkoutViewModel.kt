@@ -65,6 +65,8 @@ class WorkoutViewModel(
     }
 
     fun navigateToFinish() {
+        _workout.value?.let{
+            it.recordInfo = messageList.value as List<String>}
         _navigateToFinish.value = _workout.value
     }
 

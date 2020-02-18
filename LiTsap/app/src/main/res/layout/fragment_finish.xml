@@ -90,7 +90,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constriant_footprint"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="145dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/profile_round_recycler"
@@ -98,11 +98,15 @@
             app:layout_constraintStart_toStartOf="@+id/text_footprint"
             app:layout_constraintTop_toBottomOf="@+id/text_footprint">
 
-            <TextView
-                android:id="@+id/text_footprint_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_footprint"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:footprints="@{viewModel.workout}"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -150,10 +154,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/tag_button"
+                android:gravity="top"
                 android:hint="@string/feedback_hint"
                 android:lines="15"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
                 android:singleLine="false"
                 android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -163,6 +174,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_marginStart="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/gallery" />

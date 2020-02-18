@@ -21,6 +21,7 @@
     <string name="category_food">美食</string>
     <string name="category_study">學習</string>
     <string name="category_networking">社交</string>
+    <string name="category_art">藝文</string>
     <string name="category_other">其他</string>
     <string name="plenty_module_info">最多 6 則細項</string>
     <string name="create_task">建立任務</string>

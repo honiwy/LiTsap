@@ -98,7 +98,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:indeterminate="false"
             android:max="@{viewModel.isCountingRest==true? viewModel.workout.breakTimeConstant :viewModel.workout.displayProcess}"
             android:progress="@{viewModel.isCountingRest==true? (viewModel.workout.breakTimeConstant-viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
@@ -201,6 +201,7 @@
             android:onClick="@{()->viewModel.navigateToFinish()}"
             android:text="@string/completed_ahead"
             android:textColor="@color/white"
+
             android:textStyle="bold"
             android:textSize="16sp"
             android:visibility="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.workout.sectionConstant ? View.VISIBLE:View.INVISIBLE}"
@@ -236,16 +237,16 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            android:layout_marginBottom="8dp"
-            app:messages="@{viewModel.messageList}"
-            app:layout_constraintBottom_toTopOf="@+id/edit_talk"
+            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/text_ad"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/countdown_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/countdown_bar"
+            app:messages="@{viewModel.messageList}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

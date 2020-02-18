@@ -14,7 +14,7 @@ data class Workout(
     var planSectionCount: Int = 0,
     var achieveSectionCount: Int = 0,
     var chatWithGroup: Boolean = false,
-    val recordInfo: List<String> = listOf()
+    var recordInfo: List<String> = listOf()
 ) : Parcelable {
     val breakTimeConstant
         get() = 5//*60 //5 min

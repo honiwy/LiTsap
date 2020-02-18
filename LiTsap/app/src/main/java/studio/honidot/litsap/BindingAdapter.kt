@@ -12,11 +12,14 @@ import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.data.User
+import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
+import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
+import studio.honidot.litsap.util.Logger
 import java.util.*
 
 //Task List
@@ -42,6 +45,7 @@ fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
             TaskCategory.FOOD -> instance.getDrawable(R.drawable.category_food)
             TaskCategory.STUDY -> instance.getDrawable(R.drawable.category_study)
             TaskCategory.WEALTH -> instance.getDrawable(R.drawable.category_wealth)
+            TaskCategory.ART -> instance.getDrawable(R.drawable.category_brush)
             TaskCategory.NETWORKING -> instance.getDrawable(R.drawable.category_networking)
             else -> instance.getDrawable(R.drawable.category_other)
         }
@@ -138,6 +142,18 @@ fun bindRecyclerViewWithMessages(recyclerView: RecyclerView, tags: List<String>?
 fun bindReceiveExperience(textView: TextView, achieveSection: Int) {
     val xpAcquired = achieveSection * achieveSection
     textView.text = instance.getString(R.string.profile_experience, xpAcquired)
+}
+
+@BindingAdapter("footprints")
+fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Workout?) {
+    workoutResult?.let {
+        Logger.i("Hello bindRecyclerViewWithFootprints: ${workoutResult.recordInfo}")
+        recyclerView.adapter?.apply {
+            when (this) {
+                is FootprintAdapter -> submitList(it.recordInfo)
+            }
+        }
+    }
 }
 
 //Profile
