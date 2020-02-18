@@ -109,6 +109,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/recycler_footprint"
+                app:srcCompat="@drawable/footprint" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -172,8 +180,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -206,9 +214,9 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/get_point"
+            android:onClick="@{()->viewModel.navigateToProfile()}"
             android:textColor="@color/white"
             android:textSize="16sp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -219,7 +227,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/create_task_round_editor"
-            android:textColor="@color/royal"
+            android:textColor="@color/honey"
             tools:text="12 xp"
             android:textStyle="bold"
             app:receiveExperience="@{viewModel.workout.achieveSectionCount}"
@@ -235,6 +243,7 @@
             android:visibility="@{viewModel.workout.achieveSectionCount>0? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/text_experience"
+            app:layout_constraintTop_toTopOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
 
         <ImageView
@@ -245,6 +254,7 @@
             android:visibility="@{viewModel.workout.achieveSectionCount>1? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star"
+            app:layout_constraintTop_toTopOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
 
         <ImageView
@@ -255,6 +265,7 @@
             android:visibility="@{viewModel.workout.achieveSectionCount>2? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star2"
+            app:layout_constraintTop_toTopOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
 
         <ImageView
@@ -265,6 +276,7 @@
             android:visibility="@{viewModel.workout.achieveSectionCount>3? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star3"
+            app:layout_constraintTop_toTopOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
 
         <ImageView
@@ -275,6 +287,7 @@
             android:visibility="@{viewModel.workout.achieveSectionCount>4? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/text_experience"
             app:layout_constraintStart_toEndOf="@+id/image_star4"
+            app:layout_constraintTop_toTopOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

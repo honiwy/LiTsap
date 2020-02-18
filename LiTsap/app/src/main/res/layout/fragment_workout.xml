@@ -201,7 +201,6 @@
             android:onClick="@{()->viewModel.navigateToFinish()}"
             android:text="@string/completed_ahead"
             android:textColor="@color/white"
-
             android:textStyle="bold"
             android:textSize="16sp"
             android:visibility="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.workout.sectionConstant ? View.VISIBLE:View.INVISIBLE}"
