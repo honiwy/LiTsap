@@ -28,10 +28,12 @@ class WorkoutViewModel(
 
     fun addMessage() {
         newMessage.value?.let {
-            messageList.value!!.add(it)
-            messageList.value = messageList.value//Let observer detect the change
-            newMessage.value = ""
+            if (it.isNotEmpty()) {
+                messageList.value!!.add(it)
+                messageList.value = messageList.value//Let observer detect the change
+                newMessage.value = ""
             }
+        }
     }
 
 

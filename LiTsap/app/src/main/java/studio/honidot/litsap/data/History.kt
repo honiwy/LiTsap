@@ -5,7 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class History(
-    var note: String = "",
+    var note: List<String> = emptyList(),
+    var imageUri: String = "",
     var achieveCount: Int = 0,
     var recordDate: Long = 0,
     var taskId: String = "",

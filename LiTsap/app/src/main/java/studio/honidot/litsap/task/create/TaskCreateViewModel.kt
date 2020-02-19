@@ -149,7 +149,8 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 taskDone = false
             )
             val history = History(
-                note = "First day of task be created",
+                note = listOf("First day of task be created"),
+                imageUri = "",
                 achieveCount = 0,
                 recordDate = Calendar.getInstance().timeInMillis,
                 taskId = "",

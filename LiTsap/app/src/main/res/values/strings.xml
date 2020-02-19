@@ -49,6 +49,7 @@
     <string name="get_point">領取任務經驗值</string>
     <string name="footprint">任務足跡</string>
     <string name="feedback">任務心得</string>
+    <string name="finish_picture">留下影像</string>
     <string name="finish_point">本次積點</string>
     <string name="insert_text">插入圖片</string>
     <string name="feedback_hint">限 150 字內</string>

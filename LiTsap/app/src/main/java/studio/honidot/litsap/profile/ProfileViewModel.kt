@@ -56,34 +56,4 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    val calendarOpen = MutableLiveData<Boolean>().apply {
-        value = true
-    }
-    val completeOpen = MutableLiveData<Boolean>().apply {
-        value = true
-    }
-
-    fun clickCompleteArrow() {
-        completeOpen.value?.let {
-            completeOpen.value = !it
-        }
-    }
-
-    fun clickCalendarArrow() {
-        calendarOpen.value?.let {
-            calendarOpen.value = !it
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 }

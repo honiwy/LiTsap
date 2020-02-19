@@ -279,20 +279,6 @@
                     app:layout_constraintStart_toStartOf="@+id/text_competition"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_competition" />
 
-                <ImageButton
-                    android:id="@+id/button_updown_complete"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@{viewModel.completeOpen?@drawable/down_arrow:@drawable/up_arrow}"
-                    android:paddingTop="6dp"
-                    android:onClick="@{() -> viewModel.clickCompleteArrow()}"
-                    android:paddingBottom="6dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_complete"
-                    app:layout_constraintStart_toEndOf="@+id/text_complete"
-                    app:layout_constraintTop_toTopOf="@+id/text_complete"
-                    tools:background="@drawable/up_arrow" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_complete"
                     android:layout_width="0dp"
@@ -302,7 +288,6 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/profile_round_recycler"
                     android:elevation="4dp"
-                    android:visibility="@{viewModel.completeOpen?View.VISIBLE:View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_complete">
@@ -311,10 +296,6 @@
                         android:id="@+id/bar_chart"
                         android:layout_width="0dp"
                         android:layout_height="250dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -336,20 +317,6 @@
                     app:layout_constraintStart_toStartOf="@+id/text_complete"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_complete" />
 
-                <ImageButton
-                    android:id="@+id/button_updown_calendar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@{viewModel.calendarOpen?@drawable/down_arrow:@drawable/up_arrow}"
-                    android:onClick="@{() -> viewModel.clickCalendarArrow()}"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_calendar"
-                    app:layout_constraintStart_toEndOf="@+id/text_calendar"
-                    app:layout_constraintTop_toTopOf="@+id/text_calendar"
-                    tools:background="@drawable/up_arrow" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_calendar"
                     android:layout_width="0dp"
@@ -360,7 +327,6 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/profile_round_recycler"
                     android:elevation="4dp"
-                    android:visibility="@{viewModel.calendarOpen?View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

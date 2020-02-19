@@ -118,12 +118,12 @@ fun bindCountDownTime(textView: TextView, time: Int) {
 
 @BindingAdapter("timerStampConverter")
 fun bindTimeStamp(textView: TextView, timeStamp: com.google.firebase.Timestamp) {
-    textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",timeStamp.toDate()).toString()
+    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日",timeStamp.toDate()).toString()
 }
 
 @BindingAdapter("timerLongConverter")
 fun bindTimeLong(textView: TextView, timeLong: Long) {
-    textView.text = DateFormat.format("yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
+    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
 }
 
 @BindingAdapter("messages")

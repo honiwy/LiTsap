@@ -1,5 +1,8 @@
 package studio.honidot.litsap.task.finish
 
+import android.content.Intent
+import android.net.Uri
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
@@ -24,6 +28,9 @@ class FinishViewModel(
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+
+    var imageUri = MutableLiveData<Uri>()
+
     /**
      * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
      * Retrofit service to stop.
@@ -32,6 +39,7 @@ class FinishViewModel(
         super.onCleared()
         viewModelJob.cancel()
     }
+
 
     // Detail has product data from arguments
     private val _workout = MutableLiveData<Workout>().apply {
@@ -104,6 +112,7 @@ class FinishViewModel(
             }
         }
     }
+
 
 
     fun navigateToProfile( workout: Workout) {

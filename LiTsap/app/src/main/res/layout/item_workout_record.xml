@@ -33,10 +33,9 @@
                 android:id="@+id/user_logo_medium"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="2dp"
                 android:background="@drawable/profile_girl"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/profile_actor" />
 
@@ -44,7 +43,9 @@
                 android:id="@+id/workout_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:paddingStart="4dp"
@@ -52,10 +53,12 @@
                 android:text="@{message}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/user_logo_medium"
-                app:layout_constraintStart_toEndOf="@+id/user_logo_medium"
-                app:layout_constraintTop_toTopOf="@+id/user_logo_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/user_logo_medium"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/mock_task" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
