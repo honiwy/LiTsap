@@ -15,7 +15,10 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
+import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.User
 import studio.honidot.litsap.data.UserManager
 import studio.honidot.litsap.network.LoadApiStatus
@@ -43,11 +46,6 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val error: LiveData<String>
         get() = _error
 
-
-    private val _loginFacebookId = MutableLiveData<String>()
-
-    val loginFacebookId: LiveData<String>
-        get() = _loginFacebookId
 
     val auth = FirebaseAuth.getInstance()
 
@@ -84,7 +82,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                 _status.value = LoadApiStatus.ERROR
             }
         })
-        loginFacebook()
+        _loginAttempt.value = true
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
@@ -96,7 +94,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                     // Sign in success, update UI with the signed-in user's information
                     auth.currentUser?.let {
                         UserManager.userId = it.uid
-                        // set user data to firebase
+                        createUser(User(it.uid,it.displayName?:"沒有名字",3,0, emptyList(), emptyList(),0))
                     }
                 } else {
                     // If sign in fails, display a message to the user.
@@ -110,18 +108,53 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
             }
     }
 
-    // Handle leave login
-    private val _loginFacebook = MutableLiveData<Boolean>()
-
-    val loginFacebook: LiveData<Boolean>
-        get() = _loginFacebook
-
-    private fun loginFacebook() {
-        _loginFacebook.value = true
+    private fun createUser(user : User) {
+        coroutineScope.launch {
+            val result = repository.createUser(user)
+            when (result) {
+                is Result.Success -> {
+                    loginSuccess()
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
     }
 
-    fun doneloginFacebook() {
-        _loginFacebook.value = null
+    private val _loginAttempt = MutableLiveData<Boolean>()
+
+    val loginAttempt: LiveData<Boolean>
+        get() = _loginAttempt
+
+    fun afterLogin() {
+        _loginAttempt.value = null
+    }
+
+
+    // Handle leave login
+    private val _navigateToMain = MutableLiveData<Boolean>()
+
+    val navigateToMain: LiveData<Boolean>
+        get() = _navigateToMain
+
+    private fun loginSuccess() {
+        Toast.makeText(
+            LiTsapApplication.appContext,
+            LiTsapApplication.instance.getString(R.string.login_success),
+            Toast.LENGTH_SHORT
+        ).show()
+        _navigateToMain.value = true
+    }
+
+    fun onSucceeded() {
+        _navigateToMain.value = null
     }
 
 }

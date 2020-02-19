@@ -25,6 +25,24 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
 
+    override suspend fun createUser(user : User): Result<Boolean> =
+    suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance().collection(PATH_USERS).document(user.userId).set(user)
+            .addOnCompleteListener { addUser ->
+                if (addUser.isSuccessful) {
+
+                    continuation.resume(Result.Success(true))
+                } else {
+                    addUser.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
+
     override fun getUser(userId: String): LiveData<User> {
         val user = MutableLiveData<User>()
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)

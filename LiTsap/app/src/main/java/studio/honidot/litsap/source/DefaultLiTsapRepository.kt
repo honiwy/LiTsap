@@ -11,6 +11,10 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
+    override suspend fun createUser(user : User): Result<Boolean> {
+        return remoteDataSource.createUser(user)
+    }
+
     override fun getUser(userId: String): LiveData<User> {
         return remoteDataSource.getUser(userId)
     }

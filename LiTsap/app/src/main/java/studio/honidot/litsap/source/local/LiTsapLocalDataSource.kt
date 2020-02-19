@@ -7,6 +7,11 @@ import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
 
+    override suspend fun createUser(user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
     override fun getUser(userId: String): LiveData<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -15,15 +20,18 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun deleteUserOngoingTask(userId : String, taskId: String): Result<Boolean>{
+    override suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun deleteTask(taskId: String): Result<Boolean>{
+    override suspend fun deleteTask(taskId: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>> {
+    override suspend fun getHistory(
+        taskIdList: List<String>,
+        passNday: Int
+    ): Result<List<History>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -31,31 +39,31 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun createTask(task: Task): Result<String>{
+    override suspend fun createTask(task: Task): Result<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>{
+    override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean>{
+    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>{
+    override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean>{
+    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateUserStatus(workout: Workout): Result<Boolean>{
+    override suspend fun updateUserStatus(workout: Workout): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateUserExperience(workout: Workout): Result<Boolean>{
+    override suspend fun updateUserExperience(workout: Workout): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

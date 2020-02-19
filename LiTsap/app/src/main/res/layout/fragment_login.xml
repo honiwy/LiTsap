@@ -34,11 +34,11 @@
             android:background="@drawable/login_buttom_layout"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
+            android:onClick="@{()->viewModel.loginFB()}"
             android:text="@string/facebook_login"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:onClick="@{()->viewModel.loginFB()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_logo" />
 

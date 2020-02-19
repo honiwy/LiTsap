@@ -2,12 +2,13 @@
     <!-- Facebook-->
     <string name="facebook_app_id">196626078212989</string>
     <string name="fb_login_protocol_scheme">fb196626078212989</string>
-
     <string name="internet_not_connected">您尚未連接 Internet</string>
 
     <!--Login-->
-    <string name="facebook_login">以 Facebook 登入</string>
-    <string name="google_login">以 Google 登入</string>
+    <string name="facebook_login">Facebook 登入</string>
+    <string name="google_login">Google 登入</string>
+    <string name="login_success">登入成功</string>
+    <string name="google_login_info">"Available soon!"</string>
     <string name="login_slogan">Your Best Task Companion</string>
 
     <string name="app_name">LiTsap</string>

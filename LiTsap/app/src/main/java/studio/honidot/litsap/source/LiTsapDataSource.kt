@@ -5,6 +5,8 @@ import studio.honidot.litsap.data.*
 
 interface LiTsapDataSource {
 
+    suspend fun createUser(user : User): Result<Boolean>
+
     fun getUser(userId : String): LiveData<User>
 
     suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
