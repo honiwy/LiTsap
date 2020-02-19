@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="studio.honidot.litsap.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/royal">
+
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="0dp"
+            android:layout_height="160dp"
+            android:layout_marginBottom="180dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/loggo" />
+
+        <Button
+            android:id="@+id/button_facebook_login"
+            android:layout_width="180dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/login_buttom_layout"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/facebook_login"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:onClick="@{()->viewModel.loginFB()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_logo" />
+
+        <Button
+            android:id="@+id/button_google_login"
+            android:layout_width="180dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/login_buttom_layout"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/google_login"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_facebook_login" />
+
+        <ImageView
+            android:id="@+id/image_facebook"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_facebook_login"
+            app:layout_constraintStart_toEndOf="@+id/button_facebook_login"
+            app:layout_constraintTop_toTopOf="@+id/button_facebook_login"
+            app:srcCompat="@drawable/facebook" />
+
+        <ImageView
+            android:id="@+id/image_google"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_google_login"
+            app:layout_constraintStart_toEndOf="@+id/button_google_login"
+            app:layout_constraintTop_toTopOf="@+id/button_google_login"
+            app:srcCompat="@drawable/google" />
+
+        <TextView
+            android:id="@+id/text_slogan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@string/login_slogan"
+            android:textColor="@color/mustard"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/image_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/image_logo" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

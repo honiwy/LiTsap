@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
-import studio.honidot.litsap.LiTsapApplication.Companion.db
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
@@ -105,7 +104,6 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 is Result.Success -> {
                     Logger.i("Task ongoing list update!")
                 }
-                else -> null
             }
         }
     }
@@ -117,7 +115,6 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 is Result.Success -> {
                     Logger.i("Modules update!")
                 }
-                else -> null
             }
         }
     }
@@ -129,7 +126,6 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 is Result.Success -> {
                     Logger.i("History create!")
                 }
-                else -> null
             }
         }
     }

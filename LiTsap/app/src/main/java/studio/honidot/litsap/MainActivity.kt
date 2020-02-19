@@ -1,19 +1,18 @@
 package studio.honidot.litsap
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
-import studio.honidot.litsap.LiTsapApplication.Companion.db
 import studio.honidot.litsap.databinding.ActivityMainBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.util.CurrentFragmentType
+import studio.honidot.litsap.util.Logger
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +21,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        db = FirebaseFirestore.getInstance()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
 
         setupNavController()
     }
@@ -60,10 +59,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 R.id.postFragment -> CurrentFragmentType.POST
                 R.id.taskFragment -> CurrentFragmentType.TASK
+                R.id.loginFragment -> CurrentFragmentType.LOGIN
                 else -> viewModel.currentFragmentType.value
             }
         }
     }
 
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Logger.d("activity onActivityResult")
+    }
 }

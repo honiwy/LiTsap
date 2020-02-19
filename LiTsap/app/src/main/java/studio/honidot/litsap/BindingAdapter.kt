@@ -1,6 +1,12 @@
 package studio.honidot.litsap
 
+import android.graphics.Typeface.BOLD
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.format.DateFormat
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -20,6 +26,7 @@ import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
 import studio.honidot.litsap.util.Logger
+import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 
 //Task List
@@ -71,6 +78,27 @@ fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
             else -> View.GONE
         }
 }
+
+//@BindingAdapter("boldPartialText", "startIndex", "endIndex","color")
+//fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int, color: String) {
+//    text?.let {
+//        val spannable = SpannableString(text)
+////        ForegroundColorSpan(getColor(R.color.white)),
+//        spannable.setSpan(
+//            ForegroundColorSpan(Color.parseColor(color)),
+//            start,
+//            end,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        spannable.setSpan(
+//            StyleSpan(BOLD),
+//            start, end,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        textView.text = spannable
+//    }
+//}
+
 //Task Create
 @BindingAdapter("tags")
 fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {

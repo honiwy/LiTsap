@@ -57,15 +57,6 @@ class FinishViewModel(
                     updateUserStatus(workout)
                     Logger.d("You updateTaskStatus!!")
                 }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
-                }
-                else -> {
-                    null
-                }
             }
         }
     }
@@ -79,15 +70,6 @@ class FinishViewModel(
                     updateUserExperience(workout)
                     Logger.d("You updateUserStatus!!")
                 }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
-                }
-                else -> {
-                    null
-                }
             }
         }
     }
@@ -99,15 +81,6 @@ class FinishViewModel(
             when (result) {
                 is Result.Success -> {
                     Logger.d("You updateUserStatus!!")
-                }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
-                }
-                else -> {
-                    null
                 }
             }
         }
