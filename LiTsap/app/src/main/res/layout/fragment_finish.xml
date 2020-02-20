@@ -162,7 +162,7 @@
             android:background="@drawable/round_button"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
-            android:onClick="@{()->viewModel.navigateToProfile(viewModel.workout)}"
+            android:onClick="@{()->viewModel.update(viewModel.workout)}"
             android:text="@string/get_point"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -283,7 +283,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="4dp"
-            android:visibility="@{viewModel.imageUri==null?View.INVISIBLE:View.VISIBLE}"
+            android:visibility='@{viewModel.workout.imageUri==""?View.INVISIBLE:View.VISIBLE}'
             app:layout_constraintBottom_toBottomOf="@+id/divider"
             app:layout_constraintDimensionRatio="1.5"
             app:layout_constraintEnd_toEndOf="parent"
@@ -298,7 +298,7 @@
             android:id="@+id/image_choose"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:visibility="@{viewModel.imageUri==null? View.VISIBLE:View.INVISIBLE}"
+            android:visibility='@{viewModel.workout.imageUri==""? View.VISIBLE:View.INVISIBLE}'
             app:layout_constraintBottom_toBottomOf="@+id/image_display"
             app:layout_constraintEnd_toEndOf="@+id/image_display"
             app:layout_constraintStart_toStartOf="@+id/image_display"

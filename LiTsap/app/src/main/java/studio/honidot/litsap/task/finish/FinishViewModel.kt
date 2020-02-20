@@ -1,17 +1,14 @@
 package studio.honidot.litsap.task.finish
 
-import android.content.Intent
-import android.net.Uri
-import androidx.core.app.ActivityCompat.startActivityForResult
+import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import studio.honidot.litsap.data.Module
+import studio.honidot.litsap.data.History
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
@@ -28,9 +25,6 @@ class FinishViewModel(
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-
-    var imageUri = MutableLiveData<Uri>()
-
     /**
      * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
      * Retrofit service to stop.
@@ -41,65 +35,70 @@ class FinishViewModel(
     }
 
 
-    // Detail has product data from arguments
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
     }
     val workout: LiveData<Workout>
         get() = _workout
 
-    fun updateTaskStatus(workout: Workout) {
+
+    private val _count = MutableLiveData<Int>().apply {
+        value = 0
+    }
+
+    val count: LiveData<Int>
+        get() = _count
+
+
+    fun update(workout: Workout){
+        updateTaskModule(workout)
+        createTaskHistory(History(workout.note,workout.imageUri,workout.achieveSectionCount,Calendar.getInstance().timeInMillis,workout.taskId,workout.taskName))
+        updateUserStatus(workout)
+        updateTaskStatus(workout)
+    }
+
+    private fun updateTaskStatus(workout: Workout) {
         coroutineScope.launch {
-            Logger.d("updateTaskStatus viewModel! userId: ${workout.userId}, achieve: ${workout.achieveSectionCount}")
             val result = repository.updateTaskStatus(workout)
             when (result) {
                 is Result.Success -> {
-                    updateUserStatus(workout)
-                    Logger.d("You updateTaskStatus!!")
+                    _count.value = _count.value!!.plus(1)
                 }
             }
         }
     }
 
-    fun updateUserStatus(workout: Workout) {
+    private fun updateUserStatus(workout: Workout) {
         coroutineScope.launch {
-            Logger.d("updateUserStatus viewModel! userId: ${workout.userId}, achieve: ${workout.achieveSectionCount}")
             val result = repository.updateUserStatus(workout)
             when (result) {
                 is Result.Success -> {
-                    updateUserExperience(workout)
-                    Logger.d("You updateUserStatus!!")
+                    _count.value = _count.value!!.plus(1)
                 }
             }
         }
     }
 
-    fun updateUserExperience(workout: Workout) {
+    private fun updateTaskModule(workout: Workout) {
         coroutineScope.launch {
-            Logger.d("updateUserExperience viewModel! userId: ${workout.userId}, achieve: ${workout.achieveSectionCount}")
-            val result = repository.updateUserExperience(workout)
+            val result = repository.updateTaskModule(workout)
             when (result) {
                 is Result.Success -> {
-                    Logger.d("You updateUserStatus!!")
+                    _count.value = _count.value!!.plus(1)
                 }
             }
         }
     }
 
-
-
-    fun navigateToProfile( workout: Workout) {
-        updateTaskStatus(workout)
-        _navigateToProfile.value = _workout.value
+    private fun createTaskHistory(history: History) {
+        coroutineScope.launch {
+            val result = repository.createTaskHistory(history)
+            when (result) {
+                is Result.Success -> {
+                    _count.value = _count.value!!.plus(1)
+                }
+            }
+        }
     }
-
-    fun onProfileNavigated() {
-        _navigateToProfile.value = null
-    }
-
-    private val _navigateToProfile = MutableLiveData<Workout>()
-
-    val navigateToProfile: LiveData<Workout>
-        get() = _navigateToProfile
 
 }

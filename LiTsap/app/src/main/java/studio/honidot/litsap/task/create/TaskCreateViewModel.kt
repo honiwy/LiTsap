@@ -117,9 +117,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
-    private fun createFirstTaskHistory(taskId: String, history: History) {
+    private fun createFirstTaskHistory(history: History) {
         coroutineScope.launch {
-            val result = repository.createFirstTaskHistory(taskId, history)
+            val result = repository.createFirstTaskHistory(history)
             when (result) {
                 is Result.Success -> {
                     Logger.i("History create!")
@@ -134,7 +134,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 userId = FirebaseAuth.getInstance().currentUser!!.uid,
                 taskId = "",
                 taskName = title.value ?: "無任務名稱",
-                taskCategoryId = selectedTaskCategoryPosition.value ?: 5,
+                taskCategoryId = selectedTaskCategoryPosition.value ?: 6,
                 accumCount = 0,
                 goalCount = amount.value ?: 1,
                 dueDate = dueDate.value ?: 1,
@@ -143,7 +143,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 taskDone = false
             )
             val history = History(
-                note = listOf("First day of task be created"),
+                note = "First day of task be created",
                 imageUri = "",
                 achieveCount = 0,
                 recordDate = Calendar.getInstance().timeInMillis,
@@ -154,10 +154,10 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
             _taskId.value = when (result) {
                 is Result.Success -> {
                     moduleNameList.value!!.forEach { moduleName ->
-                        createTaskModules(result.data, Module(moduleName, 0))
+                        createTaskModules(result.data, Module(moduleName, "",0))
                     }
                     history.taskId = result.data
-                    createFirstTaskHistory(result.data, history)
+                    createFirstTaskHistory(history)
                     updateTaskIdList(FirebaseAuth.getInstance().currentUser!!.uid, result.data)
                     result.data
                 }

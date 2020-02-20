@@ -55,8 +55,8 @@ class DefaultLiTsapRepository(
         return remoteDataSource.createTaskModules(taskId, modules)
     }
 
-    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean> {
-        return remoteDataSource.createFirstTaskHistory(taskId, history)
+    override suspend fun createFirstTaskHistory(history: History): Result<Boolean> {
+        return remoteDataSource.createFirstTaskHistory(history)
     }
 
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> {
@@ -71,7 +71,11 @@ class DefaultLiTsapRepository(
         return remoteDataSource.updateUserStatus(workout)
     }
 
-    override suspend fun updateUserExperience(workout: Workout): Result<Boolean>{
-        return remoteDataSource.updateUserExperience(workout)
+    override suspend fun updateTaskModule(workout: Workout): Result<Boolean>{
+        return remoteDataSource.updateTaskModule(workout)
+    }
+
+    override suspend fun createTaskHistory(history: History): Result<Boolean>{
+        return remoteDataSource.createTaskHistory(history)
     }
 }

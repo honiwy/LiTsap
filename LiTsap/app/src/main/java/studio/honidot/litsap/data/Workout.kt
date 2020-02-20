@@ -8,13 +8,16 @@ data class Workout(
     var taskName: String = "",
     var taskCategoryId: Int = -1,
     var moduleName: String = "",
+    var moduleId: String = "",
     var userId: String = "",
     var taskId: String = "",
     var groupId: String = "",
     var planSectionCount: Int = 0,
     var achieveSectionCount: Int = 0,
     var chatWithGroup: Boolean = false,
-    var recordInfo: List<String> = listOf()
+    var recordInfo: List<String> = listOf(),
+    var note: String = "",
+    var imageUri: String = ""
 ) : Parcelable {
     val breakTimeConstant
         get() = 5//*60 //5 min

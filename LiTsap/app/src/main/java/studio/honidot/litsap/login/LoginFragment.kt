@@ -27,7 +27,9 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.findUser(FirebaseAuth.getInstance().currentUser!!)
+        FirebaseAuth.getInstance().currentUser?.let {
+            viewModel.findUser(it)
+        }
 
         viewModel.loginAttempt.observe(this, Observer {
             it?.let {

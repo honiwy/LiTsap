@@ -1,5 +1,6 @@
 package studio.honidot.litsap.source.remote
 
+import android.icu.util.Calendar
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -237,11 +238,12 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         }
     }
 
-    override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> =
+    override suspend fun createTaskModules(taskId: String, module: Module): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
-                .collection(PATH_MODULES)
-                .document().set(modules).addOnCompleteListener { addModule ->
+            val newModuleDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
+                .collection(PATH_MODULES).document()
+            module.moduleId = newModuleDocument.id
+            newModuleDocument.set(module).addOnCompleteListener { addModule ->
                     if (addModule.isSuccessful) {
                         Logger.d("Add module success!")
                         continuation.resume(Result.Success(true))
@@ -255,23 +257,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean> =
-        suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
-                .collection(PATH_HISTORY)
-                .document().set(history).addOnCompleteListener { addModule ->
-                    if (addModule.isSuccessful) {
-                        Logger.d("Add first history success!")
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        addModule.exception?.let {
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                        }
-                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                    }
-                }
-        }
+
 
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> =
         suspendCoroutine { continuation ->
@@ -293,7 +279,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateTaskStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            Logger.d("Hello! userId: ${workout.userId}, achieve: ${workout.achieveSectionCount}")
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId)
                 .update(mapOf("todayDone" to true, "accumCount" to FieldValue.increment(workout.achieveSectionCount.toLong())))
                 .addOnCompleteListener { addId ->
@@ -314,7 +299,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
-                .update(mapOf("experience" to FieldValue.increment(workout.achieveSectionCount.toLong()), "todayDoneCount" to FieldValue.increment(1L)))
+                .update(mapOf("experience" to FieldValue.increment(workout.achieveSectionCount*workout.achieveSectionCount.toLong()),
+                    "todayDoneCount" to FieldValue.increment(1L)))
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         Logger.w("updateUserStatus: ${workout.achieveSectionCount} is ${workout.achieveSectionCount*workout.achieveSectionCount}")
@@ -330,10 +316,48 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun updateUserExperience(workout: Workout): Result<Boolean> =
+    override suspend fun updateTaskModule(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
-                .update("experience", FieldValue.increment(workout.achieveSectionCount*workout.achieveSectionCount.toLong()))
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId).collection(
+                PATH_MODULES).document(workout.moduleId)
+                .update("achieveSection", FieldValue.increment(workout.achieveSectionCount.toLong()))
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun createFirstTaskHistory(history: History): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(history.taskId)
+                .collection(PATH_HISTORY)
+                .document().set(history).addOnCompleteListener { addModule ->
+                    if (addModule.isSuccessful) {
+                        Logger.d("Add first history success!")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addModule.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+
+    override suspend fun createTaskHistory(history: History): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(history.taskId).collection(
+                PATH_HISTORY).document().set(history)
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         continuation.resume(Result.Success(true))

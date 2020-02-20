@@ -45,13 +45,15 @@ class DetailViewModel(
                         arguments.taskName,
                         arguments.taskCategoryId,
                         result.data[0].moduleName,
+                        result.data[0].moduleId,
                         arguments.userId,
                         arguments.taskId,
                         arguments.groupId,
                         0,
                         0,
                         false,
-                        listOf("")
+                        listOf(""),
+                        "",""
                     )
                     _awaitDrawModules.value = result.data
                     result.data

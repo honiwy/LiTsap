@@ -73,14 +73,26 @@ class FinishFragment : Fragment() {
             launchGallery()
         }
 
-
-        viewModel.navigateToProfile.observe(this, Observer {
+        viewModel.count.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToProfileFragment(
-                    FirebaseAuth.getInstance().currentUser!!.uid))
-                viewModel.onProfileNavigated()
+                if(it == 4) {
+                    findNavController().navigate(
+                        NavigationDirections.navigateToProfileFragment(
+                            FirebaseAuth.getInstance().currentUser!!.uid
+                        )
+                    )
+                    //viewModel.onProfileNavigated()
+                }
             }
         })
+
+//        viewModel.navigateToProfile.observe(this, Observer {
+//            it?.let {
+//                findNavController().navigate(NavigationDirections.navigateToProfileFragment(
+//                    FirebaseAuth.getInstance().currentUser!!.uid))
+//                viewModel.onProfileNavigated()
+//            }
+//        })
 
         return binding.root
     }
@@ -102,7 +114,7 @@ class FinishFragment : Fragment() {
                             .error(R.drawable.gallery)
                     )
                     .into(image_display)
-                viewModel.imageUri.value = filePath
+                viewModel.workout.value!!.imageUri = filePath.toString()
 
             } catch (e: IOException) {
                 e.printStackTrace()

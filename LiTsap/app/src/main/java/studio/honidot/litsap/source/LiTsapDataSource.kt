@@ -26,7 +26,7 @@ interface LiTsapDataSource {
 
     suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>
 
-    suspend fun createFirstTaskHistory(taskId: String, history: History): Result<Boolean>
+    suspend fun createFirstTaskHistory(history: History): Result<Boolean>
 
     suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
 
@@ -34,5 +34,7 @@ interface LiTsapDataSource {
 
     suspend fun updateUserStatus(workout: Workout): Result<Boolean>
 
-    suspend fun updateUserExperience(workout: Workout): Result<Boolean>
+    suspend fun updateTaskModule(workout: Workout): Result<Boolean>
+
+    suspend fun createTaskHistory(history: History): Result<Boolean>
 }
