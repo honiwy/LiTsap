@@ -1,8 +1,5 @@
 package studio.honidot.litsap.task
 
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,19 +7,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import studio.honidot.litsap.LiTsapApplication
-import studio.honidot.litsap.data.Result
-import studio.honidot.litsap.data.Task
-import studio.honidot.litsap.data.TaskItem
-import studio.honidot.litsap.data.User
+import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
 
 
-private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
-class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
+class TaskViewModel(private val repository: LiTsapRepository, private val arguments: String) : ViewModel() {
 
-    private val _user = repository.getUser(PATH_USERS_DOCUMENT)
+    private val _user = repository.getUser(arguments)
 
     val user: LiveData<User>
         get() = _user
@@ -40,7 +32,6 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     private fun addHeader(sortedTasks: List<Task>): List<TaskItem> {
         val taskItems = mutableListOf<TaskItem>()
-        if(sortedTasks.isNotEmpty()){
             taskItems.add(TaskItem.Title("待完成"))
             var lastStatus = false
             sortedTasks.forEach {
@@ -50,27 +41,29 @@ class TaskViewModel(private val repository: LiTsapRepository) : ViewModel() {
                 taskItems.add(TaskItem.Assignment(it))
                 lastStatus = it.todayDone
             }
-        }else{
-            taskItems.add(TaskItem.Title("快去新增任務吧!"))
-        }
         return taskItems
     }
 
     fun retrieveOngoingTasks(taskIdList: List<String>) {
-        coroutineScope.launch {
-            val result = repository.getTasks(taskIdList)
-            _taskItems.value = when (result) {
-                is Result.Success -> {
-                    addHeader(result.data)
-                }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
-                }
-                else -> {
-                    null
+        if(taskIdList.isEmpty()){
+            _taskItems.value = mutableListOf(TaskItem.Title("快去新增任務吧!"))
+        }
+        else {
+            coroutineScope.launch {
+                val result = repository.getTasks(taskIdList)
+                _taskItems.value = when (result) {
+                    is Result.Success -> {
+                        addHeader(result.data)
+                    }
+                    is Result.Fail -> {
+                        null
+                    }
+                    is Result.Error -> {
+                        null
+                    }
+                    else -> {
+                        null
+                    }
                 }
             }
         }

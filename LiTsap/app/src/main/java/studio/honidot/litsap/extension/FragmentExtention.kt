@@ -4,6 +4,7 @@ import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.factory.TaskViewModelFactory
+import studio.honidot.litsap.factory.UserViewModelFactory
 import studio.honidot.litsap.factory.ViewModelFactory
 import studio.honidot.litsap.factory.WorkoutViewModelFactory
 
@@ -20,4 +21,9 @@ fun getVmFactory(task: Task): TaskViewModelFactory {
 fun getVmFactory(workout: Workout): WorkoutViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
     return WorkoutViewModelFactory(repository,workout)
+}
+
+fun getVmFactory(userId: String): UserViewModelFactory {
+    val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
+    return UserViewModelFactory(repository,userId)
 }

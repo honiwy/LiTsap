@@ -28,7 +28,11 @@ import kotlin.collections.ArrayList
 private const val BAR_CHART_DRAW_DAYS = 7
 
 class ProfileFragment : Fragment() {
-    private val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
+    private val viewModel by viewModels<ProfileViewModel> { getVmFactory(
+        ProfileFragmentArgs.fromBundle(
+            arguments!!
+        ).userIdKey
+    ) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +46,6 @@ class ProfileFragment : Fragment() {
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
                 drawBarChart(binding.barChart, it, BAR_CHART_DRAW_DAYS,viewModel.user.value!!.ongoingTasks.size)
-            }
-        })
-
-        viewModel.user.observe(this, Observer {
-            it?.let {
-                viewModel.retrieveHistoryPoints(it.ongoingTasks, BAR_CHART_DRAW_DAYS-1)
             }
         })
 

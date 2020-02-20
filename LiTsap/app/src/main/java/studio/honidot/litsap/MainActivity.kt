@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.databinding.ActivityMainBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.util.CurrentFragmentType
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.navigation_task -> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTaskFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTaskFragment(
+                        FirebaseAuth.getInstance().currentUser!!.uid))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_post-> {
@@ -44,7 +46,8 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment(
+                        FirebaseAuth.getInstance().currentUser!!.uid))
                     return@OnNavigationItemSelectedListener true
                 }
             }

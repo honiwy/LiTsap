@@ -20,7 +20,11 @@ import studio.honidot.litsap.task.create.TaskCreateDialog
 import studio.honidot.litsap.util.Logger
 
 class TaskFragment : Fragment() {
-    private val viewModel by viewModels<TaskViewModel> { getVmFactory() }
+    private val viewModel by viewModels<TaskViewModel> { getVmFactory(
+        TaskFragmentArgs.fromBundle(
+            arguments!!
+        ).userIdKey
+    ) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,8 +57,7 @@ class TaskFragment : Fragment() {
 
         viewModel.longPressTaskItem.observe(this, Observer {
             it?.let{
-                Logger.w("You are in fragment obeserve longPressTask Item")
-                attempToDelete(it)
+                attemptToDelete(it)
                 viewModel.onlongPressTaskItemFinish()
             }
         })
@@ -66,7 +69,7 @@ class TaskFragment : Fragment() {
         })
         return binding.root
     }
-    fun attempToDelete(task: Task) {
+    private fun attemptToDelete(task: Task) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
         builder.setTitle("Delete task")

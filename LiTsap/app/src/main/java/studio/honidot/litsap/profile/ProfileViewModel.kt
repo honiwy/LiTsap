@@ -3,6 +3,7 @@ package studio.honidot.litsap.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.*
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
@@ -11,10 +12,12 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
-class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
+private const val BAR_CHART_DRAW_DAYS = 7
 
-    private val _user =  repository.getUser(PATH_USERS_DOCUMENT)
+class ProfileViewModel(private val repository: LiTsapRepository, private val arguments: String) :
+    ViewModel() {
+
+    private val _user = MutableLiveData<User>()
 
     val user: LiveData<User>
         get() = _user
@@ -30,9 +33,37 @@ class ProfileViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val historyPoints: LiveData<List<History>>
         get() = _historyPoints
 
-    fun retrieveHistoryPoints(taskIdList: List<String>,passNday:Int) {
+    init {
+        findUser(arguments)
+    }
+
+    private fun findUser(firebaseUserId: String) {
         coroutineScope.launch {
-            val result = repository.getHistory(taskIdList,passNday)
+            val result = repository.findUser(firebaseUserId)
+            _user.value = when (result) {
+                is Result.Success -> {
+                    if (result.data!!.ongoingTasks.isNotEmpty()) {
+                        retrieveHistoryPoints(result.data.ongoingTasks, BAR_CHART_DRAW_DAYS - 1)
+                    }
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+    private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
+
+        coroutineScope.launch {
+            val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
                     Logger.d("history: ${result.data}")

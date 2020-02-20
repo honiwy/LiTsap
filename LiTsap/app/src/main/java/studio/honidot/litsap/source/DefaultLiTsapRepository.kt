@@ -12,8 +12,8 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
-    override suspend fun findUser(firebaseUser: FirebaseUser): Result<User?> {
-        return remoteDataSource.findUser(firebaseUser)
+    override suspend fun findUser(firebaseUserId: String): Result<User?> {
+        return remoteDataSource.findUser(firebaseUserId)
     }
 
     override suspend fun createUser(user : User): Result<Boolean> {

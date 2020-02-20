@@ -9,7 +9,11 @@
         android:id="@+id/taskFragment"
         android:name="studio.honidot.litsap.task.TaskFragment"
         android:label="TaskFragment"
-        tools:layout="@layout/fragment_task"/>
+        tools:layout="@layout/fragment_task">
+        <argument
+            android:name="userIdKey"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="studio.honidot.litsap.task.detail.DetailFragment"
@@ -44,7 +48,11 @@
         android:id="@+id/profileFragment"
         android:name="studio.honidot.litsap.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="userIdKey"
+            app:argType="string" />
+    </fragment>
     <action
         android:id="@+id/navigate_to_profileFragment"
         app:destination="@id/profileFragment"

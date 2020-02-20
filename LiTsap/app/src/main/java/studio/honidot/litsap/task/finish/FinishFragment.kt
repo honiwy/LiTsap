@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_finish.*
 import studio.honidot.litsap.MainViewModel
 import studio.honidot.litsap.NavigationDirections
@@ -75,7 +76,8 @@ class FinishFragment : Fragment() {
 
         viewModel.navigateToProfile.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToProfileFragment())
+                findNavController().navigate(NavigationDirections.navigateToProfileFragment(
+                    FirebaseAuth.getInstance().currentUser!!.uid))
                 viewModel.onProfileNavigated()
             }
         })

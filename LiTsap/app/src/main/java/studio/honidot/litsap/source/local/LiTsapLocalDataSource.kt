@@ -8,7 +8,7 @@ import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
 
-    override suspend fun findUser(firebaseUser: FirebaseUser): Result<User?>{
+    override suspend fun findUser(firebaseUserId: String): Result<User?>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

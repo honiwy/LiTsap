@@ -42,7 +42,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     fun findUser(firebaseUser: FirebaseUser) {
         coroutineScope.launch {
-            val result = repository.findUser(firebaseUser)
+            val result = repository.findUser(firebaseUser.uid)
             _user.value = when (result) {
                 is Result.Success -> {
                     if (result.data != null) {

@@ -193,7 +193,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_level"
                 app:layout_constraintTop_toBottomOf="@+id/progress_bar_level"
-                app:levelInfo="@{viewModel.user.ongoingTasks.size() - viewModel.user.todayDoneCount}"
+                app:levelInfo="@{viewModel.user}"
                 tools:text="再努力一下吧!" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

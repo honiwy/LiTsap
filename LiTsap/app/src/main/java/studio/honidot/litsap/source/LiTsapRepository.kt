@@ -6,7 +6,7 @@ import studio.honidot.litsap.data.*
 
 interface LiTsapRepository {
 
-    suspend fun findUser(firebaseUser: FirebaseUser): Result<User?>
+    suspend fun findUser(firebaseUserId: String): Result<User?>
 
     suspend fun createUser(user : User): Result<Boolean>
 

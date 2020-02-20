@@ -48,9 +48,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 //                }
 //        }
 
-    override suspend fun findUser(firebaseUser: FirebaseUser): Result<User?>  = suspendCoroutine { continuation ->
-        Logger.w("firebaseUser: ${firebaseUser.uid}, name ${firebaseUser.displayName}")
-        FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUser.uid)
+    override suspend fun findUser(firebaseUserId: String): Result<User?>  = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUserId)
             .get()
             .addOnCompleteListener { findUser ->
                 if (findUser.isSuccessful) {

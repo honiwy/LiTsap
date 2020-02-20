@@ -25,17 +25,13 @@ class ViewModelFactory(
                 isAssignableFrom(MainViewModel::class.java) ->
                     MainViewModel(liTsapRepository)
 
-                isAssignableFrom(TaskViewModel::class.java) ->
-                    TaskViewModel(liTsapRepository)
-
                 isAssignableFrom(TaskCreateViewModel::class.java) ->
                     TaskCreateViewModel(liTsapRepository)
 
                 isAssignableFrom(PostViewModel::class.java) ->
                     PostViewModel(liTsapRepository)
 
-                isAssignableFrom(ProfileViewModel::class.java) ->
-                    ProfileViewModel(liTsapRepository)
+
 
 
                 else ->

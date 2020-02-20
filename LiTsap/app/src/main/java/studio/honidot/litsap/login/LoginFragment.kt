@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
 
         viewModel.navigateToMain.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToTaskFragment())
+                findNavController().navigate(NavigationDirections.navigateToTaskFragment(FirebaseAuth.getInstance().currentUser!!.uid))
             viewModel.onSucceeded()
             }
         })

@@ -45,7 +45,7 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
 //Global
 @BindingAdapter("taskCategory")
 fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
-    val taskCategory= TaskCategory.values()[categoryId]
+    val taskCategory = TaskCategory.values()[categoryId]
     imageView.background =
         when (taskCategory) {
             TaskCategory.EXERCISE -> instance.getDrawable(R.drawable.category_exercise)
@@ -60,9 +60,9 @@ fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
 
 @BindingAdapter("toolbarVisibility")
 fun bindToolbarVisibility(view: View, fragment: CurrentFragmentType) {
-   view.visibility =
+    view.visibility =
         when (fragment) {
-            CurrentFragmentType.TASK  -> View.VISIBLE
+            CurrentFragmentType.TASK -> View.VISIBLE
             CurrentFragmentType.POST -> View.VISIBLE
             else -> View.GONE
         }
@@ -72,7 +72,7 @@ fun bindToolbarVisibility(view: View, fragment: CurrentFragmentType) {
 fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
     view.visibility =
         when (fragment) {
-            CurrentFragmentType.TASK  -> View.VISIBLE
+            CurrentFragmentType.TASK -> View.VISIBLE
             CurrentFragmentType.POST -> View.VISIBLE
             CurrentFragmentType.PROFILE -> View.VISIBLE
             else -> View.GONE
@@ -82,8 +82,11 @@ fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
 //Login
 @BindingAdapter("bindUserName")
 fun bindUserName(textView: TextView, user: User?) {
-    textView.text = if(user == null){instance.getString(R.string.facebook_login)}
-                    else{instance.getString(R.string.facebook_login_with_name, user!!.userName)}
+    textView.text = if (user == null) {
+        instance.getString(R.string.facebook_login)
+    } else {
+        instance.getString(R.string.facebook_login_with_name, user!!.userName)
+    }
 }
 
 //@BindingAdapter("boldPartialText", "startIndex", "endIndex","color")
@@ -153,12 +156,12 @@ fun bindCountDownTime(textView: TextView, time: Int) {
 
 @BindingAdapter("timerStampConverter")
 fun bindTimeStamp(textView: TextView, timeStamp: com.google.firebase.Timestamp) {
-    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日",timeStamp.toDate()).toString()
+    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日", timeStamp.toDate()).toString()
 }
 
 @BindingAdapter("timerLongConverter")
 fun bindTimeLong(textView: TextView, timeLong: Long) {
-    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日",Date(timeLong)).toString()
+    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日", Date(timeLong)).toString()
 }
 
 @BindingAdapter("messages")
@@ -194,8 +197,8 @@ fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Wo
 //Profile
 @BindingAdapter("experience")
 fun bindExperience(textView: TextView, xp: Long) {
-    val next = xp+ 10- (xp%10)
-    textView.text = instance.getString(R.string.profile_experience, xp)+ " / $next"
+    val next = xp + 10 - (xp % 10)
+    textView.text = instance.getString(R.string.profile_experience, xp) + " / $next"
 }
 
 @BindingAdapter("level")
@@ -204,13 +207,25 @@ fun bindLevel(textView: TextView, level: Long) {
 }
 
 @BindingAdapter("levelInfo")
-fun bindLevelInfo(textView: TextView, remaining: Int) {
-    textView.text = instance.getString(R.string.profile_level_information, remaining)
+fun bindLevelInfo(textView: TextView, user: User?) {
+    user?.let {
+        textView.text = when {
+            user.ongoingTasks.isEmpty() -> instance.getString(R.string.profile_level_information_cry)
+            else -> {
+                val remaining = user.ongoingTasks.size - user.todayDoneCount
+                if (remaining == 0) {
+                    instance.getString(R.string.profile_level_information_done)
+                } else {
+                    instance.getString(R.string.profile_level_information, remaining)
+                }
+            }
+        }
+    }
 }
 
 @BindingAdapter("userProfile")
 fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
-    val userProfile= UserProfile.values()[userProfileId]
+    val userProfile = UserProfile.values()[userProfileId]
     imageView.background =
         when (userProfile) {
             UserProfile.ACTOR -> instance.getDrawable(R.drawable.profile_actor)

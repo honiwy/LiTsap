@@ -71,6 +71,8 @@
     <string name="profile_level">LV %d</string>
     <string name="profile_experience">XP %d</string>
     <string name="profile_level_information">今天還有 %d 個任務還沒完成，\n不再努力一下嗎?</string>
+    <string name="profile_level_information_done">今天都完成了!棒棒!</string>
+    <string name="profile_level_information_cry">哭哭，目前無進行中的任務</string>
     <string name="profile_competition">競爭力</string>
     <string name="profile_complete">學習狀況</string>
     <string name="profile_calendar">個人紀錄</string>

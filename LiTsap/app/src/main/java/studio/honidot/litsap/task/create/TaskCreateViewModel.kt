@@ -1,12 +1,12 @@
 package studio.honidot.litsap.task.create
 
 import android.icu.util.Calendar
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.InverseMethod
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,8 +18,6 @@ import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
 
-
-private const val PATH_USERS_DOCUMENT = "8ZoicZsGSucyU2niQ4nr"
 
 class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
@@ -133,7 +131,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     fun createTask() {
         coroutineScope.launch {
             val task = Task(
-                userId = PATH_USERS_DOCUMENT,
+                userId = FirebaseAuth.getInstance().currentUser!!.uid,
                 taskId = "",
                 taskName = title.value ?: "無任務名稱",
                 taskCategoryId = selectedTaskCategoryPosition.value ?: 5,
@@ -160,7 +158,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     }
                     history.taskId = result.data
                     createFirstTaskHistory(result.data, history)
-                    updateTaskIdList(PATH_USERS_DOCUMENT, result.data)
+                    updateTaskIdList(FirebaseAuth.getInstance().currentUser!!.uid, result.data)
                     result.data
                 }
                 else -> {
