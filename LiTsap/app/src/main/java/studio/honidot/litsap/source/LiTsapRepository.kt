@@ -1,9 +1,12 @@
 package studio.honidot.litsap.source
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
 
 interface LiTsapRepository {
+
+    suspend fun findUser(firebaseUser: FirebaseUser): Result<User?>
 
     suspend fun createUser(user : User): Result<Boolean>
 

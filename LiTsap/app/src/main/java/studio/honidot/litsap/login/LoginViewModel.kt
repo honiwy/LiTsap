@@ -12,6 +12,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,87 +29,53 @@ import studio.honidot.litsap.util.Util.getString
 
 class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
-    lateinit var fbCallbackManager: CallbackManager
+    private val _user = MutableLiveData<User>()
+
+    val user: LiveData<User>
+        get() = _user
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-    // status: The internal MutableLiveData that stores the status of the most recent request
-    private val _status = MutableLiveData<LoadApiStatus>()
 
-    val status: LiveData<LoadApiStatus>
-        get() = _status
-
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
-        get() = _error
-
-
-    val auth = FirebaseAuth.getInstance()
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
-
-
-    fun loginFB() {
-        _status.value = LoadApiStatus.LOADING
-        fbCallbackManager = CallbackManager.Factory.create()
-        LoginManager.getInstance().registerCallback(fbCallbackManager, object :
-            FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
-
-            override fun onCancel() {
-                _status.value = LoadApiStatus.ERROR
-            }
-
-            override fun onError(exception: FacebookException) {
-                Logger.w("[${this::class.simpleName}] exception=${exception.message}")
-                Logger.w("Login FB Error")
-                exception.message?.let {
-                    _error.value = if (it.contains("ERR_INTERNET_DISCONNECTED")) {
-                        getString(R.string.internet_not_connected)
+    fun findUser(firebaseUser: FirebaseUser) {
+        coroutineScope.launch {
+            val result = repository.findUser(firebaseUser)
+            _user.value = when (result) {
+                is Result.Success -> {
+                    if (result.data != null) {
+                        result.data
                     } else {
-                        it
+                        val newUser = User(
+                            firebaseUser.uid,
+                            "Facebook",
+                            firebaseUser.displayName ?: "無名氏",
+                            3,
+                            0,
+                            emptyList(),
+                            emptyList(),
+                            0
+                        )
+                        createUser(newUser)
+                        newUser
                     }
                 }
-                _status.value = LoadApiStatus.ERROR
-            }
-        })
-        _loginAttempt.value = true
-    }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    auth.currentUser?.let {
-                        UserManager.userId = it.uid
-                        createUser(User(it.uid,it.displayName?:"沒有名字",3,0, emptyList(), emptyList(),0))
-                    }
-                } else {
-                    // If sign in fails, display a message to the user.
-//                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-//                    Toast.makeText(baseContext, "Authentication failed.",
-//                        Toast.LENGTH_SHORT).show()
-//                    updateUI(null)
+                is Result.Fail -> {
+                    null
                 }
-
-                // ...
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
             }
+        }
     }
 
-    private fun createUser(user : User) {
+    private fun createUser(user: User) {
         coroutineScope.launch {
             val result = repository.createUser(user)
             when (result) {
@@ -128,6 +95,71 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
         }
     }
 
+    private fun loginSuccess() {
+        _navigateToMain.value = true
+        Toast.makeText(
+            LiTsapApplication.appContext,
+            LiTsapApplication.instance.getString(R.string.login_success),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    fun onSucceeded() {
+        _navigateToMain.value = null
+    }
+
+    lateinit var fbCallbackManager: CallbackManager
+
+    fun loginFacebook() {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            fbCallbackManager = CallbackManager.Factory.create()//build callback
+            LoginManager.getInstance().registerCallback(fbCallbackManager, object :
+                FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    handleFacebookAccessToken(loginResult.accessToken)
+                }//if login success
+
+                override fun onCancel() {
+                }
+
+                override fun onError(exception: FacebookException) {
+                    Logger.w("[${this::class.simpleName}] exception=${exception.message}")
+                }
+            })//register call back
+            _loginAttempt.value = true //active login
+        } else {
+            loginSuccess()
+        }
+    }
+
+    fun loginGoogle() {
+        Toast.makeText(
+            LiTsapApplication.appContext,
+            LiTsapApplication.instance.getString(R.string.google_login_info),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    findUser(auth.currentUser!!) //make sure whether user account is existed in Firebase if not then create a new one
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
+                }
+            }
+    }
+
+    private val auth = FirebaseAuth.getInstance()
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
     private val _loginAttempt = MutableLiveData<Boolean>()
 
     val loginAttempt: LiveData<Boolean>
@@ -144,17 +176,5 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val navigateToMain: LiveData<Boolean>
         get() = _navigateToMain
 
-    private fun loginSuccess() {
-        Toast.makeText(
-            LiTsapApplication.appContext,
-            LiTsapApplication.instance.getString(R.string.login_success),
-            Toast.LENGTH_SHORT
-        ).show()
-        _navigateToMain.value = true
-    }
-
-    fun onSucceeded() {
-        _navigateToMain.value = null
-    }
 
 }

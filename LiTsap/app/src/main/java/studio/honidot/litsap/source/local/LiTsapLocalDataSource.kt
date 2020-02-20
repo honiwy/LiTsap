@@ -2,15 +2,19 @@ package studio.honidot.litsap.source.local
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
 
-    override suspend fun createUser(user: User): Result<Boolean> {
+    override suspend fun findUser(firebaseUser: FirebaseUser): Result<User?>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun createUser(user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getUser(userId: String): LiveData<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

@@ -1,6 +1,7 @@
 package studio.honidot.litsap.source
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import studio.honidot.litsap.data.*
@@ -10,6 +11,10 @@ class DefaultLiTsapRepository(
     private val localDataSource: LiTsapDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
+
+    override suspend fun findUser(firebaseUser: FirebaseUser): Result<User?> {
+        return remoteDataSource.findUser(firebaseUser)
+    }
 
     override suspend fun createUser(user : User): Result<Boolean> {
         return remoteDataSource.createUser(user)

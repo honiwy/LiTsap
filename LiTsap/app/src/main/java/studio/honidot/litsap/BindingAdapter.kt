@@ -79,6 +79,13 @@ fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
         }
 }
 
+//Login
+@BindingAdapter("bindUserName")
+fun bindUserName(textView: TextView, user: User?) {
+    textView.text = if(user == null){instance.getString(R.string.facebook_login)}
+                    else{instance.getString(R.string.facebook_login_with_name, user!!.userName)}
+}
+
 //@BindingAdapter("boldPartialText", "startIndex", "endIndex","color")
 //fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int, color: String) {
 //    text?.let {

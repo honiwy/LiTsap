@@ -4,6 +4,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import studio.honidot.litsap.LiTsapApplication
@@ -24,6 +26,48 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_TASKS = "tasks"
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
+
+//    override suspend fun findUser(userId: String): Result<User?>  =
+//        suspendCoroutine { continuation ->
+//            FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId).get().
+//                addOnCompleteListener { findUser->
+//                    if (findUser.isSuccessful) {
+//                        // Document found in the offline cache
+//                        findUser.result?.let {documentU->
+//                            val user = documentU.toObject(User::class.java)
+//                            continuation.resume(Result.Success(user))
+//                        }
+//                    } else {
+//                        findUser.exception?.let {
+//                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+//                    }
+//                }
+//        }
+
+    override suspend fun findUser(firebaseUser: FirebaseUser): Result<User?>  = suspendCoroutine { continuation ->
+        Logger.w("firebaseUser: ${firebaseUser.uid}, name ${firebaseUser.displayName}")
+        FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUser.uid)
+            .get()
+            .addOnCompleteListener { findUser ->
+                if (findUser.isSuccessful) {
+                    findUser.result?.let {documentU->
+                        val user = documentU.toObject(User::class.java)
+                        continuation.resume(Result.Success(user))
+                    }
+                } else {
+                    findUser.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
 
     override suspend fun createUser(user : User): Result<Boolean> =
     suspendCoroutine { continuation ->
