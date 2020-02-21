@@ -63,8 +63,8 @@ class DefaultLiTsapRepository(
         return remoteDataSource.addUserOngoingList(userId, taskId)
     }
 
-    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean> {
-        return remoteDataSource.updateTaskStatus(workout)
+    override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> {
+        return remoteDataSource.updateTaskStatus(taskId,accumulationPoints)
     }
 
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> {

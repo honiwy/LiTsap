@@ -59,7 +59,7 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateTaskStatus(workout: Workout): Result<Boolean> {
+    override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

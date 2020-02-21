@@ -30,7 +30,7 @@ interface LiTsapRepository {
 
     suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
 
-    suspend fun updateTaskStatus(workout: Workout): Result<Boolean>
+    suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean>
 
     suspend fun updateUserStatus(workout: Workout): Result<Boolean>
 

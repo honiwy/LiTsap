@@ -258,6 +258,7 @@
             android:fontFamily="@font/noto_sans"
             android:gravity="top"
             android:hint="@string/feedback_hint"
+            android:text="@={viewModel.workout.note}"
             android:letterSpacing="0.15"
             android:lines="10"
             android:maxLength="120"

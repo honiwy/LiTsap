@@ -18,6 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_finish.*
 import studio.honidot.litsap.MainViewModel
 import studio.honidot.litsap.NavigationDirections
@@ -40,7 +42,7 @@ class FinishFragment : Fragment() {
     }
 
     private val PICK_IMAGE_REQUEST = 71
-    private var filePath: Uri? = null
+
 
     private fun launchGallery() {
         val intent = Intent()
@@ -74,25 +76,18 @@ class FinishFragment : Fragment() {
         }
 
         viewModel.count.observe(this, Observer {
+            Logger.d("viewModel.count.observe, it=$it")
             it?.let {
-                if(it == 4) {
+                if (it == 5) {
                     findNavController().navigate(
                         NavigationDirections.navigateToProfileFragment(
                             FirebaseAuth.getInstance().currentUser!!.uid
                         )
                     )
-                    //viewModel.onProfileNavigated()
+                    viewModel.onProfileNavigated()
                 }
             }
         })
-
-//        viewModel.navigateToProfile.observe(this, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToProfileFragment(
-//                    FirebaseAuth.getInstance().currentUser!!.uid))
-//                viewModel.onProfileNavigated()
-//            }
-//        })
 
         return binding.root
     }
@@ -100,24 +95,17 @@ class FinishFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST  && resultCode == Activity.RESULT_OK) {
-            if (data == null || data.data == null) {
-                return
-            }
-            filePath = data.data
-            try {
+            data?.data?.let{uri->
 //                val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, filePath)
 //                uploadImage.setImageBitmap(bitmap)
-                Glide.with(this).load(filePath)
+                Glide.with(this).load(uri)
                     .apply(
                         RequestOptions().transform(CenterCrop(), RoundedCorners(15))
                             .placeholder(R.drawable.gallery)
-                            .error(R.drawable.gallery)
+                            .error(R.drawable.loggo)
                     )
                     .into(image_display)
-                viewModel.workout.value!!.imageUri = filePath.toString()
-
-            } catch (e: IOException) {
-                e.printStackTrace()
+                viewModel.bindImagePath(uri)
             }
         }
     }
