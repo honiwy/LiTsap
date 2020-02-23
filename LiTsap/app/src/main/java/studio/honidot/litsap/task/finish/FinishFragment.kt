@@ -105,7 +105,7 @@ class FinishFragment : Fragment() {
                             .error(R.drawable.loggo)
                     )
                     .into(image_display)
-                viewModel.bindImagePath(uri)
+                viewModel.filePath.value = uri
             }
         }
     }

@@ -1,5 +1,6 @@
 package studio.honidot.litsap.source
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineDispatcher
@@ -77,5 +78,9 @@ class DefaultLiTsapRepository(
 
     override suspend fun createTaskHistory(history: History): Result<Boolean>{
         return remoteDataSource.createTaskHistory(history)
+    }
+
+    override suspend fun uploadImage(imageUri: Uri): Result<Uri>{
+        return remoteDataSource.uploadImage(imageUri)
     }
 }

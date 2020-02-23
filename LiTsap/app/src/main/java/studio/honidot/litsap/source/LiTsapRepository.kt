@@ -1,5 +1,6 @@
 package studio.honidot.litsap.source
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
@@ -37,4 +38,6 @@ interface LiTsapRepository {
     suspend fun updateTaskModule(workout: Workout): Result<Boolean>
 
     suspend fun createTaskHistory(history: History): Result<Boolean>
+
+    suspend fun uploadImage(imageUri: Uri): Result<Uri>
 }

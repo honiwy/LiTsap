@@ -1,6 +1,7 @@
 package studio.honidot.litsap.source.local
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
@@ -72,6 +73,10 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
     }
 
     override suspend fun createTaskHistory(history: History): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun uploadImage(imageUri: Uri): Result<Uri>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

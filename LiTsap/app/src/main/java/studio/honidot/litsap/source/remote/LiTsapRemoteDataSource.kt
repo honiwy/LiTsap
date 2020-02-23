@@ -1,14 +1,14 @@
 package studio.honidot.litsap.source.remote
 
-import android.icu.util.Calendar
-import android.util.Log
+import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.android.gms.tasks.Continuation
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
@@ -17,6 +17,7 @@ import studio.honidot.litsap.source.LiTsapDataSource
 import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -27,27 +28,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_TASKS = "tasks"
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
-
-//    override suspend fun findUser(userId: String): Result<User?>  =
-//        suspendCoroutine { continuation ->
-//            FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId).get().
-//                addOnCompleteListener { findUser->
-//                    if (findUser.isSuccessful) {
-//                        // Document found in the offline cache
-//                        findUser.result?.let {documentU->
-//                            val user = documentU.toObject(User::class.java)
-//                            continuation.resume(Result.Success(user))
-//                        }
-//                    } else {
-//                        findUser.exception?.let {
-//                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-//                            continuation.resume(Result.Error(it))
-//                            return@addOnCompleteListener
-//                        }
-//                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-//                    }
-//                }
-//        }
 
     override suspend fun findUser(firebaseUserId: String): Result<User?>  = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUserId)
@@ -373,7 +353,25 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+    override suspend fun uploadImage(imageUri: Uri): Result<Uri> =
+        suspendCoroutine { continuation ->
 
+            val ref = FirebaseStorage.getInstance().reference.child("uploads/" + UUID.randomUUID().toString())
+            ref.putFile(imageUri).continueWithTask(Continuation<UploadTask.TaskSnapshot, com.google.android.gms.tasks.Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+                return@Continuation ref.downloadUrl
+            }).addOnCompleteListener { task ->
+                continuation.resume(Result.Success(task.result!!))
+            }.addOnFailureListener {
+                Logger.w("Upload fail!")
+            }
+        }
 
 
 

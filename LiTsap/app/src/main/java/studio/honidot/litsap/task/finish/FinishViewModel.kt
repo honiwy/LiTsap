@@ -60,18 +60,9 @@ class FinishViewModel(
 
 
     fun update(workout: Workout) {
-        uploadImage()
+        uploadImage(workout)
         updateTaskModule(workout)
-        createTaskHistory(
-            History(
-                workout.note,
-                workout.imageUri,
-                workout.achieveSectionCount,
-                Calendar.getInstance().timeInMillis,
-                workout.taskId,
-                workout.taskName
-            )
-        )
+
         updateUserStatus(workout)
         updateTaskStatus(workout.taskId, workout.achieveSectionCount.toLong())
     }
@@ -137,57 +128,38 @@ class FinishViewModel(
 
     }
 
+    val filePath= MutableLiveData<Uri>()
 
-    private var filePath: Uri? = null
-    private var storageReference: StorageReference? = null
+    private fun uploadImage(workout: Workout) {
 
-    private fun uploadImage() {
-        Logger.w("uploadImage! filePath:$filePath, filePathString:${filePath.toString()}   ")
-        if (filePath != null) {
-
-            storageReference = FirebaseStorage.getInstance().reference
-
-            val ref = storageReference?.child("uploads/" + UUID.randomUUID().toString())
-            val uploadTask = ref?.putFile(filePath!!)
-
-            uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw it
+        coroutineScope.launch {
+            filePath.value?.let {
+                val result = repository.uploadImage(it)
+                when (result) {
+                    is Result.Success -> {
+                        Logger.w("_workout.value!!.imageUri was: ${_workout.value!!.imageUri}")
+                       _workout.value!!.imageUri = result.data.toString()
+                        createTaskHistory(
+                            History(
+                                workout.note,
+                                result.data.toString(),
+                                workout.achieveSectionCount,
+                                Calendar.getInstance().timeInMillis,
+                                workout.taskId,
+                                workout.taskName
+                            )
+                        )
+                        Logger.w("_workout.value!!.imageUri is: ${_workout.value!!.imageUri}")
+                    }
+                    else -> {
+                        Logger.d("Oops! [createTaskHistory] is failed")
                     }
                 }
-                return@Continuation ref.downloadUrl
-            })?.addOnCompleteListener { task ->
-                Logger.w("Upload success!")
-                _count.value = _count.value!!.plus(1)
-            }?.addOnFailureListener {
-                Logger.w("Upload fail!")
             }
-        } else {
-            Logger.w("Please Upload an Image")
+            _count.value = _count.value!!.plus(1)
         }
     }
 
-    private fun addUploadRecordToDb(uri: String) {
-
-        val data = HashMap<String, Any>()
-        data["imageUrl"] = uri
-
-        FirebaseFirestore.getInstance().collection("posts")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                Logger.w("Saved to DB")
-            }
-            .addOnFailureListener { e ->
-                Logger.w("Error saving to DB")
-            }
-    }
-
-    fun bindImagePath(imageUri: Uri) {
-        filePath = imageUri
-        _workout.value!!.imageUri = imageUri.toString()
-        _workout.value = _workout.value
-    }
 
     fun onProfileNavigated() {
         _count.value = null
