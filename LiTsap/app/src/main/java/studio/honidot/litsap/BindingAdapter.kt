@@ -12,8 +12,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.post.HistoryAdapter
@@ -123,6 +125,20 @@ fun bindRecyclerViewWithRecords(recyclerView: RecyclerView, records: List<Histor
 fun bindLayoutManagerForRecyclerView(recyclerView: RecyclerView, layoutManager: RecyclerView.LayoutManager?) {
     layoutManager?.let {
         recyclerView.layoutManager = it
+    }
+}
+
+@BindingAdapter("imageUrl")
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.gallery)
+                    .error(R.drawable.loggo))
+            .into(imgView)
     }
 }
 
