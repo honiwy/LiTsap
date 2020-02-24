@@ -142,6 +142,11 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+@BindingAdapter("minuteHourConverter")
+fun bindMinuteHourLong(textView: TextView, timeLong: Long) {
+    textView.text = DateFormat.format("HH : mm", Date(timeLong)).toString()
+}
+
 //Task Create
 @BindingAdapter("tags")
 fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {

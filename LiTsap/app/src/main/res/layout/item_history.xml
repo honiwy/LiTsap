@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="history"
             type="studio.honidot.litsap.data.History" />
@@ -17,7 +18,9 @@
             android:id="@+id/constraint_layout"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:background="@drawable/task_round_recycler"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,7 +33,7 @@
                 android:id="@+id/task_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:text="@{history.taskName}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,16 +44,20 @@
                 android:id="@+id/achieve_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@{String.valueOf(history.achieveCount)}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/task_name"
-                app:layout_constraintStart_toEndOf="@+id/task_name"
-                tools:text="@string/finish_point" />
+                app:layout_constraintEnd_toStartOf="@+id/image_clock"
+                tools:text="3" />
 
             <TextView
                 android:id="@+id/text_feedback"
                 android:layout_width="0dp"
-                android:layout_height="44dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:textSize="12sp"
+                android:textColor="@color/gray_646464"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{history.note}"
                 app:layout_constraintEnd_toEndOf="@+id/text_time"
@@ -62,24 +69,49 @@
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@{String.valueOf(history.recordDate)}"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:textSize="12sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/task_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:minuteHourConverter="@{history.recordDate}"
                 tools:text="20:10" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
+                android:visibility="@{history.imageUri.empty?View.INVISIBLE:View.VISIBLE}"
                 app:imageUrl="@{history.imageUri}"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1.2"
                 app:layout_constraintEnd_toEndOf="@+id/text_feedback"
                 app:layout_constraintStart_toStartOf="@+id/text_feedback"
                 app:layout_constraintTop_toBottomOf="@+id/text_feedback"
                 app:srcCompat="@drawable/gallery" />
+
+            <ImageView
+                android:id="@+id/image_clock"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_time"
+                app:layout_constraintEnd_toStartOf="@+id/text_time"
+                app:layout_constraintTop_toTopOf="@+id/text_time"
+                app:srcCompat="@drawable/clock" />
+
+            <ImageView
+                android:id="@+id/image_star"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/achieve_point"
+                app:layout_constraintEnd_toStartOf="@+id/achieve_point"
+                app:layout_constraintTop_toTopOf="@+id/achieve_point"
+                app:srcCompat="@drawable/star" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

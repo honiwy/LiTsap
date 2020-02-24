@@ -48,6 +48,9 @@ dependencies {
     //Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //Calendar
+    implementation 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v1.0.3'
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
 

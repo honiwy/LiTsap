@@ -15,35 +15,18 @@
         android:layout_height="match_parent"
         android:background="@color/cream">
 
-        <TextView
-            android:id="@+id/text_calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:text="@string/profile_calendar"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_calendar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
             android:background="@drawable/profile_round_recycler"
             android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_calendar">
-
+            app:layout_constraintTop_toTopOf="parent">
 
             <CalendarView
                 android:id="@+id/calendarView"
@@ -61,12 +44,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            app:records="@{viewModel.records}"
+            android:layout_marginBottom="8dp"
             app:customLayoutManager="@{viewModel.layoutManager}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_calendar" />
+            app:layout_constraintTop_toBottomOf="@+id/constraint_calendar"
+            app:records="@{viewModel.records}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
