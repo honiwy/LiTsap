@@ -28,12 +28,6 @@ class ViewModelFactory(
                 isAssignableFrom(TaskCreateViewModel::class.java) ->
                     TaskCreateViewModel(liTsapRepository)
 
-                isAssignableFrom(PostViewModel::class.java) ->
-                    PostViewModel(liTsapRepository)
-
-
-
-
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

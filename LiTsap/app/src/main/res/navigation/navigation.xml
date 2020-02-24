@@ -62,7 +62,11 @@
         android:id="@+id/postFragment"
         android:name="studio.honidot.litsap.post.PostFragment"
         android:label="PostFragment"
-        tools:layout="@layout/fragment_post"/>
+        tools:layout="@layout/fragment_post">
+        <argument
+            android:name="userIdKey"
+            app:argType="string" />
+    </fragment>
     <action
         android:id="@+id/navigate_to_postFragment"
         app:destination="@id/postFragment"

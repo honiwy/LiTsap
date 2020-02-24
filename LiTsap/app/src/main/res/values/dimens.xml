@@ -26,7 +26,7 @@
     <!-- Profile  -->
     <dimen name="height_profile_header">98dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
-    <dimen name="height_competition_tab">48dp</dimen>
+    <dimen name="height_competition_tab">60dp</dimen>
 
 
 </resources>

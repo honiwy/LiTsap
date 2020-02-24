@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="history"
+            type="studio.honidot.litsap.data.History" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/task_round_recycler"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:id="@+id/task_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@{history.taskName}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/mock_task" />
+
+            <TextView
+                android:id="@+id/achieve_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{String.valueOf(history.achieveCount)}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/task_name"
+                app:layout_constraintStart_toEndOf="@+id/task_name"
+                tools:text="@string/finish_point" />
+
+            <TextView
+                android:id="@+id/text_feedback"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp"
+                android:text="@{history.note}"
+                app:layout_constraintEnd_toEndOf="@+id/text_time"
+                app:layout_constraintStart_toStartOf="@+id/task_name"
+                app:layout_constraintTop_toBottomOf="@+id/task_name"
+                tools:text="@string/mock_feedback" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@{String.valueOf(history.recordDate)}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/task_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="20:10" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_feedback"
+                app:layout_constraintStart_toStartOf="@+id/text_feedback"
+                app:layout_constraintTop_toBottomOf="@+id/text_feedback"
+                app:srcCompat="@drawable/gallery" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

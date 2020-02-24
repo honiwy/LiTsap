@@ -15,10 +15,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
-import studio.honidot.litsap.data.Module
-import studio.honidot.litsap.data.TaskItem
-import studio.honidot.litsap.data.User
-import studio.honidot.litsap.data.Workout
+import studio.honidot.litsap.data.*
+import studio.honidot.litsap.post.HistoryAdapter
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
@@ -108,6 +106,25 @@ fun bindUserName(textView: TextView, user: User?) {
 //        textView.text = spannable
 //    }
 //}
+
+//Post
+@BindingAdapter("records")
+fun bindRecyclerViewWithRecords(recyclerView: RecyclerView, records: List<History>?) {
+    records?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is HistoryAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("app:customLayoutManager")
+fun bindLayoutManagerForRecyclerView(recyclerView: RecyclerView, layoutManager: RecyclerView.LayoutManager?) {
+    layoutManager?.let {
+        recyclerView.layoutManager = it
+    }
+}
 
 //Task Create
 @BindingAdapter("tags")

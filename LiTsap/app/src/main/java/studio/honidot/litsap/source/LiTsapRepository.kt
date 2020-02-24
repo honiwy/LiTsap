@@ -21,6 +21,8 @@ interface LiTsapRepository {
 
     suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>>
 
+    suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>>
+
     suspend fun getModules(taskId: String): Result<List<Module>>
 
     suspend fun createTask(task: Task): Result<String>

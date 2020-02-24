@@ -1,6 +1,7 @@
 package studio.honidot.litsap.source.remote
 
 import android.net.Uri
+import android.text.format.DateFormat
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,7 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 import studio.honidot.litsap.util.Logger
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
@@ -183,6 +185,33 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                         for (documentH in findHistory.result!!) {
                             val history = documentH.toObject(History::class.java)
                                 Logger.d("one history: ${history.taskName}, note ${history.note}, point ${history.achieveCount}")
+                            listH.add(documentH.toObject(History::class.java))
+                        }
+                        continuation.resume(Result.Success(listH))
+                    } else {
+                        findHistory.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>> =
+        suspendCoroutine { continuation ->
+            val startDate = SimpleDateFormat("dd/MM/yyyy").parse(dateString).time
+            Logger.i("startDate: $dateString -> $startDate")
+            Logger.i("endDate: $dateString -> ${startDate + 86400000}")
+            val listH = mutableListOf<History>()
+            FirebaseFirestore.getInstance().collectionGroup("history").whereIn("taskId",taskIdList)
+                .whereGreaterThan("recordDate",startDate).whereLessThan("recordDate",startDate + 86400000).get()
+                .addOnCompleteListener { findHistory ->
+                    if (findHistory.isSuccessful) {
+                        for (documentH in findHistory.result!!) {
+                            val history = documentH.toObject(History::class.java)
+                            Logger.d("one history: ${history.taskName}, note ${history.note}, point ${history.achieveCount}")
                             listH.add(documentH.toObject(History::class.java))
                         }
                         continuation.resume(Result.Success(listH))

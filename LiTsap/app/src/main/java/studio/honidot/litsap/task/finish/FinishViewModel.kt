@@ -128,7 +128,7 @@ class FinishViewModel(
 
     }
 
-    val filePath= MutableLiveData<Uri>()
+    val filePath = MutableLiveData<Uri>()
 
     private fun uploadImage(workout: Workout) {
 
@@ -138,7 +138,7 @@ class FinishViewModel(
                 when (result) {
                     is Result.Success -> {
                         Logger.w("_workout.value!!.imageUri was: ${_workout.value!!.imageUri}")
-                       _workout.value!!.imageUri = result.data.toString()
+                        _workout.value!!.imageUri = result.data.toString()
                         createTaskHistory(
                             History(
                                 workout.note,

@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_post-> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostFragment(
+                        FirebaseAuth.getInstance().currentUser!!.uid))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {

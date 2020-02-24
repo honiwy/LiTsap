@@ -92,7 +92,7 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
         }
     }
 
-    fun deleteTaskFromCollection(taskId: String) {
+    private fun deleteTaskFromCollection(taskId: String) {
         coroutineScope.launch {
             val result = repository.deleteTask(taskId)
             when (result) {
