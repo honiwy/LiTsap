@@ -23,9 +23,9 @@
             android:layout_margin="@dimen/fab_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:backgroundTint="@color/yale"
-            app:maxImageSize="50dp"
-            app:srcCompat="@drawable/profile_man" />
+            app:maxImageSize="36dp"
+            android:backgroundTint="@color/honey"
+            app:srcCompat="@drawable/add_event" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_task"

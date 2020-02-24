@@ -97,20 +97,7 @@ class FinishViewModel(
         }
     }
 
-    private fun updateTaskModule(workout: Workout) {
-        coroutineScope.launch {
-            val result = repository.updateTaskModule(workout)
-            when (result) {
-                is Result.Success -> {
 
-                }
-                else -> {
-                    Logger.d("Oops! [updateTaskModule] is failed")
-                }
-            }
-            _count.value = _count.value!!.plus(1)
-        }
-    }
 
     private fun createTaskHistory(history: History) {
         coroutineScope.launch {
@@ -130,6 +117,21 @@ class FinishViewModel(
 
     val filePath = MutableLiveData<Uri>()
 
+    private fun updateTaskModule(workout: Workout) {
+        coroutineScope.launch {
+            val result = repository.updateTaskModule(workout)
+            when (result) {
+                is Result.Success -> {
+
+                }
+                else -> {
+                    Logger.d("Oops! [updateTaskModule] is failed")
+                }
+            }
+            _count.value = _count.value!!.plus(1)
+        }
+    }
+
     private fun uploadImage(workout: Workout) {
 
         coroutineScope.launch {
@@ -137,7 +139,6 @@ class FinishViewModel(
                 val result = repository.uploadImage(it)
                 when (result) {
                     is Result.Success -> {
-                        Logger.w("_workout.value!!.imageUri was: ${_workout.value!!.imageUri}")
                         _workout.value!!.imageUri = result.data.toString()
                         createTaskHistory(
                             History(
@@ -149,7 +150,6 @@ class FinishViewModel(
                                 workout.taskName
                             )
                         )
-                        Logger.w("_workout.value!!.imageUri is: ${_workout.value!!.imageUri}")
                     }
                     else -> {
                         Logger.d("Oops! [createTaskHistory] is failed")

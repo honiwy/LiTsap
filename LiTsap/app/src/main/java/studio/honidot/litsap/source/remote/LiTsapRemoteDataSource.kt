@@ -328,6 +328,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateTaskModule(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
+            Logger.w("suspend fun updateTaskModule: ${workout.taskId}")
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId).collection(
                 PATH_MODULES).document(workout.moduleId)
                 .update("achieveSection", FieldValue.increment(workout.achieveSectionCount.toLong()))
