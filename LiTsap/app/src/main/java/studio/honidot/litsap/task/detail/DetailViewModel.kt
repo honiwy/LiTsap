@@ -89,6 +89,7 @@ class DetailViewModel(
     fun changeModule(selectedPosition: Int) {
         _workout.value?.apply {
             moduleName = _modules.value!![selectedPosition].moduleName
+            moduleId = _modules.value!![selectedPosition].moduleId
         }
         _workout.value = _workout.value
     }

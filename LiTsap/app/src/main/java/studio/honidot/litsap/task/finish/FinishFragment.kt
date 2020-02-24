@@ -58,31 +58,22 @@ class FinishFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerFootprint.adapter = FootprintAdapter()
-        viewModel.workout.observe(this, Observer {
-            Logger.w("Hello viewModel.workout.observe: ${it}")
-        })
-
 
         binding.imageChoose.setOnClickListener {
-            //launchGallery()
             getPermissions()
         }
         binding.imageDisplay.setOnClickListener {
-            //launchGallery()
             getPermissions()
         }
 
         viewModel.count.observe(this, Observer {
-            Logger.d("viewModel.count.observe, it=$it")
-            it?.let {
-                if (it == 5) {
-                    findNavController().navigate(
-                        NavigationDirections.navigateToProfileFragment(
-                            FirebaseAuth.getInstance().currentUser!!.uid
-                        )
+            if (it == 5) {
+                findNavController().navigate(
+                    NavigationDirections.navigateToTaskFragment(
+                        FirebaseAuth.getInstance().currentUser!!.uid
                     )
-                    viewModel.onProfileNavigated()
-                }
+                )
+                viewModel.onTaskNavigated()
             }
         })
 
@@ -107,19 +98,20 @@ class FinishFragment : Fragment() {
 
 
     private fun getPermissions() {
-        val permissions = arrayOf(permission.READ_EXTERNAL_STORAGE )
+        val permissions = arrayOf(permission.READ_EXTERNAL_STORAGE)
         when (ContextCompat.checkSelfPermission(
             LiTsapApplication.instance,
             permission.READ_EXTERNAL_STORAGE
         )) {
             PackageManager.PERMISSION_GRANTED -> {
 //                        isUploadPermissionsGranted = true
-                launchGallery()}
-                else -> {
-                    requestPermissions(
-                        permissions,
-                        PICK_IMAGE_REQUEST
-                    )
+                launchGallery()
+            }
+            else -> {
+                requestPermissions(
+                    permissions,
+                    PICK_IMAGE_REQUEST
+                )
 
             }
         }

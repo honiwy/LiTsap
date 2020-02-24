@@ -161,7 +161,7 @@ class FinishViewModel(
     }
 
 
-    fun onProfileNavigated() {
+    fun onTaskNavigated() {
         _count.value = null
     }
 

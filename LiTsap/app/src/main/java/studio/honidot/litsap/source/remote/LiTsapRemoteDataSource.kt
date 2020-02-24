@@ -288,6 +288,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> =
         suspendCoroutine { continuation ->
+            Logger.w("suspend fun updateTaskStatus: task id ${taskId}, accumCount ${accumulationPoints}")
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
                 .update(mapOf("todayDone" to true, "accumCount" to FieldValue.increment(accumulationPoints.toLong())))
                 .addOnCompleteListener { addId ->
@@ -308,6 +309,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     //If user did the task that is done today will be something wrong with following code
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
+            Logger.w("suspend fun updateUserStatus: user id ${workout.userId}, experience ${workout.achieveSectionCount*workout.achieveSectionCount}")
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
                 .update(mapOf("experience" to FieldValue.increment(workout.achieveSectionCount*workout.achieveSectionCount.toLong()),
                     "todayDoneCount" to FieldValue.increment(1L)))
@@ -328,7 +330,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateTaskModule(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            Logger.w("suspend fun updateTaskModule: ${workout.taskId}")
+            Logger.w("suspend fun updateTaskModule: task id ${workout.taskId}, module id ${workout.moduleId}, achieve ${workout.achieveSectionCount}")
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId).collection(
                 PATH_MODULES).document(workout.moduleId)
                 .update("achieveSection", FieldValue.increment(workout.achieveSectionCount.toLong()))
