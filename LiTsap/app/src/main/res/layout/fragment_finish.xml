@@ -161,6 +161,7 @@
             android:background="@drawable/round_button"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
+            android:enabled="@{viewModel.count>0?false:true}"
             android:onClick="@{()->viewModel.update(viewModel.workout)}"
             android:text="@string/get_point"
             android:textColor="@color/white"
