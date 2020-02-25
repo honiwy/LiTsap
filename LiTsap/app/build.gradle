@@ -8,6 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
@@ -45,6 +46,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
+    //Crashlytics
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1' // Add the Firebase Crashlytics dependency.
+
     //Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
@@ -62,9 +66,8 @@ dependencies {
 
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$version_room"
-    //implementation 'com.google.firebase:firebase-firestore:17.1.2'
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     kapt "androidx.room:room-compiler:$version_room"
