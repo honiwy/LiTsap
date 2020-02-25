@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.post.HistoryAdapter
+import studio.honidot.litsap.profile.MurmurAdapter
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
@@ -86,6 +87,17 @@ fun bindUserName(textView: TextView, user: User?) {
         instance.getString(R.string.facebook_login)
     } else {
         instance.getString(R.string.facebook_login_with_name, user!!.userName)
+    }
+}
+
+@BindingAdapter("murmurs")
+fun bindRecyclerViewWithMurmurs(recyclerView: RecyclerView, murmurs: List<Member>?) {
+    murmurs?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is MurmurAdapter -> submitList(it)
+            }
+        }
     }
 }
 

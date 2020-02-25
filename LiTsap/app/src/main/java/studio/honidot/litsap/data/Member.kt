@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Member(
     var userId: String = "",
+    var userName: String="",
     var taskId: String = "",
-    var memberMurmur: String = ""
+    var murmur: String = ""
 ) : Parcelable

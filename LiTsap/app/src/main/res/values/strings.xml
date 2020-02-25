@@ -69,6 +69,7 @@
     <string name="feedback_hint">限 150 字內</string>
     <!-- Profile -->
     <string name="profile_default_name">Rachel</string>
+    <string name="profile_mock_murmur">我都完成了你們呢?</string>
     <string name="profile_level">LV %d</string>
     <string name="profile_experience">XP %d</string>
     <string name="profile_level_information">今天還有 %d 個任務還沒完成，\n不再努力一下嗎?</string>

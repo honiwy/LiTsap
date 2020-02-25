@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="member"
+            type="studio.honidot.litsap.data.Member" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_murmur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:maxWidth="328dp"
+            android:maxLines="1"
+            android:text="@{member.userName}"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/profile_default_name" />
+
+        <TextView
+            android:id="@+id/text_member_murmur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:text="@{member.murmur}"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_member_name"
+            app:layout_constraintStart_toEndOf="@+id/image_man"
+            tools:text="@string/profile_mock_murmur" />
+
+        <ImageView
+            android:id="@+id/image_man"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_member_name"
+            app:srcCompat="@drawable/speaking" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

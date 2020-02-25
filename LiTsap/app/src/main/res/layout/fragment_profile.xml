@@ -241,28 +241,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_competition">
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewpager_catalog"
+<!--                    <androidx.viewpager.widget.ViewPager-->
+<!--                        android:id="@+id/viewpager_catalog"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                        <com.google.android.material.tabs.TabLayout-->
+<!--                            android:id="@+id/tabs_catalog"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/height_competition_tab"-->
+<!--                            app:tabIndicatorColor="@color/black_3f3a3a"-->
+<!--                            app:tabSelectedTextColor="@color/black_3f3a3a"-->
+<!--                            app:tabTextColor="@color/gray_888888">-->
+
+<!--                        </com.google.android.material.tabs.TabLayout>-->
+
+<!--                    </androidx.viewpager.widget.ViewPager>-->
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_murmur"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="32dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="vertical"
+                        app:murmurs="@{viewModel.murmurs}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tabs_catalog"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_competition_tab"
-                            app:tabIndicatorColor="@color/black_3f3a3a"
-                            app:tabSelectedTextColor="@color/black_3f3a3a"
-                            app:tabTextColor="@color/gray_888888">
-
-                        </com.google.android.material.tabs.TabLayout>
-
-                    </androidx.viewpager.widget.ViewPager>
-
-
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView

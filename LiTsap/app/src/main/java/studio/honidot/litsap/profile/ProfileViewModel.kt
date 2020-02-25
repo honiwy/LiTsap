@@ -22,6 +22,11 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val user: LiveData<User>
         get() = _user
 
+    private val _murmurs = MutableLiveData<List<Member>>()
+
+    val murmurs: LiveData<List<Member>>
+        get() = _murmurs
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -35,7 +40,31 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
 
     init {
         findUser(arguments)
+        getMurmur("6W3CzuYGO2vr5Qcj6YCf")
     }
+
+
+    private fun getMurmur(groupId: String) {
+        coroutineScope.launch {
+            val result = repository.getMemberMurmurs(groupId)
+            _murmurs.value = when (result) {
+                is Result.Success -> {
+                    Logger.d("murmur: ${result.data}")
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
 
     private fun findUser(firebaseUserId: String) {
         coroutineScope.launch {

@@ -40,6 +40,10 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getMemberMurmurs(groupId: String): Result<List<Member>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

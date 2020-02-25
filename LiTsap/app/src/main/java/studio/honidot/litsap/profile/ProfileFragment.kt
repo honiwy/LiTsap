@@ -43,6 +43,9 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        val adapter = MurmurAdapter(viewModel)
+        binding.recyclerMurmur.adapter = adapter
+
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
                 drawBarChart(binding.barChart, it, BAR_CHART_DRAW_DAYS,viewModel.user.value!!.ongoingTasks.size)

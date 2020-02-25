@@ -44,6 +44,10 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getHistory(taskIdList, passNday)
     }
 
+    override suspend fun getMemberMurmurs(groupId: String): Result<List<Member>> {
+        return remoteDataSource.getMemberMurmurs(groupId)
+    }
+
     override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>>{
         return remoteDataSource.getHistoryOnThatDay(taskIdList, dateString)
     }

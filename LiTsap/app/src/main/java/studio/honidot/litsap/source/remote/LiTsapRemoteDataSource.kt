@@ -26,6 +26,8 @@ import kotlin.coroutines.suspendCoroutine
 
 object LiTsapRemoteDataSource : LiTsapDataSource {
 
+    private const val PATH_GROUPS = "groups"
+    private const val PATH_MEMBERS = "members"
     private const val PATH_USERS = "users"
     private const val PATH_TASKS = "tasks"
     private const val PATH_MODULES = "modules"
@@ -198,6 +200,31 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     }
                 }
         }
+
+
+    override suspend fun getMemberMurmurs(groupId: String): Result<List<Member>> =
+        suspendCoroutine { continuation ->
+            val members = mutableListOf<Member>()
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId)
+                .collection(PATH_MEMBERS)
+                .get().addOnCompleteListener { findMember ->
+                    if (findMember.isSuccessful) {
+                        for (documentM in findMember.result!!) {
+                            val moduleFound = documentM.toObject(Member::class.java)
+                            members.add(moduleFound)
+                        }
+                        continuation.resume(Result.Success(members))
+                    } else {
+                        findMember.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
 
     override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>> =
         suspendCoroutine { continuation ->

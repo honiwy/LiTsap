@@ -31,8 +31,9 @@ class PostFragment : Fragment() {
         binding.recyclerHistory.adapter = adapter
 
         binding.calendarView.setOnDateChangeListener {  view,  year,  month, dayOfMonth ->
-            Toast.makeText(context, "It is $year / ${month+1} /$dayOfMonth", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "It is $year / ${month+1} /$dayOfMonth", Toast.LENGTH_SHORT).show()
             viewModel.getHistoryOnThatDay("$dayOfMonth/${month+1}/$year")
+            binding.recyclerHistory.smoothScrollToPosition(0)
         }
 
         return binding.root
