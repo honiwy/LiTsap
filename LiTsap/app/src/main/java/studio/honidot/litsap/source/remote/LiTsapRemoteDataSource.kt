@@ -201,7 +201,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-
     override suspend fun getMemberMurmurs(groupId: String): Result<List<Member>> =
         suspendCoroutine { continuation ->
             val members = mutableListOf<Member>()
