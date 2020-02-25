@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="taskTab"
+            type="studio.honidot.litsap.data.TaskTab" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constriant_competition"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/profile_round_corner_tab"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:paddingTop="6dp"
+            android:paddingHorizontal="12dp"
+            android:text="@{taskTab.taskName}"
+            android:textColor="@color/black_3f3a3a"
+            app:boldText="@{taskTab.selected}"
+            android:textSize="@{taskTab.selected?@dimen/tab_size:@dimen/tab_size_null}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/mock_task" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

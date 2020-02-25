@@ -126,7 +126,6 @@
             android:id="@+id/text_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/finish_point"
@@ -134,7 +133,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/text_experience"
-            app:layout_constraintStart_toStartOf="@+id/text_experience"
+            app:layout_constraintStart_toStartOf="@+id/image_star4"
             app:layout_constraintTop_toTopOf="@+id/divider" />
 
         <TextView
@@ -176,9 +175,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:letterSpacing="0.15"
-            android:fontFamily="@font/noto_sans"
             android:backgroundTint="@color/honey"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
             android:textColor="@color/honey"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -195,7 +194,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
 
-            android:visibility="@{viewModel.workout.achieveSectionCount>0? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.workout.achieveSectionCount>0? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/text_experience"
             app:layout_constraintStart_toStartOf="@+id/text_experience"
             app:layout_constraintTop_toBottomOf="@+id/text_experience"
@@ -208,7 +207,7 @@
             android:layout_marginTop="4dp"
 
             android:layout_marginEnd="4dp"
-            android:visibility="@{viewModel.workout.achieveSectionCount>1? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.workout.achieveSectionCount>1? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/image_star"
             app:layout_constraintTop_toTopOf="@+id/image_star"
             app:srcCompat="@drawable/star" />
@@ -220,7 +219,7 @@
 
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
-            android:visibility="@{viewModel.workout.achieveSectionCount>2? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.workout.achieveSectionCount>2? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/image_star"
             app:layout_constraintEnd_toStartOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
@@ -232,7 +231,7 @@
             android:layout_marginEnd="4dp"
 
             android:layout_marginBottom="4dp"
-            android:visibility="@{viewModel.workout.achieveSectionCount>3? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.workout.achieveSectionCount>3? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/image_star3"
             app:layout_constraintEnd_toStartOf="@+id/text_experience"
             app:srcCompat="@drawable/star" />
@@ -243,7 +242,7 @@
             android:layout_height="28dp"
             android:layout_marginStart="4dp"
             android:layout_marginBottom="4dp"
-            android:visibility="@{viewModel.workout.achieveSectionCount>4? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.workout.achieveSectionCount>4? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/text_experience"
             app:layout_constraintStart_toStartOf="@+id/image_star2"
             app:srcCompat="@drawable/star" />
@@ -253,12 +252,11 @@
             android:id="@+id/task_finish_thought"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="18dp"
             android:background="@drawable/profile_round_recycler"
             android:fontFamily="@font/noto_sans"
             android:gravity="top"
             android:hint="@string/feedback_hint"
-            android:text="@={viewModel.workout.note}"
             android:letterSpacing="0.15"
             android:lines="10"
             android:maxLength="120"
@@ -269,6 +267,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
             android:singleLine="false"
+            android:text="@={viewModel.workout.note}"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="@+id/task_logo_medium"
@@ -283,7 +282,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
             android:visibility='@{viewModel.filePath==null?View.INVISIBLE:View.VISIBLE}'
             app:layout_constraintBottom_toBottomOf="@+id/divider"
             app:layout_constraintDimensionRatio="1.5"
@@ -310,7 +308,6 @@
             android:id="@+id/text_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/finish_picture"
@@ -324,9 +321,9 @@
         <View
             android:id="@+id/divider"
             android:layout_width="1dp"
-            android:layout_height="140dp"
+            android:layout_height="120dp"
             android:layout_marginStart="160dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="18dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toTopOf="@+id/button_finish"
             app:layout_constraintStart_toStartOf="parent" />

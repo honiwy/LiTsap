@@ -21,7 +21,6 @@
             android:background="@color/royal"
             android:elevation="@dimen/elevation_all"
             app:toolbarVisibility="@{viewModel.currentFragmentType}"
-            app:navigationIcon="@drawable/toolbar_menu"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,6 +33,7 @@
                 android:background="@drawable/loggo_small"
                 tools:layout_editor_absoluteX="184dp"
                 tools:layout_editor_absoluteY="5dp" />
+<!--            app:navigationIcon="@drawable/toolbar_menu"-->
 
         </androidx.appcompat.widget.Toolbar>
         <fragment

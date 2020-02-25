@@ -1,12 +1,12 @@
 package studio.honidot.litsap
 
-import android.graphics.Typeface.BOLD
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.format.DateFormat
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.graphics.Color
+import android.graphics.Typeface.*
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.post.HistoryAdapter
+import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
@@ -99,6 +100,28 @@ fun bindRecyclerViewWithMurmurs(recyclerView: RecyclerView, murmurs: List<Member
             }
         }
     }
+}
+
+@BindingAdapter("taskTabs")
+fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, taskTabs: List<TaskTab>?) {
+    taskTabs?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is CompetitionAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("boldText")
+fun setLayoutBoldText(view: TextView, isSelected:Boolean) {
+    if(isSelected){
+        view.typeface = DEFAULT_BOLD
+    }
+    else{
+        view.typeface = DEFAULT
+    }
+
 }
 
 //@BindingAdapter("boldPartialText", "startIndex", "endIndex","color")

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#84eaff</color>
     <color name="colorPrimaryDark">#07689f</color>
-    <color name="colorAccent">#f8cd72</color>
+    <color name="colorAccent">#f1ab10</color>
 
 
     <!-- Task Create Dialog -->

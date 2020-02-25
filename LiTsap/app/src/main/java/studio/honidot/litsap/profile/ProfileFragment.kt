@@ -43,6 +43,9 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+
+        binding.recyclerTab.adapter = CompetitionAdapter(viewModel)
+
         val adapter = MurmurAdapter(viewModel)
         binding.recyclerMurmur.adapter = adapter
 

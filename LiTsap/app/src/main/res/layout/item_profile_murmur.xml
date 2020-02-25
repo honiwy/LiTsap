@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
@@ -51,10 +52,11 @@
         <ImageView
             android:id="@+id/image_man"
             android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_height="0dp"
             android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/text_member_name"
             app:layout_constraintStart_toEndOf="@+id/text_member_name"
+            app:layout_constraintTop_toTopOf="@+id/text_member_name"
             app:srcCompat="@drawable/speaking" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

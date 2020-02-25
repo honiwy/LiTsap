@@ -15,8 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@color/royal"
-        android:background="@{viewModel.isCountingRest==true?@color/white:@color/royal}">
+        android:background="@{viewModel.isCountingRest==true?@color/white:@color/royal}"
+        tools:background="@color/royal">
 
         <ImageView
             android:id="@+id/image_back"
@@ -147,9 +147,9 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/break_hint"
-            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
             app:layout_constraintTop_toBottomOf="@+id/remain_time" />
@@ -196,14 +196,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/round_button"
+            android:enabled="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.workout.sectionConstant ? true:false}"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.navigateToFinish()}"
             android:text="@string/completed_ahead"
             android:textColor="@color/white"
-            android:textStyle="bold"
             android:textSize="16sp"
-            android:visibility="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.workout.sectionConstant ? View.VISIBLE:View.INVISIBLE}"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

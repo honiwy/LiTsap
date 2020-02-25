@@ -38,12 +38,17 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val historyPoints: LiveData<List<History>>
         get() = _historyPoints
 
+    private val _taskTabs = MutableLiveData<List<TaskTab>>()
+
+    val taskTabs: LiveData<List<TaskTab>>
+        get() = _taskTabs
+
     init {
         findUser(arguments)
         getMurmur("6W3CzuYGO2vr5Qcj6YCf")
     }
 
-
+//Rrhr7r7YidDWiwU0sSo5
     private fun getMurmur(groupId: String) {
         coroutineScope.launch {
             val result = repository.getMemberMurmurs(groupId)
@@ -89,6 +94,22 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
+
+    private fun queryTask(historyList:List<History>) {
+        val sortedList = historyList.sortedBy { history -> history.taskName  }
+        var tmpName = ""
+        val tmpList = mutableListOf<TaskTab>()
+        sortedList.forEach { history->
+            if(history.taskName!= tmpName)
+            {
+                tmpList.add(TaskTab(history.taskId,history.taskName,false))
+            }
+            tmpName = history.taskName
+        }
+        tmpList[0].selected = true
+        _taskTabs.value = tmpList
+    }
+
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
 
         coroutineScope.launch {
@@ -96,6 +117,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             _historyPoints.value = when (result) {
                 is Result.Success -> {
                     Logger.d("history: ${result.data}")
+                    queryTask(result.data)
                     result.data
                 }
                 is Result.Fail -> {

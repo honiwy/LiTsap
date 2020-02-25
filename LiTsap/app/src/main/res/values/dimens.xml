@@ -7,7 +7,7 @@
 
     <!-- Bottom Navigation -->
     <dimen name="height_bottom_nav_view_main">50dp</dimen>
-    <dimen name="size_bottom_nav_icon">30dp</dimen>
+    <dimen name="size_bottom_nav_icon">28dp</dimen>
 
     <!-- General -->
     <dimen name="elevation_all">4dp</dimen>
@@ -19,6 +19,10 @@
     <!-- Detail -->
     <dimen name="battery_margin_null">0dp</dimen>
     <dimen name="battery_margin">6dp</dimen>
+
+    <!-- Profile -->
+    <dimen name="tab_size_null">12sp</dimen>
+    <dimen name="tab_size">16sp</dimen>
 
     <!-- Create -->
     <dimen name="edge_create_select">2dp</dimen>

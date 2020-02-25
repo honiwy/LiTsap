@@ -233,46 +233,48 @@
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/profile_round_recycler"
+                    android:background="@drawable/profile_competition_layout"
                     android:elevation="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_competition">
 
-<!--                    <androidx.viewpager.widget.ViewPager-->
-<!--                        android:id="@+id/viewpager_catalog"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent">-->
+                    <!--                    <androidx.viewpager.widget.ViewPager-->
+                    <!--                        android:id="@+id/viewpager_catalog"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="0dp"-->
+                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toTopOf="parent">-->
 
-<!--                        <com.google.android.material.tabs.TabLayout-->
-<!--                            android:id="@+id/tabs_catalog"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="@dimen/height_competition_tab"-->
-<!--                            app:tabIndicatorColor="@color/black_3f3a3a"-->
-<!--                            app:tabSelectedTextColor="@color/black_3f3a3a"-->
-<!--                            app:tabTextColor="@color/gray_888888">-->
+                    <!--                        <com.google.android.material.tabs.TabLayout-->
+                    <!--                            android:id="@+id/tabs_catalog"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="@dimen/height_competition_tab"-->
+                    <!--                            app:tabIndicatorColor="@color/black_3f3a3a"-->
+                    <!--                            app:tabSelectedTextColor="@color/black_3f3a3a"-->
+                    <!--                            app:tabTextColor="@color/gray_888888">-->
 
-<!--                        </com.google.android.material.tabs.TabLayout>-->
+                    <!--                        </com.google.android.material.tabs.TabLayout>-->
 
-<!--                    </androidx.viewpager.widget.ViewPager>-->
+                    <!--                    </androidx.viewpager.widget.ViewPager>-->
 
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_murmur"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_marginTop="8dp"
                         android:orientation="vertical"
-                        app:murmurs="@{viewModel.murmurs}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:murmurs="@{viewModel.murmurs}" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -294,7 +296,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/profile_round_recycler"
@@ -315,6 +317,27 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_recycler_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/constraint_competition"
+                    app:layout_constraintEnd_toEndOf="@+id/constraint_competition"
+                    app:layout_constraintStart_toEndOf="@+id/text_competition"
+                    app:layout_constraintTop_toTopOf="@+id/text_competition">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_tab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:taskTabs="@{viewModel.taskTabs}" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
