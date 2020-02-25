@@ -115,12 +115,12 @@ fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, taskTabs: List<Task
 
 @BindingAdapter("boldText")
 fun setLayoutBoldText(view: TextView, isSelected:Boolean) {
-    if(isSelected){
-        view.typeface = DEFAULT_BOLD
-    }
-    else{
-        view.typeface = DEFAULT
-    }
+//    if(isSelected){
+//        view.typeface = DEFAULT_BOLD
+//    }
+//    else{
+//        view.typeface = DEFAULT
+//    }
 
 }
 

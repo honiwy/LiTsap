@@ -48,6 +48,8 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         getMurmur("6W3CzuYGO2vr5Qcj6YCf")
     }
 
+
+
 //Rrhr7r7YidDWiwU0sSo5
     private fun getMurmur(groupId: String) {
         coroutineScope.launch {
@@ -94,6 +96,9 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
+    var selectedTaskPosition = MutableLiveData<Int>().apply {
+        value = 0
+    }
 
     private fun queryTask(historyList:List<History>) {
         val sortedList = historyList.sortedBy { history -> history.taskName  }
@@ -102,11 +107,10 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         sortedList.forEach { history->
             if(history.taskName!= tmpName)
             {
-                tmpList.add(TaskTab(history.taskId,history.taskName,false))
+                tmpList.add(TaskTab(history.taskId,history.taskName))
             }
             tmpName = history.taskName
         }
-        tmpList[0].selected = true
         _taskTabs.value = tmpList
     }
 

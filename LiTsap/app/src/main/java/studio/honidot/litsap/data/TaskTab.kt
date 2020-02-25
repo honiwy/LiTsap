@@ -6,6 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class TaskTab(
     var taskId: String = "",
-    var taskName: String = "",
-    var selected: Boolean = false //whether finish the task today
+    var taskName: String = ""
 ) : Parcelable
