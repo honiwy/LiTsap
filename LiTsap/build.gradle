@@ -14,7 +14,7 @@ buildscript {
         version_retrofit = "2.5.0"
         version_retrofit_coroutines_adapter = "0.9.2"
         version_recyclerview = "1.0.0"
-        version_fragment = "1.2.0-alpha01"
+        version_fragment = "1.2.2"
         version_paging = "2.1.0-rc01"
         version_room = "2.1.0"
     }
