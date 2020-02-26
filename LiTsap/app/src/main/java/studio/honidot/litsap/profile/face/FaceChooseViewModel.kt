@@ -28,14 +28,9 @@ class FaceChooseViewModel(private val repository: LiTsapRepository) : ViewModel(
 
     private fun getFaceList(): List<Int> {
         val tmp = mutableListOf<Int>()
-        var count = 0
-
         for(i in UserProfile.values().indices){
-            tmp.add(count)
-            count += 1
-            Logger.d("count: $count")
+            tmp.add(i)
         }
-
          return tmp
     }
 
@@ -51,18 +46,20 @@ class FaceChooseViewModel(private val repository: LiTsapRepository) : ViewModel(
         get() = _taskId
 
 
-    private fun createTaskModules(taskId: String, modules: Module) {
+    fun updateUserIcon(userId: String, iconId:Int) {
         coroutineScope.launch {
-            val result = repository.createTaskModules(taskId, modules)
+            val result = repository.updateUserIcon(userId,iconId)
             when (result) {
                 is Result.Success -> {
-                    Logger.i("Modules update!")
+                    Logger.i("Icon update!")
                 }
             }
         }
     }
 
-    val selectedFacePosition = MutableLiveData<Int>()
+    val selectedFacePosition = MutableLiveData<Int>().apply {
+        value = 0
+    }
 
 
 }

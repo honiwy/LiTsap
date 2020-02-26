@@ -7,6 +7,8 @@ import studio.honidot.litsap.data.*
 
 interface LiTsapDataSource {
 
+    suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>
+
     suspend fun findUser(firebaseUserId: String): Result<User?>
 
     suspend fun createUser(user : User): Result<Boolean>

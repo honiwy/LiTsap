@@ -264,7 +264,7 @@ fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Wo
 @BindingAdapter("experience")
 fun bindExperience(textView: TextView, xp: Long) {
     val next = xp + 25 - (xp % 25)
-    textView.text = instance.getString(R.string.profile_experience, xp) + " / $next"
+    textView.text = instance.getString(R.string.profile_experience, xp) + "/$next"
 }
 
 @BindingAdapter("level")

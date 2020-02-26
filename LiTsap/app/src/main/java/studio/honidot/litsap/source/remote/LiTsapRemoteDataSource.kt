@@ -109,6 +109,25 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+
+    override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
+                .update("iconId", iconId)
+                .addOnCompleteListener { updateId ->
+                    if (updateId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        updateId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun deleteTask(taskId: String): Result<Boolean> =
         suspendCoroutine { continuation ->
 

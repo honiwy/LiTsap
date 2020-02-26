@@ -13,6 +13,10 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
+    override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>{
+        return remoteDataSource.updateUserIcon(userId,iconId)
+    }
+
     override suspend fun findUser(firebaseUserId: String): Result<User?> {
         return remoteDataSource.findUser(firebaseUserId)
     }

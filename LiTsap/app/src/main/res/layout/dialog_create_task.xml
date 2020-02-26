@@ -28,8 +28,8 @@
 
             <ImageButton
                 android:id="@+id/button_close"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:background="@drawable/close"
                 android:backgroundTint="@color/honey"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.DialogChooseFaceBinding
@@ -30,15 +31,21 @@ class FaceChooseDialog : DialogFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerFacelist.adapter = FaceAdapter(viewModel, FaceAdapter.OnClickListener {
-            //            viewModel.getMurmur(it.groupId)
-        })
+        binding.recyclerFacelist.adapter = FaceAdapter(viewModel)
 
-val space = LiTsapApplication.instance.resources.getDimensionPixelSize(R.dimen.face_size)
-        binding.recyclerFacelist.layoutManager= GridLayoutManager(context,Resources.getSystem().displayMetrics.widthPixels/ space)
+        binding.recyclerFacelist.layoutManager =
+            GridLayoutManager(
+                context,
+                Resources.getSystem().displayMetrics.widthPixels / LiTsapApplication.instance.resources.getDimensionPixelSize(
+                    R.dimen.face_size
+                )
+            )
 
         binding.buttonConfirm.setOnClickListener {
-            //viewModel.createTask()
+            viewModel.updateUserIcon(
+                FirebaseAuth.getInstance().currentUser!!.uid,
+                viewModel.selectedFacePosition.value!!
+            )
             dismiss()
         }
 

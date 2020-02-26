@@ -2,23 +2,14 @@ package studio.honidot.litsap.profile.face
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.honidot.litsap.data.TaskTab
-import studio.honidot.litsap.databinding.ItemProfileCompetitionTabBinding
 import studio.honidot.litsap.databinding.ItemProfileFaceBinding
-import studio.honidot.litsap.profile.ProfileViewModel
 
-class FaceAdapter(val viewModel: FaceChooseViewModel, private val onClickListener: OnClickListener) : ListAdapter<Int, FaceAdapter.FaceViewHolder>(DiffCallback) {
-
-    class OnClickListener(val clickListener: (faceId: Int) -> Unit) {
-        fun onClick(faceId: Int) = clickListener(faceId)
-    }
+class FaceAdapter(val viewModel: FaceChooseViewModel) : ListAdapter<Int, FaceAdapter.FaceViewHolder>(DiffCallback) {
 
     class FaceViewHolder(
         private var binding: ItemProfileFaceBinding,
@@ -29,14 +20,13 @@ class FaceAdapter(val viewModel: FaceChooseViewModel, private val onClickListene
             it == adapterPosition
         }
 
-        fun bind(faceId: Int, onClickListener: OnClickListener) {
+        fun bind(faceId: Int) {
             binding.lifecycleOwner = this
             binding.viewHolder = this
             binding.iconId = adapterPosition
             binding.viewModel = viewModel
             binding.root.setOnClickListener {
                 viewModel.selectedFacePosition.value = adapterPosition
-                onClickListener.onClick(faceId)
             }
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
@@ -87,7 +77,7 @@ class FaceAdapter(val viewModel: FaceChooseViewModel, private val onClickListene
      * Replaces the contents of a view (invoked by the layout manager)
      */
     override fun onBindViewHolder(holder: FaceViewHolder, position: Int) {
-        holder.bind(getItem(position), onClickListener)
+        holder.bind(getItem(position))
     }
 
     override fun onViewAttachedToWindow(holder: FaceViewHolder) {

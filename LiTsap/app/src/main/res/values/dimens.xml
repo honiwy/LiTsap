@@ -28,7 +28,7 @@
     <dimen name="edge_create_select">2dp</dimen>
 
     <!-- Profile  -->
-    <dimen name="height_profile_header">100dp</dimen>
+    <dimen name="height_profile_header">86dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
     <dimen name="height_competition_tab">60dp</dimen>
 

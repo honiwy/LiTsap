@@ -57,13 +57,12 @@
 
             <ImageView
                 android:id="@+id/button_confirm"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/tick"
                 android:backgroundTint="@color/honey"
-                app:layout_constraintBottom_toBottomOf="@+id/text_choose"
-                app:layout_constraintEnd_toEndOf="@+id/recycler_facelist"
-                app:layout_constraintTop_toTopOf="@+id/text_choose"
-                android:background="@drawable/tick" />
+                app:layout_constraintBottom_toBottomOf="@+id/recycler_facelist"
+                app:layout_constraintEnd_toEndOf="@+id/recycler_facelist" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

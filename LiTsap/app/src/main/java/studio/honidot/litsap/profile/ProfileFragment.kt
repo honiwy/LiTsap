@@ -29,11 +29,13 @@ import kotlin.collections.ArrayList
 private const val BAR_CHART_DRAW_DAYS = 7
 
 class ProfileFragment : Fragment() {
-    private val viewModel by viewModels<ProfileViewModel> { getVmFactory(
-        ProfileFragmentArgs.fromBundle(
-            arguments!!
-        ).userIdKey
-    ) }
+    private val viewModel by viewModels<ProfileViewModel> {
+        getVmFactory(
+            ProfileFragmentArgs.fromBundle(
+                arguments!!
+            ).userIdKey
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,27 +47,38 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.imageProfileAvatar.setOnClickListener {
-                    FaceChooseDialog().show(childFragmentManager, "wer")
+            FaceChooseDialog().show(childFragmentManager, "wer")
         }
 
 
-        binding.recyclerTab.adapter = CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
-//            viewModel.getMurmur(it.groupId)
-        })
+        binding.recyclerTab.adapter =
+            CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
+                //            viewModel.getMurmur(it.groupId)
+            })
 
         val adapter = MurmurAdapter(viewModel)
         binding.recyclerMurmur.adapter = adapter
 
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
-                drawBarChart(binding.barChart, it, BAR_CHART_DRAW_DAYS,viewModel.user.value!!.ongoingTasks.size)
+                drawBarChart(
+                    binding.barChart,
+                    it,
+                    BAR_CHART_DRAW_DAYS,
+                    viewModel.user.value!!.ongoingTasks.size
+                )
             }
         })
 
         return binding.root
     }
 
-    private fun drawBarChart(chart: BarChart, history: List<History>, dayCount: Int, taskCount: Int) {
+    private fun drawBarChart(
+        chart: BarChart,
+        history: List<History>,
+        dayCount: Int,
+        taskCount: Int
+    ) {
         val colorTable = listOf("#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8", "#41a8d1")
         val formatter = DateTimeFormatter.ofPattern("MMM dd")
 
@@ -105,8 +118,8 @@ class ProfileFragment : Fragment() {
                 name = it.taskName
             }
             for (i in dayCount downTo 1) {
-                val timeFrom = time.minusDays(i-1.toLong()).toEpochSecond(ZoneOffset.MAX) * 1000
-                val timeTo = time.minusDays(i-1.toLong()).toEpochSecond(ZoneOffset.MIN) * 1000
+                val timeFrom = time.minusDays(i - 1.toLong()).toEpochSecond(ZoneOffset.MAX) * 1000
+                val timeTo = time.minusDays(i - 1.toLong()).toEpochSecond(ZoneOffset.MIN) * 1000
                 if (it.recordDate in timeFrom until timeTo) {
                     pointArrayList[dayCount - i][taskIndex] += it.achieveCount.toFloat()
                     Logger.e("The history ${it.taskName} is done in ${dayCount - i}th day, got ${it.achieveCount} points")
@@ -133,7 +146,7 @@ class ProfileFragment : Fragment() {
             legend.setCustom(legends)
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
-             xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
             invalidate()
         }
     }
