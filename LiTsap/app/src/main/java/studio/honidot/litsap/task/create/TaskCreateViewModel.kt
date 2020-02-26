@@ -82,7 +82,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         return value.toString()
     }
 
-    var title = MutableLiveData<String>()
+    var title = MutableLiveData<String>().apply {
+        value = ""
+    }
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
