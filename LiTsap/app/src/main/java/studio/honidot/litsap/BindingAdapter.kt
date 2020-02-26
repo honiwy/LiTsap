@@ -1,16 +1,9 @@
 package studio.honidot.litsap
 
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.format.DateFormat
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
-import android.graphics.Color
-import android.graphics.Typeface.*
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -21,6 +14,7 @@ import studio.honidot.litsap.data.*
 import studio.honidot.litsap.post.HistoryAdapter
 import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
+import studio.honidot.litsap.profile.face.FaceAdapter
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
@@ -28,7 +22,6 @@ import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
 import studio.honidot.litsap.util.Logger
-import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 
 //Task List
@@ -296,13 +289,23 @@ fun bindLevelInfo(textView: TextView, user: User?) {
     }
 }
 
+@BindingAdapter("faces")
+fun bindRecyclerViewWithFaces(recyclerView: RecyclerView, faces: List<Int>?) {
+    faces?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is FaceAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
 @BindingAdapter("userProfile")
 fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
     val userProfile = UserProfile.values()[userProfileId]
     imageView.background =
         when (userProfile) {
             UserProfile.ACTOR -> instance.getDrawable(R.drawable.profile_actor)
-            UserProfile.ARTIST -> instance.getDrawable(R.drawable.profile_artist)
             UserProfile.DETECTIVE -> instance.getDrawable(R.drawable.profile_detective)
             UserProfile.GIRL -> instance.getDrawable(R.drawable.profile_girl)
             UserProfile.MAAM -> instance.getDrawable(R.drawable.profile_maam)
@@ -312,5 +315,9 @@ fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
             UserProfile.STUDENT -> instance.getDrawable(R.drawable.profile_student)
             UserProfile.USER -> instance.getDrawable(R.drawable.profile_user)
             UserProfile.WOMEN -> instance.getDrawable(R.drawable.profile_woman)
+            UserProfile.CHEMIST -> instance.getDrawable(R.drawable.profile_chemist)
+            UserProfile.FIGHTER -> instance.getDrawable(R.drawable.profile_fighter)
+            UserProfile.SAILOR -> instance.getDrawable(R.drawable.profile_sailor)
+            UserProfile.SOLDIER -> instance.getDrawable(R.drawable.profile_soldier)
         }
 }

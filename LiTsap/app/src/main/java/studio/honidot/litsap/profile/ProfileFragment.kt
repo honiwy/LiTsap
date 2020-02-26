@@ -19,6 +19,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.profile.face.FaceChooseDialog
 import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -42,6 +43,10 @@ class ProfileFragment : Fragment() {
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        binding.imageProfileAvatar.setOnClickListener {
+                    FaceChooseDialog().show(childFragmentManager, "wer")
+        }
 
 
         binding.recyclerTab.adapter = CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {

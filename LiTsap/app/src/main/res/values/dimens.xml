@@ -6,8 +6,8 @@
     <dimen name="height_status_bar_origin">24dp</dimen>
 
     <!-- Bottom Navigation -->
-    <dimen name="height_bottom_nav_view_main">50dp</dimen>
-    <dimen name="size_bottom_nav_icon">28dp</dimen>
+    <dimen name="height_bottom_nav_view_main">55dp</dimen>
+    <dimen name="size_bottom_nav_icon">25dp</dimen>
 
     <!-- General -->
     <dimen name="elevation_all">4dp</dimen>
@@ -28,9 +28,11 @@
     <dimen name="edge_create_select">2dp</dimen>
 
     <!-- Profile  -->
-    <dimen name="height_profile_header">98dp</dimen>
+    <dimen name="height_profile_header">100dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
     <dimen name="height_competition_tab">60dp</dimen>
+
+    <dimen name="face_size">70dp</dimen>
 
 
 </resources>

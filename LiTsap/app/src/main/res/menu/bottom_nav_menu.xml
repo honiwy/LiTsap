@@ -4,16 +4,16 @@
     <item
         android:id="@+id/navigation_task"
         android:icon="@drawable/ic_nav_task_selector"
-        android:title=""/>
+        android:title="@string/task"/>
 
     <item
         android:id="@+id/navigation_post"
         android:icon="@drawable/ic_nav_post_selector"
-        android:title=""/>
+        android:title="@string/post"/>
 
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_nav_profile_selector"
-        android:title=""/>
+        android:title="@string/profile"/>
 
 </menu>
