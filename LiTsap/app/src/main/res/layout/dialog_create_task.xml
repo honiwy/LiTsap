@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="studio.honidot.litsap.task.create.TaskCreateViewModel" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,21 +56,21 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/create_task_round_editor"
-                android:backgroundTint="@{(viewModel.title.empty ||viewModel.title == null )? @color/white:@color/mustard}"
+                android:backgroundTint="@{!viewModel.title.empty? @color/mustard:@color/white}"
                 android:ems="10"
                 android:fontFamily="@font/noto_sans"
-                android:hint="@string/hint_task"
                 android:letterSpacing="0.15"
                 android:maxLength="15"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:singleLine="true"
                 android:text="@={viewModel.title}"
+                android:textAlignment="center"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_title"
-                app:layout_constraintEnd_toStartOf="@+id/button_close"
+                app:layout_constraintEnd_toStartOf="@+id/text_notice_task"
                 app:layout_constraintStart_toEndOf="@+id/text_title"
                 app:layout_constraintTop_toTopOf="@+id/text_title" />
 
@@ -93,7 +95,7 @@
                 android:selectedItemPosition="@={viewModel.selectedTaskCategoryPosition}"
                 android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/text_category"
-                app:layout_constraintEnd_toEndOf="@+id/edit_title"
+                app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintStart_toStartOf="@+id/edit_title"
                 app:layout_constraintTop_toTopOf="@+id/text_category" />
 
@@ -118,20 +120,19 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/edit_module"
-                app:layout_constraintEnd_toEndOf="@+id/edit_title"
+                app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintStart_toStartOf="@+id/edit_module"
                 app:tags="@{viewModel.moduleNameList}" />
 
             <EditText
                 android:id="@+id/edit_module"
-                android:layout_width="100dp"
-                android:layout_height="20dp"
+                android:layout_width="124dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/create_task_round_editor"
-                android:backgroundTint="@{(viewModel.newModule.empty ||viewModel.newModule == null )? @color/white:@color/mustard}"
+                android:backgroundTint="@{!viewModel.newModule.empty? @color/mustard:@color/white}"
                 android:ems="10"
                 android:fontFamily="@font/noto_sans"
-                android:hint="@string/hint_module"
                 android:letterSpacing="0.15"
                 android:maxLength="7"
                 android:paddingStart="4dp"
@@ -139,7 +140,7 @@
                 android:singleLine="true"
                 android:text="@={viewModel.newModule}"
                 android:textAlignment="center"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/module_task"
                 app:layout_constraintStart_toEndOf="@+id/module_task"
                 app:layout_constraintTop_toTopOf="@+id/module_task" />
@@ -150,9 +151,9 @@
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/plus"
-                android:backgroundTint="@{(viewModel.newModule.empty ||viewModel.newModule == null )? @color/gray_888888:@color/honey}"
+                android:backgroundTint="@{viewModel.newModule.length()>7||viewModel.newModule.empty ?@color/gray_888888: @color/honey}"
+                android:clickable="@{viewModel.newModule.length()>7||viewModel.newModule.empty ? false:true}"
                 android:onClick="@{() -> viewModel.addModule()}"
-                android:clickable="@{(viewModel.newModule.empty ||viewModel.newModule == null )? false : true}"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_module"
                 app:layout_constraintStart_toEndOf="@+id/edit_module"
                 app:layout_constraintTop_toTopOf="@+id/edit_module" />
@@ -180,7 +181,7 @@
                 android:gravity="center"
                 android:theme="@style/AppTheme.NumberPicker"
                 app:layout_constraintBottom_toBottomOf="@+id/text_end_date"
-                app:layout_constraintEnd_toEndOf="@+id/spinner_task_categories"
+                app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintStart_toStartOf="@+id/edit_title"
                 app:layout_constraintTop_toTopOf="@+id/text_end_date" />
 
@@ -199,7 +200,7 @@
 
             <EditText
                 android:id="@+id/edit_task_amount_editor"
-                android:layout_width="100dp"
+                android:layout_width="124dp"
                 android:layout_height="0dp"
                 android:background="@drawable/create_task_round_editor"
                 android:fontFamily="@font/noto_sans"
@@ -207,8 +208,8 @@
                 android:inputType="number"
                 android:letterSpacing="0.15"
                 android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:text="@={viewModel.convertIntToString(viewModel.amount)}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="14sp"
@@ -250,10 +251,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/round_button"
-                android:enabled="@{(viewModel.title.isEmpty||viewModel.moduleNameList.size()==0)?false:true}"
+                android:enabled="@{(viewModel.title.empty||viewModel.moduleNameList.size()==0||viewModel.amount > 1000000000)?false:true}"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:text="@{(viewModel.title.isEmpty||viewModel.moduleNameList.size()==0)?@string/something_miss:@string/create_task}"
+                android:text="@{(viewModel.title.empty||viewModel.moduleNameList.size()==0||viewModel.amount > 1000000000)?@string/something_miss:@string/create_task}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -262,6 +263,47 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_count"
                 tools:text="@string/create_task" />
+
+            <TextView
+                android:id="@+id/text_notice_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:text="@string/create_count_notice"
+                android:textColor="@color/dark_red"
+                android:textSize="12sp"
+                android:visibility="@{viewModel.amount > 1000000000 ? View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintStart_toStartOf="@+id/edit_task_amount_editor"
+                app:layout_constraintTop_toBottomOf="@+id/edit_task_amount_editor" />
+
+            <TextView
+                android:id="@+id/text_notice_module"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:moduleStringLength="@{viewModel.newModule}"
+                android:textSize="12sp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_module"
+                app:layout_constraintStart_toEndOf="@+id/button_module_add"
+                app:layout_constraintTop_toTopOf="@+id/edit_module"
+                tools:text="3/7" />
+
+            <TextView
+                android:id="@+id/text_notice_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                app:taskStringLength="@{viewModel.title}"
+                android:textSize="12sp"
+                tools:text="3/15"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_title"
+                app:layout_constraintEnd_toStartOf="@+id/button_close"
+                app:layout_constraintTop_toTopOf="@+id/edit_title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

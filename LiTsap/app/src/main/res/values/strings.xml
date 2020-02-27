@@ -26,8 +26,7 @@
     <string name="plenty_task_info">先完成手邊任務吧!</string>
     <!-- Task Create -->
     <string name="task_name">任務名稱: </string>
-    <string name="hint_task">成為最強工程師</string>
-    <string name="hint_module">限 7 字內</string>
+    <string name="create_task_hint">%d/15</string>
     <string name="set_module">任務細項: </string>
     <string name="task_end">截止日期: </string>
     <string name="task_count">執行次數: </string>
@@ -44,12 +43,15 @@
     <string name="create_task_success">成功建立 1 任務</string>
     <string name="create_module_success">成功建立 1 細項</string>
     <string name="something_miss">尚有未輸入項目</string>
+    <string name="create_module_hint">%d/7</string>
+    <string name="create_count_notice">執行次數無法超過十億次</string>
     <!-- Task Detail -->
     <string name="task_detail">任務詳情</string>
-    <string name="task_choose">欲執行細項:</string>
-    <string name="task_workout_time">欲執行時間:</string>
+    <string name="task_choose">選擇執行細項:</string>
+    <string name="task_workout_time">選擇執行時間:</string>
     <string name="task_module">細項執行狀況</string>
-    <string name="task_section">本次動力 </string>
+    <string name="task_plan">計畫執行 %d 次</string>
+    <string name="task_achieve">已執行 %d 次</string>
     <string name="task_go">開始任務</string>
     <string name="task_hint">請在上方選擇...</string>
     <string name="mock_module">煎蛋</string>
@@ -62,6 +64,7 @@
     <string name="break_hint">該休息上廁所囉!</string>
     <string name="ad">看則廣告有益身心健康~</string>
     <!-- Task Finish -->
+    <string name="finish_no_footprint">"執行過程未留下任何訊息呢..."</string>
     <string name="get_point">領取任務經驗值</string>
     <string name="footprint">任務足跡</string>
     <string name="feedback">任務心得</string>

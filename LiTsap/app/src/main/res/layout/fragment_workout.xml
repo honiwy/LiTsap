@@ -240,7 +240,6 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/text_ad"
             app:layout_constraintEnd_toEndOf="parent"

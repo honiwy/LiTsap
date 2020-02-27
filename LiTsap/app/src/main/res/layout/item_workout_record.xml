@@ -33,7 +33,7 @@
                 android:id="@+id/user_logo_medium"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/profile_girl"
+                app:userProfile="@{viewModel.userIconId}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

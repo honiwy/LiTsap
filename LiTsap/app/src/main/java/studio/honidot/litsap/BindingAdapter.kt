@@ -187,6 +187,16 @@ fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
     }
 }
 
+@BindingAdapter("taskStringLength")
+fun bindTaskStringLength(textView: TextView, taskString: String?) {
+    taskString?.let { textView.text = instance.getString(R.string.create_task_hint, it.length) }
+}
+
+@BindingAdapter("moduleStringLength")
+fun bindModuleStringLength(textView: TextView, moduleString: String?) {
+    moduleString?.let { textView.text = instance.getString(R.string.create_module_hint, it.length) }
+}
+
 //Task Detail
 @BindingAdapter("modules")
 fun bindRecyclerViewWithModules(recyclerView: RecyclerView, modules: List<Module>?) {
@@ -210,6 +220,14 @@ fun setLayoutMarginStart(view: View, dimen: Float) {
 fun bindTime(textView: TextView, time: Int?) {
     time?.let { textView.text = instance.getString(R.string.task_time, it * 20) }
 }
+
+@BindingAdapter("planAndAchieve")
+fun bindPlanAndAchieve(textView: TextView, task: Task?) {
+    task?.let{
+        textView.text = instance.getString(R.string.task_plan,task.goalCount) + " → " + instance.getString(R.string.task_achieve,task.accumCount)
+    }
+}
+
 
 //Task CountDown
 @BindingAdapter("countDownTime")

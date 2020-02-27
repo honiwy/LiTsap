@@ -15,8 +15,10 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.data.Module
+import java.text.DecimalFormat
 
 
 class DetailFragment : Fragment() {
@@ -38,7 +40,7 @@ class DetailFragment : Fragment() {
         binding.viewModel = viewModel
         viewModel.leaveDetail.observe(this, Observer {
             it?.let {
-                if (it) findNavController().navigateUp()
+                if (it) findNavController().popBackStack()
             }
         })
         viewModel.navigateToWorkout.observe(this, Observer {
@@ -69,17 +71,40 @@ class DetailFragment : Fragment() {
             }
         }
         val pieDataSet = PieDataSet(yEntry, "")
+
         pieDataSet.colors = colors
-        pieDataSet.setDrawValues(false)
+//        pieDataSet.setDrawValues(false)
+
+        pieDataSet.apply {
+            valueTextSize = 12f
+            valueLinePart1OffsetPercentage = 110f
+            valueLinePart1Length = 1f
+            valueLinePart2Length = 0.8f
+            valueFormatter = PieChartValueFormatter()
+            isUsingSliceColorAsValueLineColor = true
+            valueLineWidth = 1f
+            xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            sliceSpace = 2f
+        }
 
         chart.apply {
             data = PieData(pieDataSet)
             holeRadius = 20f
+            setExtraOffsets(10f,20f,10f,20f)
             chart.description.isEnabled = false
             setTransparentCircleAlpha(0)
             setEntryLabelColor(Color.BLACK)
+            setUsePercentValues(true)
             chart.legend.isEnabled = false
             invalidate()
+        }
+    }
+
+    class PieChartValueFormatter : ValueFormatter() {
+        private val format = DecimalFormat("##0.0")
+        override fun getFormattedValue(value: Float): String {
+            return format.format(value) + " %"
         }
     }
 }

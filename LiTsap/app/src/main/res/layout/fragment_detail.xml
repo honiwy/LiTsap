@@ -91,7 +91,7 @@
             android:id="@+id/constraint_module"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
@@ -116,36 +116,21 @@
             android:id="@+id/text_module_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/noto_sans"
+            android:textStyle="bold"
             android:letterSpacing="0.15"
             android:text="@string/task_module"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_time" />
-
-        <ImageButton
-            android:id="@+id/button_updown_status"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:background="@{viewModel.moduleStatusOpen?@drawable/down_arrow:@drawable/up_arrow}"
-            android:onClick="@{() -> viewModel.clickModuleStatusArrow()}"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_module_detail"
-            app:layout_constraintStart_toEndOf="@+id/text_module_detail"
-            app:layout_constraintTop_toTopOf="@+id/text_module_detail"
-            tools:background="@drawable/up_arrow" />
+            app:layout_constraintTop_toBottomOf="@+id/text_total" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="@{viewModel.moduleStatusOpen?View.VISIBLE:View.GONE}"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/text_task_title"
             app:layout_constraintTop_toBottomOf="@+id/text_module_detail">
@@ -153,7 +138,7 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="300dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -196,7 +181,7 @@
             android:id="@+id/text_workout_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/task_workout_time"
@@ -210,81 +195,70 @@
             android:id="@+id/constraint_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="@+id/text_task_title"
             app:layout_constraintStart_toStartOf="@+id/image_back"
             app:layout_constraintTop_toBottomOf="@+id/text_workout_time">
 
-            <TextView
-                android:id="@+id/text_section"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:text="@string/task_section"
-                android:textColor="@color/black_3f3a3a"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/button_power1"
-                android:layout_width="25dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="4dp"
                 android:background="@{(viewModel.workout.planSectionCount&lt;1)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(1)}"
-                app:layout_constraintBottom_toBottomOf="@+id/text_section"
-                app:layout_constraintStart_toEndOf="@+id/text_section"
-                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/battery_low" />
 
             <ImageButton
                 android:id="@+id/button_power2"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:background="@{(viewModel.workout.planSectionCount&lt;2)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(2)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;2)?@dimen/battery_margin:@dimen/battery_margin_null}"
-                app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power1"
-                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/battery_low" />
 
             <ImageButton
                 android:id="@+id/button_power3"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:background="@{(viewModel.workout.planSectionCount&lt;3)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(3)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;3)?@dimen/battery_margin:@dimen/battery_margin_null}"
-                app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power2"
-                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/battery_low" />
 
             <ImageButton
                 android:id="@+id/button_power4"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:background="@{(viewModel.workout.planSectionCount&lt;4)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(4)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;4)?@dimen/battery_margin:@dimen/battery_margin_null}"
-                app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power3"
-                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/battery_low" />
 
             <ImageButton
                 android:id="@+id/button_power5"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="0dp"
                 android:background="@{(viewModel.workout.planSectionCount&lt;5)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(5)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;5)?@dimen/battery_margin:@dimen/battery_margin_null}"
-                app:layout_constraintBottom_toBottomOf="@+id/text_section"
                 app:layout_constraintStart_toEndOf="@+id/button_power4"
-                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/battery_low" />
 
             <TextView
@@ -295,12 +269,28 @@
                 android:letterSpacing="0.15"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_section"
+                app:layout_constraintTop_toTopOf="parent"
                 app:time="@{viewModel.workout.planSectionCount}"
                 tools:text="@string/task_time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing="0.15"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/image_back"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_time"
+            app:planAndAchieve="@{viewModel.task}"
+            tools:text="@string/task_plan" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

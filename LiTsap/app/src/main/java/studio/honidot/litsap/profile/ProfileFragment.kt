@@ -147,7 +147,9 @@ class ProfileFragment : Fragment() {
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
             xAxis.position = XAxis.XAxisPosition.BOTTOM
+            setScaleEnabled(false)
             invalidate()
+            notifyDataSetChanged()
         }
     }
 }

@@ -99,4 +99,9 @@
         android:name="studio.honidot.litsap.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login"/>
+    <fragment
+        android:id="@+id/faceChooseDialog"
+        android:name="studio.honidot.litsap.profile.face.FaceChooseDialog"
+        tools:layout="@layout/dialog_choose_face"
+        android:label="FaceChooseDialog" />
 </navigation>

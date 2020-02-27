@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import studio.honidot.litsap.databinding.FragmentWorkoutBinding
 import studio.honidot.litsap.extension.getVmFactory
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.util.Logger
@@ -33,6 +34,8 @@ class WorkoutFragment : Fragment() {
         val binding = FragmentWorkoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.findUser(FirebaseAuth.getInstance().currentUser!!.uid)
 
         viewModel.navigateToFinish.observe(this, Observer {
             it?.let {

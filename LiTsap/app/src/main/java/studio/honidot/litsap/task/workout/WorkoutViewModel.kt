@@ -1,22 +1,21 @@
 package studio.honidot.litsap.task.workout
 
 import android.os.CountDownTimer
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import studio.honidot.litsap.LiTsapApplication
-import studio.honidot.litsap.R
+import kotlinx.coroutines.launch
+import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 
 
 class WorkoutViewModel(
-    private val liTsapRepository: LiTsapRepository,
+    private val repository: LiTsapRepository,
     private val arguments: Workout
 ) : ViewModel() {
 
@@ -36,6 +35,38 @@ class WorkoutViewModel(
         }
     }
 
+
+
+    private val _userIconId = MutableLiveData<Int>()
+
+    val userIconId: LiveData<Int>
+        get() = _userIconId
+
+    fun findUser(firebaseUserId: String) {
+        coroutineScope.launch {
+            val result = repository.findUser(firebaseUserId)
+            _userIconId.value = when (result) {
+                is Result.Success -> {
+                    if(result.data==null)
+                    {
+                        0
+                    }else{
+                        result.data.iconId
+                    }
+
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
 
     lateinit var taskCountDownTimer: CountDownTimer
 

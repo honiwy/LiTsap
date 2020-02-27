@@ -25,7 +25,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         value = mutableListOf()
     }
 
-    var newModule = MutableLiveData<String>()
+    var newModule = MutableLiveData<String>().apply {
+        value = ""
+    }
 
 
     fun addModule() {
@@ -145,7 +147,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 taskDone = false
             )
             val history = History(
-                note = "First day of task be created",
+                note = "建立一項任務，包含 ${moduleNameList.value!!.size}個細項\n加油加油!",
                 imageUri = "",
                 achieveCount = 0,
                 recordDate = Calendar.getInstance().timeInMillis,

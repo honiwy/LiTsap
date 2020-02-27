@@ -16,6 +16,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
@@ -46,6 +48,9 @@ class FinishViewModel(
 
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
+        if(arguments.recordInfo.isEmpty()){
+            arguments.recordInfo = listOf(LiTsapApplication.instance.getString(R.string.finish_no_footprint))
+        }
     }
     val workout: LiveData<Workout>
         get() = _workout
@@ -133,10 +138,20 @@ class FinishViewModel(
     }
 
     private fun uploadImage(workout: Workout) {
-
         coroutineScope.launch {
-            filePath.value?.let {
-                val result = repository.uploadImage(it)
+            if(filePath.value==null){
+                createTaskHistory(
+                    History(
+                        workout.note,
+                        "",
+                        workout.achieveSectionCount,
+                        Calendar.getInstance().timeInMillis,
+                        workout.taskId,
+                        workout.taskName
+                    )
+                )
+            }else{
+                val result = repository.uploadImage(filePath.value!!)
                 when (result) {
                     is Result.Success -> {
                         _workout.value!!.imageUri = result.data.toString()
