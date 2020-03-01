@@ -48,9 +48,6 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         getMurmur("6W3CzuYGO2vr5Qcj6YCf")
     }
 
-
-
-//Rrhr7r7YidDWiwU0sSo5
     private fun getMurmur(groupId: String) {
         coroutineScope.launch {
             val result = repository.getMemberMurmurs(groupId)
@@ -115,12 +112,10 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     }
 
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
-
         coroutineScope.launch {
             val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
-                    Logger.d("history: ${result.data}")
                     queryTask(result.data)
                     result.data
                 }

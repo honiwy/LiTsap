@@ -251,7 +251,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/round_button"
-                android:enabled="@{(viewModel.title.empty||viewModel.moduleNameList.size()==0||viewModel.amount > 1000000000)?false:true}"
+                android:enabled="@{(viewModel.title.empty||viewModel.moduleNameList.size()==0||viewModel.amount > 1000000000) || viewModel.count != null?false:true}"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@{(viewModel.title.empty||viewModel.moduleNameList.size()==0||viewModel.amount > 1000000000)?@string/something_miss:@string/create_task}"

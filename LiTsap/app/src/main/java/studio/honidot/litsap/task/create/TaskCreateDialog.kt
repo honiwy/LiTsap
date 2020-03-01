@@ -11,7 +11,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
+import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
 import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.databinding.DialogCreateTaskBinding
@@ -32,6 +35,9 @@ class TaskCreateDialog : DialogFragment() {
             DataBindingUtil.inflate(inflater, R.layout.dialog_create_task, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.findUser(FirebaseAuth.getInstance().currentUser!!.uid)
+
 
         binding.spinnerTaskCategories.adapter = CategorySpinnerAdapter(
             appContext.resources.getStringArray(
@@ -63,12 +69,18 @@ class TaskCreateDialog : DialogFragment() {
 
 
         binding.buttonCreate.setOnClickListener {
-            viewModel.createTask()
-            dismiss()
+            viewModel.create()
         }
         binding.buttonClose.setOnClickListener {
             dismiss()
         }
+
+        viewModel.count.observe(this, Observer {
+            if (it == 6) {
+                dismiss()
+                viewModel.onTaskCreated()
+            }
+        })
 
         return binding.root
     }

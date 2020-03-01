@@ -9,6 +9,22 @@ import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
 
+    override suspend fun addMemberToGroup(groupId: String, member: Member): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun createGroup(group: Group): Result<String>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun checkGroupFull(groupId: String): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -61,10 +77,6 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
     }
 
     override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override suspend fun createFirstTaskHistory(history: History): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

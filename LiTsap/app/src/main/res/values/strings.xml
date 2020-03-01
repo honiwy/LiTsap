@@ -19,6 +19,7 @@
     <string name="action_settings">Settings</string>
     <string name="you_know_nothing">You know nothing</string>
     <!-- Task List-->
+    <string name="task_create_one">點擊右下角新增任務吧!</string>
     <string name="await_todo">本日未執行</string>
     <string name="finished">本日已執行</string>
     <string name="mock_task">烹飪練習</string>

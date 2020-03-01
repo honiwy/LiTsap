@@ -7,7 +7,15 @@ import studio.honidot.litsap.data.*
 
 interface LiTsapDataSource {
 
+    suspend fun addMemberToGroup(groupId: String, member: Member): Result<Boolean>
+
+    suspend fun createGroup(group: Group): Result<String>
+
+    suspend fun findGroup(taskCategoryId: Int): Result<List<String>>
+
     suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>
+
+    suspend fun checkGroupFull(groupId: String): Result<Boolean>
 
     suspend fun findUser(firebaseUserId: String): Result<User?>
 
@@ -32,8 +40,6 @@ interface LiTsapDataSource {
     suspend fun createTask(task: Task): Result<String>
 
     suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>
-
-    suspend fun createFirstTaskHistory(history: History): Result<Boolean>
 
     suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
 

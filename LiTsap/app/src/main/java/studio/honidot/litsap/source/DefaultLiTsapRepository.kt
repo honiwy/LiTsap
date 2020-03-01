@@ -13,6 +13,22 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
+    override suspend fun addMemberToGroup(groupId: String, member: Member): Result<Boolean>{
+        return remoteDataSource.addMemberToGroup(groupId, member)
+    }
+
+    override suspend fun createGroup(group: Group): Result<String>{
+        return remoteDataSource.createGroup(group)
+    }
+
+    override suspend fun checkGroupFull(groupId: String): Result<Boolean>{
+        return remoteDataSource.checkGroupFull(groupId)
+    }
+
+    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>>{
+        return remoteDataSource.findGroup(taskCategoryId)
+    }
+
     override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>{
         return remoteDataSource.updateUserIcon(userId,iconId)
     }
@@ -66,10 +82,6 @@ class DefaultLiTsapRepository(
 
     override suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean> {
         return remoteDataSource.createTaskModules(taskId, modules)
-    }
-
-    override suspend fun createFirstTaskHistory(history: History): Result<Boolean> {
-        return remoteDataSource.createFirstTaskHistory(history)
     }
 
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> {

@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         android:background="@color/cream">
 
-
         <ImageView
             android:id="@+id/task_logo_big"
             android:layout_width="40dp"
@@ -117,6 +116,7 @@
                 android:id="@+id/image_foot"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:onClick="@{()->viewModel.copyFootprint()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/recycler_footprint"
                 app:srcCompat="@drawable/footprint" />

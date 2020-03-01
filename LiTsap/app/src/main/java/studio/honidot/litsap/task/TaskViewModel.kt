@@ -7,12 +7,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
 
 
-class TaskViewModel(private val repository: LiTsapRepository, private val arguments: String) : ViewModel() {
+class TaskViewModel(private val repository: LiTsapRepository, private val arguments: String) :
+    ViewModel() {
 
     private val _user = repository.getUser(arguments)
 
@@ -32,23 +35,25 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
 
     private fun addHeader(sortedTasks: List<Task>): List<TaskItem> {
         val taskItems = mutableListOf<TaskItem>()
-            taskItems.add(TaskItem.Title("待完成"))
-            var lastStatus = false
-            sortedTasks.forEach {
-                if (it.todayDone != lastStatus) {
-                    taskItems.add(TaskItem.Title("已完成"))
-                }
-                taskItems.add(TaskItem.Assignment(it))
-                lastStatus = it.todayDone
+        var lastStatus = false
+        if (!sortedTasks[0].todayDone) {
+            taskItems.add(TaskItem.Title(LiTsapApplication.instance.getString(R.string.await_todo)))
+        }
+        sortedTasks.forEach {
+            if (it.todayDone != lastStatus) {
+                taskItems.add(TaskItem.Title(LiTsapApplication.instance.getString(R.string.finished)))
             }
+            taskItems.add(TaskItem.Assignment(it))
+            lastStatus = it.todayDone
+        }
         return taskItems
     }
 
     fun retrieveOngoingTasks(taskIdList: List<String>) {
-        if(taskIdList.isEmpty()){
-            _taskItems.value = mutableListOf(TaskItem.Title("快去新增任務吧!"))
-        }
-        else {
+        if (taskIdList.isEmpty()) {
+            _taskItems.value =
+                mutableListOf(TaskItem.Title(LiTsapApplication.instance.getString(R.string.task_create_one)))
+        } else {
             coroutineScope.launch {
                 val result = repository.getTasks(taskIdList)
                 _taskItems.value = when (result) {
@@ -68,7 +73,6 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
             }
         }
     }
-
 
 
     fun deleteUserOngoingTask(userId: String, taskId: String) {
@@ -117,11 +121,11 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
     val longPressTaskItem: LiveData<Task>
         get() = _longPressTaskItem
 
-    fun longPressTaskItem (task: Task) {
+    fun longPressTaskItem(task: Task) {
         _longPressTaskItem.value = task
     }
 
-    fun onlongPressTaskItemFinish () {
+    fun onlongPressTaskItemFinish() {
         _longPressTaskItem.value = null
     }
 

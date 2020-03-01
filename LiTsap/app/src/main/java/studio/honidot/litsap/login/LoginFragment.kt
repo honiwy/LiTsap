@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.databinding.FragmentLoginBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.util.Logger
 
 
 class LoginFragment : Fragment() {
@@ -28,11 +29,13 @@ class LoginFragment : Fragment() {
         binding.viewModel = viewModel
 
         FirebaseAuth.getInstance().currentUser?.let {
+            Logger.w("FirebaseAuth.getInstance().currentUser")
             viewModel.findUser(it)
         }
 
         viewModel.loginAttempt.observe(this, Observer {
             it?.let {
+                Logger.w("viewModel.loginAttempt.observe: $it")
                 LoginManager.getInstance().logInWithReadPermissions(this, listOf("email"))
                 viewModel.afterLogin()
             }
@@ -49,8 +52,8 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Logger.w("override fun onActivityResult")
         viewModel.fbCallbackManager.onActivityResult(requestCode, resultCode, data)
-
     }
 
 }

@@ -33,6 +33,104 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
 
+    override suspend fun addMemberToGroup(groupId: String, member: Member): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId).collection(
+                PATH_MEMBERS).document(member.userId).set(member)
+                .addOnCompleteListener { addMember ->
+                    if (addMember.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addMember.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun createGroup(group: Group): Result<String> =
+        suspendCoroutine { continuation ->
+            val newGroupDocument = FirebaseFirestore.getInstance().collection(PATH_GROUPS).document()
+            group.groupId = newGroupDocument.id
+            newGroupDocument.set(group).addOnCompleteListener { addGroup ->
+                    if (addGroup.isSuccessful) {
+                        continuation.resume(Result.Success(newGroupDocument.id))
+                    } else {
+                        addGroup.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun checkGroupFull(groupId: String): Result<Boolean>  = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId).collection(
+            PATH_MEMBERS)
+            .get()
+            .addOnCompleteListener { findGroupMember ->
+                if (findGroupMember.isSuccessful) {
+                    val groupMemberList = mutableListOf<Member>()
+                    for (documentG in findGroupMember.result!!) {
+                        val groupMemberFound = documentG.toObject(Member::class.java)
+                        groupMemberList.add(groupMemberFound)
+                    }
+                    if(groupMemberList.size==6)
+                    {
+                        FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId)
+                            .update("isFull", true)
+                            .addOnCompleteListener { updateId ->
+                                if (updateId.isSuccessful) {
+                                    continuation.resume(Result.Success(true))
+                                } else {
+                                    updateId.exception?.let {
+                                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                        continuation.resume(Result.Error(it))
+                                    }
+                                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                                }
+                            }
+                    }
+                    else{
+                        continuation.resume(Result.Success(true))
+                    }
+                } else {
+                    findGroupMember.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
+
+    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>>  = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance().collection(PATH_GROUPS).whereEqualTo("groupCategoryId",taskCategoryId).whereEqualTo("isFull",false)
+            .get()
+            .addOnCompleteListener { findGroup ->
+                if (findGroup.isSuccessful) {
+                    val groupIdList = mutableListOf<String>()
+                    for (documentG in findGroup.result!!) {
+                        Logger.i("groupFound: ${documentG.id}")
+                        val groupFound = documentG.toObject(Group::class.java)
+                        groupIdList.add(groupFound.groupId)
+                    }
+                    continuation.resume(Result.Success(groupIdList))
+                } else {
+                    findGroup.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
+
     override suspend fun findUser(firebaseUserId: String): Result<User?>  = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUserId)
             .get()
@@ -200,7 +298,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
             val timeMin =  LocalDateTime.now().minusDays(passNday.toLong()).toEpochSecond(ZoneOffset.MAX)*1000
             Logger.i("timeMin: $timeMin")
             val listH = mutableListOf<History>()
-            FirebaseFirestore.getInstance().collectionGroup("history").whereIn("taskId",taskIdList).whereGreaterThan("recordDate",timeMin).get()
+            FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY).whereIn("taskId",taskIdList).whereGreaterThan("recordDate",timeMin).get()
                 .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
@@ -250,7 +348,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
             Logger.i("startDate: $dateString -> $startDate")
             Logger.i("endDate: $dateString -> ${startDate + 86400000}")
             val listH = mutableListOf<History>()
-            FirebaseFirestore.getInstance().collectionGroup("history").whereIn("taskId",taskIdList)
+            FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY).whereIn("taskId",taskIdList)
                 .whereGreaterThan("recordDate",startDate).whereLessThan("recordDate",startDate + 86400000).get()
                 .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
@@ -385,24 +483,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     } else {
                         addId.exception?.let {
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                        }
-                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                    }
-                }
-        }
-
-    override suspend fun createFirstTaskHistory(history: History): Result<Boolean> =
-        suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(history.taskId)
-                .collection(PATH_HISTORY)
-                .document().set(history).addOnCompleteListener { addModule ->
-                    if (addModule.isSuccessful) {
-                        Logger.d("Add first history success!")
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        addModule.exception?.let {
                             Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                             continuation.resume(Result.Error(it))
                         }

@@ -112,6 +112,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     fun loginFacebook() {
         if (FirebaseAuth.getInstance().currentUser == null) {
+            Logger.w("FirebaseAuth.getInstance().currentUser == null")
             fbCallbackManager = CallbackManager.Factory.create()//build callback
             LoginManager.getInstance().registerCallback(fbCallbackManager, object :
                 FacebookCallback<LoginResult> {
@@ -128,6 +129,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
             })//register call back
             _loginAttempt.value = true //active login
         } else {
+            Logger.w("loginSuccess()")
             loginSuccess()
         }
     }

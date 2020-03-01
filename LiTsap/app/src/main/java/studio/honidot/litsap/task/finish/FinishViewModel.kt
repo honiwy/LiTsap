@@ -45,6 +45,15 @@ class FinishViewModel(
         viewModelJob.cancel()
     }
 
+    fun copyFootprint(){
+        _workout.value?.apply {
+            note = ""
+            recordInfo.forEach {
+                note += (it+"\n")
+            }
+        }
+        _workout.value = _workout.value
+    }
 
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
@@ -56,15 +65,14 @@ class FinishViewModel(
         get() = _workout
 
 
-    private val _count = MutableLiveData<Int>().apply {
-        value = 0
-    }
+    private val _count = MutableLiveData<Int>()
 
     val count: LiveData<Int>
         get() = _count
 
 
     fun update(workout: Workout) {
+        _count.value = 0
         uploadImage(workout)
         updateTaskModule(workout)
 

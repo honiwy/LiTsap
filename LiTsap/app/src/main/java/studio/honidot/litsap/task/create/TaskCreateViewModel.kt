@@ -29,6 +29,32 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         value = ""
     }
 
+    private val _user = MutableLiveData<User>()
+
+    val user: LiveData<User>
+        get() = _user
+
+
+
+    fun findUser(firebaseUserId: String) {
+        coroutineScope.launch {
+            val result = repository.findUser(firebaseUserId)
+            _user.value = when (result) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
 
     fun addModule() {
         if (moduleNameList.value!!.size < 6) {
@@ -99,6 +125,11 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     val taskId: LiveData<String>
         get() = _taskId
 
+    private val _count = MutableLiveData<Int>()
+
+    val count: LiveData<Int>
+        get() = _count
+
     private fun updateTaskIdList(userId: String, taskId: String) {
         coroutineScope.launch {
             val result = repository.addUserOngoingList(userId, taskId)
@@ -107,6 +138,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     Logger.i("Task ongoing list update!")
                 }
             }
+            _count.value = _count.value!!.plus(1)
         }
     }
 
@@ -121,55 +153,113 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
-    private fun createFirstTaskHistory(history: History) {
+    private fun createFirstTaskHistory(taskId: String) {
         coroutineScope.launch {
-            val result = repository.createFirstTaskHistory(history)
+            val history = History(
+                note = "建立一項任務，包含 ${moduleNameList.value!!.size}個細項\n加油加油!",
+                imageUri = "",
+                achieveCount = 0,
+                recordDate = Calendar.getInstance().timeInMillis,
+                taskId = taskId,
+                taskName = title.value ?: "無任務名稱"
+            )
+            val result = repository.createTaskHistory(history)
             when (result) {
                 is Result.Success -> {
                     Logger.i("History create!")
                 }
             }
+            _count.value = _count.value!!.plus(1)
         }
     }
 
-    fun createTask() {
+    fun create(){
+        _count.value = 0
+        findGroup(selectedTaskCategoryPosition.value?: 6)
+    }
+
+    private fun createTask(groupId: String) {
         coroutineScope.launch {
             val task = Task(
-                userId = FirebaseAuth.getInstance().currentUser!!.uid,
+                userId = _user.value!!.userId,
                 taskId = "",
                 taskName = title.value ?: "無任務名稱",
                 taskCategoryId = selectedTaskCategoryPosition.value ?: 6,
                 accumCount = 0,
                 goalCount = amount.value ?: 1,
                 dueDate = dueDate.value ?: 1,
-                groupId = "",
+                groupId = groupId,
                 todayDone = false,
                 taskDone = false
             )
-            val history = History(
-                note = "建立一項任務，包含 ${moduleNameList.value!!.size}個細項\n加油加油!",
-                imageUri = "",
-                achieveCount = 0,
-                recordDate = Calendar.getInstance().timeInMillis,
-                taskId = "",
-                taskName = title.value ?: "無任務名稱"
-            )
+
             val result = repository.createTask(task)
-            _taskId.value = when (result) {
+            when (result) {
                 is Result.Success -> {
                     moduleNameList.value!!.forEach { moduleName ->
                         createTaskModules(result.data, Module(moduleName, "",0))
                     }
-                    history.taskId = result.data
-                    createFirstTaskHistory(history)
-                    updateTaskIdList(FirebaseAuth.getInstance().currentUser!!.uid, result.data)
-                    result.data
+                    createFirstTaskHistory(result.data)
+                    updateTaskIdList(_user.value!!.userId, result.data)
+                    addMemberToGroup(groupId, Member(_user.value!!.userId,_user.value!!.userName,result.data,"Murmur"))
                 }
-                else -> {
-                    null
+            }
+            _count.value = _count.value!!.plus(1)
+        }
+    }
+
+    private fun findGroup(taskCategoryId: Int) {
+        coroutineScope.launch {
+            val result = repository.findGroup(taskCategoryId)
+            when (result) {
+                is Result.Success -> {
+                    if(result.data.isEmpty()){
+                        createGroup(Group("",taskCategoryId,false,0))
+                    } else{
+                        createTask(result.data[0])
+                    }
+                }
+            }
+            _count.value = _count.value!!.plus(1)
+        }
+    }
+    private fun createGroup(group: Group) {
+        coroutineScope.launch {
+            val result = repository.createGroup(group)
+            when (result) {
+                is Result.Success -> {
+                    createTask(result.data)
                 }
             }
         }
+    }
+
+    private fun checkGroupFull(groupId: String){
+        coroutineScope.launch {
+            val result = repository.checkGroupFull(groupId)
+            when (result) {
+                is Result.Success -> {
+                    Logger.i("History create!")
+                }
+            }
+            _count.value = _count.value!!.plus(1)
+        }
+    }
+
+    private fun addMemberToGroup(groupId: String, member: Member) {
+        coroutineScope.launch {
+            val result = repository.addMemberToGroup(groupId, member)
+            when (result) {
+                is Result.Success -> {
+                    checkGroupFull(groupId)
+                }
+            }
+            _count.value = _count.value!!.plus(1)
+        }
+    }
+
+    fun onTaskCreated() {
+        _count.value = null
     }
 
     val selectedTaskCategoryPosition = MutableLiveData<Int>()
