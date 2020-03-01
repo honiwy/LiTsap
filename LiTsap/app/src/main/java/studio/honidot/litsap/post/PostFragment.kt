@@ -30,13 +30,10 @@ class PostFragment : Fragment() {
         val binding = FragmentPostBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        val adapter =HistoryAdapter(viewModel)
+        val adapter = HistoryAdapter(viewModel)
         binding.recyclerHistory.adapter = adapter
-        val current = DateFormat.format("dd/MM/yyyy", Date(Calendar.getInstance().timeInMillis)).toString()
-        viewModel.getHistoryOnThatDay(current)
 
         binding.calendarView.setOnDateChangeListener {  view,  year,  month, dayOfMonth ->
-//            Toast.makeText(context, "It is $year / ${month+1} /$dayOfMonth", Toast.LENGTH_SHORT).show()
             viewModel.getHistoryOnThatDay("$dayOfMonth/${month+1}/$year")
             binding.recyclerHistory.smoothScrollToPosition(0)
         }

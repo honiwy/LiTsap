@@ -1,5 +1,8 @@
 package studio.honidot.litsap.post
 
+import android.icu.util.Calendar
+import android.text.format.DateFormat
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +18,7 @@ import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.User
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
+import java.util.*
 
 class PostViewModel(private val repository: LiTsapRepository, private val arguments: String) : ViewModel() {
 
@@ -42,14 +46,13 @@ class PostViewModel(private val repository: LiTsapRepository, private val argume
         findUser(arguments)
     }
 
+
+
     private fun findUser(firebaseUserId: String) {
         coroutineScope.launch {
             val result = repository.findUser(firebaseUserId)
             _user.value = when (result) {
                 is Result.Success -> {
-                    if (result.data!!.ongoingTasks.isNotEmpty()) {//need to include history tasks
-
-                    }
                     result.data
                 }
                 is Result.Fail -> {
@@ -62,6 +65,8 @@ class PostViewModel(private val repository: LiTsapRepository, private val argume
                     null
                 }
             }
+            val date = DateFormat.format("d/M/yyyy", Date(Calendar.getInstance().timeInMillis)).toString()
+            getHistoryOnThatDay(date)
         }
     }
 
@@ -72,10 +77,12 @@ class PostViewModel(private val repository: LiTsapRepository, private val argume
 
     fun getHistoryOnThatDay(dateSelected: String) {
         _user.value?.let {
-            if (it.ongoingTasks.isNotEmpty()) {
+            val twoList = mutableListOf<String>()
+            twoList.addAll(it.ongoingTasks)
+            twoList.addAll(it.historyTasks)
+            if (twoList.isNotEmpty()) {
                 coroutineScope.launch {
-
-                    val result = repository.getHistoryOnThatDay(it.ongoingTasks, dateSelected)
+                    val result = repository.getHistoryOnThatDay(twoList, dateSelected)
                     _records.value = when (result) {
                         is Result.Success -> {
                             Logger.d("history: ${result.data}")

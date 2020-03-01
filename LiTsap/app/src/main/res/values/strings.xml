@@ -73,7 +73,9 @@
     <string name="finish_picture">留下影像</string>
     <string name="finish_point">本次積點</string>
     <string name="insert_text">插入圖片</string>
-    <string name="feedback_hint">限 150 字內</string>
+    <string name="feedback_hint">建議 150 字內</string>
+    <!-- Post -->
+    <string name="post_no_data">No data available\n本日未留下任何紀錄</string>
     <!-- Profile -->
     <string name="profile_default_name">Rachel</string>
     <string name="profile_mock_murmur">我都完成了你們呢?</string>
