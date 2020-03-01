@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="taskTab"
-            type="studio.honidot.litsap.data.TaskTab" />
+            name="task"
+            type="studio.honidot.litsap.data.Task" />
         <variable name="viewHolder" type="studio.honidot.litsap.profile.CompetitionAdapter.TaskTabViewHolder"/>
         <variable name="viewModel" type="studio.honidot.litsap.profile.ProfileViewModel"/>
     </data>
@@ -26,7 +26,7 @@
             android:letterSpacing="0.15"
             android:paddingTop="6dp"
             android:paddingHorizontal="12dp"
-            android:text="@{taskTab.taskName}"
+            android:text="@{task.taskName}"
             android:textColor="@color/black_3f3a3a"
             app:boldText="@{viewHolder.isSelected}"
             android:textSize="@{viewHolder.isSelected?@dimen/tab_size:@dimen/tab_size_null}"

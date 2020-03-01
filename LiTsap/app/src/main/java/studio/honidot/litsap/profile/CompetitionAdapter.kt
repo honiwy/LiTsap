@@ -6,14 +6,13 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.honidot.litsap.data.TaskTab
+import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.databinding.ItemProfileCompetitionTabBinding
-import studio.honidot.litsap.util.Logger
 
-class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickListener: OnClickListener) : ListAdapter<TaskTab, CompetitionAdapter.TaskTabViewHolder>(DiffCallback) {
+class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickListener: OnClickListener) : ListAdapter<Task, CompetitionAdapter.TaskTabViewHolder>(DiffCallback) {
 
-    class OnClickListener(val clickListener: (taskTab:TaskTab) -> Unit) {
-        fun onClick(taskTab:TaskTab) = clickListener(taskTab)
+    class OnClickListener(val clickListener: (task: Task) -> Unit) {
+        fun onClick(task:Task) = clickListener(task)
     }
 
     class TaskTabViewHolder(
@@ -24,14 +23,14 @@ class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickLis
             it == adapterPosition
         }
 
-        fun bind(taskTab:TaskTab, onClickListener: OnClickListener) {
+        fun bind(task:Task, onClickListener: OnClickListener) {
             binding.lifecycleOwner = this
-            binding.taskTab = taskTab
+            binding.task = task
             binding.viewHolder = this
             binding.viewModel = viewModel
             binding.root.setOnClickListener {
                 viewModel.selectedTaskPosition.value = adapterPosition
-                onClickListener.onClick(taskTab)
+                onClickListener.onClick(task)
             }
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
@@ -61,12 +60,12 @@ class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickLis
      * Allows the RecyclerView to determine which items have changed when the [List] of [Product]
      * has been updated.
      */
-    companion object DiffCallback : DiffUtil.ItemCallback<TaskTab>() {
-        override fun areItemsTheSame(oldItem: TaskTab, newItem: TaskTab): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Task>() {
+        override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
             return (oldItem === newItem)
         }
 
-        override fun areContentsTheSame(oldItem: TaskTab, newItem: TaskTab): Boolean {
+        override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
             return oldItem == newItem
         }
     }

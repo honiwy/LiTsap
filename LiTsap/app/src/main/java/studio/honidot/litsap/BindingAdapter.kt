@@ -95,9 +95,9 @@ fun bindRecyclerViewWithMurmurs(recyclerView: RecyclerView, murmurs: List<Member
     }
 }
 
-@BindingAdapter("taskTabs")
-fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, taskTabs: List<TaskTab>?) {
-    taskTabs?.let {
+@BindingAdapter("onGoingTasks")
+fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, onGoingTasks: List<Task>?) {
+    onGoingTasks?.let {
         recyclerView.adapter?.apply {
             when (this) {
                 is CompetitionAdapter -> submitList(it)

@@ -47,13 +47,12 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.imageProfileAvatar.setOnClickListener {
-            FaceChooseDialog().show(childFragmentManager, "wer")
+            FaceChooseDialog().show(childFragmentManager, "dot")
         }
-
 
         binding.recyclerTab.adapter =
             CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
-                //            viewModel.getMurmur(it.groupId)
+                viewModel.getMurmur(it.groupId)
             })
 
         val adapter = MurmurAdapter(viewModel)

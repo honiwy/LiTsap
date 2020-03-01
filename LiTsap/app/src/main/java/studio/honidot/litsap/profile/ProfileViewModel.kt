@@ -38,17 +38,16 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val historyPoints: LiveData<List<History>>
         get() = _historyPoints
 
-    private val _taskTabs = MutableLiveData<List<TaskTab>>()
+    private val _onGoingTasks = MutableLiveData<List<Task>>()
 
-    val taskTabs: LiveData<List<TaskTab>>
-        get() = _taskTabs
+    val onGoingTasks: LiveData<List<Task>>
+        get() = _onGoingTasks
 
     init {
         findUser(arguments)
-        getMurmur("6W3CzuYGO2vr5Qcj6YCf")
     }
 
-    private fun getMurmur(groupId: String) {
+    fun getMurmur(groupId: String) {
         coroutineScope.launch {
             val result = repository.getMemberMurmurs(groupId)
             _murmurs.value = when (result) {
@@ -69,15 +68,12 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
-
-    private fun findUser(firebaseUserId: String) {
+    private fun getGroupIdList(taskIdList: List<String>){
+        //find groupMurmur depend on group id
         coroutineScope.launch {
-            val result = repository.findUser(firebaseUserId)
-            _user.value = when (result) {
+            val result = repository.getTasks(taskIdList)
+            _onGoingTasks.value = when (result) {
                 is Result.Success -> {
-                    if (result.data!!.ongoingTasks.isNotEmpty()) {
-                        retrieveHistoryPoints(result.data.ongoingTasks, BAR_CHART_DRAW_DAYS - 1)
-                    }
                     result.data
                 }
                 is Result.Fail -> {
@@ -93,30 +89,47 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
+    private fun findUser(firebaseUserId: String) {
+        coroutineScope.launch {
+            val result = repository.findUser(firebaseUserId)
+            _user.value = when (result) {
+                is Result.Success -> {
+                    result.data?.let{
+                        val twoList = mutableListOf<String>()
+                        if (it.ongoingTasks.isNotEmpty()) {
+                            getGroupIdList(it.ongoingTasks)
+                            twoList.addAll(it.ongoingTasks)
+                        }
+                        if (it.historyTasks.isNotEmpty()) {
+                            twoList.addAll(it.historyTasks)
+                        }
+                        retrieveHistoryPoints(twoList, BAR_CHART_DRAW_DAYS - 1)
+                    }
+                    result.data
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
     var selectedTaskPosition = MutableLiveData<Int>().apply {
         value = 0
     }
 
-    private fun queryTask(historyList:List<History>) {
-        val sortedList = historyList.sortedBy { history -> history.taskName  }
-        var tmpName = ""
-        val tmpList = mutableListOf<TaskTab>()
-        sortedList.forEach { history->
-            if(history.taskName!= tmpName)
-            {
-                tmpList.add(TaskTab(history.taskId,history.taskName))
-            }
-            tmpName = history.taskName
-        }
-        _taskTabs.value = tmpList
-    }
+
 
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
         coroutineScope.launch {
             val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
-                    queryTask(result.data)
                     result.data
                 }
                 is Result.Fail -> {
