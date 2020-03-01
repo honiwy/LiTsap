@@ -15,7 +15,7 @@ data class User(
     var todayDoneCount: Int = 0
 ) : Parcelable{
     val intervalConstant
-        get() = 25
+        get() = 50
     val level
         get() = (experience/intervalConstant)
     val levelProcess

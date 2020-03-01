@@ -1,5 +1,6 @@
 package studio.honidot.litsap.source.remote
 
+import android.icu.util.Calendar
 import android.net.Uri
 import android.text.format.DateFormat
 import android.widget.Toast
@@ -35,8 +36,10 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun addMemberToGroup(member: Member): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId).collection(
-                PATH_MEMBERS).document(member.userId).set(member)
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId)
+                .collection(
+                    PATH_MEMBERS
+                ).document(member.userId).set(member)
                 .addOnCompleteListener { addMember ->
                     if (addMember.isSuccessful) {
                         continuation.resume(Result.Success(true))
@@ -52,13 +55,120 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun createGroup(group: Group): Result<String> =
         suspendCoroutine { continuation ->
-            val newGroupDocument = FirebaseFirestore.getInstance().collection(PATH_GROUPS).document()
+            val newGroupDocument =
+                FirebaseFirestore.getInstance().collection(PATH_GROUPS).document()
             group.groupId = newGroupDocument.id
             newGroupDocument.set(group).addOnCompleteListener { addGroup ->
-                    if (addGroup.isSuccessful) {
-                        continuation.resume(Result.Success(newGroupDocument.id))
+                if (addGroup.isSuccessful) {
+                    continuation.resume(Result.Success(newGroupDocument.id))
+                } else {
+                    addGroup.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+        }
+
+    override suspend fun checkGroupFull(groupId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId).collection(
+                PATH_MEMBERS
+            )
+                .get()
+                .addOnCompleteListener { findGroupMember ->
+                    if (findGroupMember.isSuccessful) {
+                        val groupMemberList = mutableListOf<Member>()
+                        for (documentG in findGroupMember.result!!) {
+                            val groupMemberFound = documentG.toObject(Member::class.java)
+                            groupMemberList.add(groupMemberFound)
+                        }
+                        if (groupMemberList.size == 6) {
+                            FirebaseFirestore.getInstance().collection(PATH_GROUPS)
+                                .document(groupId)
+                                .update("isFull", true)
+                                .addOnCompleteListener { updateId ->
+                                    if (updateId.isSuccessful) {
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+                                        updateId.exception?.let {
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                        }
+                                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                                    }
+                                }
+                        } else {
+                            continuation.resume(Result.Success(true))
+                        }
                     } else {
-                        addGroup.exception?.let {
+                        findGroupMember.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS)
+                .whereEqualTo("groupCategoryId", taskCategoryId).whereEqualTo("isFull", false)
+                .get()
+                .addOnCompleteListener { findGroup ->
+                    if (findGroup.isSuccessful) {
+                        val groupIdList = mutableListOf<String>()
+                        for (documentG in findGroup.result!!) {
+                            Logger.i("groupFound: ${documentG.id}")
+                            val groupFound = documentG.toObject(Group::class.java)
+                            groupIdList.add(groupFound.groupId)
+                        }
+                        continuation.resume(Result.Success(groupIdList))
+                    } else {
+                        findGroup.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun findUser(firebaseUserId: String): Result<User?> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUserId)
+                .get()
+                .addOnCompleteListener { findUser ->
+                    if (findUser.isSuccessful) {
+                        findUser.result?.let { documentU ->
+                            val user = documentU.toObject(User::class.java)
+                            continuation.resume(Result.Success(user))
+                        }
+                    } else {
+                        findUser.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun createUser(user: User): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(user.userId).set(user)
+                .addOnCompleteListener { addUser ->
+                    if (addUser.isSuccessful) {
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addUser.exception?.let {
+
                             Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                             continuation.resume(Result.Error(it))
                         }
@@ -66,108 +176,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     }
                 }
         }
-
-    override suspend fun checkGroupFull(groupId: String): Result<Boolean>  = suspendCoroutine { continuation ->
-        FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId).collection(
-            PATH_MEMBERS)
-            .get()
-            .addOnCompleteListener { findGroupMember ->
-                if (findGroupMember.isSuccessful) {
-                    val groupMemberList = mutableListOf<Member>()
-                    for (documentG in findGroupMember.result!!) {
-                        val groupMemberFound = documentG.toObject(Member::class.java)
-                        groupMemberList.add(groupMemberFound)
-                    }
-                    if(groupMemberList.size==6)
-                    {
-                        FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId)
-                            .update("isFull", true)
-                            .addOnCompleteListener { updateId ->
-                                if (updateId.isSuccessful) {
-                                    continuation.resume(Result.Success(true))
-                                } else {
-                                    updateId.exception?.let {
-                                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                                        continuation.resume(Result.Error(it))
-                                    }
-                                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                                }
-                            }
-                    }
-                    else{
-                        continuation.resume(Result.Success(true))
-                    }
-                } else {
-                    findGroupMember.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
-                    }
-                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                }
-            }
-    }
-
-    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>>  = suspendCoroutine { continuation ->
-        FirebaseFirestore.getInstance().collection(PATH_GROUPS).whereEqualTo("groupCategoryId",taskCategoryId).whereEqualTo("isFull",false)
-            .get()
-            .addOnCompleteListener { findGroup ->
-                if (findGroup.isSuccessful) {
-                    val groupIdList = mutableListOf<String>()
-                    for (documentG in findGroup.result!!) {
-                        Logger.i("groupFound: ${documentG.id}")
-                        val groupFound = documentG.toObject(Group::class.java)
-                        groupIdList.add(groupFound.groupId)
-                    }
-                    continuation.resume(Result.Success(groupIdList))
-                } else {
-                    findGroup.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
-                    }
-                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                }
-            }
-    }
-
-    override suspend fun findUser(firebaseUserId: String): Result<User?>  = suspendCoroutine { continuation ->
-        FirebaseFirestore.getInstance().collection(PATH_USERS).document(firebaseUserId)
-            .get()
-            .addOnCompleteListener { findUser ->
-                if (findUser.isSuccessful) {
-                    findUser.result?.let {documentU->
-                        val user = documentU.toObject(User::class.java)
-                        continuation.resume(Result.Success(user))
-                    }
-                } else {
-                    findUser.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
-                    }
-                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                }
-            }
-    }
-
-    override suspend fun createUser(user : User): Result<Boolean> =
-    suspendCoroutine { continuation ->
-        FirebaseFirestore.getInstance().collection(PATH_USERS).document(user.userId).set(user)
-            .addOnCompleteListener { addUser ->
-                if (addUser.isSuccessful) {
-
-                    continuation.resume(Result.Success(true))
-                } else {
-                    addUser.exception?.let {
-
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                    }
-                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                }
-            }
-    }
 
     override fun getUser(userId: String): LiveData<User> {
         val user = MutableLiveData<User>()
@@ -250,7 +258,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun getTasks(taskIdList: List<String>): Result<List<Task>> =
         suspendCoroutine { continuation ->
             val tasks = mutableListOf<Task>()
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).whereIn("taskId", taskIdList).orderBy("todayDone")
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).whereIn("taskId", taskIdList)
+                .orderBy("todayDone")
                 .get().addOnCompleteListener { findTask ->
                     if (findTask.isSuccessful) {
                         for (documentT in findTask.result!!) {
@@ -293,17 +302,22 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>> =
+    override suspend fun getHistory(
+        taskIdList: List<String>,
+        passNday: Int
+    ): Result<List<History>> =
         suspendCoroutine { continuation ->
-            val timeMin =  LocalDateTime.now().minusDays(passNday.toLong()).toEpochSecond(ZoneOffset.MAX)*1000
+            //val timeMin = (Calendar.getInstance().timeInMillis - 86400 * passNday) * 1000
+             val timeMin =  LocalDateTime.now().minusDays(passNday.toLong()).toEpochSecond(ZoneOffset.MAX)*1000
             Logger.i("timeMin: $timeMin")
             val listH = mutableListOf<History>()
-            FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY).whereIn("taskId",taskIdList).whereGreaterThan("recordDate",timeMin).get()
+            FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY)
+                .whereIn("taskId", taskIdList).whereGreaterThan("recordDate", timeMin).get()
                 .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
                             val history = documentH.toObject(History::class.java)
-                                Logger.d("one history: ${history.taskName}, note ${history.note}, point ${history.achieveCount}")
+                            Logger.d("one history: ${history.taskName}, note ${history.note}, point ${history.achieveCount}")
                             listH.add(documentH.toObject(History::class.java))
                         }
                         continuation.resume(Result.Success(listH))
@@ -342,14 +356,19 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         }
 
 
-    override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>> =
+    override suspend fun getHistoryOnThatDay(
+        taskIdList: List<String>,
+        dateString: String
+    ): Result<List<History>> =
         suspendCoroutine { continuation ->
             val startDate = SimpleDateFormat("dd/MM/yyyy").parse(dateString).time
             Logger.i("startDate: $dateString -> $startDate")
             Logger.i("endDate: $dateString -> ${startDate + 86400000}")
             val listH = mutableListOf<History>()
-            FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY).whereIn("taskId",taskIdList)
-                .whereGreaterThan("recordDate",startDate).whereLessThan("recordDate",startDate + 86400000).get()
+            FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY)
+                .whereIn("taskId", taskIdList)
+                .whereGreaterThan("recordDate", startDate)
+                .whereLessThan("recordDate", startDate + 86400000).get()
                 .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
@@ -392,23 +411,23 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun createTaskModules(taskId: String, module: Module): Result<Boolean> =
         suspendCoroutine { continuation ->
-            val newModuleDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
-                .collection(PATH_MODULES).document()
+            val newModuleDocument =
+                FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
+                    .collection(PATH_MODULES).document()
             module.moduleId = newModuleDocument.id
             newModuleDocument.set(module).addOnCompleteListener { addModule ->
-                    if (addModule.isSuccessful) {
-                        Logger.d("Add module success!")
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        addModule.exception?.let {
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                        }
-                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                if (addModule.isSuccessful) {
+                    Logger.d("Add module success!")
+                    continuation.resume(Result.Success(true))
+                } else {
+                    addModule.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
                     }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
                 }
+            }
         }
-
 
 
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> =
@@ -429,10 +448,18 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> =
+    override suspend fun updateTaskStatus(
+        taskId: String,
+        accumulationPoints: Long
+    ): Result<Boolean> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
-                .update(mapOf("todayDone" to true, "accumCount" to FieldValue.increment(accumulationPoints)))
+                .update(
+                    mapOf(
+                        "todayDone" to true,
+                        "accumCount" to FieldValue.increment(accumulationPoints)
+                    )
+                )
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         continuation.resume(Result.Success(true))
@@ -452,11 +479,15 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
-                .update(mapOf("experience" to FieldValue.increment(workout.achieveSectionCount*workout.achieveSectionCount.toLong()),
-                    "todayDoneCount" to FieldValue.increment(1L)))
+                .update(
+                    mapOf(
+                        "experience" to FieldValue.increment(workout.achieveSectionCount * workout.achieveSectionCount.toLong()),
+                        "todayDoneCount" to FieldValue.increment(1L)
+                    )
+                )
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
-                        Logger.w("updateUserStatus: ${workout.achieveSectionCount} is ${workout.achieveSectionCount*workout.achieveSectionCount}")
+                        Logger.w("updateUserStatus: ${workout.achieveSectionCount} is ${workout.achieveSectionCount * workout.achieveSectionCount}")
                         continuation.resume(Result.Success(true))
                     } else {
                         addId.exception?.let {
@@ -471,8 +502,10 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateMurmur(member: Member): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId).collection(
-                PATH_MEMBERS).document(member.userId)
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId)
+                .collection(
+                    PATH_MEMBERS
+                ).document(member.userId)
                 .update("murmur", member.murmur)
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
@@ -490,9 +523,14 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateTaskModule(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId).collection(
-                PATH_MODULES).document(workout.moduleId)
-                .update("achieveSection", FieldValue.increment(workout.achieveSectionCount.toLong()))
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId)
+                .collection(
+                    PATH_MODULES
+                ).document(workout.moduleId)
+                .update(
+                    "achieveSection",
+                    FieldValue.increment(workout.achieveSectionCount.toLong())
+                )
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         continuation.resume(Result.Success(true))
@@ -510,8 +548,10 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun createTaskHistory(history: History): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(history.taskId).collection(
-                PATH_HISTORY).document().set(history)
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(history.taskId)
+                .collection(
+                    PATH_HISTORY
+                ).document().set(history)
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         continuation.resume(Result.Success(true))
@@ -529,23 +569,24 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun uploadImage(imageUri: Uri): Result<Uri> =
         suspendCoroutine { continuation ->
 
-            val ref = FirebaseStorage.getInstance().reference.child("uploads/" + UUID.randomUUID().toString())
-            ref.putFile(imageUri).continueWithTask(Continuation<UploadTask.TaskSnapshot, com.google.android.gms.tasks.Task<Uri>> { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
+            val ref = FirebaseStorage.getInstance()
+                .reference.child("uploads/" + UUID.randomUUID().toString())
+            ref.putFile(imageUri)
+                .continueWithTask(Continuation<UploadTask.TaskSnapshot, com.google.android.gms.tasks.Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
                     }
-                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
-                }
-                return@Continuation ref.downloadUrl
-            }).addOnCompleteListener { task ->
+                    return@Continuation ref.downloadUrl
+                }).addOnCompleteListener { task ->
                 continuation.resume(Result.Success(task.result!!))
             }.addOnFailureListener {
                 Logger.w("Upload fail!")
             }
         }
-
 
 
 }

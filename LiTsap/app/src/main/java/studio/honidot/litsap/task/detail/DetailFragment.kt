@@ -91,7 +91,7 @@ class DetailFragment : Fragment() {
         chart.apply {
             data = PieData(pieDataSet)
             holeRadius = 20f
-            setExtraOffsets(10f,20f,10f,20f)
+            setExtraOffsets(45f,20f,45f,20f)
             chart.description.isEnabled = false
             setTransparentCircleAlpha(0)
             setEntryLabelColor(Color.BLACK)
