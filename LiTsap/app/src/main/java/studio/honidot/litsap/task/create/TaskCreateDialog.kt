@@ -61,7 +61,7 @@ class TaskCreateDialog : DialogFragment() {
         }
 
         binding.editModule.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newModule.value!="") {
                 viewModel.addModule()
                 true
             } else false

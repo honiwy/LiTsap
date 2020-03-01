@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="studio.honidot.litsap.profile.ProfileViewModel" />
@@ -231,39 +233,61 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_competition">
 
-                    <!--                    <androidx.viewpager.widget.ViewPager-->
-                    <!--                        android:id="@+id/viewpager_catalog"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="0dp"-->
-                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        app:layout_constraintTop_toTopOf="parent">-->
-
-                    <!--                        <com.google.android.material.tabs.TabLayout-->
-                    <!--                            android:id="@+id/tabs_catalog"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="@dimen/height_competition_tab"-->
-                    <!--                            app:tabIndicatorColor="@color/black_3f3a3a"-->
-                    <!--                            app:tabSelectedTextColor="@color/black_3f3a3a"-->
-                    <!--                            app:tabTextColor="@color/gray_888888">-->
-
-                    <!--                        </com.google.android.material.tabs.TabLayout>-->
-
-                    <!--                    </androidx.viewpager.widget.ViewPager>-->
-
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_murmur"
                         android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="12dp"
                         android:orientation="vertical"
+                        android:visibility="@{viewModel.editing==null?View.VISIBLE:View.INVISIBLE}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/image_setting_murmur"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:murmurs="@{viewModel.murmurs}" />
+
+                    <ImageView
+                        android:id="@+id/image_setting_murmur"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="8dp"
+                        android:onClick="@{()-> viewModel.attemptEditMurmur()}"
+                        android:visibility="@{viewModel.editing==null?View.VISIBLE:View.INVISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="@id/recycler_murmur"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/recycler_murmur"
+                        app:srcCompat="@drawable/edit" />
+
+                    <ImageView
+                        android:id="@+id/image_sent_murmur"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="8dp"
+                        android:onClick="@{()->viewModel.sentEditMurmur()}"
+                        android:visibility="@{viewModel.editing==null?View.INVISIBLE:View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="@id/edit_murmur"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/edit_murmur"
+                        app:srcCompat="@drawable/email" />
+
+                    <EditText
+                        android:id="@+id/edit_murmur"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/tag_button"
+                        android:ems="10"
+                        android:fontFamily="@font/noto_sans"
+                        android:letterSpacing="0.15"
+                        android:paddingHorizontal="16dp"
+                        android:text="@={viewModel.editMurmur}"
+                        android:textSize="14sp"
+                        android:visibility="@{viewModel.editing==null?View.INVISIBLE:View.VISIBLE}"
+                        app:layout_constraintEnd_toStartOf="@+id/image_sent_murmur"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

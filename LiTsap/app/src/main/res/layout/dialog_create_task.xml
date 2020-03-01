@@ -42,11 +42,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="36dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_name"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -78,11 +78,11 @@
                 android:id="@+id/text_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="36dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_category"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_title" />
@@ -103,11 +103,11 @@
                 android:id="@+id/module_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="36dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/set_module"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_category" />
@@ -162,11 +162,11 @@
                 android:id="@+id/text_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="36dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_end"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/module_task" />
@@ -189,11 +189,11 @@
                 android:id="@+id/text_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="36dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
                 android:text="@string/task_count"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_end_date" />
@@ -304,6 +304,19 @@
                 app:layout_constraintBottom_toBottomOf="@+id/edit_title"
                 app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintTop_toTopOf="@+id/edit_title" />
+
+            <TextView
+                android:id="@+id/text_explain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:textSize="12sp"
+                android:text="@string/create_task_explain"
+                app:layout_constraintBottom_toBottomOf="@+id/text_count"
+                app:layout_constraintStart_toEndOf="@+id/button_time_increase"
+                app:layout_constraintTop_toTopOf="@+id/text_count" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,42 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val onGoingTasks: LiveData<List<Task>>
         get() = _onGoingTasks
 
+    val editMurmur = MutableLiveData<String>().apply {
+        value = ""
+    }
+
+    fun attemptEditMurmur(){
+        _editing.value = true
+    }
+
+    private val _editing = MutableLiveData<Boolean>()
+
+    val editing: LiveData<Boolean>
+        get() = _editing
+
+    fun sentEditMurmur(){
+        _user.value?.let{thisUser->
+            _murmurs.value?.forEach {
+                if(it.userId == thisUser.userId)
+                {
+                    it.murmur = editMurmur.value ?:""
+                    coroutineScope.launch {
+                        val result = repository.updateMurmur(it)
+                        when (result) {
+                            is Result.Success -> {
+                                getMurmur(it.groupId)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    var selectedTaskPosition = MutableLiveData<Int>().apply {
+        value = 0
+    }
+
     init {
         findUser(arguments)
     }
@@ -52,7 +88,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             val result = repository.getMemberMurmurs(groupId)
             _murmurs.value = when (result) {
                 is Result.Success -> {
-                    Logger.d("murmur: ${result.data}")
+                    _editing.value = null
                     result.data
                 }
                 is Result.Fail -> {
@@ -74,6 +110,9 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             val result = repository.getTasks(taskIdList)
             _onGoingTasks.value = when (result) {
                 is Result.Success -> {
+                    if(result.data.isNotEmpty()) {
+                        getMurmur(result.data[0].groupId)
+                    }
                     result.data
                 }
                 is Result.Fail -> {
@@ -119,9 +158,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             }
         }
     }
-    var selectedTaskPosition = MutableLiveData<Int>().apply {
-        value = 0
-    }
+
 
 
 

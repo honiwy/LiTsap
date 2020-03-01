@@ -7,7 +7,7 @@ import studio.honidot.litsap.data.*
 
 interface LiTsapRepository {
 
-    suspend fun addMemberToGroup(groupId: String, member: Member): Result<Boolean>
+    suspend fun addMemberToGroup(member: Member): Result<Boolean>
 
     suspend fun createGroup(group: Group): Result<String>
 
@@ -44,6 +44,8 @@ interface LiTsapRepository {
     suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
 
     suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean>
+
+    suspend fun updateMurmur(member: Member): Result<Boolean>
 
     suspend fun updateUserStatus(workout: Workout): Result<Boolean>
 

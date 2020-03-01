@@ -33,9 +33,9 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
 
-    override suspend fun addMemberToGroup(groupId: String, member: Member): Result<Boolean> =
+    override suspend fun addMemberToGroup(member: Member): Result<Boolean> =
         suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(groupId).collection(
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId).collection(
                 PATH_MEMBERS).document(member.userId).set(member)
                 .addOnCompleteListener { addMember ->
                     if (addMember.isSuccessful) {
@@ -431,9 +431,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> =
         suspendCoroutine { continuation ->
-            Logger.w("suspend fun updateTaskStatus: task id ${taskId}, accumCount ${accumulationPoints}")
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
-                .update(mapOf("todayDone" to true, "accumCount" to FieldValue.increment(accumulationPoints.toLong())))
+                .update(mapOf("todayDone" to true, "accumCount" to FieldValue.increment(accumulationPoints)))
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         continuation.resume(Result.Success(true))
@@ -452,7 +451,6 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     //If user did the task that is done today will be something wrong with following code
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            Logger.w("suspend fun updateUserStatus: user id ${workout.userId}, experience ${workout.achieveSectionCount*workout.achieveSectionCount}")
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
                 .update(mapOf("experience" to FieldValue.increment(workout.achieveSectionCount*workout.achieveSectionCount.toLong()),
                     "todayDoneCount" to FieldValue.increment(1L)))
@@ -471,9 +469,27 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+    override suspend fun updateMurmur(member: Member): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId).collection(
+                PATH_MEMBERS).document(member.userId)
+                .update("murmur", member.murmur)
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun updateTaskModule(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            Logger.w("suspend fun updateTaskModule: task id ${workout.taskId}, module id ${workout.moduleId}, achieve ${workout.achieveSectionCount}")
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId).collection(
                 PATH_MODULES).document(workout.moduleId)
                 .update("achieveSection", FieldValue.increment(workout.achieveSectionCount.toLong()))

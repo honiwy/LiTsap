@@ -30,7 +30,8 @@
     <string name="create_task_hint">%d/15</string>
     <string name="set_module">任務細項: </string>
     <string name="task_end">截止日期: </string>
-    <string name="task_count">執行次數: </string>
+    <string name="task_count">目標單位: </string>
+    <string name="create_task_explain">20 分鐘/單位 </string>
     <string name="task_category">任務類別: </string>
     <string name="category_exercise">運動</string>
     <string name="category_wealth">財富</string>
@@ -49,10 +50,10 @@
     <!-- Task Detail -->
     <string name="task_detail">任務詳情</string>
     <string name="task_choose">選擇執行細項:</string>
-    <string name="task_workout_time">選擇執行時間:</string>
+    <string name="task_workout_time">選擇執行單位:</string>
     <string name="task_module">細項執行狀況</string>
-    <string name="task_plan">計畫執行 %d 次</string>
-    <string name="task_achieve">已執行 %d 次</string>
+    <string name="task_plan">計畫執行 %d 單位</string>
+    <string name="task_achieve">已執行 %d 單位</string>
     <string name="task_go">開始任務</string>
     <string name="task_hint">請在上方選擇...</string>
     <string name="mock_module">煎蛋</string>

@@ -201,7 +201,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     }
                     createFirstTaskHistory(result.data)
                     updateTaskIdList(_user.value!!.userId, result.data)
-                    addMemberToGroup(groupId, Member(_user.value!!.userId,_user.value!!.userName,result.data,"Murmur"))
+                    addMemberToGroup(Member(groupId,_user.value!!.userId,_user.value!!.userName,result.data,"Murmur"))
                 }
             }
             _count.value = _count.value!!.plus(1)
@@ -246,12 +246,12 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
-    private fun addMemberToGroup(groupId: String, member: Member) {
+    private fun addMemberToGroup(member: Member) {
         coroutineScope.launch {
-            val result = repository.addMemberToGroup(groupId, member)
+            val result = repository.addMemberToGroup(member)
             when (result) {
                 is Result.Success -> {
-                    checkGroupFull(groupId)
+                    checkGroupFull(member.groupId)
                 }
             }
             _count.value = _count.value!!.plus(1)
