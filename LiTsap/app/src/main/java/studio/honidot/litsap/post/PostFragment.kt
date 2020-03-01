@@ -1,6 +1,8 @@
 package studio.honidot.litsap.post
 
+import android.icu.util.Calendar
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import studio.honidot.litsap.databinding.FragmentPostBinding
 import studio.honidot.litsap.extension.getVmFactory
+import java.util.*
 
 
 class PostFragment : Fragment() {
@@ -29,6 +32,8 @@ class PostFragment : Fragment() {
         binding.viewModel = viewModel
         val adapter =HistoryAdapter(viewModel)
         binding.recyclerHistory.adapter = adapter
+        val current = DateFormat.format("dd/MM/yyyy", Date(Calendar.getInstance().timeInMillis)).toString()
+        viewModel.getHistoryOnThatDay(current)
 
         binding.calendarView.setOnDateChangeListener {  view,  year,  month, dayOfMonth ->
 //            Toast.makeText(context, "It is $year / ${month+1} /$dayOfMonth", Toast.LENGTH_SHORT).show()
