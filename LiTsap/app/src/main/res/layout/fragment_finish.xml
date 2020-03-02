@@ -264,9 +264,9 @@
             android:gravity="top"
             android:hint="@string/feedback_hint"
             android:letterSpacing="0.15"
-            android:lines="10"
-            android:maxLength="120"
-            android:maxLines="10"
+            android:lines="8"
+            android:maxLength="100"
+            android:maxLines="8"
             android:minHeight="16dp"
             android:paddingStart="16dp"
             android:paddingTop="8dp"
@@ -278,7 +278,7 @@
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="@+id/task_logo_medium"
             app:layout_constraintStart_toStartOf="@+id/text_feedback"
-            tools:lines="10" />
+            tools:lines="8" />
 
 
         <ImageView
