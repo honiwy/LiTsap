@@ -24,6 +24,7 @@ import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.*
 import kotlin.collections.ArrayList
 
 private const val BAR_CHART_DRAW_DAYS = 7
@@ -89,6 +90,7 @@ class ProfileFragment : Fragment() {
         val pointArrayList = mutableListOf<FloatArray>()
         val time = LocalDateTime.now()
 
+
         for (i in dayCount downTo 1) {
             xDate.add(time.minusDays((i - 1).toLong()).format(formatter)) //set each date format in x axis
             pointArrayList.add(FloatArray(taskCount)) //prepare ${dayCount} FloatArray(taskCount)
@@ -117,8 +119,8 @@ class ProfileFragment : Fragment() {
                 name = it.taskName
             }
             for (i in dayCount downTo 1) {
-                val timeFrom = time.minusDays(i - 1.toLong()).toEpochSecond(ZoneOffset.MAX) * 1000
-                val timeTo = time.minusDays(i - 1.toLong()).toEpochSecond(ZoneOffset.MIN) * 1000
+                val timeFrom = (Calendar.getInstance().timeInMillis - 86400*1000 * i)
+                val timeTo = (Calendar.getInstance().timeInMillis - 86400*1000 * (i-1))
                 if (it.recordDate in timeFrom until timeTo) {
                     pointArrayList[dayCount - i][taskIndex] += it.achieveCount.toFloat()
                     Logger.e("The history ${it.taskName} is done in ${dayCount - i}th day, got ${it.achieveCount} points")

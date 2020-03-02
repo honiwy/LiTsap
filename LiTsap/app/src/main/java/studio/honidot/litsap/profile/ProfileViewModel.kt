@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.*
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
@@ -142,7 +144,9 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                         if (it.historyTasks.isNotEmpty()) {
                             twoList.addAll(it.historyTasks)
                         }
-                        retrieveHistoryPoints(twoList, BAR_CHART_DRAW_DAYS - 1)
+                        if(twoList.isNotEmpty()) {
+                            retrieveHistoryPoints(twoList, BAR_CHART_DRAW_DAYS - 1)
+                        }
                     }
                     result.data
                 }
@@ -167,7 +171,13 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
-                    result.data
+                    Logger.w("result: ${result.data}")
+                    if(result.data.isNotEmpty()){
+                    result.data}
+                    else{
+                        createMockHistory(taskIdList)
+                        _historyPoints.value
+                    }
                 }
                 is Result.Fail -> {
                     null
@@ -180,6 +190,30 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                 }
             }
         }
+    }
+
+    fun createMockHistory(taskIdList: List<String>) {
+            coroutineScope.launch {
+                val result = repository.getTasks(taskIdList)
+                _historyPoints.value = when (result) {
+                    is Result.Success -> {
+                        val tmpList = mutableListOf<History>()
+                        result.data.forEach {
+                            tmpList.add(History(taskId = it.taskId,taskName = it.taskName))
+                        }
+                        tmpList
+                    }
+                    is Result.Fail -> {
+                        null
+                    }
+                    is Result.Error -> {
+                        null
+                    }
+                    else -> {
+                        null
+                    }
+                }
+            }
     }
 
     override fun onCleared() {

@@ -349,5 +349,6 @@ fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
             UserProfile.FIGHTER -> instance.getDrawable(R.drawable.profile_fighter)
             UserProfile.SAILOR -> instance.getDrawable(R.drawable.profile_sailor)
             UserProfile.SOLDIER -> instance.getDrawable(R.drawable.profile_soldier)
+            UserProfile.BEARDMAN -> instance.getDrawable(R.drawable.profile_beardman)
         }
 }

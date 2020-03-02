@@ -14,5 +14,6 @@ enum class UserProfile(val positionOnSpinner: Int) {
     CHEMIST(10),
     USER(11),
     SOLDIER(12),
-    WOMEN(13)
+    WOMEN(13),
+    BEARDMAN(14)
 }

@@ -305,9 +305,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         passNday: Int
     ): Result<List<History>> =
         suspendCoroutine { continuation ->
-            //val timeMin = (Calendar.getInstance().timeInMillis - 86400 * passNday) * 1000
-             val timeMin =  LocalDateTime.now().minusDays(passNday.toLong()).toEpochSecond(ZoneOffset.MAX)*1000
-            Logger.i("timeMin: $timeMin")
+            val timeMin = (Calendar.getInstance().timeInMillis - 86400*1000 * passNday)
             val listH = mutableListOf<History>()
             FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY)
                 .whereIn("taskId", taskIdList).whereGreaterThan("recordDate", timeMin).get()
