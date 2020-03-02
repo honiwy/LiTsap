@@ -8,6 +8,6 @@ import kotlinx.android.parcel.Parcelize
 data class Group(
     var groupId: String = "",
     var groupCategoryId: Int = -1,
-    var isFull: Boolean,
-    var onlineCount: Int //Indicate how many members are currently doing the task
+    var isFull: Boolean = false,
+    var onlineCount: Int = 0//Indicate how many members are currently doing the task
 ) : Parcelable
