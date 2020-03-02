@@ -1,8 +1,6 @@
 package studio.honidot.litsap.source.remote
 
-import android.icu.util.Calendar
 import android.net.Uri
-import android.text.format.DateFormat
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,6 +31,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_TASKS = "tasks"
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
+    private const val FIELD_GROUP_FULL = "groupFull"
 
     override suspend fun addMemberToGroup(member: Member): Result<Boolean> =
         suspendCoroutine { continuation ->
@@ -87,7 +86,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                         if (groupMemberList.size == 6) {
                             FirebaseFirestore.getInstance().collection(PATH_GROUPS)
                                 .document(groupId)
-                                .update("isFull", true)
+                                .update(FIELD_GROUP_FULL, true)
                                 .addOnCompleteListener { updateId ->
                                     if (updateId.isSuccessful) {
                                         continuation.resume(Result.Success(true))
@@ -116,13 +115,12 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun findGroup(taskCategoryId: Int): Result<List<String>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_GROUPS)
-                .whereEqualTo("groupCategoryId", taskCategoryId).whereEqualTo("isFull", false)
+                .whereEqualTo("groupCategoryId", taskCategoryId).whereEqualTo(FIELD_GROUP_FULL, false)
                 .get()
                 .addOnCompleteListener { findGroup ->
                     if (findGroup.isSuccessful) {
                         val groupIdList = mutableListOf<String>()
                         for (documentG in findGroup.result!!) {
-                            Logger.i("groupFound: ${documentG.id}")
                             val groupFound = documentG.toObject(Group::class.java)
                             groupIdList.add(groupFound.groupId)
                         }

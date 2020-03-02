@@ -20,9 +20,9 @@ data class Workout(
     var imageUri: String = ""
 ) : Parcelable {
     val breakTimeConstant
-        get() = 5//*60 //5 min
+        get() = 5*60 //5 min
     val sectionConstant
-        get() = 20//*60//20 min
+        get() = 20*60//20 min
     val workoutTime
         get() = planSectionCount * sectionConstant.toLong()
     val displayProcess
