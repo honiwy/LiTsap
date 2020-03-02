@@ -75,12 +75,24 @@ fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
 }
 
 //Login
-@BindingAdapter("bindUserName")
-fun bindUserName(textView: TextView, user: User?) {
-    textView.text = if (user == null) {
+@BindingAdapter("bindUserNameFB")
+fun bindUserNameFB(textView: TextView, user: User?) {
+
+    textView.text =  if (user != null && user.loginVia == "Facebook"){
+        instance.getString(R.string.login_with_name, user.userName)
+    }
+    else{
         instance.getString(R.string.facebook_login)
-    } else {
-        instance.getString(R.string.facebook_login_with_name, user!!.userName)
+    }
+}
+
+@BindingAdapter("bindUserNameGoogle")
+fun bindUserNameGoogle(textView: TextView, user: User?) {
+    textView.text =  if (user != null && user.loginVia == "Google"){
+       instance.getString(R.string.login_with_name, user.userName)
+    }
+    else{
+        instance.getString(R.string.google_login)
     }
 }
 

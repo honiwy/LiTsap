@@ -146,6 +146,7 @@ class ProfileFragment : Fragment() {
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
             xAxis.position = XAxis.XAxisPosition.BOTTOM
+            animateY(1000)
             setScaleEnabled(false)
             invalidate()
             notifyDataSetChanged()

@@ -10,9 +10,11 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,6 +36,11 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val user: LiveData<User>
         get() = _user
 
+    private val _loginVia = MutableLiveData<String>()
+
+    val loginVia: LiveData<String>
+        get() = _loginVia
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -48,9 +55,10 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                     if (result.data != null) {
                         result.data
                     } else {
+                        Logger.w("Oops! You create new uer: loginVia ${_loginVia.value}")
                         val newUser = User(
                             firebaseUser.uid,
-                            "Facebook",
+                            _loginVia.value ?: "Unknown",
                             firebaseUser.displayName ?: "無名氏",
                             3,
                             0,
@@ -111,8 +119,9 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     lateinit var fbCallbackManager: CallbackManager
 
     fun loginFacebook() {
-        if (FirebaseAuth.getInstance().currentUser == null) {
-            Logger.w("FirebaseAuth.getInstance().currentUser == null")
+        if (_user.value != null && _user.value!!.loginVia == "Facebook") {
+            loginSuccess()
+        } else {
             fbCallbackManager = CallbackManager.Factory.create()//build callback
             LoginManager.getInstance().registerCallback(fbCallbackManager, object :
                 FacebookCallback<LoginResult> {
@@ -127,19 +136,18 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                     Logger.w("[${this::class.simpleName}] exception=${exception.message}")
                 }
             })//register call back
-            _loginAttempt.value = true //active login
-        } else {
-            Logger.w("loginSuccess()")
-            loginSuccess()
+            _loginAttempt.value = true
+            _loginVia.value = "Facebook" //active login
         }
     }
 
     fun loginGoogle() {
-        Toast.makeText(
-            LiTsapApplication.appContext,
-            LiTsapApplication.instance.getString(R.string.google_login_info),
-            Toast.LENGTH_SHORT
-        ).show()
+        if (_user.value != null && _user.value!!.loginVia == "Google") {
+            loginSuccess()
+        } else {
+            _loginAttempt.value = true
+            _loginVia.value = "Google" //active login
+        }
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
@@ -148,6 +156,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     findUser(auth.currentUser!!) //make sure whether user account is existed in Firebase if not then create a new one
+                    loginSuccess()
                 } else {
                     // If sign in fails, display a message to the user.
                     Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
@@ -178,5 +187,19 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     val navigateToMain: LiveData<Boolean>
         get() = _navigateToMain
 
+    fun firebaseAuthWithGoogle(token: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(token.idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    findUser(auth.currentUser!!)
+                    loginSuccess()
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
+                }
+            }
+    }
 
 }

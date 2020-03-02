@@ -97,6 +97,7 @@ class DetailFragment : Fragment() {
             setEntryLabelColor(Color.BLACK)
             setUsePercentValues(true)
             chart.legend.isEnabled = false
+            animateY(1000)
             invalidate()
         }
     }

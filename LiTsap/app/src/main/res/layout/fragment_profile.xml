@@ -55,7 +55,7 @@
                 android:text="@{viewModel.user.userName}"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
                 app:layout_constraintTop_toTopOf="@+id/image_profile_avatar"
                 tools:text="Wan-Yu Chuang" />
@@ -237,8 +237,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_murmur"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_height="28dp"
+                        android:layout_marginTop="8dp"
                         android:orientation="vertical"
                         android:visibility="@{viewModel.editing==null?View.VISIBLE:View.INVISIBLE}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -274,8 +274,8 @@
                     <EditText
                         android:id="@+id/edit_murmur"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_height="28dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/tag_button"
