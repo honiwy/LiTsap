@@ -2,6 +2,7 @@ package studio.honidot.litsap.profile
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,9 @@ class ProfileFragment : Fragment() {
             FaceChooseDialog().show(childFragmentManager, "dot")
         }
 
+
+        binding.textProfileInfo.isSelected = true
+        binding.textProfileInfo.ellipsize = TextUtils.TruncateAt.MARQUEE
         binding.recyclerTab.adapter =
             CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
                 viewModel.getMurmur(it.groupId)

@@ -41,6 +41,8 @@ class LoginFragment : Fragment() {
             viewModel.findUser(it,true)
         }
 
+
+
         viewModel.loginAttempt.observe(this, Observer {
             it?.let {
                 if (viewModel.loginVia.value == "Google") {
