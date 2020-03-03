@@ -78,11 +78,11 @@
     <string name="insert_text">插入圖片</string>
     <string name="feedback_hint">建議 100 字內</string>
     <!-- Post -->
-    <string name="post_no_data">No data available\n本日未留下任何紀錄</string>
+    <string name="post_no_data">本日未留下任何紀錄</string>
     <!-- Profile -->
     <string name="profile_default_name">Rachel</string>
     <string name="profile_mock_murmur">我都完成了你們呢？</string>
-    <string name="profile_no_data">No data available\n建立任務來找到共同目標的夥伴</string>
+    <string name="profile_no_data">建立任務來找到共同目標的夥伴</string>
     <string name="profile_level">等級 %d</string>
     <string name="profile_experience">經驗值 %d</string>
     <string name="profile_level_information">還有 %d 個任務未執行，再努力一下吧？</string>

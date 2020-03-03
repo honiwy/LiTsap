@@ -40,6 +40,11 @@
             app:bindUserNameFB="@{viewModel.user}"
             android:textColor="@color/white"
             android:textSize="14sp"
+
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textIsSelectable="false"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_logo" />
 
@@ -53,6 +58,10 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             tools:text="@string/google_login"
+
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textIsSelectable="false"
             app:bindUserNameGoogle="@{viewModel.user}"
             android:onClick="@{()->viewModel.loginGoogle()}"
             android:textColor="@color/white"

@@ -2,6 +2,7 @@ package studio.honidot.litsap.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +41,10 @@ class LoginFragment : Fragment() {
         FirebaseAuth.getInstance().currentUser?.let {
             viewModel.findUser(it,true)
         }
-
-
+        binding.buttonGoogleLogin.isSelected = true
+        binding.buttonGoogleLogin.ellipsize = TextUtils.TruncateAt.MARQUEE
+        binding.buttonFacebookLogin.isSelected = true
+        binding.buttonFacebookLogin.ellipsize = TextUtils.TruncateAt.MARQUEE
 
         viewModel.loginAttempt.observe(this, Observer {
             it?.let {
