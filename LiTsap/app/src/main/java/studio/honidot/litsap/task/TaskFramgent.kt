@@ -73,7 +73,7 @@ class TaskFragment : Fragment() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
         builder.setTitle("刪除 ${task.taskName} 任務")
-        builder.setMessage("確定刪除任務嗎? 所有歷史足跡將隨之刪除。")
+        builder.setMessage("確定刪除任務嗎?\n所有歷史足跡將隨之刪除。")
 
         builder.setPositiveButton("確認"
         ) { dialog, which ->

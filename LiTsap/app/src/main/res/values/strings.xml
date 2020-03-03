@@ -32,7 +32,7 @@
     <string name="task_end">截止日期: </string>
     <string name="task_count">目標單位: </string>
     <string name="create_task_explain">20 分鐘/單位 </string>
-    <string name="task_category">任務類別: </string>
+    <string name="task_category">選擇類別: </string>
     <string name="category_exercise">運動</string>
     <string name="category_wealth">財富</string>
     <string name="category_food">美食</string>
