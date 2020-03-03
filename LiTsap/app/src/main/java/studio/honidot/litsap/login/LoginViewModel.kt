@@ -136,8 +136,8 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                     Logger.w("[${this::class.simpleName}] exception=${exception.message}")
                 }
             })//register call back
-            _loginAttempt.value = true
             _loginVia.value = "Facebook" //active login
+            _loginAttempt.value = true
         }
     }
 
@@ -145,8 +145,8 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
         if (_user.value != null && _user.value!!.loginVia == "Google") {
             loginSuccess()
         } else {
-            _loginAttempt.value = true
             _loginVia.value = "Google" //active login
+            _loginAttempt.value = true
         }
     }
 
