@@ -57,6 +57,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:hint="@string/create_mock_task"
                 android:background="@drawable/create_task_round_editor"
                 android:backgroundTint="@{!viewModel.title.empty? @color/mustard:@color/white}"
                 android:ems="10"
@@ -126,13 +127,15 @@
 
             <EditText
                 android:id="@+id/edit_module"
-                android:layout_width="124dp"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/create_task_round_editor"
                 android:backgroundTint="@{!viewModel.newModule.empty? @color/mustard:@color/white}"
                 android:ems="10"
                 android:fontFamily="@font/noto_sans"
+                android:hint="@string/create_mock_module"
                 android:letterSpacing="0.15"
                 android:maxLength="6"
                 android:paddingStart="2dp"
@@ -142,6 +145,7 @@
                 android:textAlignment="center"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/module_task"
+                app:layout_constraintEnd_toStartOf="@+id/button_module_add"
                 app:layout_constraintStart_toEndOf="@+id/module_task"
                 app:layout_constraintTop_toTopOf="@+id/module_task" />
 
@@ -149,13 +153,13 @@
                 android:id="@+id/button_module_add"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/plus"
                 android:backgroundTint="@{viewModel.newModule.length()>7||viewModel.newModule.empty ?@color/gray_888888: @color/honey}"
                 android:clickable="@{viewModel.newModule.length()>7||viewModel.newModule.empty ? false:true}"
                 android:onClick="@{() -> viewModel.addModule()}"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_module"
-                app:layout_constraintStart_toEndOf="@+id/edit_module"
+                app:layout_constraintEnd_toStartOf="@+id/text_notice_module"
                 app:layout_constraintTop_toTopOf="@+id/edit_module" />
 
             <TextView
@@ -200,8 +204,9 @@
 
             <EditText
                 android:id="@+id/edit_task_amount_editor"
-                android:layout_width="120dp"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/create_task_round_editor"
                 android:fontFamily="@font/noto_sans"
                 android:gravity="center"
@@ -214,6 +219,7 @@
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
+                app:layout_constraintEnd_toStartOf="@+id/button_add2cart_decrease"
                 app:layout_constraintStart_toStartOf="@+id/edit_title"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
@@ -221,24 +227,24 @@
                 android:id="@+id/button_time_increase"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/plus"
                 android:backgroundTint="@color/honey"
                 android:onClick="@{() -> viewModel.increaseAmount()}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
-                app:layout_constraintStart_toEndOf="@+id/button_add2cart_decrease"
+                app:layout_constraintEnd_toStartOf="@+id/text_explain"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
             <ImageButton
                 android:id="@+id/button_add2cart_decrease"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/minus"
                 android:backgroundTint="@{viewModel.amount > 1 ? @color/honey : @color/gray_999999}"
                 android:onClick="@{() -> viewModel.decreaseAmount()}"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
-                app:layout_constraintStart_toEndOf="@+id/edit_task_amount_editor"
+                app:layout_constraintEnd_toStartOf="@+id/button_time_increase"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
             <Button
@@ -247,9 +253,9 @@
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/round_button"
                 android:enabled="@{(viewModel.title.empty||viewModel.moduleNameList.size()==0||viewModel.amount > 1000000000) || viewModel.count != null?false:true}"
                 android:fontFamily="@font/noto_sans"
@@ -282,14 +288,13 @@
                 android:id="@+id/text_notice_module"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:moduleStringLength="@{viewModel.newModule}"
-                android:textSize="12sp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_module"
-                app:layout_constraintStart_toEndOf="@+id/button_module_add"
+                app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintTop_toTopOf="@+id/edit_module"
+                app:moduleStringLength="@{viewModel.newModule}"
                 tools:text="3/7" />
 
             <TextView
@@ -309,13 +314,12 @@
                 android:id="@+id/text_explain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:textSize="12sp"
                 android:text="@string/create_task_explain"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
-                app:layout_constraintStart_toEndOf="@+id/button_time_increase"
+                app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

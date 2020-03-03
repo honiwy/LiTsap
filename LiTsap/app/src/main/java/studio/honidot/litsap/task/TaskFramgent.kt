@@ -41,7 +41,7 @@ class TaskFragment : Fragment() {
         })
         binding.fab.setOnClickListener {
             viewModel.taskItems.value?.let {
-                if (it.size >= 8) {
+                if (it.size >= (6+2)) {
                     Toast.makeText(context, LiTsapApplication.instance.getString(R.string.plenty_task_info), Toast.LENGTH_SHORT).show()
                 } else
                     TaskCreateDialog().show(childFragmentManager, "abc")
@@ -72,19 +72,17 @@ class TaskFragment : Fragment() {
     private fun attemptToDelete(task: Task) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
-        builder.setTitle("Delete task")
-        builder.setMessage("Are you sure? All the history will gone.")
+        builder.setTitle("刪除 ${task.taskName} 任務")
+        builder.setMessage("確定刪除任務嗎? 所有歷史足跡將隨之刪除。")
 
-        builder.setPositiveButton("YES"
+        builder.setPositiveButton("確認"
         ) { dialog, which ->
-            Toast.makeText(context,"You choose to delete ${task.taskName}", Toast.LENGTH_SHORT).show()
             viewModel.deleteUserOngoingTask(task.userId,task.taskId)
             dialog.dismiss()
         }
 
-        builder.setNegativeButton("NO"
+        builder.setNegativeButton("取消"
         ) { dialog, which ->
-            Toast.makeText(context,"You don't really want to delete ${task.taskName}", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
