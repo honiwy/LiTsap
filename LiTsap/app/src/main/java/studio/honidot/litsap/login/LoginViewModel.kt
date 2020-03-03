@@ -47,12 +47,15 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    fun findUser(firebaseUser: FirebaseUser) {
+    fun findUser(firebaseUser: FirebaseUser, firstLogin: Boolean) {
         coroutineScope.launch {
             val result = repository.findUser(firebaseUser.uid)
             _user.value = when (result) {
                 is Result.Success -> {
                     if (result.data != null) {
+                        if(!firstLogin){
+                            loginSuccess()
+                        }
                         result.data
                     } else {
                         Logger.w("Oops! You create new uer: loginVia ${_loginVia.value}")
@@ -66,7 +69,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                             emptyList(),
                             0
                         )
-                        createUser(newUser)
+                        createUser(newUser,firstLogin)
                         newUser
                     }
                 }
@@ -83,12 +86,14 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
         }
     }
 
-    private fun createUser(user: User) {
+    private fun createUser(user: User, firstLogin: Boolean) {
         coroutineScope.launch {
             val result = repository.createUser(user)
             when (result) {
                 is Result.Success -> {
-                    loginSuccess()
+                    if(!firstLogin){
+                        loginSuccess()
+                    }
                 }
                 is Result.Fail -> {
                     null
@@ -155,8 +160,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    findUser(auth.currentUser!!) //make sure whether user account is existed in Firebase if not then create a new one
-                    loginSuccess()
+                    findUser(auth.currentUser!!, false) //make sure whether user account is existed in Firebase if not then create a new one
                 } else {
                     // If sign in fails, display a message to the user.
                     Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
@@ -193,8 +197,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    findUser(auth.currentUser!!)
-                    loginSuccess()
+                    findUser(auth.currentUser!!,false)
                 } else {
                     // If sign in fails, display a message to the user.
                     Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
