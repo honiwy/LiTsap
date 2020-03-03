@@ -113,16 +113,16 @@
 
         <ImageView
             android:id="@+id/pause_play"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
             android:background="@{viewModel.isCountingTask? @drawable/pause : @drawable/play}"
             android:backgroundTint="@color/yale"
             android:onClick="@{()->viewModel.pausePlayTimer()}"
             android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
-            app:layout_constraintStart_toStartOf="@+id/countdown_bar"
-            app:layout_constraintTop_toBottomOf="@+id/remain_time"
+            app:layout_constraintBottom_toBottomOf="@+id/remain_time"
+            app:layout_constraintEnd_toStartOf="@+id/remain_time"
+            app:layout_constraintTop_toTopOf="@+id/remain_time"
             tools:background="@drawable/pause" />
 
         <TextView
@@ -250,6 +250,19 @@
             app:layout_constraintTop_toBottomOf="@+id/countdown_bar"
             app:layout_constraintVertical_bias="0.0"
             app:messages="@{viewModel.messageList}" />
+
+        <ImageView
+            android:id="@+id/image_workout_music"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:background="@{viewModel.musicPlay==true?@drawable/volume_up:@drawable/mute}"
+            android:backgroundTint="@color/yale"
+            android:onClick="@{()->viewModel.muteMusic()}"
+            app:layout_constraintBottom_toBottomOf="@+id/remain_time"
+            app:layout_constraintStart_toEndOf="@+id/remain_time"
+            app:layout_constraintTop_toTopOf="@+id/remain_time"
+            tools:background="@drawable/volume_up" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

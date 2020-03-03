@@ -23,6 +23,8 @@ class WorkoutViewModel(
         value = mutableListOf()
     }
 
+
+
     var newMessage = MutableLiveData<String>()
 
     fun addMessage() {
@@ -35,7 +37,10 @@ class WorkoutViewModel(
         }
     }
 
+    private val _musicPlay = MutableLiveData<Boolean>()
 
+    val musicPlay: LiveData<Boolean>
+        get() = _musicPlay
 
     private val _userIconId = MutableLiveData<Int>()
 
@@ -80,7 +85,9 @@ class WorkoutViewModel(
 
     init {
         _totalTaskRemained.value = arguments.displayProcess
+        _musicPlay.value = true
         startTaskCountDownTimer(arguments.workoutTime * 1000)
+
     }
 
     private val _isCountingRest = MutableLiveData<Boolean>()
@@ -106,6 +113,10 @@ class WorkoutViewModel(
         _navigateToFinish.value = null
     }
 
+    fun muteMusic(){
+        _musicPlay.value = (_musicPlay.value== false)
+    }
+
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
         taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -113,6 +124,7 @@ class WorkoutViewModel(
                     _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
                     if (_totalTaskRemained.value!!.rem(wo.sectionConstant) == 0 && _totalTaskRemained.value != 0) {
                         _isCountingRest.value = true
+                        _musicPlay.value = null
                         wo.achieveSectionCount += 1
                         pausePlayTimer()
                         startRestCountDownTimer(wo.breakTimeConstant * 1000L)
@@ -122,6 +134,7 @@ class WorkoutViewModel(
 
             override fun onFinish() {
                 _workout.value!!.achieveSectionCount += 1
+                _musicPlay.value = null
                 navigateToFinish()
             }
         }
@@ -143,6 +156,7 @@ class WorkoutViewModel(
 
             override fun onFinish() {
                 _isCountingRest.value = false
+                _musicPlay.value = true
                 pausePlayTimer()
             }
         }

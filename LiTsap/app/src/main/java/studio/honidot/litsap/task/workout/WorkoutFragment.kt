@@ -1,6 +1,10 @@
 package studio.honidot.litsap.task.workout
 
+import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +17,16 @@ import studio.honidot.litsap.extension.getVmFactory
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.NavigationDirections
+import studio.honidot.litsap.R
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.util.Logger
 
 
 class WorkoutFragment : Fragment() {
+
+    lateinit var mediaPlayer :MediaPlayer
+
+
     private val viewModel by viewModels<WorkoutViewModel> {
         getVmFactory(
             WorkoutFragmentArgs.fromBundle(
@@ -64,8 +73,30 @@ class WorkoutFragment : Fragment() {
                 if (it) findNavController().navigateUp()
             }
         })
+
+
+        viewModel.musicPlay.observe(this, Observer {
+            when (it) {
+                null -> {
+                    mediaPlayer.release()
+                }
+                true -> {
+                    //把歌扔進mediaplayer
+                    mediaPlayer = MediaPlayer.create(activity, R.raw.ocean)
+                    mediaPlayer.seekTo(0)
+                    mediaPlayer.start()
+                }
+                else -> {
+                    mediaPlayer.pause()
+                }
+            }
+        })
+
         return binding.root
     }
 
-
+    override fun onStop() {
+        super.onStop()
+        mediaPlayer.release()
+    }
 }
