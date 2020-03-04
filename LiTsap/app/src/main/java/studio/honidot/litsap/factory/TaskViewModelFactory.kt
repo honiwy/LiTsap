@@ -16,8 +16,7 @@ class TaskViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(DetailViewModel::class.java) ->
-                    DetailViewModel(liTsapRepository,task)
-
+                    DetailViewModel(liTsapRepository, task)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

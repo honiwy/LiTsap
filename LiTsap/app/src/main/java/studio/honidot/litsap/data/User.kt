@@ -3,6 +3,7 @@ package studio.honidot.litsap.data
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+
 @Parcelize
 data class User(
     var userId: String = "",
@@ -14,10 +15,11 @@ data class User(
     var historyTasks: List<String> = listOf(), //User history task id list
     var todayDoneCount: Int = 0
 ) : Parcelable{
-    val intervalConstant
-        get() = 50
+    companion object {
+        const val INTERVAL_CONSTANT = 50
+    }
     val level
-        get() = (experience/intervalConstant)
+        get() = (experience / INTERVAL_CONSTANT)
     val levelProcess
-        get() = (experience%intervalConstant).toInt()
+        get() = (experience % INTERVAL_CONSTANT).toInt()
 }

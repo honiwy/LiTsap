@@ -6,7 +6,7 @@
     <data>
 
         <import type="android.view.View" />
-
+        <import type="studio.honidot.litsap.data.User"/>
         <variable
             name="viewModel"
             type="studio.honidot.litsap.profile.ProfileViewModel" />
@@ -164,7 +164,7 @@
                 android:layout_width="120dp"
                 android:layout_height="16dp"
                 android:layout_marginBottom="2dp"
-                android:max="@{viewModel.user.intervalConstant}"
+                android:max="@{User.INTERVAL_CONSTANT}"
                 android:progress="@{viewModel.user.levelProcess}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_name"

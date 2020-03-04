@@ -13,9 +13,9 @@ data class Task(
     var groupId: String = "",
     var userId: String = "",
     var taskName: String = "",
-    var goalCount: Int = -1,
-    var accumCount: Int = -1,
-    var taskCategoryId: Int = -1,
+    var goalCount: Int = 0,
+    var accumCount: Int = 0,
+    var taskCategoryId: Int = 0,
     var dueDate: Long = 0,
     var taskDone: Boolean = false, //whether a history task or not
     var todayDone: Boolean = false //whether finish the task today

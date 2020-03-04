@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class Module(
     var moduleName: String = "",
     var moduleId: String = "",
-    var achieveSection: Int = -1
+    var achieveSection: Int = 0
 ) : Parcelable

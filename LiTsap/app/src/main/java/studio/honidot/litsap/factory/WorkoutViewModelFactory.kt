@@ -17,10 +17,10 @@ class WorkoutViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(WorkoutViewModel::class.java) ->
-                    WorkoutViewModel(liTsapRepository,workout)
+                    WorkoutViewModel(liTsapRepository, workout)
 
                 isAssignableFrom(FinishViewModel::class.java) ->
-                    FinishViewModel(liTsapRepository,workout)
+                    FinishViewModel(liTsapRepository, workout)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

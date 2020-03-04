@@ -122,12 +122,12 @@ class WorkoutViewModel(
             override fun onTick(millisUntilFinished: Long) {
                 _workout.value?.let {wo->
                     _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
-                    if (_totalTaskRemained.value!!.rem(wo.sectionConstant) == 0 && _totalTaskRemained.value != 0) {
+                    if (_totalTaskRemained.value!!.rem(Workout.WORKOUT_TIME) == 0 && _totalTaskRemained.value != 0) {
                         _isCountingRest.value = true
                         _musicPlay.value = null
                         wo.achieveSectionCount += 1
                         pausePlayTimer()
-                        startRestCountDownTimer(wo.breakTimeConstant * 1000L)
+                        startRestCountDownTimer(Workout.BREAK_TIME * 1000L)
                     }
                 }
             }

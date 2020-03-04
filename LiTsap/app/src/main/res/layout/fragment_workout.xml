@@ -6,7 +6,7 @@
     <data>
 
         <import type="android.view.View" />
-
+<import type="studio.honidot.litsap.data.Workout"/>
         <variable
             name="viewModel"
             type="studio.honidot.litsap.task.workout.WorkoutViewModel" />
@@ -102,8 +102,8 @@
             android:layout_height="300dp"
             android:layout_marginTop="4dp"
             android:indeterminate="false"
-            android:max="@{viewModel.isCountingRest==true? viewModel.workout.breakTimeConstant :viewModel.workout.displayProcess}"
-            android:progress="@{viewModel.isCountingRest==true? (viewModel.workout.breakTimeConstant-viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
+            android:max="@{viewModel.isCountingRest==true? Workout.BREAK_TIME :viewModel.workout.displayProcess}"
+            android:progress="@{viewModel.isCountingRest==true? (Workout.BREAK_TIME - viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
             android:progressDrawable="@drawable/circular_progress"
             android:secondaryProgress="100"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +198,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/round_button"
-            android:enabled="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>=viewModel.workout.sectionConstant ? true:false}"
+            android:enabled="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>= Workout.WORKOUT_TIME ? true:false}"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.navigateToFinish()}"

@@ -3,6 +3,8 @@ package studio.honidot.litsap.data
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+
+
 @Parcelize
 data class Workout(
     var taskName: String = "",
@@ -19,15 +21,16 @@ data class Workout(
     var note: String = "",
     var imageUri: String = ""
 ) : Parcelable {
-    val breakTimeConstant
-        get() = 5*60 //5 min
-    val sectionConstant
-        get() = 20*60//20 min
-    val workoutTime
-        get() = planSectionCount * sectionConstant.toLong()
-    val displayProcess
-        get() = planSectionCount * sectionConstant
+    companion object {
+        private const val TIME_UNIT = 1//60 // min:60, sec:1
+        const val BREAK_TIME = 5 * TIME_UNIT
+        const val WORKOUT_TIME = 20 * TIME_UNIT
+    }
 
+    val displayProcess
+        get() = planSectionCount * WORKOUT_TIME
+    val workoutTime
+        get() = displayProcess.toLong()
 }
 
 

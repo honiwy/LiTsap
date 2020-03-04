@@ -110,7 +110,7 @@ dependencies {
 
     // Fragment
     implementation "androidx.fragment:fragment:$version_fragment"
-    implementation "androidx.fragment:fragment-testing:$version_fragment"
+    debugImplementation "androidx.fragment:fragment-testing:$version_fragment"
 
     // Facebook
 //    implementation 'com.facebook.android:facebook-login:5.0.0'
