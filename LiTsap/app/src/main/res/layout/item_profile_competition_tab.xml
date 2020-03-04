@@ -28,7 +28,6 @@
             android:paddingHorizontal="12dp"
             android:text="@{task.taskName}"
             android:textColor="@color/black_3f3a3a"
-            app:boldText="@{viewHolder.isSelected}"
             android:textSize="@{viewHolder.isSelected?@dimen/tab_size:@dimen/tab_size_null}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

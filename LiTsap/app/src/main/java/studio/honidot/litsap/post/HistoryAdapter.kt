@@ -13,6 +13,7 @@ class HistoryAdapter(val viewModel: PostViewModel) : ListAdapter<History, Histor
     class ModuleViewHolder(private var binding: ItemHistoryBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(history: History) {
+            history.note = history.note.trim()
             binding.history = history
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements

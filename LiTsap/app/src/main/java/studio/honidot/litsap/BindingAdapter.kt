@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
@@ -118,16 +120,7 @@ fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, onGoingTasks: List<
     }
 }
 
-@BindingAdapter("boldText")
-fun setLayoutBoldText(view: TextView, isSelected:Boolean) {
-//    if(isSelected){
-//        view.typeface = DEFAULT_BOLD
-//    }
-//    else{
-//        view.typeface = DEFAULT
-//    }
 
-}
 
 //@BindingAdapter("boldPartialText", "startIndex", "endIndex","color")
 //fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int, color: String) {
@@ -175,8 +168,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         GlideApp.with(imgView.context)
             .load(imgUri)
             .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.gallery)
+                RequestOptions().transform(CenterCrop(), RoundedCorners(15))
+                    .placeholder(R.drawable.loggo)
                     .error(R.drawable.loggo))
             .into(imgView)
     }

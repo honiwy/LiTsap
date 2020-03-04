@@ -14,25 +14,18 @@
 
         <TextView
             android:id="@+id/text_home_title"
+            style="@style/WorkoutTextStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:maxWidth="328dp"
-            android:maxLines="1"
+            android:ellipsize="marquee"
             android:text="@{footprint}"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/await_todo" />
+            tools:text="@string/finish_no_footprint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

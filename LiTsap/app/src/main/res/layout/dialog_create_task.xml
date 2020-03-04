@@ -39,20 +39,17 @@
 
             <TextView
                 android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TaskTextStyle"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="36dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/task_name"
-                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edit_title"
+                style="@style/TaskTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -60,16 +57,10 @@
                 android:hint="@string/create_mock_task"
                 android:background="@drawable/create_task_round_editor"
                 android:backgroundTint="@{!viewModel.title.empty? @color/mustard:@color/white}"
-                android:ems="10"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:maxLength="12"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
                 android:singleLine="true"
                 android:text="@={viewModel.title}"
                 android:textAlignment="center"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_title"
                 app:layout_constraintEnd_toStartOf="@+id/text_notice_task"
                 app:layout_constraintStart_toEndOf="@+id/text_title"
@@ -77,13 +68,9 @@
 
             <TextView
                 android:id="@+id/text_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TaskTextStyle"
                 android:layout_marginTop="36dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/task_category"
-                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_title" />
@@ -102,13 +89,9 @@
 
             <TextView
                 android:id="@+id/module_task"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TaskTextStyle"
                 android:layout_marginTop="36dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/set_module"
-                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_category" />
@@ -127,23 +110,18 @@
 
             <EditText
                 android:id="@+id/edit_module"
+                style="@style/TaskTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/create_task_round_editor"
                 android:backgroundTint="@{!viewModel.newModule.empty? @color/mustard:@color/white}"
-                android:ems="10"
-                android:fontFamily="@font/noto_sans"
                 android:hint="@string/create_mock_module"
-                android:letterSpacing="0.15"
                 android:maxLength="6"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:singleLine="true"
                 android:text="@={viewModel.newModule}"
                 android:textAlignment="center"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/module_task"
                 app:layout_constraintEnd_toStartOf="@+id/button_module_add"
                 app:layout_constraintStart_toEndOf="@+id/module_task"
@@ -164,13 +142,9 @@
 
             <TextView
                 android:id="@+id/text_end_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TaskTextStyle"
                 android:layout_marginTop="36dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/task_end"
-                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/module_task" />
@@ -191,19 +165,16 @@
 
             <TextView
                 android:id="@+id/text_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/TaskTextStyle"
                 android:layout_marginTop="36dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/task_count"
-                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
                 app:layout_constraintTop_toBottomOf="@+id/text_end_date" />
 
             <EditText
                 android:id="@+id/edit_task_amount_editor"
+                style="@style/TaskTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="4dp"
@@ -213,8 +184,6 @@
                 android:inputType="number"
                 android:letterSpacing="0.15"
                 android:maxLines="1"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
                 android:text="@={viewModel.convertIntToString(viewModel.amount)}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="14sp"
@@ -272,14 +241,10 @@
 
             <TextView
                 android:id="@+id/text_notice_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CreateModuleStyle"
                 android:layout_marginTop="2dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/create_count_notice"
                 android:textColor="@color/dark_red"
-                android:textSize="12sp"
                 android:visibility="@{viewModel.amount > 1000000000 ? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintStart_toStartOf="@+id/edit_task_amount_editor"
                 app:layout_constraintTop_toBottomOf="@+id/edit_task_amount_editor" />

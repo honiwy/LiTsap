@@ -16,13 +16,8 @@
 
         <RadioButton
             android:id="@+id/radio_module"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
+            style="@style/TaskTextStyle"
             android:text="@{module.moduleName}"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

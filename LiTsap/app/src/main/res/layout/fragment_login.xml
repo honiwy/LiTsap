@@ -28,44 +28,35 @@
 
         <Button
             android:id="@+id/button_facebook_login"
+            style="@style/WorkoutTextStyle"
             android:layout_width="180dp"
-            android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:ellipsize="marquee"
             android:background="@drawable/login_buttom_layout"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.loginFacebook()}"
             tools:text="@string/facebook_login"
             app:bindUserNameFB="@{viewModel.user}"
             android:textColor="@color/white"
-            android:textSize="14sp"
-
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:textIsSelectable="false"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_logo" />
 
         <Button
             android:id="@+id/button_google_login"
+            style="@style/WorkoutTextStyle"
             android:layout_width="180dp"
-            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:ellipsize="marquee"
             android:background="@drawable/login_buttom_layout"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             tools:text="@string/google_login"
-
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:textIsSelectable="false"
             app:bindUserNameGoogle="@{viewModel.user}"
             android:onClick="@{()->viewModel.loginGoogle()}"
             android:textColor="@color/white"
-            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_facebook_login" />
 
@@ -93,14 +84,10 @@
 
         <TextView
             android:id="@+id/text_slogan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CreateModuleStyle"
             android:layout_marginBottom="6dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@string/login_slogan"
             android:textColor="@color/mustard"
-            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/image_logo"
             app:layout_constraintEnd_toEndOf="parent"

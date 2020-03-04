@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -22,6 +22,8 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_spinner_title"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:taskCategory="@{categoryId}"
@@ -29,19 +31,16 @@
 
         <TextView
             android:id="@+id/text_spinner_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:lineSpacingExtra="8sp"
             android:text="@{title}"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/category_food" />

@@ -44,15 +44,11 @@
 
             <TextView
                 android:id="@+id/text_profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
+                style="@style/TaskTextStyle"
                 android:singleLine="true"
                 android:text="@{viewModel.user.userName}"
                 android:textColor="@color/white"
-                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/text_profile_level"
                 app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
@@ -61,13 +57,9 @@
 
             <TextView
                 android:id="@+id/text_profile_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:maxLines="1"
+                style="@style/CreateModuleStyle"
+                android:singleLine="true"
                 android:textColor="@color/gray_f0f0f0"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/text_profile_level_info"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_name"
                 app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
@@ -144,14 +136,9 @@
 
             <TextView
                 android:id="@+id/text_profile_level_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:maxLines="1"
-                android:textAlignment="center"
+                style="@style/CreateModuleStyle"
+                android:singleLine="true"
                 android:textColor="@color/gray_f0f0f0"
-                android:textSize="12sp"
                 app:experience="@{viewModel.user.experience}"
                 app:layout_constraintBottom_toTopOf="@+id/progress_bar_level"
                 app:layout_constraintStart_toStartOf="@+id/text_profile_name"
@@ -174,18 +161,15 @@
 
             <TextView
                 android:id="@+id/text_profile_info"
+                style="@style/CreateModuleStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="@{viewModel.user.userName}"
                 android:textColor="@color/gray_f0f0f0"
                 android:textIsSelectable="false"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/progress_bar_level"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/progress_bar_level"
@@ -210,15 +194,10 @@
 
                 <TextView
                     android:id="@+id/text_competition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/TaskTextStyle"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="@font/noto_sans"
-                    android:letterSpacing="0.15"
                     android:text="@string/profile_competition"
-                    android:textColor="@color/black_3f3a3a"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -276,6 +255,7 @@
 
                     <EditText
                         android:id="@+id/edit_murmur"
+                        style="@style/WorkoutTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="28dp"
                         android:layout_marginStart="8dp"
@@ -283,11 +263,8 @@
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/tag_button"
                         android:ems="10"
-                        android:fontFamily="@font/noto_sans"
-                        android:letterSpacing="0.15"
                         android:paddingHorizontal="16dp"
                         android:text="@={viewModel.editMurmur}"
-                        android:textSize="14sp"
                         android:visibility="@{(viewModel.onGoingTasks== null || viewModel.editing==null)?View.INVISIBLE:View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/image_sent_murmur"
                         app:layout_constraintStart_toStartOf="parent"
@@ -295,14 +272,9 @@
 
                     <TextView
                         android:id="@+id/text_no_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/noto_sans"
-                        android:letterSpacing="0.15"
+                        style="@style/CreateModuleStyle"
                         android:text="@string/profile_no_data"
-                        android:textAlignment="center"
                         android:textColor="@color/honey"
-                        android:textSize="12sp"
                         android:visibility="@{viewModel.onGoingTasks== null ?View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -313,14 +285,9 @@
 
                 <TextView
                     android:id="@+id/text_complete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/TaskTextStyle"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/noto_sans"
-                    android:letterSpacing="0.15"
                     android:text="@string/profile_complete"
-                    android:textColor="@color/black_3f3a3a"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/text_competition"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_competition" />

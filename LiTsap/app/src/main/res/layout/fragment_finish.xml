@@ -31,15 +31,9 @@
 
         <TextView
             android:id="@+id/text_workout_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            style="@style/TaskTextStyle"
             android:ellipsize="marquee"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@{viewModel.workout.taskName}"
-            android:textAlignment="textEnd"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
             app:layout_constraintEnd_toStartOf="@+id/text_workout_module"
@@ -61,15 +55,9 @@
 
         <TextView
             android:id="@+id/text_workout_module"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            style="@style/TaskTextStyle"
             android:ellipsize="marquee"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@{viewModel.workout.moduleName}"
-            android:textAlignment="textStart"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_workout_task"
             app:layout_constraintEnd_toStartOf="@+id/task_logo_medium"
@@ -79,14 +67,9 @@
 
         <TextView
             android:id="@+id/text_footprint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@string/footprint"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/task_logo_big"
             app:layout_constraintTop_toBottomOf="@+id/task_logo_big" />
@@ -129,13 +112,8 @@
 
         <TextView
             android:id="@+id/text_point"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
+            style="@style/TaskTextStyle"
             android:text="@string/finish_point"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/text_experience"
             app:layout_constraintStart_toStartOf="@+id/image_star4"
@@ -143,14 +121,9 @@
 
         <TextView
             android:id="@+id/text_feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginBottom="4dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@string/feedback"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/task_finish_thought"
             app:layout_constraintStart_toStartOf="@+id/text_footprint" />
@@ -177,15 +150,11 @@
 
         <TextView
             android:id="@+id/text_experience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/honey"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:textColor="@color/honey"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/divider"
             app:layout_constraintEnd_toStartOf="@+id/divider"
@@ -313,13 +282,8 @@
 
         <TextView
             android:id="@+id/text_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
+            style="@style/TaskTextStyle"
             android:text="@string/finish_picture"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/image_display"
             app:layout_constraintStart_toStartOf="@+id/image_display"

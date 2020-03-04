@@ -43,14 +43,9 @@
 
         <TextView
             android:id="@+id/task_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
+            style="@style/TaskTextStyle"
             android:text="@{task.taskName}"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintStart_toEndOf="@+id/task_logo_medium"
             app:layout_constraintTop_toTopOf="@+id/task_logo_medium"

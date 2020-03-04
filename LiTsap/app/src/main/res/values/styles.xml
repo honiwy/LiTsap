@@ -21,8 +21,32 @@
         <item name="colorAccent">@color/black_3f3a3a</item>
     </style>
 
-    <style name="Header">
-        <item name="colorAccent">@color/white</item>
+
+    <style name="CreateModuleStyle">
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="WorkoutTextStyle" parent="CreateModuleStyle">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TaskTextStyle" parent="CreateModuleStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="WorkoutAnnounceStyle" parent="CreateModuleStyle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="WorkoutTimerStyle" parent="CreateModuleStyle">
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="ProgressThemeDark" parent="Widget.AppCompat.ProgressBar">

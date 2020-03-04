@@ -31,18 +31,11 @@
 
         <TextView
             android:id="@+id/text_task_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/WorkoutAnnounceStyle"
             android:layout_marginStart="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="40dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@{viewModel.task.taskName}"
-            android:textAlignment="center"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/image_back"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,12 +45,8 @@
 
         <TextView
             android:id="@+id/task_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CreateModuleStyle"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_task_title"
@@ -76,15 +65,10 @@
 
         <TextView
             android:id="@+id/text_choose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@string/task_choose"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/task_status" />
@@ -110,22 +94,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:modules="@{viewModel.modules}"
-                app:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+                app:spanCount="2"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/text_module_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@string/task_module"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_total" />
@@ -187,14 +166,9 @@
 
         <TextView
             android:id="@+id/text_workout_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:text="@string/task_workout_time"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/text_choose"
             app:layout_constraintTop_toBottomOf="@+id/constraint_module" />
@@ -272,12 +246,7 @@
 
             <TextView
                 android:id="@+id/text_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:letterSpacing="0.15"
-                android:textColor="@color/black_3f3a3a"
-                android:textSize="16sp"
+                style="@style/TaskTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -290,14 +259,9 @@
 
         <TextView
             android:id="@+id/text_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TaskTextStyle"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
-            android:textColor="@color/black_3f3a3a"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraint_time"
