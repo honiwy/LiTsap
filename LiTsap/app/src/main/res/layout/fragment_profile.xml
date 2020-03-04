@@ -252,8 +252,8 @@
 
                     <ImageView
                         android:id="@+id/image_setting_murmur"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/size_small"
+                        android:layout_height="@dimen/size_small"
                         android:layout_marginEnd="8dp"
                         android:onClick="@{()-> viewModel.attemptEditMurmur()}"
                         android:visibility="@{(viewModel.onGoingTasks!= null &amp;&amp; viewModel.editing==null)?View.VISIBLE:View.INVISIBLE}"
@@ -264,8 +264,8 @@
 
                     <ImageView
                         android:id="@+id/image_sent_murmur"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/size_small"
+                        android:layout_height="@dimen/size_small"
                         android:layout_marginEnd="8dp"
                         android:onClick="@{()->viewModel.sentEditMurmur()}"
                         android:visibility="@{(viewModel.onGoingTasks== null || viewModel.editing == null)?View.INVISIBLE:View.VISIBLE}"

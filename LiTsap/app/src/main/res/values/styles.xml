@@ -21,6 +21,10 @@
         <item name="colorAccent">@color/black_3f3a3a</item>
     </style>
 
+    <style name="Header">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
     <style name="ProgressThemeDark" parent="Widget.AppCompat.ProgressBar">
         <item name="colorAccent">@color/white</item>
     </style>

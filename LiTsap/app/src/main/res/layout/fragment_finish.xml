@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/task_logo_big"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/size_medium"
+            android:layout_height="@dimen/size_medium"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,8 +50,8 @@
 
         <ImageView
             android:id="@+id/task_logo_medium"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/size_medium"
+            android:layout_height="@dimen/size_medium"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
             app:layout_constraintEnd_toEndOf="parent"
@@ -119,8 +119,8 @@
 
             <ImageView
                 android:id="@+id/image_foot"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/size_medium"
+                android:layout_height="@dimen/size_medium"
                 android:onClick="@{()->viewModel.copyFootprint()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/recycler_footprint"
@@ -192,7 +192,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_point"
             app:receiveExperience="@{viewModel.workout.achieveSectionCount}"
-            tools:text="XP 25" />
+            tools:text="經驗值 25" />
 
 
         <ImageView
@@ -215,6 +215,7 @@
             android:layout_marginEnd="4dp"
             android:visibility="@{viewModel.workout.achieveSectionCount>1? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@+id/image_star"
+            app:layout_constraintStart_toEndOf="@+id/image_star3"
             app:layout_constraintTop_toTopOf="@+id/image_star"
             app:srcCompat="@drawable/star" />
 
@@ -234,12 +235,12 @@
             android:id="@+id/image_star4"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="4dp"
 
-            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
             android:visibility="@{viewModel.workout.achieveSectionCount>3? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/image_star3"
             app:layout_constraintEnd_toStartOf="@+id/text_experience"
+            app:layout_constraintTop_toTopOf="@+id/image_star5"
             app:srcCompat="@drawable/star" />
 
         <ImageView
@@ -301,8 +302,8 @@
 
         <ImageView
             android:id="@+id/image_choose"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="@dimen/size_large"
+            android:layout_height="@dimen/size_large"
             android:visibility='@{viewModel.filePath==null? View.VISIBLE:View.INVISIBLE}'
             app:layout_constraintBottom_toBottomOf="@+id/image_display"
             app:layout_constraintEnd_toEndOf="@+id/image_display"

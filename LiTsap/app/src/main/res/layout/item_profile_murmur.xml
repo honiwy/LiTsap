@@ -51,7 +51,7 @@
 
         <ImageView
             android:id="@+id/image_man"
-            android:layout_width="25dp"
+            android:layout_width="@dimen/size_small"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/text_member_name"

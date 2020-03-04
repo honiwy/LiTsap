@@ -71,9 +71,10 @@
 
         <ImageView
             android:id="@+id/image_facebook"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/size_medium"
+            android:layout_height="@dimen/size_medium"
             android:layout_marginStart="8dp"
+            android:onClick="@{()->viewModel.loginFacebook()}"
             app:layout_constraintBottom_toBottomOf="@+id/button_facebook_login"
             app:layout_constraintStart_toEndOf="@+id/button_facebook_login"
             app:layout_constraintTop_toTopOf="@+id/button_facebook_login"
@@ -81,9 +82,10 @@
 
         <ImageView
             android:id="@+id/image_google"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/size_medium"
+            android:layout_height="@dimen/size_medium"
             android:layout_marginStart="10dp"
+            android:onClick="@{()->viewModel.loginGoogle()}"
             app:layout_constraintBottom_toBottomOf="@+id/button_google_login"
             app:layout_constraintStart_toEndOf="@+id/button_google_login"
             app:layout_constraintTop_toTopOf="@+id/button_google_login"

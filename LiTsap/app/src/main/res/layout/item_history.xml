@@ -98,8 +98,8 @@
 
             <ImageView
                 android:id="@+id/image_clock"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="@dimen/size_tiny"
+                android:layout_height="@dimen/size_tiny"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_time"
                 app:layout_constraintEnd_toStartOf="@+id/text_time"
@@ -108,8 +108,8 @@
 
             <ImageView
                 android:id="@+id/image_star"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="@dimen/size_tiny"
+                android:layout_height="@dimen/size_tiny"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/achieve_point"
                 app:layout_constraintEnd_toStartOf="@+id/achieve_point"

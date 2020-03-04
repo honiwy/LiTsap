@@ -30,8 +30,8 @@
 
             <ImageButton
                 android:id="@+id/button_close"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/size_small"
+                android:layout_height="@dimen/size_small"
                 android:background="@drawable/close"
                 android:backgroundTint="@color/honey"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -151,8 +151,8 @@
 
             <ImageButton
                 android:id="@+id/button_module_add"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/size_small"
+                android:layout_height="@dimen/size_small"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/plus"
                 android:backgroundTint="@{viewModel.newModule.length()>6||viewModel.newModule.empty ?@color/gray_888888: @color/honey}"
@@ -225,8 +225,8 @@
 
             <ImageButton
                 android:id="@+id/button_time_increase"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/size_small"
+                android:layout_height="@dimen/size_small"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/plus"
                 android:backgroundTint="@color/honey"
@@ -237,8 +237,8 @@
 
             <ImageButton
                 android:id="@+id/button_add2cart_decrease"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/size_small"
+                android:layout_height="@dimen/size_small"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/minus"
                 android:backgroundTint="@{viewModel.amount > 1 ? @color/honey : @color/gray_999999}"

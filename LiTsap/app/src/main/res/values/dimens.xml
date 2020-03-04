@@ -9,6 +9,12 @@
     <dimen name="height_bottom_nav_view_main">55dp</dimen>
     <dimen name="size_bottom_nav_icon">25dp</dimen>
 
+    <!-- Global -->
+    <dimen name="size_tiny">14dp</dimen>
+    <dimen name="size_small">24dp</dimen>
+    <dimen name="size_medium">44dp</dimen>
+    <dimen name="size_large">64dp</dimen>
+
     <!-- General -->
     <dimen name="elevation_all">4dp</dimen>
     <dimen name="height_all_bottom_layout">50dp</dimen>

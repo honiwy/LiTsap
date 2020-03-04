@@ -56,8 +56,8 @@
 
             <ImageView
                 android:id="@+id/button_confirm"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/size_small"
+                android:layout_height="@dimen/size_small"
                 android:background="@drawable/tick"
                 android:backgroundTint="@color/honey"
                 app:layout_constraintEnd_toEndOf="parent"
