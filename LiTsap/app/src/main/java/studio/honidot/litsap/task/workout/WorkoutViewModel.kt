@@ -86,8 +86,12 @@ class WorkoutViewModel(
     init {
         _totalTaskRemained.value = arguments.displayProcess
         _musicPlay.value = true
-        startTaskCountDownTimer(arguments.workoutTime * 1000)
+        startTaskCountDownTimer(arguments.workoutTime * SECOND_TO_MILLISECOND)
 
+    }
+
+    companion object{
+        const val SECOND_TO_MILLISECOND = 1000
     }
 
     private val _isCountingRest = MutableLiveData<Boolean>()
@@ -99,7 +103,7 @@ class WorkoutViewModel(
             taskCountDownTimer.cancel()
             _isCountingTask.value = false
         } else {
-            startTaskCountDownTimer(_totalTaskRemained.value!! * 1000L)
+            startTaskCountDownTimer(_totalTaskRemained.value!! * SECOND_TO_MILLISECOND.toLong())
         }
     }
 
@@ -118,16 +122,16 @@ class WorkoutViewModel(
     }
 
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
-        taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, 1000) {
+        taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, SECOND_TO_MILLISECOND.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 _workout.value?.let {wo->
-                    _totalTaskRemained.value = (millisUntilFinished / 1000).toInt()
+                    _totalTaskRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
                     if (_totalTaskRemained.value!!.rem(Workout.WORKOUT_TIME) == 0 && _totalTaskRemained.value != 0) {
                         _isCountingRest.value = true
                         _musicPlay.value = null
                         wo.achieveSectionCount += 1
                         pausePlayTimer()
-                        startRestCountDownTimer(Workout.BREAK_TIME * 1000L)
+                        startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
                     }
                 }
             }
@@ -149,7 +153,7 @@ class WorkoutViewModel(
         get() = _totalRestRemained
 
     private fun startRestCountDownTimer(timeCountInMilliSeconds: Long) {
-        restCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds, 1000) {
+        restCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 _totalRestRemained.value = (millisUntilFinished / 1000).toInt()
             }
@@ -164,7 +168,6 @@ class WorkoutViewModel(
     }
 
 
-    // Detail has product data from arguments
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
     }

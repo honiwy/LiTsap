@@ -1,6 +1,5 @@
 package studio.honidot.litsap.util
 
-import android.graphics.Color
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
 

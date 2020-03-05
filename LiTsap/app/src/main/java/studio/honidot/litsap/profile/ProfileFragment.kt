@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.databinding.FragmentProfileBinding
@@ -36,10 +37,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-private const val BAR_CHART_DRAW_DAYS = 7
-private const val ONE_DAY_MILLI_SECOND = 86400 * 1000
-private const val CHART_ANIMATION_TIME = 1000
-
 class ProfileFragment : Fragment() {
     private val viewModel by viewModels<ProfileViewModel> {
         getVmFactory(
@@ -47,6 +44,12 @@ class ProfileFragment : Fragment() {
                 arguments!!
             ).userIdKey
         )
+    }
+
+    companion object {
+        private const val BAR_CHART_DRAW_DAYS = 7
+        private const val ONE_DAY_MILLI_SECOND = 86400 * 1000
+        private const val CHART_ANIMATION_TIME = 1000
     }
 
     override fun onCreateView(
@@ -111,7 +114,7 @@ class ProfileFragment : Fragment() {
 //        handler.postDelayed(runnable, 2000)
 //        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
 //        binding.recyclerMurmur.layoutManager = layoutManager
-        binding.recyclerMurmur.adapter =  adapter
+        binding.recyclerMurmur.adapter = adapter
 
 
         viewModel.historyPoints.observe(this, Observer {
@@ -135,7 +138,8 @@ class ProfileFragment : Fragment() {
         taskCount: Int
     ) {
         val formatter = DateTimeFormatter.ofPattern(
-            LiTsapApplication.instance.getString(R.string.barchart_month_date))
+            instance.getString(R.string.barchart_month_date)
+        )
 
         val xDate = ArrayList<String>()
         val yEntry = ArrayList<BarEntry>()
@@ -178,7 +182,6 @@ class ProfileFragment : Fragment() {
                 val timeTo = (Calendar.getInstance().timeInMillis - ONE_DAY_MILLI_SECOND * (i - 1))
                 if (it.recordDate in timeFrom until timeTo) {
                     pointArrayList[dayCount - i][taskIndex] += it.achieveCount.toFloat()
-                    Logger.e("The history ${it.taskName} is done in ${dayCount - i}th day, got ${it.achieveCount} points")
                     break //if found the day belong, no need to run the remaining for loop
                 }
             }

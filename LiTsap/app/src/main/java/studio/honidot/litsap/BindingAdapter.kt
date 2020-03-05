@@ -26,6 +26,7 @@ import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 
@@ -115,7 +116,10 @@ fun bindRecyclerViewWithRecords(recyclerView: RecyclerView, records: List<Histor
 }
 
 @BindingAdapter("app:customLayoutManager")
-fun bindLayoutManagerForRecyclerView(recyclerView: RecyclerView, layoutManager: RecyclerView.LayoutManager?) {
+fun bindLayoutManagerForRecyclerView(
+    recyclerView: RecyclerView,
+    layoutManager: RecyclerView.LayoutManager?
+) {
     layoutManager?.let {
         recyclerView.layoutManager = it
     }
@@ -193,17 +197,30 @@ fun bindTime(textView: TextView, time: Int?) {
 @BindingAdapter("planAndAchieve")
 fun bindPlanAndAchieve(textView: TextView, task: Task?) {
     task?.let {
-        val textDisplay = instance.getString(
+        var textDisplay = instance.getString(
             R.string.task_plan,
             task.goalCount
-        ) + " → " + instance.getString(R.string.task_achieve, task.accumCount)
-        val countLength = task.accumCount.toString().length
+        )
+        val indexOfGoalCount = textDisplay.indexOf(task.goalCount.toString())
+        val countOfFirstHalf = textDisplay.length
+
+        val secondHalfString = instance.getString(R.string.task_achieve, task.accumCount)
+        val indexOfAccumCount = secondHalfString.indexOf(task.accumCount.toString())
+        textDisplay += secondHalfString
+
         val spannable = SpannableString(textDisplay)
         spannable.setSpan(
             ForegroundColorSpan(getColor(R.color.dark_red)),
-            textDisplay.length - 3 - countLength,
-            textDisplay.length - 3,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            countOfFirstHalf + indexOfAccumCount,
+            countOfFirstHalf + indexOfAccumCount + task.accumCount.toString().length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.dark_red)),
+            indexOfGoalCount,
+            indexOfGoalCount + task.goalCount.toString().length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         textView.text = spannable
     }

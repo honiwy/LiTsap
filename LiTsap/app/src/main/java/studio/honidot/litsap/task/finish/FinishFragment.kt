@@ -22,12 +22,14 @@ import kotlinx.android.synthetic.main.fragment_finish.*
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
+import studio.honidot.litsap.bindImage
 import studio.honidot.litsap.databinding.FragmentFinishBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.util.Logger
 import java.io.IOException
 
 class FinishFragment : Fragment() {
+
     private val viewModel by viewModels<FinishViewModel> {
         getVmFactory(
             FinishFragmentArgs.fromBundle(
@@ -36,7 +38,6 @@ class FinishFragment : Fragment() {
         )
     }
 
-    private val PICK_IMAGE_REQUEST = 71
 
 
     private fun launchGallery() {
@@ -84,13 +85,7 @@ class FinishFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
-                Glide.with(this).load(uri)
-                    .apply(
-                        RequestOptions().transform(CenterCrop(), RoundedCorners(15))
-                            .placeholder(R.drawable.gallery)
-                            .error(R.drawable.loggo)
-                    )
-                    .into(image_display)
+                bindImage(image_display, uri.toString())
                 viewModel.filePath.value = uri
             }
         }
@@ -138,6 +133,10 @@ class FinishFragment : Fragment() {
                     return
                 }
         }
+    }
+
+    companion object {
+        const val PICK_IMAGE_REQUEST = 71
     }
 
 }

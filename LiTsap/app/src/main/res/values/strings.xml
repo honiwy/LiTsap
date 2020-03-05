@@ -10,7 +10,7 @@
     <!--Login-->
     <string name="facebook">Facebook</string>
     <string name="login_with_name">以 %s 登入</string>
-    <string name="via_login">登入</string>
+    <string name="via_login">\u0020登入</string>
     <string name="google">Google</string>
     <string name="login_success">登入成功</string>
     <string name="login_slogan">Your Best Task Companion</string>
@@ -26,13 +26,13 @@
     <string name="mock_status">成為今天的前1%吧!</string>
     <string name="plenty_task_info">先完成手邊任務吧!</string>
     <!-- Task Create -->
-    <string name="task_name">任務名稱: </string>
+    <string name="task_name">任務名稱:</string>
     <string name="create_task_hint">%d/12</string>
-    <string name="set_module">任務細項: </string>
-    <string name="task_end">截止日期: </string>
-    <string name="task_count">目標單位: </string>
+    <string name="set_module">任務細項:</string>
+    <string name="task_end">截止日期:</string>
+    <string name="task_count">目標單位:</string>
     <string name="create_task_explain">20 分鐘/單位 </string>
-    <string name="task_category">選擇類別: </string>
+    <string name="task_category">選擇類別:</string>
     <string name="category_exercise">運動</string>
     <string name="category_wealth">財富</string>
     <string name="category_food">美食</string>
@@ -54,7 +54,7 @@
     <string name="task_choose">選擇執行細項:</string>
     <string name="task_workout_time">選擇執行單位:</string>
     <string name="task_module">細項執行狀況</string>
-    <string name="task_plan">計畫執行 %d 單位</string>
+    <string name="task_plan">計畫執行 %d 單位\u0020→\u0020</string>
     <string name="task_achieve">已執行 %d 單位</string>
     <string name="task_go">開始任務</string>
     <string name="task_hint">請在上方選擇...</string>
@@ -100,4 +100,5 @@
     <string name="post_record_time">HH : mm</string>
     <string name="workout_count_down">%02d:%02d</string>
     <string name="detail_end_date">截止時間: yyyy 年 MM 月 dd 日</string>
+    <string name="post_record_date">dd/MM/yyyy</string>
 </resources>
