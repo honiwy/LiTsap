@@ -8,11 +8,11 @@
     <string name="post">足跡</string>
     <string name="profile">個人</string>
     <!--Login-->
-    <string name="facebook_login">Facebook 登入</string>
+    <string name="facebook">Facebook</string>
     <string name="login_with_name">以 %s 登入</string>
-    <string name="google_login">Google 登入</string>
+    <string name="via_login">登入</string>
+    <string name="google">Google</string>
     <string name="login_success">登入成功</string>
-    <string name="google_login_info">"Available soon!"</string>
     <string name="login_slogan">Your Best Task Companion</string>
 
     <string name="app_name">LiTsap</string>
@@ -85,6 +85,7 @@
     <string name="profile_no_data">建立任務來找到共同目標的夥伴</string>
     <string name="profile_level">等級 %d</string>
     <string name="profile_experience">經驗值 %d</string>
+    <string name="profile_experience2">經驗值 %d/%d</string>
     <string name="profile_level_information">還有 %d 個任務未執行，再努力一下吧？</string>
     <string name="profile_level_information_done">今天都完成了！棒！</string>
     <string name="profile_level_information_cry">目前尚未安排任務</string>
@@ -94,5 +95,9 @@
     <string name="profile_update">更新</string>
     <!-- Choose face -->
     <string name="dialog_choose_face">選擇頭像:</string>
-    <string name="dialog_confirm">確認</string>
+    <!-- Date Pattern -->
+    <string name="barchart_month_date">MMM dd</string>
+    <string name="post_record_time">HH : mm</string>
+    <string name="workout_count_down">%02d:%02d</string>
+    <string name="detail_end_date">截止時間: yyyy 年 MM 月 dd 日</string>
 </resources>

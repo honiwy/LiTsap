@@ -2,13 +2,18 @@ package studio.honidot.litsap.profile
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
@@ -17,18 +22,23 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.profile.face.FaceChooseDialog
+import studio.honidot.litsap.util.ChartColor
 import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 private const val BAR_CHART_DRAW_DAYS = 7
+private const val ONE_DAY_MILLI_SECOND = 86400 * 1000
+private const val CHART_ANIMATION_TIME = 1000
 
 class ProfileFragment : Fragment() {
     private val viewModel by viewModels<ProfileViewModel> {
@@ -49,7 +59,7 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.imageProfileAvatar.setOnClickListener {
-            FaceChooseDialog().show(childFragmentManager, "dot")
+            FaceChooseDialog().show(childFragmentManager, "face")
         }
 
 
@@ -60,8 +70,49 @@ class ProfileFragment : Fragment() {
                 viewModel.getMurmur(it.groupId)
             })
 
+
         val adapter = MurmurAdapter(viewModel)
-        binding.recyclerMurmur.adapter = adapter
+
+
+//        val layoutManager: LinearLayoutManager = object : LinearLayoutManager(context) {
+//            override fun smoothScrollToPosition(
+//                recyclerView: RecyclerView,
+//                state: RecyclerView.State,
+//                position: Int
+//            ) {
+//                try {
+//                    val smoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(
+//                        Objects.requireNonNull(context)
+//                    ) {
+//                        private val SPEED = 3500f // Change this value (default=25f)
+//                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+//                            return SPEED / displayMetrics.densityDpi
+//                        }
+//                    }
+//                    smoothScroller.targetPosition = position
+//                    startSmoothScroll(smoothScroller)
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+//        }
+//
+//        val handler = Handler()
+//        val runnable: Runnable = object : Runnable {
+//            var count = 0
+//            override fun run() {
+//                if (count == adapter.itemCount) count = 0
+//                if (count < adapter.itemCount) {
+//                    binding.recyclerMurmur.smoothScrollToPosition(count++)
+//                    handler.postDelayed(this, 2000)
+//                }
+//            }
+//        }
+//        handler.postDelayed(runnable, 2000)
+//        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+//        binding.recyclerMurmur.layoutManager = layoutManager
+        binding.recyclerMurmur.adapter =  adapter
+
 
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
@@ -83,8 +134,8 @@ class ProfileFragment : Fragment() {
         dayCount: Int,
         taskCount: Int
     ) {
-        val colorTable = listOf("#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8", "#41a8d1")
-        val formatter = DateTimeFormatter.ofPattern("MMM dd")
+        val formatter = DateTimeFormatter.ofPattern(
+            LiTsapApplication.instance.getString(R.string.barchart_month_date))
 
         val xDate = ArrayList<String>()
         val yEntry = ArrayList<BarEntry>()
@@ -107,24 +158,24 @@ class ProfileFragment : Fragment() {
         var name = sortedHistory[historyIndex].taskName
         val legendEntry = LegendEntry().apply {
             label = sortedHistory[historyIndex].taskName
-            formColor = Color.parseColor(colorTable[taskIndex])
+            formColor = ChartColor.getColor(taskIndex)
         }
-        colors.add(Color.parseColor(colorTable[taskIndex]))
+        colors.add(ChartColor.getColor(taskIndex))
         legends.add(legendEntry)
         sortedHistory.forEach {
             if (it.taskName != name) { // found a different task
                 taskIndex += 1
                 val legendEntry = LegendEntry().apply {
                     label = it.taskName
-                    formColor = Color.parseColor(colorTable[taskIndex])
+                    formColor = ChartColor.getColor(taskIndex)
                 }
-                colors.add(Color.parseColor(colorTable[taskIndex]))
+                colors.add(ChartColor.getColor(taskIndex))
                 legends.add(legendEntry)
                 name = it.taskName
             }
             for (i in dayCount downTo 1) {
-                val timeFrom = (Calendar.getInstance().timeInMillis - 86400*1000 * i)
-                val timeTo = (Calendar.getInstance().timeInMillis - 86400*1000 * (i-1))
+                val timeFrom = (Calendar.getInstance().timeInMillis - ONE_DAY_MILLI_SECOND * i)
+                val timeTo = (Calendar.getInstance().timeInMillis - ONE_DAY_MILLI_SECOND * (i - 1))
                 if (it.recordDate in timeFrom until timeTo) {
                     pointArrayList[dayCount - i][taskIndex] += it.achieveCount.toFloat()
                     Logger.e("The history ${it.taskName} is done in ${dayCount - i}th day, got ${it.achieveCount} points")
@@ -138,7 +189,6 @@ class ProfileFragment : Fragment() {
             yEntry.add(BarEntry(i.toFloat(), pointArrayList[i]))
         }
 
-
         val barDataSet = BarDataSet(yEntry, "")
         barDataSet.colors = colors
         barDataSet.setDrawValues(false)
@@ -146,13 +196,13 @@ class ProfileFragment : Fragment() {
         chart.apply {
             data = BarData(barDataSet)
             xAxis.setDrawGridLines(false)
-            chart.description.isEnabled = false
+            description.isEnabled = false
             xAxis.valueFormatter = IndexAxisValueFormatter(xDate)
             legend.setCustom(legends)
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
             xAxis.position = XAxis.XAxisPosition.BOTTOM
-            animateY(1000)
+            animateY(CHART_ANIMATION_TIME)
             setScaleEnabled(false)
             invalidate()
             notifyDataSetChanged()

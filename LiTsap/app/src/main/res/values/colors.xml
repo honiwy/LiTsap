@@ -13,6 +13,14 @@
     <color name="yale">#41a8d1</color>
     <color name="maya">#84eaff</color>
 
+    <!-- Chart -->
+    <color name="chart_1">@color/mustard</color>
+    <color name="chart_2">#bdd176</color>
+    <color name="chart_3">#81ce8f</color>
+    <color name="chart_4">#45c6af</color>
+    <color name="chart_5">#15b9c8</color>
+    <color name="chart_6">@color/yale</color>
+
     <!-- Transparent Series -->
     <color name="translucent_80">#cc000000</color>
     <color name="translucent_half">#80000000</color>

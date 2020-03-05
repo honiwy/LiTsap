@@ -31,21 +31,25 @@ class FaceChooseDialog : DialogFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerFacelist.adapter = FaceAdapter(viewModel)
+        binding.recyclerFacelist.apply {
+            adapter = FaceAdapter(viewModel)
 
-        binding.recyclerFacelist.layoutManager =
-            GridLayoutManager(
-                context,
-                Resources.getSystem().displayMetrics.widthPixels / LiTsapApplication.instance.resources.getDimensionPixelSize(
-                    R.dimen.face_size
+            layoutManager =
+                GridLayoutManager(
+                    context,
+                    Resources.getSystem().displayMetrics.widthPixels / LiTsapApplication.instance.resources.getDimensionPixelSize(
+                        R.dimen.face_size
+                    )
                 )
-            )
+        }
 
         binding.buttonConfirm.setOnClickListener {
-            viewModel.updateUserIcon(
-                FirebaseAuth.getInstance().currentUser!!.uid,
-                viewModel.selectedFacePosition.value!!
-            )
+            FirebaseAuth.getInstance().currentUser?.let {
+                viewModel.updateUserIcon(
+                    it.uid,
+                    viewModel.selectedFacePosition.value?:0
+                )
+            }
             dismiss()
         }
 

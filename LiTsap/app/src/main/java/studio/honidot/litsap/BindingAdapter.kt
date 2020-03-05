@@ -1,6 +1,9 @@
 package studio.honidot.litsap
 
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.format.DateFormat
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -23,10 +26,10 @@ import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
-import studio.honidot.litsap.util.Logger
+import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 
-//Task List
+//Task  Fragment
 @BindingAdapter("taskItems")
 fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<TaskItem>?) {
     taskItems?.let {
@@ -76,73 +79,30 @@ fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
         }
 }
 
+
 //Login
 @BindingAdapter("bindUserNameFB")
 fun bindUserNameFB(textView: TextView, user: User?) {
-
-    textView.text =  if (user != null && user.loginVia == "Facebook"){
+    val s = instance.getString(R.string.facebook)
+    textView.text = if (user != null && user.loginVia == s) {
         instance.getString(R.string.login_with_name, user.userName)
-    }
-    else{
-        instance.getString(R.string.facebook_login)
+    } else {
+        s + instance.getString(R.string.via_login)
     }
 }
 
 @BindingAdapter("bindUserNameGoogle")
 fun bindUserNameGoogle(textView: TextView, user: User?) {
-    textView.text =  if (user != null && user.loginVia == "Google"){
-       instance.getString(R.string.login_with_name, user.userName)
-    }
-    else{
-        instance.getString(R.string.google_login)
-    }
-}
-
-@BindingAdapter("murmurs")
-fun bindRecyclerViewWithMurmurs(recyclerView: RecyclerView, murmurs: List<Member>?) {
-    murmurs?.let {
-        recyclerView.adapter?.apply {
-            when (this) {
-                is MurmurAdapter -> submitList(it)
-            }
-        }
-    }
-}
-
-@BindingAdapter("onGoingTasks")
-fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, onGoingTasks: List<Task>?) {
-    onGoingTasks?.let {
-        recyclerView.adapter?.apply {
-            when (this) {
-                is CompetitionAdapter -> submitList(it)
-            }
-        }
+    val s = instance.getString(R.string.google)
+    textView.text = if (user != null && user.loginVia == s) {
+        instance.getString(R.string.login_with_name, user.userName)
+    } else {
+        s + instance.getString(R.string.via_login)
     }
 }
 
 
-
-//@BindingAdapter("boldPartialText", "startIndex", "endIndex","color")
-//fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int, color: String) {
-//    text?.let {
-//        val spannable = SpannableString(text)
-////        ForegroundColorSpan(getColor(R.color.white)),
-//        spannable.setSpan(
-//            ForegroundColorSpan(Color.parseColor(color)),
-//            start,
-//            end,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//        spannable.setSpan(
-//            StyleSpan(BOLD),
-//            start, end,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//        textView.text = spannable
-//    }
-//}
-
-//Post
+//Post Fragment
 @BindingAdapter("records")
 fun bindRecyclerViewWithRecords(recyclerView: RecyclerView, records: List<History>?) {
     records?.let {
@@ -170,17 +130,20 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .apply(
                 RequestOptions().transform(CenterCrop(), RoundedCorners(15))
                     .placeholder(R.drawable.loggo)
-                    .error(R.drawable.loggo))
+                    .error(R.drawable.loggo)
+            )
             .into(imgView)
     }
 }
 
 @BindingAdapter("minuteHourConverter")
 fun bindMinuteHourLong(textView: TextView, timeLong: Long) {
-    textView.text = DateFormat.format("HH : mm", Date(timeLong)).toString()
+    textView.text =
+        DateFormat.format(instance.getString(R.string.post_record_time), Date(timeLong)).toString()
 }
 
-//Task Create
+
+//Create Dialog
 @BindingAdapter("tags")
 fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
     tags?.let {
@@ -202,7 +165,8 @@ fun bindModuleStringLength(textView: TextView, moduleString: String?) {
     moduleString?.let { textView.text = instance.getString(R.string.create_module_hint, it.length) }
 }
 
-//Task Detail
+
+//Detail Fragment
 @BindingAdapter("modules")
 fun bindRecyclerViewWithModules(recyclerView: RecyclerView, modules: List<Module>?) {
     modules?.let {
@@ -228,29 +192,36 @@ fun bindTime(textView: TextView, time: Int?) {
 
 @BindingAdapter("planAndAchieve")
 fun bindPlanAndAchieve(textView: TextView, task: Task?) {
-    task?.let{
-        textView.text = instance.getString(R.string.task_plan,task.goalCount) + " → " + instance.getString(R.string.task_achieve,task.accumCount)
+    task?.let {
+        val textDisplay = instance.getString(
+            R.string.task_plan,
+            task.goalCount
+        ) + " → " + instance.getString(R.string.task_achieve, task.accumCount)
+        val countLength = task.accumCount.toString().length
+        val spannable = SpannableString(textDisplay)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.dark_red)),
+            textDisplay.length - 3 - countLength,
+            textDisplay.length - 3,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        textView.text = spannable
     }
 }
 
 
-//Task CountDown
+//Workout Fragment
 @BindingAdapter("countDownTime")
 fun bindCountDownTime(textView: TextView, time: Int) {
     val min = time / 60
     val sec = time - min * 60
-    textView.text = String.format("%02d:%02d", min, sec)
-}
-
-
-@BindingAdapter("timerStampConverter")
-fun bindTimeStamp(textView: TextView, timeStamp: com.google.firebase.Timestamp) {
-    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日", timeStamp.toDate()).toString()
+    textView.text = String.format(instance.getString(R.string.workout_count_down), min, sec)
 }
 
 @BindingAdapter("timerLongConverter")
 fun bindTimeLong(textView: TextView, timeLong: Long) {
-    textView.text = DateFormat.format("截止時間: yyyy 年 MM 月 dd 日", Date(timeLong)).toString()
+    textView.text =
+        DateFormat.format(instance.getString(R.string.detail_end_date), Date(timeLong)).toString()
 }
 
 @BindingAdapter("messages")
@@ -264,7 +235,8 @@ fun bindRecyclerViewWithMessages(recyclerView: RecyclerView, tags: List<String>?
     }
 }
 
-//Task Finish
+
+//Finish Fragment
 @BindingAdapter("receiveExperience")
 fun bindReceiveExperience(textView: TextView, achieveSection: Int) {
     val xpAcquired = achieveSection * achieveSection
@@ -274,7 +246,6 @@ fun bindReceiveExperience(textView: TextView, achieveSection: Int) {
 @BindingAdapter("footprints")
 fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Workout?) {
     workoutResult?.let {
-        Logger.i("Hello bindRecyclerViewWithFootprints: ${workoutResult.recordInfo}")
         recyclerView.adapter?.apply {
             when (this) {
                 is FootprintAdapter -> submitList(it.recordInfo)
@@ -283,46 +254,8 @@ fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Wo
     }
 }
 
-//Profile
-@BindingAdapter("experience")
-fun bindExperience(textView: TextView, xp: Long) {
-    val next = xp + 25 - (xp % 25)
-    textView.text = instance.getString(R.string.profile_experience, xp) + "/$next"
-}
 
-@BindingAdapter("level")
-fun bindLevel(textView: TextView, level: Long) {
-    textView.text = instance.getString(R.string.profile_level, level)
-}
-
-@BindingAdapter("levelInfo")
-fun bindLevelInfo(textView: TextView, user: User?) {
-    user?.let {
-        textView.text = when {
-            user.ongoingTasks.isEmpty() -> instance.getString(R.string.profile_level_information_cry)
-            else -> {
-                val remaining = user.ongoingTasks.size - user.todayDoneCount
-                if (remaining == 0) {
-                    instance.getString(R.string.profile_level_information_done)
-                } else {
-                    instance.getString(R.string.profile_level_information, remaining)
-                }
-            }
-        }
-    }
-}
-
-@BindingAdapter("faces")
-fun bindRecyclerViewWithFaces(recyclerView: RecyclerView, faces: List<Int>?) {
-    faces?.let {
-        recyclerView.adapter?.apply {
-            when (this) {
-                is FaceAdapter -> submitList(it)
-            }
-        }
-    }
-}
-
+//Profile Fragment
 @BindingAdapter("userProfile")
 fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
     val userProfile = UserProfile.values()[userProfileId]
@@ -344,4 +277,67 @@ fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
             UserProfile.SOLDIER -> instance.getDrawable(R.drawable.profile_soldier)
             UserProfile.BEARDMAN -> instance.getDrawable(R.drawable.profile_beardman)
         }
+}
+
+@BindingAdapter("levelInfo")
+fun bindLevelInfo(textView: TextView, user: User?) {
+    user?.let {
+        textView.text = when {
+            user.ongoingTasks.isEmpty() -> instance.getString(R.string.profile_level_information_cry)
+            else -> {
+                val remaining = user.ongoingTasks.size - user.todayDoneCount
+                if (remaining == 0) {
+                    instance.getString(R.string.profile_level_information_done)
+                } else {
+                    instance.getString(R.string.profile_level_information, remaining)
+                }
+            }
+        }
+    }
+}
+
+@BindingAdapter("experience")
+fun bindExperience(textView: TextView, xp: Long) {
+    val next = xp + User.INTERVAL_CONSTANT - (xp % User.INTERVAL_CONSTANT)
+    textView.text = instance.getString(R.string.profile_experience2, xp, next)
+}
+
+@BindingAdapter("level")
+fun bindLevel(textView: TextView, level: Long) {
+    textView.text = instance.getString(R.string.profile_level, level)
+}
+
+@BindingAdapter("murmurs")
+fun bindRecyclerViewWithMurmurs(recyclerView: RecyclerView, murmurs: List<Member>?) {
+    murmurs?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is MurmurAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("onGoingTasks")
+fun bindRecyclerViewWithTaskTabs(recyclerView: RecyclerView, onGoingTasks: List<Task>?) {
+    onGoingTasks?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is CompetitionAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+
+//Face Dialog
+@BindingAdapter("faces")
+fun bindRecyclerViewWithFaces(recyclerView: RecyclerView, faces: List<Int>?) {
+    faces?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is FaceAdapter -> submitList(it)
+            }
+        }
+    }
 }
