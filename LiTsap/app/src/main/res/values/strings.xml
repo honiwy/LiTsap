@@ -14,7 +14,8 @@
     <string name="google">Google</string>
     <string name="login_success">登入成功</string>
     <string name="login_slogan">Your Best Task Companion</string>
-
+    <string name="login_via_unknown">Unknown</string>
+    <string name="login_name_unknown">無名氏</string>
     <string name="app_name">LiTsap</string>
     <string name="action_settings">Settings</string>
     <string name="you_know_nothing">You know nothing</string>
@@ -25,6 +26,10 @@
     <string name="mock_task">烹飪練習</string>
     <string name="mock_status">成為今天的前1%吧!</string>
     <string name="plenty_task_info">先完成手邊任務吧!</string>
+    <string name="task_delete_info">確定刪除任務嗎?\n所有歷史足跡將隨之刪除。</string>
+    <string name="task_delete_confirm">確定</string>
+    <string name="task_delete_cancel">取消</string>
+    <string name="task_delete">刪除 %s 任務</string>
     <!-- Task Create -->
     <string name="task_name">任務名稱:</string>
     <string name="create_task_hint">%d/12</string>

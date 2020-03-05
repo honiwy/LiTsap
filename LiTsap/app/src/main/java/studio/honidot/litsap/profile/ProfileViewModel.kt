@@ -49,7 +49,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         value = ""
     }
 
-    fun attemptEditMurmur(){
+    fun attemptEditMurmur() {
         _editing.value = true
     }
 
@@ -58,15 +58,13 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val editing: LiveData<Boolean>
         get() = _editing
 
-    fun sentEditMurmur(){
-        _user.value?.let{thisUser->
+    fun sentEditMurmur() {
+        _user.value?.let { thisUser ->
             _murmurs.value?.forEach {
-                if(it.userId == thisUser.userId)
-                {
-                    it.murmur = editMurmur.value ?:""
+                if (it.userId == thisUser.userId) {
+                    it.murmur = editMurmur.value ?: ""
                     coroutineScope.launch {
-                        val result = repository.updateMurmur(it)
-                        when (result) {
+                        when (repository.updateMurmur(it)) {
                             is Result.Success -> {
                                 getMurmur(it.groupId)
                             }
@@ -106,13 +104,13 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
-    private fun getGroupIdList(taskIdList: List<String>){
+    private fun getGroupIdList(taskIdList: List<String>) {
         //find groupMurmur depend on group id
         coroutineScope.launch {
             val result = repository.getTasks(taskIdList)
             _onGoingTasks.value = when (result) {
                 is Result.Success -> {
-                    if(result.data.isNotEmpty()) {
+                    if (result.data.isNotEmpty()) {
                         getMurmur(result.data[0].groupId)
                     }
                     result.data
@@ -135,7 +133,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             val result = repository.findUser(firebaseUserId)
             _user.value = when (result) {
                 is Result.Success -> {
-                    result.data?.let{
+                    result.data?.let {
                         val twoList = mutableListOf<String>()
                         if (it.ongoingTasks.isNotEmpty()) {
                             getGroupIdList(it.ongoingTasks)
@@ -144,7 +142,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                         if (it.historyTasks.isNotEmpty()) {
                             twoList.addAll(it.historyTasks)
                         }
-                        if(twoList.isNotEmpty()) {
+                        if (twoList.isNotEmpty()) {
                             retrieveHistoryPoints(twoList, BAR_CHART_DRAW_DAYS - 1)
                         }
                     }
@@ -164,17 +162,14 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     }
 
 
-
-
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
         coroutineScope.launch {
             val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
-                    Logger.w("result: ${result.data}")
-                    if(result.data.isNotEmpty()){
-                    result.data}
-                    else{
+                    if (result.data.isNotEmpty()) {
+                        result.data
+                    } else {
                         createMockHistory(taskIdList)
                         _historyPoints.value
                     }
@@ -192,28 +187,28 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
-    fun createMockHistory(taskIdList: List<String>) {
-            coroutineScope.launch {
-                val result = repository.getTasks(taskIdList)
-                _historyPoints.value = when (result) {
-                    is Result.Success -> {
-                        val tmpList = mutableListOf<History>()
-                        result.data.forEach {
-                            tmpList.add(History(taskId = it.taskId,taskName = it.taskName))
-                        }
-                        tmpList
+    private fun createMockHistory(taskIdList: List<String>) {
+        coroutineScope.launch {
+            val result = repository.getTasks(taskIdList)
+            _historyPoints.value = when (result) {
+                is Result.Success -> {
+                    val tmpList = mutableListOf<History>()
+                    result.data.forEach {
+                        tmpList.add(History(taskId = it.taskId, taskName = it.taskName))
                     }
-                    is Result.Fail -> {
-                        null
-                    }
-                    is Result.Error -> {
-                        null
-                    }
-                    else -> {
-                        null
-                    }
+                    tmpList
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
                 }
             }
+        }
     }
 
     override fun onCleared() {

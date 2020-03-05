@@ -57,22 +57,21 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     }
 
     fun addModule() {
-        if (moduleNameList.value!!.size < 6) {
-            newModule.value?.let {
-                moduleNameList.value!!.add(it)
-                moduleNameList.value = moduleNameList.value//Let observer detect the change
-                newModule.value = ""
+        moduleNameList.value?.let{list->
+            if (list.size < 6) {
+                newModule.value?.let {
+                    list.add(it.trim())
+                    moduleNameList.value = moduleNameList.value//Let observer detect the change
+                    newModule.value = ""
+                }
             }
-        } else {
-            Toast.makeText(
-                appContext,
-                instance.getString(R.string.plenty_module_info), Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
     fun removeModule(module: String) {
-        moduleNameList.value!!.remove(moduleNameList.value!!.findLast { it == module })
+        moduleNameList.value?.let{list->
+            list.remove(list.findLast { it == module })
+        }
         moduleNameList.value = moduleNameList.value
     }
 
@@ -138,7 +137,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     Logger.i("Task ongoing list update!")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let{
+                _count.value = it.plus(1)
+            }
         }
     }
 
@@ -163,13 +164,14 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 taskId = taskId,
                 taskName = title.value ?: "無任務名稱"
             )
-            val result = repository.createTaskHistory(history)
-            when (result) {
+            when (repository.createTaskHistory(history)) {
                 is Result.Success -> {
                     Logger.i("History create!")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let{
+                _count.value = it.plus(1)
+            }
         }
     }
 
@@ -204,7 +206,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     addMemberToGroup(Member(groupId,_user.value!!.userId,_user.value!!.userName,result.data,"Murmur"))
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let{
+                _count.value = it.plus(1)
+            }
         }
     }
 
@@ -220,7 +224,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     }
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let{
+                _count.value = it.plus(1)
+            }
         }
     }
     private fun createGroup(group: Group) {
@@ -236,8 +242,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
 
     private fun checkGroupFull(groupId: String){
         coroutineScope.launch {
-            val result = repository.checkGroupFull(groupId)
-            when (result) {
+            when (repository.checkGroupFull(groupId)) {
                 is Result.Success -> {
                     Logger.i("History create!")
                 }
@@ -248,8 +253,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
 
     private fun addMemberToGroup(member: Member) {
         coroutineScope.launch {
-            val result = repository.addMemberToGroup(member)
-            when (result) {
+            when (repository.addMemberToGroup(member)) {
                 is Result.Success -> {
                     checkGroupFull(member.groupId)
                 }

@@ -77,9 +77,7 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
 
     fun deleteUserOngoingTask(userId: String, taskId: String) {
         coroutineScope.launch {
-
-            val result = repository.deleteUserOngoingTask(userId, taskId)
-            when (result) {
+            when (repository.deleteUserOngoingTask(userId, taskId)) {
                 is Result.Success -> {
                     deleteTaskFromCollection(taskId)
                 }
@@ -98,8 +96,7 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
 
     private fun deleteTaskFromCollection(taskId: String) {
         coroutineScope.launch {
-            val result = repository.deleteTask(taskId)
-            when (result) {
+            when (repository.deleteTask(taskId)) {
                 is Result.Success -> {
                     Logger.d("Delete success")
                 }

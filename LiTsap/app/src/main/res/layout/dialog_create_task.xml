@@ -120,6 +120,7 @@
                 android:hint="@string/create_mock_module"
                 android:maxLength="6"
                 android:singleLine="true"
+                android:visibility="@{viewModel.moduleNameList.size()&lt;6? View.VISIBLE:View.INVISIBLE}"
                 android:text="@={viewModel.newModule}"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@+id/module_task"
@@ -133,6 +134,7 @@
                 android:layout_height="@dimen/size_small"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/plus"
+                android:visibility="@{viewModel.moduleNameList.size()&lt;6? View.VISIBLE:View.INVISIBLE}"
                 android:backgroundTint="@{viewModel.newModule.length()>6||viewModel.newModule.empty ?@color/gray_888888: @color/honey}"
                 android:clickable="@{viewModel.newModule.length()>6||viewModel.newModule.empty ? false:true}"
                 android:onClick="@{() -> viewModel.addModule()}"
@@ -254,6 +256,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans"
+                android:visibility="@{viewModel.moduleNameList.size()&lt;6? View.VISIBLE:View.INVISIBLE}"
                 android:letterSpacing="0.15"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/edit_module"
@@ -286,6 +289,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/text_count"
                 app:layout_constraintEnd_toStartOf="@+id/button_close"
                 app:layout_constraintTop_toTopOf="@+id/text_count" />
+
+            <TextView
+                android:id="@+id/text_module_max"
+                android:text="@string/plenty_module_info"
+                android:textColor="@color/dark_red"
+                style="@style/CreateModuleStyle"
+                android:visibility="@{viewModel.moduleNameList.size()&lt;6? View.INVISIBLE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_module"
+                app:layout_constraintStart_toStartOf="@+id/edit_module"
+                app:layout_constraintTop_toTopOf="@+id/edit_module" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

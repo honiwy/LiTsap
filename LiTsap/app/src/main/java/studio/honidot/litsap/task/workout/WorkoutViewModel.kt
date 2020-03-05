@@ -125,8 +125,9 @@ class WorkoutViewModel(
         taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, SECOND_TO_MILLISECOND.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 _workout.value?.let {wo->
-                    _totalTaskRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
-                    if (_totalTaskRemained.value!!.rem(Workout.WORKOUT_TIME) == 0 && _totalTaskRemained.value != 0) {
+                    val total = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
+                    _totalTaskRemained.value = total
+                    if (total.rem(Workout.WORKOUT_TIME) == 0 && total != 0) {
                         _isCountingRest.value = true
                         _musicPlay.value = null
                         wo.achieveSectionCount += 1
@@ -137,7 +138,9 @@ class WorkoutViewModel(
             }
 
             override fun onFinish() {
-                _workout.value!!.achieveSectionCount += 1
+                _workout.value?.let {
+                    it.achieveSectionCount += 1
+                }
                 _musicPlay.value = null
                 navigateToFinish()
             }
@@ -155,7 +158,7 @@ class WorkoutViewModel(
     private fun startRestCountDownTimer(timeCountInMilliSeconds: Long) {
         restCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
-                _totalRestRemained.value = (millisUntilFinished / 1000).toInt()
+                _totalRestRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
             }
 
             override fun onFinish() {

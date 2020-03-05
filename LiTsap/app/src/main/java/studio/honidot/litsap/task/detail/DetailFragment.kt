@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.data.Module
+import studio.honidot.litsap.util.ChartColor
 import java.text.DecimalFormat
 
 
@@ -61,12 +62,11 @@ class DetailFragment : Fragment() {
     }
 
     private fun drawPieChart(chart: PieChart, modules: List<Module>) {
-        val colorTable = listOf("#41a8d1", "#f8cd72", "#bdd176", "#81ce8f", "#45c6af", "#15b9c8")
         val yEntry = ArrayList<PieEntry>()
         val colors = ArrayList<Int>()
         modules.forEach { module ->
             if (module.achieveSection > 0) {
-                colors.add(Color.parseColor(colorTable[colors.size]))
+                colors.add(ChartColor.getColor(colors.size))
                 yEntry.add(PieEntry(module.achieveSection.toFloat(), module.moduleName))
             }
         }
@@ -97,7 +97,7 @@ class DetailFragment : Fragment() {
             setEntryLabelColor(Color.BLACK)
             setUsePercentValues(true)
             chart.legend.isEnabled = false
-            animateY(1000)
+            animateY(CHART_ANIMATION_TIME)
             invalidate()
         }
     }
@@ -107,5 +107,9 @@ class DetailFragment : Fragment() {
         override fun getFormattedValue(value: Float): String {
             return format.format(value) + " %"
         }
+    }
+
+    companion object {
+        private const val CHART_ANIMATION_TIME = 1000
     }
 }

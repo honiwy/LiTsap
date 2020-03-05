@@ -45,11 +45,11 @@ class FinishViewModel(
         viewModelJob.cancel()
     }
 
-    fun copyFootprint(){
+    fun copyFootprint() {
         _workout.value?.apply {
             note = ""
             recordInfo.forEach {
-                note += (it+"\n")
+                note += (it + "\n")
             }
         }
         _workout.value = _workout.value
@@ -57,8 +57,9 @@ class FinishViewModel(
 
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
-        if(arguments.recordInfo.isEmpty()){
-            arguments.recordInfo = listOf(LiTsapApplication.instance.getString(R.string.finish_no_footprint))
+        if (arguments.recordInfo.isEmpty()) {
+            arguments.recordInfo =
+                listOf(LiTsapApplication.instance.getString(R.string.finish_no_footprint))
         }
     }
     val workout: LiveData<Workout>
@@ -75,15 +76,13 @@ class FinishViewModel(
         _count.value = 0
         uploadImage(workout)
         updateTaskModule(workout)
-
         updateUserStatus(workout)
         updateTaskStatus(workout.taskId, workout.achieveSectionCount.toLong())
     }
 
     private fun updateTaskStatus(taskId: String, accumulationPoints: Long) {
         coroutineScope.launch {
-            val result = repository.updateTaskStatus(taskId, accumulationPoints)
-            when (result) {
+            when (repository.updateTaskStatus(taskId, accumulationPoints)) {
                 is Result.Success -> {
 
                 }
@@ -91,14 +90,15 @@ class FinishViewModel(
                     Logger.d("Oops! [updateTaskStatus] is failed")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
 
     private fun updateUserStatus(workout: Workout) {
         coroutineScope.launch {
-            val result = repository.updateUserStatus(workout)
-            when (result) {
+            when (repository.updateUserStatus(workout)) {
                 is Result.Success -> {
 
                 }
@@ -106,16 +106,16 @@ class FinishViewModel(
                     Logger.d("Oops! [updateUserStatus] is failed")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
 
 
-
     private fun createTaskHistory(history: History) {
         coroutineScope.launch {
-            val result = repository.createTaskHistory(history)
-            when (result) {
+            when (repository.createTaskHistory(history)) {
                 is Result.Success -> {
 
                 }
@@ -123,7 +123,9 @@ class FinishViewModel(
                     Logger.d("Oops! [createTaskHistory] is failed")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
 
     }
@@ -141,45 +143,37 @@ class FinishViewModel(
                     Logger.d("Oops! [updateTaskModule] is failed")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
 
     private fun uploadImage(workout: Workout) {
         coroutineScope.launch {
-            if(filePath.value==null){
-                createTaskHistory(
-                    History(
-                        workout.note,
-                        "",
-                        workout.achieveSectionCount,
-                        Calendar.getInstance().timeInMillis,
-                        workout.taskId,
-                        workout.taskName
-                    )
-                )
-            }else{
-                val result = repository.uploadImage(filePath.value!!)
-                when (result) {
+            filePath.value?.let {
+                when (val result = repository.uploadImage(filePath.value!!)) {
                     is Result.Success -> {
                         _workout.value!!.imageUri = result.data.toString()
-                        createTaskHistory(
-                            History(
-                                workout.note,
-                                result.data.toString(),
-                                workout.achieveSectionCount,
-                                Calendar.getInstance().timeInMillis,
-                                workout.taskId,
-                                workout.taskName
-                            )
-                        )
                     }
                     else -> {
                         Logger.d("Oops! [createTaskHistory] is failed")
                     }
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            createTaskHistory(
+                History(
+                    workout.note,
+                    if (filePath.value == null) "" else _workout.value!!.imageUri,
+                    workout.achieveSectionCount,
+                    Calendar.getInstance().timeInMillis,
+                    workout.taskId,
+                    workout.taskName
+                )
+            )
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
 

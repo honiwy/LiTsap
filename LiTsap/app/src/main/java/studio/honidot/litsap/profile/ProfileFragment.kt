@@ -50,6 +50,7 @@ class ProfileFragment : Fragment() {
         private const val BAR_CHART_DRAW_DAYS = 7
         private const val ONE_DAY_MILLI_SECOND = 86400 * 1000
         private const val CHART_ANIMATION_TIME = 1000
+        private const val DIALOG_FACE = "face"
     }
 
     override fun onCreateView(
@@ -62,7 +63,7 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.imageProfileAvatar.setOnClickListener {
-            FaceChooseDialog().show(childFragmentManager, "face")
+            FaceChooseDialog().show(childFragmentManager, DIALOG_FACE)
         }
 
 

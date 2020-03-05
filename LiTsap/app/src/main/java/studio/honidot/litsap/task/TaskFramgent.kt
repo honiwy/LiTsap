@@ -17,14 +17,15 @@ import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.databinding.FragmentTaskBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.task.create.TaskCreateDialog
-import studio.honidot.litsap.util.Logger
 
 class TaskFragment : Fragment() {
-    private val viewModel by viewModels<TaskViewModel> { getVmFactory(
-        TaskFragmentArgs.fromBundle(
-            arguments!!
-        ).userIdKey
-    ) }
+    private val viewModel by viewModels<TaskViewModel> {
+        getVmFactory(
+            TaskFragmentArgs.fromBundle(
+                arguments!!
+            ).userIdKey
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,17 +37,22 @@ class TaskFragment : Fragment() {
         binding.viewModel = viewModel
         binding.recyclerTask.adapter = TaskAdapter(TaskAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
-        },TaskAdapter.OnLongClickListener {
+        }, TaskAdapter.OnLongClickListener {
             viewModel.longPressTaskItem(it)
         })
         binding.fab.setOnClickListener {
             viewModel.taskItems.value?.let {
-                if (it.size >= (6+2)) {
-                    Toast.makeText(context, LiTsapApplication.instance.getString(R.string.plenty_task_info), Toast.LENGTH_SHORT).show()
+                if (it.size >= (6 + 2)) {
+                    Toast.makeText(
+                        context,
+                        LiTsapApplication.instance.getString(R.string.plenty_task_info),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else
-                    TaskCreateDialog().show(childFragmentManager, "abc")
+                    TaskCreateDialog().show(childFragmentManager, "create")
             }
         }
+
 
         viewModel.navigateToDetail.observe(this, Observer {
             it?.let {
@@ -56,7 +62,7 @@ class TaskFragment : Fragment() {
         })
 
         viewModel.longPressTaskItem.observe(this, Observer {
-            it?.let{
+            it?.let {
                 attemptToDelete(it)
                 viewModel.onlongPressTaskItemFinish()
             }
@@ -69,19 +75,22 @@ class TaskFragment : Fragment() {
         })
         return binding.root
     }
+
     private fun attemptToDelete(task: Task) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
 
-        builder.setTitle("刪除 ${task.taskName} 任務")
-        builder.setMessage("確定刪除任務嗎?\n所有歷史足跡將隨之刪除。")
+        builder.setTitle(getString(R.string.task_delete, task.taskName))
+        builder.setMessage(getString(R.string.task_delete_info))
 
-        builder.setPositiveButton("確認"
+        builder.setPositiveButton(
+            getString(R.string.task_delete_confirm)
         ) { dialog, which ->
-            viewModel.deleteUserOngoingTask(task.userId,task.taskId)
+            viewModel.deleteUserOngoingTask(task.userId, task.taskId)
             dialog.dismiss()
         }
 
-        builder.setNegativeButton("取消"
+        builder.setNegativeButton(
+            getString(R.string.task_delete_cancel)
         ) { dialog, which ->
             dialog.dismiss()
         }

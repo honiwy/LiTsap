@@ -58,12 +58,11 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                         }
                         result.data
                     } else {
-                        Logger.w("Oops! You create new uer: loginVia ${_loginVia.value}")
                         val newUser = User(
                             firebaseUser.uid,
-                            _loginVia.value ?: "Unknown",
-                            firebaseUser.displayName ?: "無名氏",
-                            3,
+                            _loginVia.value ?: getString(R.string.login_via_unknown),
+                            firebaseUser.displayName ?: getString(R.string.login_name_unknown),
+                            0,
                             0,
                             emptyList(),
                             emptyList(),
@@ -88,8 +87,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     private fun createUser(user: User, firstLogin: Boolean) {
         coroutineScope.launch {
-            val result = repository.createUser(user)
-            when (result) {
+            when (repository.createUser(user)) {
                 is Result.Success -> {
                     if(!firstLogin){
                         loginSuccess()
@@ -124,7 +122,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     lateinit var fbCallbackManager: CallbackManager
 
     fun loginFacebook() {
-        if (_user.value != null && _user.value!!.loginVia == "Facebook") {
+        if (_user.value != null && _user.value!!.loginVia == getString(R.string.facebook)) {
             loginSuccess()
         } else {
             fbCallbackManager = CallbackManager.Factory.create()//build callback
@@ -141,16 +139,16 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                     Logger.w("[${this::class.simpleName}] exception=${exception.message}")
                 }
             })//register call back
-            _loginVia.value = "Facebook" //active login
+            _loginVia.value = getString(R.string.facebook) //active login
             _loginAttempt.value = true
         }
     }
 
     fun loginGoogle() {
-        if (_user.value != null && _user.value!!.loginVia == "Google") {
+        if (_user.value != null && _user.value!!.loginVia == getString(R.string.google)) {
             loginSuccess()
         } else {
-            _loginVia.value = "Google" //active login
+            _loginVia.value = getString(R.string.google) //active login
             _loginAttempt.value = true
         }
     }

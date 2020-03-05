@@ -54,9 +54,8 @@ class TaskCreateDialog : DialogFragment() {
         binding.endDate.apply {
             minDate = System.currentTimeMillis()
             setOnDateChangedListener { _, year, month, date ->
-                val stringDate = "$date/${month+1}/$year"
-                val format = SimpleDateFormat("dd/MM/yyyy")
-                viewModel.dueDate.value = format.parse(stringDate).time
+                val format = SimpleDateFormat(getString(R.string.post_record_date))
+                viewModel.dueDate.value = format.parse("$date/${month+1}/$year").time
             }
         }
 
@@ -77,8 +76,8 @@ class TaskCreateDialog : DialogFragment() {
 
         viewModel.count.observe(this, Observer {
             if (it == 6) {
-                dismiss()
                 viewModel.onTaskCreated()
+                dismiss()
             }
         })
 

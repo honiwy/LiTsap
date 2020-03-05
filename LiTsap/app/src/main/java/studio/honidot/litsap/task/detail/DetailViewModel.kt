@@ -83,15 +83,17 @@ class DetailViewModel(
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
-        retrieveModules(_task.value!!.taskId)
+        retrieveModules(arguments.taskId)
     }
 
     fun changeModule(selectedPosition: Int) {
-        _workout.value?.apply {
-            moduleName = _modules.value!![selectedPosition].moduleName
-            moduleId = _modules.value!![selectedPosition].moduleId
+        _modules.value?.let{
+            _workout.value?.apply {
+                moduleName = it[selectedPosition].moduleName
+                moduleId = it[selectedPosition].moduleId
+            }
+            _workout.value = _workout.value
         }
-        _workout.value = _workout.value
     }
 
     fun onSetWorkoutTime(time: Int) {
@@ -101,15 +103,6 @@ class DetailViewModel(
         _workout.value = _workout.value
     }
 
-    val moduleStatusOpen = MutableLiveData<Boolean>().apply {
-        value = true
-    }
-
-    fun clickModuleStatusArrow() {
-        moduleStatusOpen.value?.let {
-            moduleStatusOpen.value = !it
-        }
-    }
 
     // Handle leave detail
     private val _leaveDetail = MutableLiveData<Boolean>()

@@ -25,9 +25,11 @@ import studio.honidot.litsap.util.Logger
 
 class LoginFragment : Fragment() {
     private val viewModel by viewModels<LoginViewModel> { getVmFactory() }
-    // Configure Google Sign In
 
-    val RC_SIGN_IN = 102
+    // Configure Google Sign In
+    companion object {
+        const val RC_SIGN_IN = 102
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +41,7 @@ class LoginFragment : Fragment() {
         binding.viewModel = viewModel
 
         FirebaseAuth.getInstance().currentUser?.let {
-            viewModel.findUser(it,true)
+            viewModel.findUser(it, true)
         }
         binding.buttonGoogleLogin.isSelected = true
         binding.buttonGoogleLogin.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -48,7 +50,7 @@ class LoginFragment : Fragment() {
 
         viewModel.loginAttempt.observe(this, Observer {
             it?.let {
-                if (viewModel.loginVia.value == "Google") {
+                if (viewModel.loginVia.value == getString(R.string.google)) {
                     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestIdToken(getString(R.string.default_web_client_id))
                         .requestEmail()
@@ -57,7 +59,7 @@ class LoginFragment : Fragment() {
                     val signInIntent = googleSignInClient.signInIntent
                     startActivityForResult(signInIntent, RC_SIGN_IN)
                     viewModel.afterLogin()
-                } else if (viewModel.loginVia.value == "Facebook") {
+                } else if (viewModel.loginVia.value == getString(R.string.facebook)) {
                     LoginManager.getInstance().logInWithReadPermissions(this, listOf("email"))
                     viewModel.afterLogin()
                 }
@@ -80,7 +82,6 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Logger.w("override fun onActivityResult")
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -93,8 +94,7 @@ class LoginFragment : Fragment() {
                 Logger.w("Google sign in failed $e")
                 // ...
             }
-        }
-        else{
+        } else {
             viewModel.fbCallbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
