@@ -162,7 +162,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                 achieveCount = 0,
                 recordDate = Calendar.getInstance().timeInMillis,
                 taskId = taskId,
-                taskName = title.value ?: "無任務名稱"
+                taskName = title.value ?: instance.getString(R.string.create_no_name)
             )
             when (repository.createTaskHistory(history)) {
                 is Result.Success -> {
@@ -182,32 +182,37 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
 
     private fun createTask(groupId: String) {
         coroutineScope.launch {
-            val task = Task(
-                userId = _user.value!!.userId,
-                taskId = "",
-                taskName = title.value ?: "無任務名稱",
-                taskCategoryId = selectedTaskCategoryPosition.value ?: 6,
-                accumCount = 0,
-                goalCount = amount.value ?: 1,
-                dueDate = dueDate.value ?: 1,
-                groupId = groupId,
-                todayDone = false,
-                taskDone = false
-            )
+            _user.value?.let{currentUser->
+                val task = Task(
+                    userId = currentUser.userId,
+                    taskId = "",
+                    taskName = title.value ?: instance.getString(R.string.create_no_name),
+                    taskCategoryId = selectedTaskCategoryPosition.value ?: 6,
+                    accumCount = 0,
+                    goalCount = amount.value ?: 1,
+                    dueDate = dueDate.value ?: 1,
+                    groupId = groupId,
+                    todayDone = false,
+                    taskDone = false
+                )
 
-            val result = repository.createTask(task)
-            when (result) {
-                is Result.Success -> {
-                    moduleNameList.value!!.forEach { moduleName ->
-                        createTaskModules(result.data, Module(moduleName, "",0))
+                val result = repository.createTask(task)
+                when (result) {
+                    is Result.Success -> {
+                        moduleNameList.value?.let{list->
+                            list.forEach { moduleName ->
+                                createTaskModules(result.data, Module(moduleName, "",0))
+                            }
+                        }
+                        createFirstTaskHistory(result.data)
+                        updateTaskIdList(currentUser.userId, result.data)
+                        addMemberToGroup(Member(groupId,currentUser.userId,currentUser.userName,result.data,
+                            instance.getString(R.string.create_murmur)))
                     }
-                    createFirstTaskHistory(result.data)
-                    updateTaskIdList(_user.value!!.userId, result.data)
-                    addMemberToGroup(Member(groupId,_user.value!!.userId,_user.value!!.userName,result.data,"Murmur"))
                 }
-            }
-            _count.value?.let{
-                _count.value = it.plus(1)
+                _count.value?.let{
+                    _count.value = it.plus(1)
+                }
             }
         }
     }
@@ -247,7 +252,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     Logger.i("History create!")
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let{
+                _count.value = it.plus(1)
+            }
         }
     }
 
@@ -258,7 +265,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     checkGroupFull(member.groupId)
                 }
             }
-            _count.value = _count.value!!.plus(1)
+            _count.value?.let{
+                _count.value = it.plus(1)
+            }
         }
     }
 

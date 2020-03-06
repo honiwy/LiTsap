@@ -122,7 +122,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     lateinit var fbCallbackManager: CallbackManager
 
     fun loginFacebook() {
-        if (_user.value != null && _user.value!!.loginVia == getString(R.string.facebook)) {
+        if (_user.value != null && _user.value?.loginVia == getString(R.string.facebook)) {
             loginSuccess()
         } else {
             fbCallbackManager = CallbackManager.Factory.create()//build callback
@@ -145,7 +145,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
     }
 
     fun loginGoogle() {
-        if (_user.value != null && _user.value!!.loginVia == getString(R.string.google)) {
+        if (_user.value != null && _user.value?.loginVia == getString(R.string.google)) {
             loginSuccess()
         } else {
             _loginVia.value = getString(R.string.google) //active login

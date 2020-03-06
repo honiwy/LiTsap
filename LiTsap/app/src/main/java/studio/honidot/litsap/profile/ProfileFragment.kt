@@ -1,8 +1,11 @@
 package studio.honidot.litsap.profile
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -13,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
@@ -45,7 +49,8 @@ class ProfileFragment : Fragment() {
             ).userIdKey
         )
     }
-
+    lateinit var mHandler:Handler
+    lateinit var runnable: Runnable
     companion object {
         private const val BAR_CHART_DRAW_DAYS = 7
         private const val ONE_DAY_MILLI_SECOND = 86400 * 1000
@@ -72,50 +77,34 @@ class ProfileFragment : Fragment() {
         binding.recyclerTab.adapter =
             CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
                 viewModel.getMurmur(it.groupId)
+
             })
 
+        viewModel.murmurs.observe(this, Observer {
+            binding.recyclerMurmur.adapter?.notifyDataSetChanged()
+        })
+
+        mHandler = Handler(Looper.getMainLooper())
+        var count = 0
+
+        runnable = object : Runnable {
+            override fun run() {
+                binding.recyclerMurmur.smoothScrollToPosition(
+                    if (count >= binding.recyclerMurmur.adapter?.itemCount ?: 0) {
+                        count = 0
+                        0
+                    } else {
+                        count++
+                    }
+                )
+                mHandler.postDelayed(this, 2000)
+            }
+        }
 
         val adapter = MurmurAdapter(viewModel)
-
-
-//        val layoutManager: LinearLayoutManager = object : LinearLayoutManager(context) {
-//            override fun smoothScrollToPosition(
-//                recyclerView: RecyclerView,
-//                state: RecyclerView.State,
-//                position: Int
-//            ) {
-//                try {
-//                    val smoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(
-//                        Objects.requireNonNull(context)
-//                    ) {
-//                        private val SPEED = 3500f // Change this value (default=25f)
-//                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-//                            return SPEED / displayMetrics.densityDpi
-//                        }
-//                    }
-//                    smoothScroller.targetPosition = position
-//                    startSmoothScroll(smoothScroller)
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//
-//        val handler = Handler()
-//        val runnable: Runnable = object : Runnable {
-//            var count = 0
-//            override fun run() {
-//                if (count == adapter.itemCount) count = 0
-//                if (count < adapter.itemCount) {
-//                    binding.recyclerMurmur.smoothScrollToPosition(count++)
-//                    handler.postDelayed(this, 2000)
-//                }
-//            }
-//        }
-//        handler.postDelayed(runnable, 2000)
-//        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-//        binding.recyclerMurmur.layoutManager = layoutManager
         binding.recyclerMurmur.adapter = adapter
+
+    mHandler.postDelayed(runnable, 2000)
 
 
         viewModel.historyPoints.observe(this, Observer {
@@ -130,6 +119,11 @@ class ProfileFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mHandler.removeCallbacks(runnable)
     }
 
     private fun drawBarChart(

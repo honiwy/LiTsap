@@ -1,6 +1,5 @@
 package studio.honidot.litsap.profile.face
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.*
@@ -20,7 +19,7 @@ class FaceAdapter(val viewModel: FaceChooseViewModel) : ListAdapter<Int, FaceAda
             it == adapterPosition
         }
 
-        fun bind(faceId: Int) {
+        fun bind() {
             binding.lifecycleOwner = this
             binding.viewHolder = this
             binding.iconId = adapterPosition
@@ -52,10 +51,6 @@ class FaceAdapter(val viewModel: FaceChooseViewModel) : ListAdapter<Int, FaceAda
         }
     }
 
-    /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Product]
-     * has been updated.
-     */
     companion object DiffCallback : DiffUtil.ItemCallback<Int>() {
         override fun areItemsTheSame(oldItem: Int, newItem: Int): Boolean {
             return (oldItem === newItem)
@@ -77,7 +72,7 @@ class FaceAdapter(val viewModel: FaceChooseViewModel) : ListAdapter<Int, FaceAda
      * Replaces the contents of a view (invoked by the layout manager)
      */
     override fun onBindViewHolder(holder: FaceViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind()
     }
 
     override fun onViewAttachedToWindow(holder: FaceViewHolder) {

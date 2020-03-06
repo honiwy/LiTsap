@@ -1,7 +1,10 @@
 package studio.honidot.litsap.data
 
+import android.app.Application
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 
 
 @Parcelize
@@ -22,4 +25,16 @@ data class User(
         get() = (experience / INTERVAL_CONSTANT)
     val levelProcess
         get() = (experience % INTERVAL_CONSTANT).toInt()
+
+//    fun isLoginFrom(from: Int): Boolean {
+//        return loginVia == when (from) {
+//            GOOGLE -> LiTsapApplication.instance.getString(R.string.google)
+//            FACEBOOK -> LiTsapApplication.instance.getString(R.string.facebook)
+//            else -> ""
+//        }
+//    }
 }
+
+//const val GOOGLE = 0x01
+//const val FACEBOOK = 0x02
+//const val UNKNOWN = -1

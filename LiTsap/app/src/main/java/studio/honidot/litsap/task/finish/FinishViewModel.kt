@@ -152,7 +152,7 @@ class FinishViewModel(
     private fun uploadImage(workout: Workout) {
         coroutineScope.launch {
             filePath.value?.let {
-                when (val result = repository.uploadImage(filePath.value!!)) {
+                when (val result = repository.uploadImage(it)) {
                     is Result.Success -> {
                         _workout.value!!.imageUri = result.data.toString()
                     }
