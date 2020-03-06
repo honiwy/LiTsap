@@ -4,7 +4,6 @@ import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -12,7 +11,6 @@ import kotlinx.coroutines.launch
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
-
 
 class WorkoutViewModel(
     private val repository: LiTsapRepository,
@@ -22,8 +20,6 @@ class WorkoutViewModel(
     var messageList = MutableLiveData<MutableList<String>>().apply {
         value = mutableListOf()
     }
-
-
 
     var newMessage = MutableLiveData<String>()
 
@@ -52,13 +48,11 @@ class WorkoutViewModel(
             val result = repository.findUser(firebaseUserId)
             _userIconId.value = when (result) {
                 is Result.Success -> {
-                    if(result.data==null)
-                    {
+                    if (result.data == null) {
                         0
-                    }else{
+                    } else {
                         result.data.iconId
                     }
-
                 }
                 is Result.Fail -> {
                     null
@@ -90,7 +84,7 @@ class WorkoutViewModel(
 
     }
 
-    companion object{
+    companion object {
         const val SECOND_TO_MILLISECOND = 1000
     }
 
@@ -108,8 +102,9 @@ class WorkoutViewModel(
     }
 
     fun navigateToFinish() {
-        _workout.value?.let{
-            it.recordInfo = messageList.value as List<String>}
+        _workout.value?.let {
+            it.recordInfo = messageList.value as List<String>
+        }
         _navigateToFinish.value = _workout.value
     }
 
@@ -117,34 +112,35 @@ class WorkoutViewModel(
         _navigateToFinish.value = null
     }
 
-    fun muteMusic(){
-        _musicPlay.value = (_musicPlay.value== false)
+    fun muteMusic() {
+        _musicPlay.value = (_musicPlay.value == false)
     }
 
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
-        taskCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds - 1, SECOND_TO_MILLISECOND.toLong()) {
-            override fun onTick(millisUntilFinished: Long) {
-                _workout.value?.let {wo->
-                    val total = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
-                    _totalTaskRemained.value = total
-                    if (total.rem(Workout.WORKOUT_TIME) == 0 && total != 0) {
-                        _isCountingRest.value = true
-                        _musicPlay.value = null
-                        wo.achieveSectionCount += 1
-                        pausePlayTimer()
-                        startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
+        taskCountDownTimer =
+            object : CountDownTimer(timeCountInMilliSeconds - 1, SECOND_TO_MILLISECOND.toLong()) {
+                override fun onTick(millisUntilFinished: Long) {
+                    _workout.value?.let { wo ->
+                        val total = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
+                        _totalTaskRemained.value = total
+                        if (total.rem(Workout.WORKOUT_TIME) == 0 && total != 0) {
+                            _isCountingRest.value = true
+                            _musicPlay.value = null
+                            wo.achieveSectionCount += 1
+                            pausePlayTimer()
+                            startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
+                        }
                     }
                 }
-            }
 
-            override fun onFinish() {
-                _workout.value?.let {
-                    it.achieveSectionCount += 1
+                override fun onFinish() {
+                    _workout.value?.let {
+                        it.achieveSectionCount += 1
+                    }
+                    _musicPlay.value = null
+                    navigateToFinish()
                 }
-                _musicPlay.value = null
-                navigateToFinish()
             }
-        }
         _isCountingTask.value = true
         taskCountDownTimer.start()
     }
@@ -156,20 +152,20 @@ class WorkoutViewModel(
         get() = _totalRestRemained
 
     private fun startRestCountDownTimer(timeCountInMilliSeconds: Long) {
-        restCountDownTimer = object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
-            override fun onTick(millisUntilFinished: Long) {
-                _totalRestRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
-            }
+        restCountDownTimer =
+            object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
+                override fun onTick(millisUntilFinished: Long) {
+                    _totalRestRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
+                }
 
-            override fun onFinish() {
-                _isCountingRest.value = false
-                _musicPlay.value = true
-                pausePlayTimer()
+                override fun onFinish() {
+                    _isCountingRest.value = false
+                    _musicPlay.value = true
+                    pausePlayTimer()
+                }
             }
-        }
         restCountDownTimer.start()
     }
-
 
     private val _workout = MutableLiveData<Workout>().apply {
         value = arguments
@@ -177,13 +173,11 @@ class WorkoutViewModel(
     val workout: LiveData<Workout>
         get() = _workout
 
-
     private val _navigateToFinish = MutableLiveData<Workout>()
 
     val navigateToFinish: LiveData<Workout>
         get() = _navigateToFinish
 
-    // Handle leave detail
     private val _leaveWorkout = MutableLiveData<Boolean>()
 
     val leaveWorkout: LiveData<Boolean>
@@ -195,7 +189,6 @@ class WorkoutViewModel(
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-
     /**
      * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
      * Retrofit service to stop.
@@ -205,11 +198,9 @@ class WorkoutViewModel(
         viewModelJob.cancel()
     }
 
-
     fun leaveWorkout() {
         taskCountDownTimer.cancel()
         _leaveWorkout.value = true
     }
-
 
 }

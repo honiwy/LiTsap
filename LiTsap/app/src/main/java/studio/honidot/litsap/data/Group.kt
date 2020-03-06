@@ -1,7 +1,6 @@
 package studio.honidot.litsap.data
 
 import android.os.Parcelable
-import com.google.firebase.firestore.Exclude
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

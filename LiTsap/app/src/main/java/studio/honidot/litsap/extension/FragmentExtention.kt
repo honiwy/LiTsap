@@ -15,15 +15,15 @@ fun getVmFactory(): ViewModelFactory {
 
 fun getVmFactory(task: Task): TaskViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
-    return TaskViewModelFactory(repository,task)
+    return TaskViewModelFactory(repository, task)
 }
 
 fun getVmFactory(workout: Workout): WorkoutViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
-    return WorkoutViewModelFactory(repository,workout)
+    return WorkoutViewModelFactory(repository, workout)
 }
 
 fun getVmFactory(userId: String): UserViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
-    return UserViewModelFactory(repository,userId)
+    return UserViewModelFactory(repository, userId)
 }

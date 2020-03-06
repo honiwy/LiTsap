@@ -51,23 +51,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraint_calendar"
             app:records="@{viewModel.records}" />
+
         <ProgressBar
-            android:theme="@style/ProgressTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:setupApiStatus="@{viewModel.status}"
-            app:layout_constraintStart_toStartOf="parent"
+            android:theme="@style/ProgressTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_calendar"
+            app:setupApiStatus="@{viewModel.status}" />
 
-        <TextView android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:setupApiErrorMessage="@{viewModel.error}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint_calendar"
+            app:setupApiErrorMessage="@{viewModel.error}" />
         <TextView
             android:id="@+id/text_no_data"
             style="@style/TaskTextStyle"

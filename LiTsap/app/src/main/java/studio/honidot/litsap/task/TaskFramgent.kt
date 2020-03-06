@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import studio.honidot.litsap.LiTsapApplication
 import androidx.navigation.fragment.findNavController
+import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Task
@@ -27,6 +27,11 @@ class TaskFragment : Fragment() {
         )
     }
 
+    companion object {
+        private const val DIALOG_CREATE = "create"
+        private const val TASK_COUNT_LIMIT = 6
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,22 +46,26 @@ class TaskFragment : Fragment() {
             viewModel.longPressTaskItem(it)
         })
         binding.fab.setOnClickListener {
-            viewModel.taskItems.value?.let {
-                if (it.size >= (6 + 2)) {
+            viewModel.taskCount.value?.let {
+                if (it >= TASK_COUNT_LIMIT) {
                     Toast.makeText(
                         context,
                         LiTsapApplication.instance.getString(R.string.plenty_task_info),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else
-                    TaskCreateDialog().show(childFragmentManager, "create")
+                    TaskCreateDialog().show(childFragmentManager, DIALOG_CREATE)
             }
         }
 
 
         viewModel.navigateToDetail.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                findNavController().navigate(
+                    NavigationDirections.actionTaskFragmentToDetailFragment(
+                        it
+                    )
+                )
                 viewModel.onDetailNavigated()
             }
         })

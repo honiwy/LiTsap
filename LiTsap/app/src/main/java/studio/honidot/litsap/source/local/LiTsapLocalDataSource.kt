@@ -3,33 +3,32 @@ package studio.honidot.litsap.source.local
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 
 class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
 
-    override suspend fun addMemberToGroup(member: Member): Result<Boolean>{
+    override suspend fun addMemberToGroup(member: Member): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun createGroup(group: Group): Result<String>{
+    override suspend fun createGroup(group: Group): Result<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun checkGroupFull(groupId: String): Result<Boolean>{
+    override suspend fun checkGroupFull(groupId: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>>{
+    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>{
+    override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun findUser(firebaseUserId: String): Result<User?>{
+    override suspend fun findUser(firebaseUserId: String): Result<User?> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -64,7 +63,10 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>>{
+    override suspend fun getHistoryOnThatDay(
+        taskIdList: List<String>,
+        dateString: String
+    ): Result<List<History>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -84,11 +86,14 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateMurmur(member: Member): Result<Boolean>{
+    override suspend fun updateMurmur(member: Member): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> {
+    override suspend fun updateTaskStatus(
+        taskId: String,
+        accumulationPoints: Long
+    ): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -100,11 +105,11 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun createTaskHistory(history: History): Result<Boolean>{
+    override suspend fun createTaskHistory(history: History): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun uploadImage(imageUri: Uri): Result<Uri>{
+    override suspend fun uploadImage(imageUri: Uri): Result<Uri> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

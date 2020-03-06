@@ -1,10 +1,7 @@
 package studio.honidot.litsap.data
 
-import android.app.Application
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import studio.honidot.litsap.LiTsapApplication
-import studio.honidot.litsap.R
 
 
 @Parcelize

@@ -28,7 +28,6 @@ import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 

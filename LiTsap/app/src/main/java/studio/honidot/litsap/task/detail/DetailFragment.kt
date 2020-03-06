@@ -8,19 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import studio.honidot.litsap.databinding.FragmentDetailBinding
-import studio.honidot.litsap.extension.getVmFactory
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.NavigationDirections
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Module
+import studio.honidot.litsap.databinding.FragmentDetailBinding
+import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.util.ChartColor
 import java.text.DecimalFormat
-
 
 class DetailFragment : Fragment() {
     private val viewModel by viewModels<DetailViewModel> {
@@ -46,7 +47,7 @@ class DetailFragment : Fragment() {
         })
         viewModel.navigateToWorkout.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToWorkoutFragment(it))
+                findNavController().navigate(NavigationDirections.actionDetailFragmentToWorkoutFragment(it))
                 viewModel.onWorkoutNavigated()
             }
         })
@@ -91,7 +92,7 @@ class DetailFragment : Fragment() {
         chart.apply {
             data = PieData(pieDataSet)
             holeRadius = 20f
-            setExtraOffsets(45f,20f,45f,20f)
+            setExtraOffsets(45f, 20f, 45f, 20f)
             chart.description.isEnabled = false
             setTransparentCircleAlpha(0)
             setEntryLabelColor(Color.BLACK)
@@ -103,9 +104,9 @@ class DetailFragment : Fragment() {
     }
 
     class PieChartValueFormatter : ValueFormatter() {
-        private val format = DecimalFormat("##0.0")
+        private val format = DecimalFormat(LiTsapApplication.instance.getString(R.string.detail_chart_format))
         override fun getFormattedValue(value: Float): String {
-            return format.format(value) + " %"
+            return format.format(value/100)
         }
     }
 

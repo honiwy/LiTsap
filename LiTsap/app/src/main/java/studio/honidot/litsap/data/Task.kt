@@ -1,11 +1,7 @@
 package studio.honidot.litsap.data
 
 import android.os.Parcelable
-import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
-
-
 
 @Parcelize
 data class Task(

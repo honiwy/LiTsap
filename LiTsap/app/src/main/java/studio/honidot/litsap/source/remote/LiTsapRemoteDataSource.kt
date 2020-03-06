@@ -16,8 +16,6 @@ import studio.honidot.litsap.data.*
 import studio.honidot.litsap.source.LiTsapDataSource
 import studio.honidot.litsap.util.Logger
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -45,6 +43,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val FIELD_MURMUR = "murmur"
     private const val FIELD_ACHIEVE_SECTION = "achieveSection"
     private const val FOLDER_UPLOAD = "uploads/"
+    private const val GROUP_NUMBER_LIMIT = 6
 
     override suspend fun addMemberToGroup(member: Member): Result<Boolean> =
         suspendCoroutine { continuation ->
@@ -95,7 +94,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                         for (documentG in findGroupMember.result!!) {
                             groupMemberList.add(documentG.toObject(Member::class.java))
                         }
-                        if (groupMemberList.size == 6) {
+                        if (groupMemberList.size == GROUP_NUMBER_LIMIT) {
                             FirebaseFirestore.getInstance().collection(PATH_GROUPS)
                                 .document(groupId)
                                 .update(FIELD_GROUP_FULL, true)
@@ -127,7 +126,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun findGroup(taskCategoryId: Int): Result<List<String>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_GROUPS)
-                .whereEqualTo(FIELD_GROUP_CATEGORY_ID, taskCategoryId).whereEqualTo(FIELD_GROUP_FULL, false)
+                .whereEqualTo(FIELD_GROUP_CATEGORY_ID, taskCategoryId)
+                .whereEqualTo(FIELD_GROUP_FULL, false)
                 .get()
                 .addOnCompleteListener { findGroup ->
                     if (findGroup.isSuccessful) {
@@ -263,7 +263,8 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     override suspend fun getTasks(taskIdList: List<String>): Result<List<Task>> =
         suspendCoroutine { continuation ->
             val tasks = mutableListOf<Task>()
-            FirebaseFirestore.getInstance().collection(PATH_TASKS).whereIn(FIELD_TASK_ID, taskIdList)
+            FirebaseFirestore.getInstance().collection(PATH_TASKS)
+                .whereIn(FIELD_TASK_ID, taskIdList)
                 .orderBy(FIELD_TODAY_DONE)
                 .get().addOnCompleteListener { findTask ->
                     if (findTask.isSuccessful) {
@@ -304,12 +305,16 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistory(taskIdList: List<String>, passNday: Int): Result<List<History>> =
+    override suspend fun getHistory(
+        taskIdList: List<String>,
+        passNday: Int
+    ): Result<List<History>> =
         suspendCoroutine { continuation ->
             val timeMin = (Calendar.getInstance().timeInMillis - ONE_DAY_MILLI_SECOND * passNday)
             val listH = mutableListOf<History>()
             FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY)
-                .whereIn(FIELD_TASK_ID, taskIdList).whereGreaterThan(FIELD_RECORD_DATE, timeMin).get()
+                .whereIn(FIELD_TASK_ID, taskIdList).whereGreaterThan(FIELD_RECORD_DATE, timeMin)
+                .get()
                 .addOnCompleteListener { findHistory ->
                     if (findHistory.isSuccessful) {
                         for (documentH in findHistory.result!!) {
@@ -349,9 +354,14 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun getHistoryOnThatDay(taskIdList: List<String>, dateString: String): Result<List<History>> =
+    override suspend fun getHistoryOnThatDay(
+        taskIdList: List<String>,
+        dateString: String
+    ): Result<List<History>> =
         suspendCoroutine { continuation ->
-            val startDate = SimpleDateFormat(instance.getString(R.string.post_record_date)).parse(dateString).time
+            val startDate =
+                SimpleDateFormat(instance.getString(R.string.post_record_date)).parse(dateString)
+                    .time
             val listH = mutableListOf<History>()
             FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY)
                 .whereIn(FIELD_TASK_ID, taskIdList)
@@ -376,25 +386,25 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
 
     override suspend fun createTask(task: Task): Result<String> =
         suspendCoroutine { continuation ->
-        val newTaskDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document()
-        task.taskId = newTaskDocument.id
-        newTaskDocument.set(task).addOnCompleteListener { addTask ->
-            if (addTask.isSuccessful) {
-                Toast.makeText(
-                    LiTsapApplication.appContext,
-                    instance.getString(R.string.create_task_success),
-                    Toast.LENGTH_SHORT
-                ).show()
-                continuation.resume(Result.Success(newTaskDocument.id))
-            } else {
-                addTask.exception?.let {
-                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                    continuation.resume(Result.Error(it))
+            val newTaskDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document()
+            task.taskId = newTaskDocument.id
+            newTaskDocument.set(task).addOnCompleteListener { addTask ->
+                if (addTask.isSuccessful) {
+                    Toast.makeText(
+                        LiTsapApplication.appContext,
+                        instance.getString(R.string.create_task_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    continuation.resume(Result.Success(newTaskDocument.id))
+                } else {
+                    addTask.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
                 }
-                continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
             }
         }
-    }
 
     override suspend fun createTaskModules(taskId: String, module: Module): Result<Boolean> =
         suspendCoroutine { continuation ->
@@ -433,7 +443,10 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> =
+    override suspend fun updateTaskStatus(
+        taskId: String,
+        accumulationPoints: Long
+    ): Result<Boolean> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
                 .update(
@@ -561,10 +574,10 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     }
                     return@Continuation ref.downloadUrl
                 }).addOnCompleteListener { task ->
-                continuation.resume(Result.Success(task.result!!))
-            }.addOnFailureListener {
-                Logger.w("Upload fail!")
-            }
+                    continuation.resume(Result.Success(task.result!!))
+                }.addOnFailureListener {
+                    Logger.w("Upload fail!")
+                }
         }
 
 

@@ -2,12 +2,10 @@ package studio.honidot.litsap.post
 
 import android.icu.util.Calendar
 import android.text.format.DateFormat
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,7 +17,6 @@ import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.User
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 import java.util.*
 
@@ -80,7 +77,10 @@ class PostViewModel(private val repository: LiTsapRepository, private val argume
                 }
             }
             val date =
-                DateFormat.format(LiTsapApplication.instance.getString(R.string.post_select_date), Date(Calendar.getInstance().timeInMillis)).toString()
+                DateFormat.format(
+                    LiTsapApplication.instance.getString(R.string.post_select_date),
+                    Date(Calendar.getInstance().timeInMillis)
+                ).toString()
             getHistoryOnThatDay(date)
         }
     }

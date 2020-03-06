@@ -1,7 +1,6 @@
 package studio.honidot.litsap.task.create
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,18 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.LiTsapApplication.Companion.appContext
-import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
-import studio.honidot.litsap.TaskCategory
 import studio.honidot.litsap.databinding.DialogCreateTaskBinding
 import studio.honidot.litsap.extension.getVmFactory
-import studio.honidot.litsap.task.TaskViewModel
 import java.text.SimpleDateFormat
-
 
 class TaskCreateDialog : DialogFragment() {
 
@@ -38,12 +31,12 @@ class TaskCreateDialog : DialogFragment() {
 
         viewModel.findUser(FirebaseAuth.getInstance().currentUser!!.uid)
 
-
         binding.spinnerTaskCategories.adapter = CategorySpinnerAdapter(
             appContext.resources.getStringArray(
                 R.array.task_category_list
             )
         )
+
         val adapter = ModuleCreateAdapter(viewModel)
         binding.recyclerModule.adapter = adapter
         viewModel.moduleNameList.observe(this, Observer {
@@ -55,17 +48,16 @@ class TaskCreateDialog : DialogFragment() {
             minDate = System.currentTimeMillis()
             setOnDateChangedListener { _, year, month, date ->
                 val format = SimpleDateFormat(getString(R.string.post_record_date))
-                viewModel.dueDate.value = format.parse("$date/${month+1}/$year").time
+                viewModel.dueDate.value = format.parse("$date/${month + 1}/$year").time
             }
         }
 
         binding.editModule.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newModule.value!="") {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newModule.value != "") {
                 viewModel.addModule()
                 true
             } else false
         }
-
 
         binding.buttonCreate.setOnClickListener {
             viewModel.create()

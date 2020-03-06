@@ -9,7 +9,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
-import studio.honidot.litsap.data.*
+import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.Task
+import studio.honidot.litsap.data.TaskItem
+import studio.honidot.litsap.data.User
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
@@ -35,8 +38,14 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
     val taskItems: LiveData<List<TaskItem>>
         get() = _taskItems
 
+    private val _taskCount = MutableLiveData<Int>()
+
+    val taskCount: LiveData<Int>
+        get() = _taskCount
+
     private fun addHeader(sortedTasks: List<Task>): List<TaskItem> {
         val taskItems = mutableListOf<TaskItem>()
+        _taskCount.value = sortedTasks.size
         var lastStatus = false
         if (!sortedTasks[0].todayDone) {
             taskItems.add(TaskItem.Title(LiTsapApplication.instance.getString(R.string.await_todo)))

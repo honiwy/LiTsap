@@ -4,12 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.honidot.litsap.MainViewModel
 import studio.honidot.litsap.login.LoginViewModel
-import studio.honidot.litsap.post.PostViewModel
-import studio.honidot.litsap.profile.ProfileViewModel
 import studio.honidot.litsap.profile.face.FaceChooseViewModel
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.task.finish.FinishViewModel
-import studio.honidot.litsap.task.TaskViewModel
 import studio.honidot.litsap.task.create.TaskCreateViewModel
 
 class ViewModelFactory(

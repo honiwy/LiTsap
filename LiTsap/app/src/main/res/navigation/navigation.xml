@@ -24,9 +24,6 @@
         app:argType="studio.honidot.litsap.data.Task"
         app:nullable="false"/>
     </fragment>
-    <action
-        android:id="@+id/navigate_to_detailFragment"
-        app:destination="@id/detailFragment" />
     <fragment
         android:id="@+id/workoutFragment"
         android:name="studio.honidot.litsap.task.workout.WorkoutFragment"
@@ -36,14 +33,6 @@
             android:name="workoutKey"
             app:argType="studio.honidot.litsap.data.Workout" />
     </fragment>
-    <action
-        android:id="@+id/navigate_to_workoutFragment"
-        app:destination="@id/workoutFragment" />
-    <action
-        android:id="@+id/navigate_to_taskFragment"
-        app:destination="@id/taskFragment"
-        app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/profileFragment"
         android:name="studio.honidot.litsap.profile.ProfileFragment"
@@ -53,11 +42,6 @@
             android:name="userIdKey"
             app:argType="string" />
     </fragment>
-    <action
-        android:id="@+id/navigate_to_profileFragment"
-        app:destination="@id/profileFragment"
-        app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/postFragment"
         android:name="studio.honidot.litsap.post.PostFragment"
@@ -67,11 +51,6 @@
             android:name="userIdKey"
             app:argType="string" />
     </fragment>
-    <action
-        android:id="@+id/navigate_to_postFragment"
-        app:destination="@id/postFragment"
-        app:popUpTo="@id/navigation"
-        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/finishFragment"
         android:name="studio.honidot.litsap.task.finish.FinishFragment"
@@ -81,9 +60,6 @@
             android:name="finishKey"
             app:argType="studio.honidot.litsap.data.Workout" />
     </fragment>
-    <action
-        android:id="@+id/navigate_to_finishFragment"
-        app:destination="@id/finishFragment" />
     <dialog
         android:id="@+id/taskCreateDialog"
         android:name="studio.honidot.litsap.task.create.TaskCreateDialog"
@@ -104,4 +80,18 @@
         android:name="studio.honidot.litsap.profile.face.FaceChooseDialog"
         tools:layout="@layout/dialog_choose_face"
         android:label="FaceChooseDialog" />
+
+
+    <action android:id="@+id/navigate_to_loginFragment" app:destination="@id/loginFragment"
+        app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_profileFragment" app:destination="@id/profileFragment"
+        app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_postFragment" app:destination="@id/postFragment"
+        app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_taskFragment" app:destination="@id/taskFragment"
+        app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
+
+    <action android:id="@+id/action_taskFragment_to_detailFragment" app:destination="@id/detailFragment" />
+    <action android:id="@+id/action_detailFragment_to_workoutFragment" app:destination="@id/workoutFragment" />
+    <action android:id="@+id/action_workoutFragment_to_finishFragment" app:destination="@id/finishFragment" />
 </navigation>

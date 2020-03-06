@@ -23,8 +23,6 @@ import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.User
-import studio.honidot.litsap.data.UserManager
-import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util.getString
@@ -53,7 +51,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
             _user.value = when (result) {
                 is Result.Success -> {
                     if (result.data != null) {
-                        if(!firstLogin){
+                        if (!firstLogin) {
                             loginSuccess()
                         }
                         result.data
@@ -68,7 +66,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                             emptyList(),
                             0
                         )
-                        createUser(newUser,firstLogin)
+                        createUser(newUser, firstLogin)
                         null
                     }
                 }
@@ -90,7 +88,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
             _user.value = when (repository.createUser(user)) {
                 is Result.Success -> {
-                    if(!firstLogin){
+                    if (!firstLogin) {
                         loginSuccess()
                     }
                     user
@@ -160,7 +158,10 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    findUser(auth.currentUser!!, false) //make sure whether user account is existed in Firebase if not then create a new one
+                    findUser(
+                        auth.currentUser!!,
+                        false
+                    ) //make sure whether user account is existed in Firebase if not then create a new one
                 } else {
                     // If sign in fails, display a message to the user.
                     Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
@@ -197,7 +198,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    findUser(auth.currentUser!!,false)
+                    findUser(auth.currentUser!!, false)
                 } else {
                     // If sign in fails, display a message to the user.
                     Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")

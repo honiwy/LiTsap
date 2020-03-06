@@ -2,7 +2,6 @@ package studio.honidot.litsap.source
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import studio.honidot.litsap.data.*
@@ -13,31 +12,31 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
-    override suspend fun addMemberToGroup(member: Member): Result<Boolean>{
+    override suspend fun addMemberToGroup(member: Member): Result<Boolean> {
         return remoteDataSource.addMemberToGroup(member)
     }
 
-    override suspend fun createGroup(group: Group): Result<String>{
+    override suspend fun createGroup(group: Group): Result<String> {
         return remoteDataSource.createGroup(group)
     }
 
-    override suspend fun checkGroupFull(groupId: String): Result<Boolean>{
+    override suspend fun checkGroupFull(groupId: String): Result<Boolean> {
         return remoteDataSource.checkGroupFull(groupId)
     }
 
-    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>>{
+    override suspend fun findGroup(taskCategoryId: Int): Result<List<String>> {
         return remoteDataSource.findGroup(taskCategoryId)
     }
 
-    override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean>{
-        return remoteDataSource.updateUserIcon(userId,iconId)
+    override suspend fun updateUserIcon(userId: String, iconId: Int): Result<Boolean> {
+        return remoteDataSource.updateUserIcon(userId, iconId)
     }
 
     override suspend fun findUser(firebaseUserId: String): Result<User?> {
         return remoteDataSource.findUser(firebaseUserId)
     }
 
-    override suspend fun createUser(user : User): Result<Boolean> {
+    override suspend fun createUser(user: User): Result<Boolean> {
         return remoteDataSource.createUser(user)
     }
 
@@ -68,7 +67,10 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getMemberMurmurs(groupId)
     }
 
-    override suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>>{
+    override suspend fun getHistoryOnThatDay(
+        taskIdList: List<String>,
+        dateString: String
+    ): Result<List<History>> {
         return remoteDataSource.getHistoryOnThatDay(taskIdList, dateString)
     }
 
@@ -88,27 +90,30 @@ class DefaultLiTsapRepository(
         return remoteDataSource.addUserOngoingList(userId, taskId)
     }
 
-    override suspend fun updateMurmur(member: Member): Result<Boolean>{
+    override suspend fun updateMurmur(member: Member): Result<Boolean> {
         return remoteDataSource.updateMurmur(member)
     }
 
-    override suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean> {
-        return remoteDataSource.updateTaskStatus(taskId,accumulationPoints)
+    override suspend fun updateTaskStatus(
+        taskId: String,
+        accumulationPoints: Long
+    ): Result<Boolean> {
+        return remoteDataSource.updateTaskStatus(taskId, accumulationPoints)
     }
 
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> {
         return remoteDataSource.updateUserStatus(workout)
     }
 
-    override suspend fun updateTaskModule(workout: Workout): Result<Boolean>{
+    override suspend fun updateTaskModule(workout: Workout): Result<Boolean> {
         return remoteDataSource.updateTaskModule(workout)
     }
 
-    override suspend fun createTaskHistory(history: History): Result<Boolean>{
+    override suspend fun createTaskHistory(history: History): Result<Boolean> {
         return remoteDataSource.createTaskHistory(history)
     }
 
-    override suspend fun uploadImage(imageUri: Uri): Result<Uri>{
+    override suspend fun uploadImage(imageUri: Uri): Result<Uri> {
         return remoteDataSource.uploadImage(imageUri)
     }
 }

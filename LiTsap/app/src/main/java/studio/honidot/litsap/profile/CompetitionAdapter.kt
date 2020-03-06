@@ -9,21 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.databinding.ItemProfileCompetitionTabBinding
 
-class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickListener: OnClickListener) : ListAdapter<Task, CompetitionAdapter.TaskTabViewHolder>(DiffCallback) {
+class CompetitionAdapter(
+    val viewModel: ProfileViewModel,
+    private val onClickListener: OnClickListener
+) : ListAdapter<Task, CompetitionAdapter.TaskTabViewHolder>(DiffCallback) {
 
     class OnClickListener(val clickListener: (task: Task) -> Unit) {
-        fun onClick(task:Task) = clickListener(task)
+        fun onClick(task: Task) = clickListener(task)
     }
 
     class TaskTabViewHolder(
         private var binding: ItemProfileCompetitionTabBinding,
-        private val viewModel: ProfileViewModel): RecyclerView.ViewHolder(binding.root), LifecycleOwner {
+        private val viewModel: ProfileViewModel
+    ) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
         val isSelected: LiveData<Boolean> = Transformations.map(viewModel.selectedTaskPosition) {
             it == adapterPosition
         }
 
-        fun bind(task:Task, onClickListener: OnClickListener) {
+        fun bind(task: Task, onClickListener: OnClickListener) {
             binding.lifecycleOwner = this
             binding.task = task
             binding.viewHolder = this
@@ -56,10 +60,6 @@ class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickLis
         }
     }
 
-    /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Product]
-     * has been updated.
-     */
     companion object DiffCallback : DiffUtil.ItemCallback<Task>() {
         override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
             return (oldItem === newItem)
@@ -74,7 +74,13 @@ class CompetitionAdapter(val viewModel: ProfileViewModel, private val onClickLis
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskTabViewHolder {
-        return TaskTabViewHolder(ItemProfileCompetitionTabBinding.inflate(LayoutInflater.from(parent.context), parent, false), viewModel)
+        return TaskTabViewHolder(
+            ItemProfileCompetitionTabBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), viewModel
+        )
     }
 
     /**

@@ -1,23 +1,15 @@
 package studio.honidot.litsap.profile
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
 import android.text.TextUtils
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
@@ -26,7 +18,6 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.History
@@ -34,7 +25,6 @@ import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.profile.face.FaceChooseDialog
 import studio.honidot.litsap.util.ChartColor
-import studio.honidot.litsap.util.Logger
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -49,7 +39,7 @@ class ProfileFragment : Fragment() {
             ).userIdKey
         )
     }
-    lateinit var mHandler: Handler
+    lateinit var handler: Handler
     lateinit var runnable: Runnable
 
     companion object {
@@ -84,7 +74,7 @@ class ProfileFragment : Fragment() {
             binding.recyclerMurmur.adapter?.notifyDataSetChanged()
         })
 
-        mHandler = Handler(Looper.getMainLooper())
+        handler = Handler(Looper.getMainLooper())
         var count = 0
         runnable = object : Runnable {
             override fun run() {
@@ -96,10 +86,10 @@ class ProfileFragment : Fragment() {
                         count++
                     }
                 )
-                mHandler.postDelayed(this, MURMUR_RUN_TIME)
+                handler.postDelayed(this, MURMUR_RUN_TIME)
             }
         }
-        mHandler.postDelayed(runnable, MURMUR_RUN_TIME)
+        handler.postDelayed(runnable, MURMUR_RUN_TIME)
 
         val adapter = MurmurAdapter(viewModel)
         binding.recyclerMurmur.adapter = adapter
@@ -121,7 +111,7 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mHandler.removeCallbacks(runnable)
+        handler.removeCallbacks(runnable)
     }
 
     private fun drawBarChart(

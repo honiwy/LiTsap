@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.databinding.ItemFootprintBinding
-import studio.honidot.litsap.databinding.ItemWorkoutRecordBinding
-import studio.honidot.litsap.task.workout.WorkoutViewModel
 
 class FootprintAdapter : ListAdapter<String, FootprintAdapter.ModuleViewHolder>(DiffCallback) {
 
-    class ModuleViewHolder(private var binding: ItemFootprintBinding): RecyclerView.ViewHolder(binding.root) {
+    class ModuleViewHolder(private var binding: ItemFootprintBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(footprint: String) {
             binding.footprint = footprint
@@ -21,10 +20,6 @@ class FootprintAdapter : ListAdapter<String, FootprintAdapter.ModuleViewHolder>(
         }
     }
 
-    /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Product]
-     * has been updated.
-     */
     companion object DiffCallback : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return (oldItem === newItem)
@@ -39,7 +34,13 @@ class FootprintAdapter : ListAdapter<String, FootprintAdapter.ModuleViewHolder>(
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModuleViewHolder {
-        return ModuleViewHolder(ItemFootprintBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ModuleViewHolder(
+            ItemFootprintBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     /**

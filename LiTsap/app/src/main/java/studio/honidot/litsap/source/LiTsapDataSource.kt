@@ -2,7 +2,6 @@ package studio.honidot.litsap.source
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
 
 interface LiTsapDataSource {

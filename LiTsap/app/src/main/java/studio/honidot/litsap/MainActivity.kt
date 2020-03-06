@@ -1,9 +1,9 @@
 package studio.honidot.litsap
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-
         setupNavController()
     }
 
@@ -37,18 +36,27 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.navigation_task -> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTaskFragment(
-                        FirebaseAuth.getInstance().currentUser!!.uid))
+                    findNavController(R.id.myNavHostFragment).navigate(
+                        NavigationDirections.navigateToTaskFragment(
+                            FirebaseAuth.getInstance().currentUser!!.uid
+                        )
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_post-> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPostFragment(
-                        FirebaseAuth.getInstance().currentUser!!.uid))
+                R.id.navigation_post -> {
+                    findNavController(R.id.myNavHostFragment).navigate(
+                        NavigationDirections.navigateToPostFragment(
+                            FirebaseAuth.getInstance().currentUser!!.uid
+                        )
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment(
-                        FirebaseAuth.getInstance().currentUser!!.uid))
+                    findNavController(R.id.myNavHostFragment).navigate(
+                        NavigationDirections.navigateToProfileFragment(
+                            FirebaseAuth.getInstance().currentUser!!.uid
+                        )
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
             }

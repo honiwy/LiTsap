@@ -56,6 +56,7 @@
     <string name="create_mock_module">ex: 聽力</string>
     <string name="create_no_name">無任務名稱</string>
     <string name="create_murmur">Murmur</string>
+    <string name="create_first_history">建立一項任務，包含%d個細項\n加油加油!</string>
     <!-- Task Detail -->
     <string name="task_detail">任務詳情</string>
     <string name="task_choose">選擇執行細項:</string>
@@ -67,6 +68,7 @@
     <string name="task_hint">請在上方選擇...</string>
     <string name="mock_module">煎蛋</string>
     <string name="task_time">堅持 %d 分鐘</string>
+    <string name="detail_chart_format">##0.0%</string>
     <!-- Task Workout -->
     <string name="completed_ahead">提前完成任務</string>
     <string name="hint_write_something">寫點什麼...</string>
@@ -84,6 +86,8 @@
     <string name="finish_point">本次積點</string>
     <string name="insert_text">插入圖片</string>
     <string name="feedback_hint">建議 100 字內</string>
+    <string name="finish_leave_title">離開頁面</string>
+    <string name="finish_leave_content">不領取經驗值直接離開嗎?</string>
     <!-- Post -->
     <string name="post_no_data">本日未留下任何紀錄</string>
     <!-- Profile -->

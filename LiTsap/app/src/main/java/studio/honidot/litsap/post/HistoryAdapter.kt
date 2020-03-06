@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.databinding.ItemHistoryBinding
 
-class HistoryAdapter(val viewModel: PostViewModel) : ListAdapter<History, HistoryAdapter.ModuleViewHolder>(DiffCallback) {
+class HistoryAdapter(val viewModel: PostViewModel) :
+    ListAdapter<History, HistoryAdapter.ModuleViewHolder>(DiffCallback) {
 
-    class ModuleViewHolder(private var binding: ItemHistoryBinding): RecyclerView.ViewHolder(binding.root) {
+    class ModuleViewHolder(private var binding: ItemHistoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(history: History) {
             history.note = history.note.trim()
@@ -21,10 +23,6 @@ class HistoryAdapter(val viewModel: PostViewModel) : ListAdapter<History, Histor
         }
     }
 
-    /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Product]
-     * has been updated.
-     */
     companion object DiffCallback : DiffUtil.ItemCallback<History>() {
         override fun areItemsTheSame(oldItem: History, newItem: History): Boolean {
             return (oldItem === newItem)
@@ -39,7 +37,13 @@ class HistoryAdapter(val viewModel: PostViewModel) : ListAdapter<History, Histor
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModuleViewHolder {
-        return ModuleViewHolder(ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ModuleViewHolder(
+            ItemHistoryBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     /**

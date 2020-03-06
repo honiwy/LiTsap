@@ -3,18 +3,15 @@ package studio.honidot.litsap.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.*
-import studio.honidot.litsap.LiTsapApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 private const val BAR_CHART_DRAW_DAYS = 7
 
@@ -84,7 +81,6 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     init {
         findUser(arguments)
     }
-
 
 
     fun getMurmur(groupId: String) {
@@ -176,9 +172,10 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
 
     val error: LiveData<String>
         get() = _error
+
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
         coroutineScope.launch {
-             _status.value = LoadApiStatus.LOADING
+            _status.value = LoadApiStatus.LOADING
             val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {

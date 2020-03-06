@@ -2,7 +2,6 @@ package studio.honidot.litsap.source
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import com.google.firebase.auth.FirebaseUser
 import studio.honidot.litsap.data.*
 
 interface LiTsapRepository {
@@ -19,21 +18,24 @@ interface LiTsapRepository {
 
     suspend fun findUser(firebaseUserId: String): Result<User?>
 
-    suspend fun createUser(user : User): Result<Boolean>
+    suspend fun createUser(user: User): Result<Boolean>
 
-    fun getUser(userId : String): LiveData<User>
+    fun getUser(userId: String): LiveData<User>
 
     suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
 
-    suspend fun deleteUserOngoingTask(userId : String, taskId: String): Result<Boolean>
+    suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean>
 
     suspend fun deleteTask(taskId: String): Result<Boolean>
 
-    suspend fun getHistory(taskIdList: List<String>,passNday:Int): Result<List<History>>
+    suspend fun getHistory(taskIdList: List<String>, passNday: Int): Result<List<History>>
 
     suspend fun getMemberMurmurs(groupId: String): Result<List<Member>>
 
-    suspend fun getHistoryOnThatDay(taskIdList: List<String>,dateString:String): Result<List<History>>
+    suspend fun getHistoryOnThatDay(
+        taskIdList: List<String>,
+        dateString: String
+    ): Result<List<History>>
 
     suspend fun getModules(taskId: String): Result<List<Module>>
 

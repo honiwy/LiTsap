@@ -1,17 +1,14 @@
 package studio.honidot.litsap.task.create
 
 import android.icu.util.Calendar
-import android.widget.Toast
 import androidx.databinding.InverseMethod
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import studio.honidot.litsap.LiTsapApplication.Companion.appContext
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
@@ -36,8 +33,6 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     val user: LiveData<User>
         get() = _user
 
-
-
     fun findUser(firebaseUserId: String) {
         coroutineScope.launch {
             val result = repository.findUser(firebaseUserId)
@@ -59,7 +54,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     }
 
     fun addModule() {
-        moduleNameList.value?.let{list->
+        moduleNameList.value?.let { list ->
             if (list.size < 6) {
                 newModule.value?.let {
                     list.add(it.trim())
@@ -71,7 +66,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     }
 
     fun removeModule(module: String) {
-        moduleNameList.value?.let{list->
+        moduleNameList.value?.let { list ->
             list.remove(list.findLast { it == module })
         }
         moduleNameList.value = moduleNameList.value
@@ -153,7 +148,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     null
                 }
             }
-            _count.value?.let{
+            _count.value?.let {
                 _count.value = it.plus(1)
             }
         }
@@ -187,7 +182,10 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     private fun createFirstTaskHistory(taskId: String) {
         coroutineScope.launch {
             val history = History(
-                note = "建立一項任務，包含 ${moduleNameList.value!!.size}個細項\n加油加油!",
+                note = instance.getString(
+                    R.string.create_first_history,
+                    moduleNameList.value!!.size
+                ),
                 imageUri = "",
                 achieveCount = 0,
                 recordDate = Calendar.getInstance().timeInMillis,
@@ -214,11 +212,12 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     null
                 }
             }
-            _count.value?.let{
+            _count.value?.let {
                 _count.value = it.plus(1)
             }
         }
     }
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -231,15 +230,15 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     val error: LiveData<String>
         get() = _error
 
-    fun create(){
+    fun create() {
         _status.value = LoadApiStatus.LOADING
         _count.value = 0
-        findGroup(selectedTaskCategoryPosition.value?: 6)
+        findGroup(selectedTaskCategoryPosition.value ?: 6)
     }
 
     private fun createTask(groupId: String) {
         coroutineScope.launch {
-            _user.value?.let{currentUser->
+            _user.value?.let { currentUser ->
                 val task = Task(
                     userId = currentUser.userId,
                     taskId = "",
@@ -255,15 +254,19 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
 
                 when (val result = repository.createTask(task)) {
                     is Result.Success -> {
-                        moduleNameList.value?.let{list->
+                        moduleNameList.value?.let { list ->
                             list.forEach { moduleName ->
-                                createTaskModules(result.data, Module(moduleName, "",0))
+                                createTaskModules(result.data, Module(moduleName, "", 0))
                             }
                         }
                         createFirstTaskHistory(result.data)
                         updateTaskIdList(currentUser.userId, result.data)
-                        addMemberToGroup(Member(groupId,currentUser.userId,currentUser.userName,result.data,
-                            instance.getString(R.string.create_murmur)))
+                        addMemberToGroup(
+                            Member(
+                                groupId, currentUser.userId, currentUser.userName, result.data,
+                                instance.getString(R.string.create_murmur)
+                            )
+                        )
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -281,7 +284,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                         null
                     }
                 }
-                _count.value?.let{
+                _count.value?.let {
                     _count.value = it.plus(1)
                 }
             }
@@ -292,9 +295,9 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         coroutineScope.launch {
             when (val result = repository.findGroup(taskCategoryId)) {
                 is Result.Success -> {
-                    if(result.data.isEmpty()){
-                        createGroup(Group("",taskCategoryId,false,0))
-                    } else{
+                    if (result.data.isEmpty()) {
+                        createGroup(Group("", taskCategoryId, false, 0))
+                    } else {
                         createTask(result.data[0])
                     }
                 }
@@ -314,11 +317,12 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     null
                 }
             }
-            _count.value?.let{
+            _count.value?.let {
                 _count.value = it.plus(1)
             }
         }
     }
+
     private fun createGroup(group: Group) {
         coroutineScope.launch {
             when (val result = repository.createGroup(group)) {
@@ -344,7 +348,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
-    private fun checkGroupFull(groupId: String){
+    private fun checkGroupFull(groupId: String) {
         coroutineScope.launch {
             when (val result = repository.checkGroupFull(groupId)) {
                 is Result.Success -> {
@@ -366,7 +370,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     null
                 }
             }
-            _count.value?.let{
+            _count.value?.let {
                 _count.value = it.plus(1)
             }
         }
@@ -394,7 +398,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
                     null
                 }
             }
-            _count.value?.let{
+            _count.value?.let {
                 _count.value = it.plus(1)
             }
         }

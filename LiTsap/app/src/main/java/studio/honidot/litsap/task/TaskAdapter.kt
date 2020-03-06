@@ -10,7 +10,10 @@ import studio.honidot.litsap.data.TaskItem
 import studio.honidot.litsap.databinding.ItemTaskBinding
 import studio.honidot.litsap.databinding.ItemTaskClassBinding
 
-class TaskAdapter(private val onClickListener: OnClickListener, private val onLongClickListener: OnLongClickListener) :
+class TaskAdapter(
+    private val onClickListener: OnClickListener,
+    private val onLongClickListener: OnLongClickListener
+) :
     ListAdapter<TaskItem, RecyclerView.ViewHolder>(DiffCallback) {
     class OnClickListener(val clickListener: (task: Task) -> Unit) {
         fun onClick(task: Task) = clickListener(task)
@@ -32,11 +35,17 @@ class TaskAdapter(private val onClickListener: OnClickListener, private val onLo
     class AssignmentViewHolder(private var binding: ItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(task: Task, onClickListener: OnClickListener, onLongClickListener: OnLongClickListener) {
+        fun bind(
+            task: Task,
+            onClickListener: OnClickListener,
+            onLongClickListener: OnLongClickListener
+        ) {
             binding.task = task
             binding.root.setOnClickListener { onClickListener.onClick(task) }
-            binding.root.setOnLongClickListener { onLongClickListener.onLongClick(task)
-            true}
+            binding.root.setOnLongClickListener {
+                onLongClickListener.onLongClick(task)
+                true
+            }
             binding.executePendingBindings()
         }
     }
@@ -80,7 +89,11 @@ class TaskAdapter(private val onClickListener: OnClickListener, private val onLo
                 holder.bind((getItem(position) as TaskItem.Title).title)
             }
             is AssignmentViewHolder -> {
-                holder.bind((getItem(position) as TaskItem.Assignment).task, onClickListener, onLongClickListener)
+                holder.bind(
+                    (getItem(position) as TaskItem.Assignment).task,
+                    onClickListener,
+                    onLongClickListener
+                )
             }
         }
     }

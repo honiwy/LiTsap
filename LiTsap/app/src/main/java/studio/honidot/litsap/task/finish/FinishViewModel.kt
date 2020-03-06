@@ -2,16 +2,9 @@ package studio.honidot.litsap.task.finish
 
 import android.icu.util.Calendar
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,9 +16,7 @@ import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
-import java.util.*
 
 class FinishViewModel(
     private val repository: LiTsapRepository,
@@ -84,6 +75,7 @@ class FinishViewModel(
 
     val error: LiveData<String>
         get() = _error
+
     fun update(workout: Workout) {
         _status.value = LoadApiStatus.LOADING
         _count.value = 0
@@ -123,7 +115,7 @@ class FinishViewModel(
 
     private fun updateUserStatus(workout: Workout) {
         coroutineScope.launch {
-            when (val result =repository.updateUserStatus(workout)) {
+            when (val result = repository.updateUserStatus(workout)) {
                 is Result.Success -> {
 
                 }
@@ -148,7 +140,6 @@ class FinishViewModel(
             }
         }
     }
-
 
     private fun createTaskHistory(history: History) {
         coroutineScope.launch {
@@ -249,12 +240,10 @@ class FinishViewModel(
         }
     }
 
-
     fun onTaskNavigated() {
         _error.value = null
         _status.value = LoadApiStatus.DONE
         _count.value = null
     }
-
 
 }

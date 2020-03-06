@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.databinding.ItemProfileFaceBinding
 
-class FaceAdapter(val viewModel: FaceChooseViewModel) : ListAdapter<Int, FaceAdapter.FaceViewHolder>(DiffCallback) {
+class FaceAdapter(val viewModel: FaceChooseViewModel) :
+    ListAdapter<Int, FaceAdapter.FaceViewHolder>(DiffCallback) {
 
     class FaceViewHolder(
         private var binding: ItemProfileFaceBinding,
         private val viewModel: FaceChooseViewModel
-    ): RecyclerView.ViewHolder(binding.root), LifecycleOwner {
+    ) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
         val isSelected: LiveData<Boolean> = Transformations.map(viewModel.selectedFacePosition) {
             it == adapterPosition
@@ -65,7 +66,13 @@ class FaceAdapter(val viewModel: FaceChooseViewModel) : ListAdapter<Int, FaceAda
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FaceViewHolder {
-        return FaceViewHolder(ItemProfileFaceBinding.inflate(LayoutInflater.from(parent.context), parent, false), viewModel)
+        return FaceViewHolder(
+            ItemProfileFaceBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), viewModel
+        )
     }
 
     /**

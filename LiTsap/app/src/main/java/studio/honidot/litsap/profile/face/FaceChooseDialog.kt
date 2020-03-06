@@ -2,7 +2,6 @@ package studio.honidot.litsap.profile.face
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.DialogChooseFaceBinding
 import studio.honidot.litsap.extension.getVmFactory
-import studio.honidot.litsap.util.Logger
 
 
 class FaceChooseDialog : DialogFragment() {
@@ -47,7 +45,7 @@ class FaceChooseDialog : DialogFragment() {
             FirebaseAuth.getInstance().currentUser?.let {
                 viewModel.updateUserIcon(
                     it.uid,
-                    viewModel.selectedFacePosition.value?:0
+                    viewModel.selectedFacePosition.value ?: 0
                 )
             }
             dismiss()
@@ -60,6 +58,5 @@ class FaceChooseDialog : DialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.MessageDialog)
     }
-
 
 }

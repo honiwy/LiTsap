@@ -8,9 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.honidot.litsap.R
-import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
