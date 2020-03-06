@@ -21,8 +21,10 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
+import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
+import studio.honidot.litsap.util.Util
 import java.util.*
 
 class FinishViewModel(
@@ -71,8 +73,19 @@ class FinishViewModel(
     val count: LiveData<Int>
         get() = _count
 
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
 
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
     fun update(workout: Workout) {
+        _status.value = LoadApiStatus.LOADING
         _count.value = 0
         uploadImage(workout)
         updateTaskModule(workout)
@@ -82,12 +95,24 @@ class FinishViewModel(
 
     private fun updateTaskStatus(taskId: String, accumulationPoints: Long) {
         coroutineScope.launch {
-            when (repository.updateTaskStatus(taskId, accumulationPoints)) {
+            when (val result = repository.updateTaskStatus(taskId, accumulationPoints)) {
                 is Result.Success -> {
 
                 }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
                 else -> {
-                    Logger.d("Oops! [updateTaskStatus] is failed")
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
                 }
             }
             _count.value?.let {
@@ -98,12 +123,24 @@ class FinishViewModel(
 
     private fun updateUserStatus(workout: Workout) {
         coroutineScope.launch {
-            when (repository.updateUserStatus(workout)) {
+            when (val result =repository.updateUserStatus(workout)) {
                 is Result.Success -> {
 
                 }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
                 else -> {
-                    Logger.d("Oops! [updateUserStatus] is failed")
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
                 }
             }
             _count.value?.let {
@@ -115,12 +152,24 @@ class FinishViewModel(
 
     private fun createTaskHistory(history: History) {
         coroutineScope.launch {
-            when (repository.createTaskHistory(history)) {
+            when (val result = repository.createTaskHistory(history)) {
                 is Result.Success -> {
 
                 }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
                 else -> {
-                    Logger.d("Oops! [createTaskHistory] is failed")
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
                 }
             }
             _count.value?.let {
@@ -134,13 +183,24 @@ class FinishViewModel(
 
     private fun updateTaskModule(workout: Workout) {
         coroutineScope.launch {
-            val result = repository.updateTaskModule(workout)
-            when (result) {
+            when (val result = repository.updateTaskModule(workout)) {
                 is Result.Success -> {
 
                 }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
                 else -> {
-                    Logger.d("Oops! [updateTaskModule] is failed")
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
                 }
             }
             _count.value?.let {
@@ -156,8 +216,20 @@ class FinishViewModel(
                     is Result.Success -> {
                         _workout.value!!.imageUri = result.data.toString()
                     }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                        null
+                    }
                     else -> {
-                        Logger.d("Oops! [createTaskHistory] is failed")
+                        _error.value = Util.getString(R.string.you_know_nothing)
+                        _status.value = LoadApiStatus.ERROR
+                        null
                     }
                 }
             }
@@ -179,6 +251,8 @@ class FinishViewModel(
 
 
     fun onTaskNavigated() {
+        _error.value = null
+        _status.value = LoadApiStatus.DONE
         _count.value = null
     }
 

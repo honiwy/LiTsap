@@ -69,7 +69,7 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                             0
                         )
                         createUser(newUser,firstLogin)
-                        newUser
+                        null
                     }
                 }
                 is Result.Fail -> {
@@ -87,11 +87,13 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     private fun createUser(user: User, firstLogin: Boolean) {
         coroutineScope.launch {
-            when (repository.createUser(user)) {
+
+            _user.value = when (repository.createUser(user)) {
                 is Result.Success -> {
                     if(!firstLogin){
                         loginSuccess()
                     }
+                    user
                 }
                 is Result.Fail -> {
                     null

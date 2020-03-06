@@ -53,7 +53,7 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
 fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
     when (status) {
         LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
-        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
+        null, LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
     }
 }
 

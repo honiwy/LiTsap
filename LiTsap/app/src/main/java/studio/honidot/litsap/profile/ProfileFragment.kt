@@ -99,11 +99,11 @@ class ProfileFragment : Fragment() {
                 mHandler.postDelayed(this, MURMUR_RUN_TIME)
             }
         }
+        mHandler.postDelayed(runnable, MURMUR_RUN_TIME)
 
         val adapter = MurmurAdapter(viewModel)
         binding.recyclerMurmur.adapter = adapter
 
-        mHandler.postDelayed(runnable, MURMUR_RUN_TIME)
 
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
