@@ -67,7 +67,6 @@ class WorkoutFragment : Fragment() {
 
         viewModel.leaveWorkout.observe(this, Observer {
             it?.let {
-                mediaPlayer.stop()
                 mediaPlayer.release()
                 if (it) findNavController().popBackStack()
             }

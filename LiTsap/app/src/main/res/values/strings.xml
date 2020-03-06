@@ -71,6 +71,7 @@
     <string name="detail_chart_format">##0.0%</string>
     <!-- Task Workout -->
     <string name="completed_ahead">提前完成任務</string>
+    <string name="workout_lower_than_section">堅持下去就是你的了</string>
     <string name="hint_write_something">寫點什麼...</string>
     <!-- Task Break -->
     <string name="start_ahead">提前繼續任務</string>
