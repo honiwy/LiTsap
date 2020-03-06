@@ -7,11 +7,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
+import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Util
 
 class DetailViewModel(
     private val repository: LiTsapRepository,
@@ -36,11 +39,26 @@ class DetailViewModel(
     val awaitDrawModules: LiveData<List<Module>>
         get() = _awaitDrawModules
 
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
+
     private fun retrieveModules(taskId: String) {
         coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
             val result = repository.getModules(taskId)
             _modules.value = when (result) {
                 is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
                     _workout.value = Workout(
                         arguments.taskName,
                         arguments.taskCategoryId,
@@ -59,12 +77,18 @@ class DetailViewModel(
                     result.data
                 }
                 is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
             }

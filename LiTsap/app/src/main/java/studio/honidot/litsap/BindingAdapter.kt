@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
+import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.post.HistoryAdapter
 import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
@@ -44,6 +46,34 @@ fun bindRecyclerViewWithTaskItems(recyclerView: RecyclerView, taskItems: List<Ta
 
 
 //Global
+/**
+ * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
+ */
+@BindingAdapter("setupApiStatus")
+fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
+    when (status) {
+        LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
+        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
+    }
+}
+
+/**
+ * According to [message] to decide the visibility of [ProgressBar]
+ */
+@BindingAdapter("setupApiErrorMessage")
+fun bindApiErrorMessage(view: TextView, message: String?) {
+    when (message) {
+        null, "" -> {
+            view.visibility = View.GONE
+        }
+        else -> {
+            view.text = message
+            view.visibility = View.VISIBLE
+        }
+    }
+}
+
+
 @BindingAdapter("taskCategory")
 fun bindTaskCategories(imageView: ImageView, categoryId: Int) {
     val taskCategory = TaskCategory.values()[categoryId]

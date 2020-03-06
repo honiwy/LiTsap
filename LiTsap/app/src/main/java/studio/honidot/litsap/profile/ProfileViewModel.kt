@@ -8,8 +8,10 @@ import kotlinx.coroutines.*
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
+import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
+import studio.honidot.litsap.util.Util
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -82,6 +84,8 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     init {
         findUser(arguments)
     }
+
+
 
     fun getMurmur(groupId: String) {
         coroutineScope.launch {
@@ -161,12 +165,25 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         }
     }
 
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
 
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
         coroutineScope.launch {
+             _status.value = LoadApiStatus.LOADING
             val result = repository.getHistory(taskIdList, passNday)
             _historyPoints.value = when (result) {
                 is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
                     if (result.data.isNotEmpty()) {
                         result.data
                     } else {
@@ -175,12 +192,18 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                     }
                 }
                 is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
             }

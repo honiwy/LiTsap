@@ -18,7 +18,7 @@
     </style>
 
     <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
-        <item name="colorAccent">@color/black_3f3a3a</item>
+        <item name="colorAccent">@color/royal</item>
     </style>
 
 

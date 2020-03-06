@@ -49,13 +49,15 @@ class ProfileFragment : Fragment() {
             ).userIdKey
         )
     }
-    lateinit var mHandler:Handler
+    lateinit var mHandler: Handler
     lateinit var runnable: Runnable
+
     companion object {
         private const val BAR_CHART_DRAW_DAYS = 7
         private const val ONE_DAY_MILLI_SECOND = 86400 * 1000
         private const val CHART_ANIMATION_TIME = 1000
         private const val DIALOG_FACE = "face"
+        private const val MURMUR_RUN_TIME = 2000L
     }
 
     override fun onCreateView(
@@ -71,13 +73,11 @@ class ProfileFragment : Fragment() {
             FaceChooseDialog().show(childFragmentManager, DIALOG_FACE)
         }
 
-
         binding.textProfileInfo.isSelected = true
         binding.textProfileInfo.ellipsize = TextUtils.TruncateAt.MARQUEE
         binding.recyclerTab.adapter =
             CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
                 viewModel.getMurmur(it.groupId)
-
             })
 
         viewModel.murmurs.observe(this, Observer {
@@ -86,7 +86,6 @@ class ProfileFragment : Fragment() {
 
         mHandler = Handler(Looper.getMainLooper())
         var count = 0
-
         runnable = object : Runnable {
             override fun run() {
                 binding.recyclerMurmur.smoothScrollToPosition(
@@ -97,15 +96,14 @@ class ProfileFragment : Fragment() {
                         count++
                     }
                 )
-                mHandler.postDelayed(this, 2000)
+                mHandler.postDelayed(this, MURMUR_RUN_TIME)
             }
         }
 
         val adapter = MurmurAdapter(viewModel)
         binding.recyclerMurmur.adapter = adapter
 
-    mHandler.postDelayed(runnable, 2000)
-
+        mHandler.postDelayed(runnable, MURMUR_RUN_TIME)
 
         viewModel.historyPoints.observe(this, Observer {
             it?.let {
@@ -144,12 +142,10 @@ class ProfileFragment : Fragment() {
         val pointArrayList = mutableListOf<FloatArray>()
         val time = LocalDateTime.now()
 
-
         for (i in dayCount downTo 1) {
             xDate.add(time.minusDays((i - 1).toLong()).format(formatter)) //set each date format in x axis
             pointArrayList.add(FloatArray(taskCount)) //prepare ${dayCount} FloatArray(taskCount)
         }
-
 
         val sortedHistory = history.sortedBy { it.taskName }
         var taskIndex = 0  // indicate n-th task
