@@ -1,5 +1,9 @@
 package studio.honidot.litsap
 
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.Shape
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.format.DateFormat
@@ -22,6 +26,8 @@ import studio.honidot.litsap.diary.HistoryAdapter
 import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
 import studio.honidot.litsap.profile.face.FaceAdapter
+import studio.honidot.litsap.share.post.PostCircleAdapter
+import studio.honidot.litsap.share.post.PostGalleryAdapter
 import studio.honidot.litsap.task.TaskAdapter
 import studio.honidot.litsap.task.create.ModuleCreateAdapter
 import studio.honidot.litsap.task.detail.DetailModuleAdapter
@@ -175,6 +181,65 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 fun bindMinuteHourLong(textView: TextView, timeLong: Long) {
     textView.text =
         DateFormat.format(instance.getString(R.string.diary_record_time), Date(timeLong)).toString()
+}
+
+
+//Post Fragment
+@BindingAdapter("addDecoration")
+fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
+    decoration?.let { recyclerView.addItemDecoration(it) }
+}
+
+@BindingAdapter("count")
+fun bindRecyclerViewByCount(recyclerView: RecyclerView, count: Int?) {
+    count?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is PostCircleAdapter -> {
+                    submitCount(it)
+                }
+            }
+        }
+    }
+}
+
+@BindingAdapter("circleStatus")
+fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
+    imageView.background = ShapeDrawable(object : Shape() {
+        override fun draw(canvas: Canvas, paint: Paint) {
+
+            paint.color = getColor(R.color.white)
+            paint.isAntiAlias = true
+
+            when (isSelected) {
+                true -> {
+                    paint.style = Paint.Style.FILL
+                }
+                false -> {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = instance.resources
+                        .getDimensionPixelSize(R.dimen.edge_post_circle).toFloat()
+                }
+            }
+
+            canvas.drawCircle(this.width / 2, this.height / 2,
+                instance.resources
+                    .getDimensionPixelSize(R.dimen.radius_post_circle).toFloat(), paint)
+        }
+    })
+}
+
+@BindingAdapter("images")
+fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?) {
+    images?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is PostGalleryAdapter -> {
+                    submitImages(it)
+                }
+            }
+        }
+    }
 }
 
 

@@ -20,10 +20,10 @@ class ShareFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         FragmentShareBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = this@ShareFragment
-            viewpagerCatalog.let {
-                tabsCatalog.setupWithViewPager(it)
+            viewpagerShare.let {
+                tabsShare.setupWithViewPager(it)
                 it.adapter = ShareAdapter(childFragmentManager)
-                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
+                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsShare))
             }
             return@onCreateView root
         }
