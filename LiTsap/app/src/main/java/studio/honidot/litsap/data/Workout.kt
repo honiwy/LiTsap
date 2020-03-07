@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Workout(
+    var lastTime: Boolean = false,
     var taskName: String = "",
     var taskCategoryId: Int = -1,
     var moduleName: String = "",

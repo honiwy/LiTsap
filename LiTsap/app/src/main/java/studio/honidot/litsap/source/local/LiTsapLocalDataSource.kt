@@ -44,6 +44,10 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getShares(shareIdList: List<String>): Result<List<Share>>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -83,6 +87,10 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
     }
 
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun addUserHistoryList(userId: String, taskId: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

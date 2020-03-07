@@ -201,7 +201,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_workout_time">
 
-
             <ImageButton
                 android:id="@+id/button_power1"
                 android:layout_width="36dp"
@@ -217,6 +216,7 @@
                 android:id="@+id/button_power2"
                 android:layout_width="36dp"
                 android:layout_height="0dp"
+                android:visibility="@{(viewModel.task.goalCount-viewModel.task.accumCount&lt;2)?View.INVISIBLE:View.VISIBLE}"
                 android:background="@{(viewModel.workout.planSectionCount&lt;2)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(2)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;2)?@dimen/battery_margin:@dimen/battery_margin_null}"
@@ -229,6 +229,7 @@
                 android:id="@+id/button_power3"
                 android:layout_width="36dp"
                 android:layout_height="0dp"
+                android:visibility="@{(viewModel.task.goalCount-viewModel.task.accumCount&lt;3)?View.INVISIBLE:View.VISIBLE}"
                 android:background="@{(viewModel.workout.planSectionCount&lt;3)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(3)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;3)?@dimen/battery_margin:@dimen/battery_margin_null}"
@@ -241,6 +242,7 @@
                 android:id="@+id/button_power4"
                 android:layout_width="36dp"
                 android:layout_height="0dp"
+                android:visibility="@{(viewModel.task.goalCount-viewModel.task.accumCount&lt;4)?View.INVISIBLE:View.VISIBLE}"
                 android:background="@{(viewModel.workout.planSectionCount&lt;4)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(4)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;4)?@dimen/battery_margin:@dimen/battery_margin_null}"
@@ -253,6 +255,7 @@
                 android:id="@+id/button_power5"
                 android:layout_width="36dp"
                 android:layout_height="0dp"
+                android:visibility="@{(viewModel.task.goalCount-viewModel.task.accumCount&lt;5)?View.INVISIBLE:View.VISIBLE}"
                 android:background="@{(viewModel.workout.planSectionCount&lt;5)?@drawable/battery_low:@drawable/battery_high}"
                 android:onClick="@{()-> viewModel.onSetWorkoutTime(5)}"
                 app:layoutMarginStart="@{(viewModel.workout.planSectionCount&lt;5)?@dimen/battery_margin:@dimen/battery_margin_null}"

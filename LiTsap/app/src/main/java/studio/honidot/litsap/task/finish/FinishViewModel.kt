@@ -2,6 +2,7 @@ package studio.honidot.litsap.task.finish
 
 import android.icu.util.Calendar
 import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 
 class FinishViewModel(
@@ -83,7 +85,63 @@ class FinishViewModel(
         updateTaskModule(workout)
         updateUserStatus(workout)
         updateTaskStatus(workout.taskId, workout.achieveSectionCount.toLong())
+        if(arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount){
+            deleteUserOngoingTask(workout.userId, workout.taskId)
+            addHistoryTaskId(workout.userId, workout.taskId)
+            Toast.makeText(LiTsapApplication.appContext,"你已完成此項目標總次數，真是太棒了!",Toast.LENGTH_SHORT).show()
+        }
     }
+
+    private fun addHistoryTaskId(userId: String, taskId: String) {
+        coroutineScope.launch {
+            when (val result = repository.addUserHistoryList(userId, taskId)) {
+                is Result.Success -> {
+                    Logger.i("Task history list update!")
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
+        }
+    }
+
+    private fun deleteUserOngoingTask(userId: String, taskId: String) {
+        coroutineScope.launch {
+            when (repository.deleteUserOngoingTask(userId, taskId)) {
+                is Result.Success -> {
+                   Logger.w("Nothing")
+                }
+                is Result.Fail -> {
+                    null
+                }
+                is Result.Error -> {
+                    null
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+//    private fun moveTaskToHistory(userId: String, taskId: String){
+//
+//    }
 
     private fun updateTaskStatus(taskId: String, accumulationPoints: Long) {
         coroutineScope.launch {

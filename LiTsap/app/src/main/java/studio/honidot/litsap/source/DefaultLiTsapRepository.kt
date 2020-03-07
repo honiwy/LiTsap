@@ -48,6 +48,10 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getTasks(taskIdList)
     }
 
+    override suspend fun getShares(shareIdList: List<String>): Result<List<Share>>{
+        return remoteDataSource.getShares(shareIdList)
+    }
+
     override suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean> {
         return remoteDataSource.deleteUserOngoingTask(userId, taskId)
     }
@@ -88,6 +92,10 @@ class DefaultLiTsapRepository(
 
     override suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean> {
         return remoteDataSource.addUserOngoingList(userId, taskId)
+    }
+
+    override suspend fun addUserHistoryList(userId: String, taskId: String): Result<Boolean> {
+        return remoteDataSource.addUserHistoryList(userId, taskId)
     }
 
     override suspend fun updateMurmur(member: Member): Result<Boolean> {

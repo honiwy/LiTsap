@@ -26,6 +26,7 @@ import studio.honidot.litsap.diary.HistoryAdapter
 import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
 import studio.honidot.litsap.profile.face.FaceAdapter
+import studio.honidot.litsap.share.item.ShareItemAdapter
 import studio.honidot.litsap.share.post.PostCircleAdapter
 import studio.honidot.litsap.share.post.PostGalleryAdapter
 import studio.honidot.litsap.task.TaskAdapter
@@ -185,6 +186,17 @@ fun bindMinuteHourLong(textView: TextView, timeLong: Long) {
 
 
 //Post Fragment
+@BindingAdapter("shareItems")
+fun bindRecyclerViewWithShareItems(recyclerView: RecyclerView, shares: List<Share>?) {
+    shares?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is ShareItemAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
 @BindingAdapter("addDecoration")
 fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
     decoration?.let { recyclerView.addItemDecoration(it) }

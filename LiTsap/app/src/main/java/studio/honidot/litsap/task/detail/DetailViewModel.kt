@@ -60,6 +60,7 @@ class DetailViewModel(
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     _workout.value = Workout(
+                        false,
                         arguments.taskName,
                         arguments.taskCategoryId,
                         result.data[0].moduleName,
@@ -123,6 +124,7 @@ class DetailViewModel(
     fun onSetWorkoutTime(time: Int) {
         _workout.value?.apply {
             planSectionCount = time
+            lastTime = (time+arguments.accumCount) == arguments.goalCount
         }
         _workout.value = _workout.value
     }

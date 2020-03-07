@@ -90,8 +90,10 @@
     <string name="feedback_hint">建議 100 字內</string>
     <string name="finish_leave_title">離開頁面</string>
     <string name="finish_leave_content">不領取經驗值直接離開嗎?</string>
-    <!-- diary -->
+    <!-- Diary -->
     <string name="diary_no_data">本日未留下任何紀錄</string>
+    <!-- Post -->
+    <string name="post_no_data">還沒有任何成就任務</string>
     <!-- Profile -->
     <string name="profile_default_name">Rachel</string>
     <string name="profile_mock_murmur">我都完成了你們呢？</string>

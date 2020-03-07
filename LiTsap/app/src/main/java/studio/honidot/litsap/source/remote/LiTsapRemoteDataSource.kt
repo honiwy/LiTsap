@@ -28,13 +28,16 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val PATH_MEMBERS = "members"
     private const val PATH_USERS = "users"
     private const val PATH_TASKS = "tasks"
+    private const val PATH_SHARES = "shares"
     private const val PATH_MODULES = "modules"
     private const val PATH_HISTORY = "history"
     private const val FIELD_GROUP_FULL = "groupFull"
     private const val FIELD_GROUP_CATEGORY_ID = "groupCategoryId"
     private const val FIELD_ONGOING_TASK = "ongoingTasks"
+    private const val FIELD_HISTORY_TASK = "historyTasks"
     private const val FIELD_ICON_ID = "iconId"
     private const val FIELD_TASK_ID = "taskId"
+    private const val FIELD_SHARE_ID = "shareId"
     private const val FIELD_TODAY_DONE = "todayDone"
     private const val FIELD_RECORD_DATE = "recordDate"
     private const val FIELD_ACCUMULATE_COUNT = "accumCount"
@@ -283,6 +286,28 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+    override suspend fun getShares(shareIdList: List<String>): Result<List<Share>> =
+        suspendCoroutine { continuation ->
+            val shares = mutableListOf<Share>()
+            FirebaseFirestore.getInstance().collection(PATH_SHARES)
+                .whereIn(FIELD_SHARE_ID, shareIdList)
+                .get().addOnCompleteListener { findShare ->
+                    if (findShare.isSuccessful) {
+                        for (documentT in findShare.result!!) {
+                            shares.add(documentT.toObject(Share::class.java))
+                        }
+                        continuation.resume(Result.Success(shares))
+                    } else {
+                        findShare.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun getModules(taskId: String): Result<List<Module>> =
         suspendCoroutine { continuation ->
             val modules = mutableListOf<Module>()
@@ -429,6 +454,24 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
                 .update(FIELD_ONGOING_TASK, FieldValue.arrayUnion(taskId))
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun addUserHistoryList(userId: String, taskId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
+                .update(FIELD_HISTORY_TASK, FieldValue.arrayUnion(taskId))
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {
                         continuation.resume(Result.Success(true))

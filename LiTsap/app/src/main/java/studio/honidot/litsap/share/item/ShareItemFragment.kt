@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.databinding.FragmentShareItemBinding
 import studio.honidot.litsap.extension.getVmFactory
@@ -27,19 +28,20 @@ class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.recyclerShareItems.adapter = ShareItemAdapter(ShareItemAdapter.OnClickListener {
+        binding.recyclerShareItems.adapter = ShareItemAdapter(viewModel,ShareItemAdapter.OnClickListener {
             viewModel.navigateToPost(it)
         })
 
         viewModel.navigateToPost.observe(this, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToPostFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToPostFragment(it))
+                viewModel.onPostNavigated()
+            }
         })
 
-
-
+        FirebaseAuth.getInstance().currentUser?.let {
+            viewModel.findUser(it)
+        }
 
         return binding.root
     }

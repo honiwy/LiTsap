@@ -9,6 +9,7 @@ import studio.honidot.litsap.data.Share
 import studio.honidot.litsap.databinding.ItemShareGridBinding
 
 class ShareItemAdapter(
+    val viewModel: ShareItemViewModel,
     private val onClickListener: OnClickListener
 ) :
     ListAdapter<Share, ShareItemAdapter.ShareViewHolder>(DiffCallback) {

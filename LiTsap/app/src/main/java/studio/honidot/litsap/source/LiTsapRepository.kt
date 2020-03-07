@@ -24,6 +24,8 @@ interface LiTsapRepository {
 
     suspend fun getTasks(taskIdList: List<String>): Result<List<Task>>
 
+    suspend fun getShares(shareIdList: List<String>): Result<List<Share>>
+
     suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean>
 
     suspend fun deleteTask(taskId: String): Result<Boolean>
@@ -44,6 +46,8 @@ interface LiTsapRepository {
     suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>
 
     suspend fun addUserOngoingList(userId: String, taskId: String): Result<Boolean>
+
+    suspend fun addUserHistoryList(userId: String, taskId: String): Result<Boolean>
 
     suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean>
 
