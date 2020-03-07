@@ -18,7 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.network.LoadApiStatus
-import studio.honidot.litsap.post.HistoryAdapter
+import studio.honidot.litsap.diary.HistoryAdapter
 import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
 import studio.honidot.litsap.profile.face.FaceAdapter
@@ -93,7 +93,8 @@ fun bindToolbarVisibility(view: View, fragment: CurrentFragmentType) {
     view.visibility =
         when (fragment) {
             CurrentFragmentType.TASK -> View.VISIBLE
-            CurrentFragmentType.POST -> View.VISIBLE
+            CurrentFragmentType.SHARE -> View.VISIBLE
+            CurrentFragmentType.DIARY -> View.VISIBLE
             else -> View.GONE
         }
 }
@@ -103,7 +104,8 @@ fun bindBottomNavVisibility(view: View, fragment: CurrentFragmentType) {
     view.visibility =
         when (fragment) {
             CurrentFragmentType.TASK -> View.VISIBLE
-            CurrentFragmentType.POST -> View.VISIBLE
+            CurrentFragmentType.SHARE -> View.VISIBLE
+            CurrentFragmentType.DIARY -> View.VISIBLE
             CurrentFragmentType.PROFILE -> View.VISIBLE
             else -> View.GONE
         }
@@ -132,7 +134,7 @@ fun bindUserNameGoogle(textView: TextView, user: User?) {
 }
 
 
-//Post Fragment
+//Diary Fragment
 @BindingAdapter("records")
 fun bindRecyclerViewWithRecords(recyclerView: RecyclerView, records: List<History>?) {
     records?.let {
@@ -172,7 +174,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("minuteHourConverter")
 fun bindMinuteHourLong(textView: TextView, timeLong: Long) {
     textView.text =
-        DateFormat.format(instance.getString(R.string.post_record_time), Date(timeLong)).toString()
+        DateFormat.format(instance.getString(R.string.diary_record_time), Date(timeLong)).toString()
 }
 
 

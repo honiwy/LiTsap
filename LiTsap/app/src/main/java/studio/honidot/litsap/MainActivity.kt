@@ -43,9 +43,16 @@ class MainActivity : AppCompatActivity() {
                     )
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_post -> {
+                R.id.navigation_share -> {
                     findNavController(R.id.myNavHostFragment).navigate(
-                        NavigationDirections.navigateToPostFragment(
+                        NavigationDirections.navigateToShareFragment(
+                        )
+                    )
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_diary -> {
+                    findNavController(R.id.myNavHostFragment).navigate(
+                        NavigationDirections.navigateToDiaryFragment(
                             FirebaseAuth.getInstance().currentUser!!.uid
                         )
                     )
@@ -68,8 +75,9 @@ class MainActivity : AppCompatActivity() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.shareFragment -> CurrentFragmentType.SHARE
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
-                R.id.postFragment -> CurrentFragmentType.POST
+                R.id.diaryFragment -> CurrentFragmentType.DIARY
                 R.id.taskFragment -> CurrentFragmentType.TASK
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 else -> viewModel.currentFragmentType.value

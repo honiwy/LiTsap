@@ -1,4 +1,4 @@
-package studio.honidot.litsap.post
+package studio.honidot.litsap.diary
 
 import android.content.Context
 import android.view.View

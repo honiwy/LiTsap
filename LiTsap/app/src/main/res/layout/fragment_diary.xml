@@ -7,7 +7,7 @@
 <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="studio.honidot.litsap.post.PostViewModel" />
+            type="studio.honidot.litsap.diary.DiaryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +73,7 @@
         <TextView
             android:id="@+id/text_no_data"
             style="@style/TaskTextStyle"
-            android:text="@string/post_no_data"
+            android:text="@string/diary_no_data"
             android:visibility="@{(viewModel.records.empty||viewModel.records==null)? View.VISIBLE:View.INVISIBLE}"
             android:textColor="@color/honey"
             app:layout_constraintBottom_toBottomOf="@+id/recycler_history"

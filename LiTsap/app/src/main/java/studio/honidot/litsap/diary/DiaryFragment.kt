@@ -1,4 +1,4 @@
-package studio.honidot.litsap.post
+package studio.honidot.litsap.diary
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.PagerSnapHelper
-import studio.honidot.litsap.databinding.FragmentPostBinding
+import studio.honidot.litsap.databinding.FragmentDiaryBinding
 import studio.honidot.litsap.extension.getVmFactory
 
 
-class PostFragment : Fragment() {
+class DiaryFragment : Fragment() {
 
-    private val viewModel by viewModels<PostViewModel> {
+    private val viewModel by viewModels<DiaryViewModel> {
         getVmFactory(
-            PostFragmentArgs.fromBundle(
+            DiaryFragmentArgs.fromBundle(
                 arguments!!
             ).userIdKey
         )
@@ -26,7 +26,7 @@ class PostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentPostBinding.inflate(inflater, container, false)
+        val binding = FragmentDiaryBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         val adapter = HistoryAdapter(viewModel)

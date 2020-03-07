@@ -360,7 +360,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     ): Result<List<History>> =
         suspendCoroutine { continuation ->
             val startDate =
-                SimpleDateFormat(instance.getString(R.string.post_record_date)).parse(dateString)
+                SimpleDateFormat(instance.getString(R.string.diary_record_date)).parse(dateString)
                     .time
             val listH = mutableListOf<History>()
             FirebaseFirestore.getInstance().collectionGroup(PATH_HISTORY)

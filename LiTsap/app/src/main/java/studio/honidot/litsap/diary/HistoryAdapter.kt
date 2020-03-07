@@ -1,4 +1,4 @@
-package studio.honidot.litsap.post
+package studio.honidot.litsap.diary
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.databinding.ItemHistoryBinding
 
-class HistoryAdapter(val viewModel: PostViewModel) :
+class HistoryAdapter(val viewModel: DiaryViewModel) :
     ListAdapter<History, HistoryAdapter.ModuleViewHolder>(DiffCallback) {
 
     class ModuleViewHolder(private var binding: ItemHistoryBinding) :

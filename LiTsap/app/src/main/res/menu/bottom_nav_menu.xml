@@ -7,9 +7,14 @@
         android:title="@string/task"/>
 
     <item
-        android:id="@+id/navigation_post"
-        android:icon="@drawable/ic_nav_post_selector"
-        android:title="@string/post"/>
+        android:id="@+id/navigation_share"
+        android:icon="@drawable/ic_nav_share_selector"
+        android:title="@string/share"/>
+
+    <item
+        android:id="@+id/navigation_diary"
+        android:icon="@drawable/ic_nav_diary_selector"
+        android:title="@string/diary"/>
 
     <item
         android:id="@+id/navigation_profile"

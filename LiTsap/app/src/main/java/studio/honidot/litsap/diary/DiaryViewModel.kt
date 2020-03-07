@@ -1,4 +1,4 @@
-package studio.honidot.litsap.post
+package studio.honidot.litsap.diary
 
 import android.icu.util.Calendar
 import android.text.format.DateFormat
@@ -20,7 +20,7 @@ import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Util
 import java.util.*
 
-class PostViewModel(private val repository: LiTsapRepository, private val arguments: String) :
+class DiaryViewModel(private val repository: LiTsapRepository, private val arguments: String) :
     ViewModel() {
 
     private val _user = MutableLiveData<User>()
@@ -78,7 +78,7 @@ class PostViewModel(private val repository: LiTsapRepository, private val argume
             }
             val date =
                 DateFormat.format(
-                    LiTsapApplication.instance.getString(R.string.post_select_date),
+                    LiTsapApplication.instance.getString(R.string.diary_select_date),
                     Date(Calendar.getInstance().timeInMillis)
                 ).toString()
             getHistoryOnThatDay(date)

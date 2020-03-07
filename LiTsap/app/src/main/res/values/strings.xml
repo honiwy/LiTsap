@@ -5,7 +5,8 @@
     <string name="internet_not_connected">您尚未連接 Internet</string>
 
     <string name="task">任務</string>
-    <string name="post">足跡</string>
+    <string name="diary">日記</string>
+    <string name="share">社群</string>
     <string name="profile">個人</string>
     <!--Login-->
     <string name="facebook">Facebook</string>
@@ -89,8 +90,8 @@
     <string name="feedback_hint">建議 100 字內</string>
     <string name="finish_leave_title">離開頁面</string>
     <string name="finish_leave_content">不領取經驗值直接離開嗎?</string>
-    <!-- Post -->
-    <string name="post_no_data">本日未留下任何紀錄</string>
+    <!-- diary -->
+    <string name="diary_no_data">本日未留下任何紀錄</string>
     <!-- Profile -->
     <string name="profile_default_name">Rachel</string>
     <string name="profile_mock_murmur">我都完成了你們呢？</string>
@@ -109,9 +110,9 @@
     <string name="dialog_choose_face">選擇頭像:</string>
     <!-- Date Pattern -->
     <string name="barchart_month_date">MMM dd</string>
-    <string name="post_record_time">HH : mm</string>
+    <string name="diary_record_time">HH : mm</string>
     <string name="workout_count_down">%02d:%02d</string>
     <string name="detail_end_date">截止時間: yyyy 年 MM 月 dd 日</string>
-    <string name="post_record_date">dd/MM/yyyy</string>
-    <string name="post_select_date">d/M/yyyy</string>
+    <string name="diary_record_date">dd/MM/yyyy</string>
+    <string name="diary_select_date">d/M/yyyy</string>
 </resources>

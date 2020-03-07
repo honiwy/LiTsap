@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import studio.honidot.litsap.MainViewModel
 import studio.honidot.litsap.login.LoginViewModel
 import studio.honidot.litsap.profile.face.FaceChooseViewModel
+import studio.honidot.litsap.share.ShareViewModel
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.task.create.TaskCreateViewModel
 
@@ -15,6 +16,8 @@ class ViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
+                isAssignableFrom(ShareViewModel::class.java) ->
+                    ShareViewModel(liTsapRepository)
 
                 isAssignableFrom(LoginViewModel::class.java) ->
                     LoginViewModel(liTsapRepository)

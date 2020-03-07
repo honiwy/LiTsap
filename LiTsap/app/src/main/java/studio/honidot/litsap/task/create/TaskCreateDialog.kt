@@ -47,7 +47,7 @@ class TaskCreateDialog : DialogFragment() {
         binding.endDate.apply {
             minDate = System.currentTimeMillis()
             setOnDateChangedListener { _, year, month, date ->
-                val format = SimpleDateFormat(getString(R.string.post_record_date))
+                val format = SimpleDateFormat(getString(R.string.diary_record_date))
                 viewModel.dueDate.value = format.parse("$date/${month + 1}/$year").time
             }
         }
