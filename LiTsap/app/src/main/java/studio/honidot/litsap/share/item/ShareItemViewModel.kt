@@ -20,6 +20,7 @@ import studio.honidot.litsap.data.User
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.share.ShareTypeFilter
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 
 class ShareItemViewModel(
@@ -67,10 +68,10 @@ class ShareItemViewModel(
             val result = repository.findUser(firebaseUser.uid)
             _user.value = when (result) {
                 is Result.Success -> {
-                    if(result.data?.shareTasks!!.isNotEmpty()){
-                        retrieveUserSharingTasks(result.data.shareTasks)
+                    if (result.data?.sharingTasks!!.isNotEmpty()) {
+                        retrieveUserSharingTasks(result.data.sharingTasks)
                     }
-                   result.data
+                    result.data
                 }
                 is Result.Fail -> {
                     null
@@ -86,31 +87,31 @@ class ShareItemViewModel(
     }
 
     private fun retrieveUserSharingTasks(shareIdList: List<String>) {
-            coroutineScope.launch {
-                _status.value = LoadApiStatus.LOADING
-                val result = repository.getShares(shareIdList)
-                _shareList.value = when (result) {
-                    is Result.Success -> {
-                        _error.value = null
-                        _status.value = LoadApiStatus.DONE
-                        result.data
-                    }
-                    is Result.Fail -> {
-                        _error.value = result.error
-                        _status.value = LoadApiStatus.ERROR
-                        null
-                    }
-                    is Result.Error -> {
-                        _error.value = result.exception.toString()
-                        _status.value = LoadApiStatus.ERROR
-                        null
-                    }
-                    else -> {
-                        _error.value = Util.getString(R.string.you_know_nothing)
-                        _status.value = LoadApiStatus.ERROR
-                        null
-                    }
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getShares(shareIdList)
+            _shareList.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
                 }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
         }
     }
 
@@ -124,7 +125,7 @@ class ShareItemViewModel(
         viewModelJob.cancel()
     }
 
-    fun navigateToPost(share:Share) {
+    fun navigateToPost(share: Share) {
         _navigateToPost.value = share
     }
 

@@ -9,6 +9,7 @@ data class Share(
     var userId: String = "",
     var userName: String = "",
     var taskId: String = "",
+    var taskCategoryId: Int = 0,
     var taskName: String = "",
     var note: String = "",
     var imageUris: List<String> = listOf()

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import studio.honidot.litsap.databinding.FragmentPostBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.util.Logger
 
 class PostFragment : Fragment() {
     private val viewModel by viewModels<PostViewModel> {
@@ -32,6 +33,12 @@ class PostFragment : Fragment() {
         viewModel.leavePost.observe(this, Observer {
             it?.let {
                 if (it) findNavController().popBackStack()
+            }
+        })
+
+        viewModel.share.observe(this, Observer {
+            it?.let {
+                Logger.d("$it")
             }
         })
 

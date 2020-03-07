@@ -90,6 +90,7 @@
     <string name="feedback_hint">建議 100 字內</string>
     <string name="finish_leave_title">離開頁面</string>
     <string name="finish_leave_content">不領取經驗值直接離開嗎?</string>
+    <string name="finish_congrats">已完成該任務目標總次數，真是太棒了!</string>
     <!-- Diary -->
     <string name="diary_no_data">本日未留下任何紀錄</string>
     <!-- Post -->

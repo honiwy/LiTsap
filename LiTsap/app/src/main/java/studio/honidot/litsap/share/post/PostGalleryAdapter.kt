@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.ItemPostGalleryBinding
+import studio.honidot.litsap.util.Logger
 
 class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHolder>() {
 
@@ -19,7 +20,7 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
     class ImageViewHolder(private var binding: ItemPostGalleryBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(context: Context, imageUrl: String) {
-
+            Logger.w("ImageViewHolder: $imageUrl")
             imageUrl.let {
                 binding.imageUrl = it
 

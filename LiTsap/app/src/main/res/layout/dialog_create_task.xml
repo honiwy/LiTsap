@@ -49,14 +49,14 @@
 
             <EditText
                 android:id="@+id/edit_title"
-                style="@style/TaskTextStyle"
+                style="@style/WorkoutTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/create_mock_task"
                 android:background="@drawable/create_task_round_editor"
                 android:backgroundTint="@{!viewModel.title.empty? @color/mustard:@color/white}"
+                android:hint="@string/create_mock_task"
                 android:maxLength="12"
                 android:singleLine="true"
                 android:text="@={viewModel.title}"
@@ -110,7 +110,7 @@
 
             <EditText
                 android:id="@+id/edit_module"
-                style="@style/TaskTextStyle"
+                style="@style/WorkoutTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -120,9 +120,9 @@
                 android:hint="@string/create_mock_module"
                 android:maxLength="6"
                 android:singleLine="true"
-                android:visibility="@{viewModel.moduleNameList.size()&lt;6? View.VISIBLE:View.INVISIBLE}"
                 android:text="@={viewModel.newModule}"
                 android:textAlignment="center"
+                android:visibility="@{viewModel.moduleNameList.size()&lt;6? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@+id/module_task"
                 app:layout_constraintEnd_toStartOf="@+id/button_module_add"
                 app:layout_constraintStart_toEndOf="@+id/module_task"
@@ -176,7 +176,7 @@
 
             <EditText
                 android:id="@+id/edit_task_amount_editor"
-                style="@style/TaskTextStyle"
+                style="@style/WorkoutTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="4dp"

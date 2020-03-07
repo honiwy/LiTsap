@@ -14,6 +14,7 @@ import studio.honidot.litsap.databinding.FragmentShareItemBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.share.ShareTypeFilter
+import studio.honidot.litsap.util.Logger
 
 class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
 
@@ -28,8 +29,15 @@ class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
 
         binding.viewModel = viewModel
 
+        viewModel.findUser(FirebaseAuth.getInstance().currentUser!!)
+
+
         binding.recyclerShareItems.adapter = ShareItemAdapter(viewModel,ShareItemAdapter.OnClickListener {
             viewModel.navigateToPost(it)
+        })
+
+        viewModel.shareList.observe(this, Observer {
+                Logger.w("Find $it")
         })
 
         viewModel.navigateToPost.observe(this, Observer {
@@ -39,9 +47,6 @@ class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
             }
         })
 
-        FirebaseAuth.getInstance().currentUser?.let {
-            viewModel.findUser(it)
-        }
 
         return binding.root
     }

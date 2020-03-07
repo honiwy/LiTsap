@@ -139,9 +139,9 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                             getGroupIdList(it.ongoingTasks)
                             twoList.addAll(it.ongoingTasks)
                         }
-                        if (it.historyTasks.isNotEmpty()) {
-                            twoList.addAll(it.historyTasks)
-                        }
+//                        if (it.historyTasks.isNotEmpty()) {
+//                            twoList.addAll(it.historyTasks)
+//                        }
                         if (twoList.isNotEmpty()) {
                             retrieveHistoryPoints(twoList, BAR_CHART_DRAW_DAYS - 1)
                         }

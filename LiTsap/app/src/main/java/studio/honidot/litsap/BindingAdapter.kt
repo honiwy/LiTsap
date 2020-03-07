@@ -35,6 +35,7 @@ import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 
@@ -244,6 +245,7 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
 @BindingAdapter("images")
 fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?) {
     images?.let {
+        Logger.w("bindRecyclerViewWithImages: $images")
         recyclerView.adapter?.apply {
             when (this) {
                 is PostGalleryAdapter -> {

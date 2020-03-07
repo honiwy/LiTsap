@@ -290,7 +290,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
         suspendCoroutine { continuation ->
             val shares = mutableListOf<Share>()
             FirebaseFirestore.getInstance().collection(PATH_SHARES)
-                .whereIn(FIELD_SHARE_ID, shareIdList)
+                .whereIn(FIELD_TASK_ID, shareIdList)
                 .get().addOnCompleteListener { findShare ->
                     if (findShare.isSuccessful) {
                         for (documentT in findShare.result!!) {

@@ -88,7 +88,7 @@ class FinishViewModel(
         if(arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount){
             deleteUserOngoingTask(workout.userId, workout.taskId)
             addHistoryTaskId(workout.userId, workout.taskId)
-            Toast.makeText(LiTsapApplication.appContext,"你已完成此項目標總次數，真是太棒了!",Toast.LENGTH_SHORT).show()
+            Toast.makeText(LiTsapApplication.appContext,LiTsapApplication.appContext.getString(R.string.finish_congrats),Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -96,7 +96,7 @@ class FinishViewModel(
         coroutineScope.launch {
             when (val result = repository.addUserHistoryList(userId, taskId)) {
                 is Result.Success -> {
-                    Logger.i("Task history list update!")
+                    null
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -114,25 +114,28 @@ class FinishViewModel(
                     null
                 }
             }
-            _count.value?.let {
-                _count.value = it.plus(1)
-            }
         }
     }
 
     private fun deleteUserOngoingTask(userId: String, taskId: String) {
         coroutineScope.launch {
-            when (repository.deleteUserOngoingTask(userId, taskId)) {
+            when (val result = repository.deleteUserOngoingTask(userId, taskId)) {
                 is Result.Success -> {
-                   Logger.w("Nothing")
+                   null
                 }
                 is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
             }
