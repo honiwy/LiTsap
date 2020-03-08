@@ -66,7 +66,7 @@
     <string name="task_plan">計畫執行 %d 單位\u0020→\u0020</string>
     <string name="task_achieve">已執行 %d 單位</string>
     <string name="task_go">開始任務</string>
-    <string name="task_hint">請在上方選擇...</string>
+    <string name="task_hint">還沒選擇執行時間呢...</string>
     <string name="mock_module">煎蛋</string>
     <string name="task_time">堅持 %d 分鐘</string>
     <string name="detail_chart_format">##0.0%</string>
