@@ -221,7 +221,7 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
     imageView.background = ShapeDrawable(object : Shape() {
         override fun draw(canvas: Canvas, paint: Paint) {
 
-            paint.color = getColor(R.color.white)
+            paint.color = getColor(R.color.honey)
             paint.isAntiAlias = true
 
             when (isSelected) {
@@ -245,7 +245,6 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
 @BindingAdapter("images")
 fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?) {
     images?.let {
-        Logger.w("bindRecyclerViewWithImages: $images")
         recyclerView.adapter?.apply {
             when (this) {
                 is PostGalleryAdapter -> {

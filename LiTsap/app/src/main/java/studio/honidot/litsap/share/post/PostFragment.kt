@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.PagerSnapHelper
 import studio.honidot.litsap.databinding.FragmentPostBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.util.Logger
@@ -30,15 +31,14 @@ class PostFragment : Fragment() {
         val binding = FragmentPostBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.recyclerPostGallery.adapter = PostGalleryAdapter()
+        binding.recyclerPostCircles.adapter = PostCircleAdapter()
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.recyclerPostGallery)
+
         viewModel.leavePost.observe(this, Observer {
             it?.let {
                 if (it) findNavController().popBackStack()
-            }
-        })
-
-        viewModel.share.observe(this, Observer {
-            it?.let {
-                Logger.d("$it")
             }
         })
 

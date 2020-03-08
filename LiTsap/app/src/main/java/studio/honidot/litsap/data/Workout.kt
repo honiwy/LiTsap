@@ -22,7 +22,7 @@ data class Workout(
     var imageUri: String = ""
 ) : Parcelable {
     companion object {
-        private const val TIME_UNIT = 1 // min:60, sec:1
+        private const val TIME_UNIT = 60 // min:60, sec:1
         const val BREAK_TIME = 5 * TIME_UNIT
         const val WORKOUT_TIME = 20 * TIME_UNIT
     }
