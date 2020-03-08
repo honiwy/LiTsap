@@ -308,6 +308,27 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+    override suspend fun getAllShares(): Result<List<Share>> =
+        suspendCoroutine { continuation ->
+            val shares = mutableListOf<Share>()
+            FirebaseFirestore.getInstance().collection(PATH_SHARES)
+                .get().addOnCompleteListener { findShare ->
+                    if (findShare.isSuccessful) {
+                        for (documentT in findShare.result!!) {
+                            shares.add(documentT.toObject(Share::class.java))
+                        }
+                        continuation.resume(Result.Success(shares))
+                    } else {
+                        findShare.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun getModules(taskId: String): Result<List<Module>> =
         suspendCoroutine { continuation ->
             val modules = mutableListOf<Module>()

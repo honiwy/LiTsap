@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 R.id.diaryFragment -> CurrentFragmentType.DIARY
                 R.id.taskFragment -> CurrentFragmentType.TASK
+                R.id.postFragment -> CurrentFragmentType.POST
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 else -> viewModel.currentFragmentType.value
             }

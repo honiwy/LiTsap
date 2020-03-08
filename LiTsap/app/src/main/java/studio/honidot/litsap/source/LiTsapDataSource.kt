@@ -26,6 +26,8 @@ interface LiTsapDataSource {
 
     suspend fun getShares(shareIdList: List<String>): Result<List<Share>>
 
+    suspend fun getAllShares(): Result<List<Share>>
+
     suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean>
 
     suspend fun deleteTask(taskId: String): Result<Boolean>

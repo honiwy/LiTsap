@@ -52,6 +52,10 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getShares(shareIdList)
     }
 
+    override suspend fun getAllShares(): Result<List<Share>>{
+        return remoteDataSource.getAllShares()
+    }
+
     override suspend fun deleteUserOngoingTask(userId: String, taskId: String): Result<Boolean> {
         return remoteDataSource.deleteUserOngoingTask(userId, taskId)
     }

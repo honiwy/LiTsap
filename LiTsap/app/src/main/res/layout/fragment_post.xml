@@ -57,17 +57,19 @@
                     android:id="@+id/text_post_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/noto_sans"
                     android:letterSpacing="0.15"
-                    android:lines="1"
+                    android:lines="2"
                     android:text="@{viewModel.share.taskName}"
                     android:textColor="@color/black_3f3a3a"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/text_post_user_name"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/image_post_category"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
                     tools:text="@string/mock_task" />
 
@@ -75,8 +77,6 @@
                     android:id="@+id/text_post_user_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/noto_sans"
@@ -86,8 +86,7 @@
                     android:textColor="@color/gray_888888"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_post_title"
+                    app:layout_constraintTop_toTopOf="@+id/text_post_title"
                     tools:text="@string/profile_default_name" />
 
                 <TextView
@@ -95,7 +94,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/noto_sans"
                     android:letterSpacing="0.15"
@@ -105,7 +104,7 @@
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_post_user_name"
+                    app:layout_constraintTop_toBottomOf="@+id/text_post_title"
                     tools:text="@string/mock_feedback" />
 
                 <!-- color -->
@@ -114,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/set_module"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_post_story" />
@@ -134,6 +133,7 @@
                     android:layout_height="@dimen/size_small"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="40dp"
+                    android:backgroundTint="@color/honey"
                     android:background="@drawable/return_back"
                     android:onClick="@{() -> viewModel.leavePost()}"
                     app:layout_constraintStart_toStartOf="parent"
@@ -148,6 +148,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/button_post_close"
                     app:srcCompat="@drawable/flame" />
+
+                <ImageView
+                    android:id="@+id/image_post_category"
+                    android:layout_width="@dimen/size_small"
+                    android:layout_height="@dimen/size_small"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    app:taskCategory="@{viewModel.share.taskCategoryId}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
+                    tools:background="@drawable/category_food" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

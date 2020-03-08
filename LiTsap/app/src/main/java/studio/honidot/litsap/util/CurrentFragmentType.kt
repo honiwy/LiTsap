@@ -8,6 +8,7 @@ enum class CurrentFragmentType(val value: String) {
     LOGIN(""),
     SHARE(""),
     DIARY(""),
+    POST(""),
     PROFILE(""),
     DETAIL(getString(R.string.task_detail))
 }

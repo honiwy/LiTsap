@@ -77,6 +77,7 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
         if (taskIdList.isEmpty()) {
             _taskItems.value =
                 mutableListOf(TaskItem.Title(LiTsapApplication.instance.getString(R.string.task_create_one)))
+            _taskCount.value = 0
         } else {
             coroutineScope.launch {
                 _status.value = LoadApiStatus.LOADING

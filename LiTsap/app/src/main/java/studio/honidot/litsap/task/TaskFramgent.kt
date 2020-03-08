@@ -17,6 +17,7 @@ import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.databinding.FragmentTaskBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.task.create.TaskCreateDialog
+import studio.honidot.litsap.util.Logger
 
 class TaskFragment : Fragment() {
     private val viewModel by viewModels<TaskViewModel> {
@@ -46,6 +47,7 @@ class TaskFragment : Fragment() {
             viewModel.longPressTaskItem(it)
         })
         binding.fab.setOnClickListener {
+            Logger.w("YOu press fab, viewModel.taskCount.value: ${viewModel.taskCount.value}")
             viewModel.taskCount.value?.let {
                 if (it >= TASK_COUNT_LIMIT) {
                     Toast.makeText(

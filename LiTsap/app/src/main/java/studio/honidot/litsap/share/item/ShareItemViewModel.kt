@@ -25,7 +25,7 @@ import studio.honidot.litsap.util.Util
 
 class ShareItemViewModel(
     private val repository: LiTsapRepository,
-    shareType: ShareTypeFilter // Handle the type for each catalog item
+    private val shareType: ShareTypeFilter // Handle the type for each catalog item
 ) : ViewModel() {
 
     private val _shareList = MutableLiveData<List<Share>>()
@@ -68,18 +68,57 @@ class ShareItemViewModel(
             val result = repository.findUser(firebaseUser.uid)
             _user.value = when (result) {
                 is Result.Success -> {
-                    if (result.data?.sharingTasks!!.isNotEmpty()) {
-                        retrieveUserSharingTasks(result.data.sharingTasks)
+                    if (shareType == ShareTypeFilter.PERSONAL) {
+                        if (result.data?.sharingTasks!!.isNotEmpty()) {
+                            retrieveUserSharingTasks(result.data.sharingTasks)
+                        }
+                    } else {
+                        retrieveAllSharingInFireStore()
                     }
                     result.data
                 }
                 is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
                 else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
+    }
+
+    private fun retrieveAllSharingInFireStore() {
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getAllShares()
+            _shareList.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
                     null
                 }
             }
