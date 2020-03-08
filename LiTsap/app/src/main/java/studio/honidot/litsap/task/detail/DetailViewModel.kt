@@ -60,6 +60,7 @@ class DetailViewModel(
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     _workout.value = Workout(
+                        arguments.todayDone,
                         false,
                         arguments.taskName,
                         arguments.taskCategoryId,

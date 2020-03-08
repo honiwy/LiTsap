@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +44,26 @@ class PostViewModel(
 
     fun leavePost() {
         _leavePost.value = true
+    }
+
+    // it for gallery circles design
+    private val _snapPosition = MutableLiveData<Int>()
+
+    val snapPosition: LiveData<Int>
+        get() = _snapPosition
+
+    /**
+     * When the gallery scroll, at the same time circles design will switch.
+     */
+    fun onGalleryScrollChange(layoutManager: RecyclerView.LayoutManager?, linearSnapHelper: LinearSnapHelper) {
+        val snapView = linearSnapHelper.findSnapView(layoutManager)
+        snapView?.let {
+            layoutManager?.getPosition(snapView)?.let {
+                if (it != snapPosition.value) {
+                    _snapPosition.value = it
+                }
+            }
+        }
     }
 
     val decoration = object : RecyclerView.ItemDecoration() {

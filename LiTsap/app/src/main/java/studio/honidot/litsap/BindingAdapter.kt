@@ -255,6 +255,21 @@ fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?
     }
 }
 
+@BindingAdapter("imageUrlNoCorner")
+fun bindImageNoCorner(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions().transform(CenterCrop())
+                    .placeholder(R.drawable.loggo)
+                    .error(R.drawable.loggo)
+            )
+            .into(imgView)
+    }
+}
+
 
 //Create Dialog
 @BindingAdapter("tags")

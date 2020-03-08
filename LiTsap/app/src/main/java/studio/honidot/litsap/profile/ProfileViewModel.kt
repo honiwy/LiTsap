@@ -63,9 +63,24 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                 if (it.userId == thisUser.userId) {
                     it.murmur = editMurmur.value ?: ""
                     coroutineScope.launch {
-                        when (repository.updateMurmur(it)) {
+                        _status.value = LoadApiStatus.LOADING
+                        when (val result = repository.updateMurmur(it)) {
                             is Result.Success -> {
+                                _error.value = null
+                                _status.value = LoadApiStatus.DONE
                                 getMurmur(it.groupId)
+                            }
+                            is Result.Fail -> {
+                                _error.value = result.error
+                                _status.value = LoadApiStatus.ERROR
+                            }
+                            is Result.Error -> {
+                                _error.value = result.exception.toString()
+                                _status.value = LoadApiStatus.ERROR
+                            }
+                            else -> {
+                                _error.value = Util.getString(R.string.you_know_nothing)
+                                _status.value = LoadApiStatus.ERROR
                             }
                         }
                     }

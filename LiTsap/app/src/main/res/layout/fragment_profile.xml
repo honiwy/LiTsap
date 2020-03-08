@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+<import type="studio.honidot.litsap.network.LoadApiStatus"/>
 
         <import type="android.view.View" />
-        <import type="studio.honidot.litsap.data.User"/>
+
+        <import type="studio.honidot.litsap.data.User" />
+
         <variable
             name="viewModel"
             type="studio.honidot.litsap.profile.ProfileViewModel" />
@@ -44,8 +47,8 @@
 
             <TextView
                 android:id="@+id/text_profile_name"
-                android:layout_marginStart="8dp"
                 style="@style/TaskTextStyle"
+                android:layout_marginStart="8dp"
                 android:singleLine="true"
                 android:text="@{viewModel.user.userName}"
                 android:textColor="@color/white"
@@ -205,7 +208,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_competition"
                     android:layout_width="0dp"
-                    android:layout_height="150dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
@@ -235,7 +238,7 @@
                         android:layout_height="@dimen/size_small"
                         android:layout_marginEnd="8dp"
                         android:onClick="@{()-> viewModel.attemptEditMurmur()}"
-                        android:visibility="@{(viewModel.onGoingTasks!= null &amp;&amp; viewModel.editing==null)?View.VISIBLE:View.INVISIBLE}"
+                        android:visibility="@{(viewModel.onGoingTasks!= null &amp;&amp; viewModel.editing==null &amp;&amp; viewModel.status != LoadApiStatus.LOADING )?View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@id/recycler_murmur"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/recycler_murmur"
@@ -247,7 +250,7 @@
                         android:layout_height="@dimen/size_small"
                         android:layout_marginEnd="8dp"
                         android:onClick="@{()->viewModel.sentEditMurmur()}"
-                        android:visibility="@{(viewModel.onGoingTasks== null || viewModel.editing == null)?View.INVISIBLE:View.VISIBLE}"
+                        android:visibility="@{(viewModel.onGoingTasks== null || viewModel.editing == null || viewModel.status == LoadApiStatus.LOADING )?View.INVISIBLE:View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@id/edit_murmur"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/edit_murmur"
@@ -258,19 +261,38 @@
                         style="@style/WorkoutTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="28dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/tag_button"
                         android:maxLength="10"
                         android:maxLines="1"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
                         android:text="@={viewModel.editMurmur}"
                         android:visibility="@{(viewModel.onGoingTasks== null || viewModel.editing==null)?View.INVISIBLE:View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/image_sent_murmur"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/ProgressTheme"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:setupApiStatus="@{viewModel.status}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:setupApiErrorMessage="@{viewModel.error}" />
 
                     <TextView
                         android:id="@+id/text_no_data"
@@ -317,23 +339,25 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <ProgressBar
-                        android:theme="@style/ProgressTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:setupApiStatus="@{viewModel.status}"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:theme="@style/ProgressTheme"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:setupApiStatus="@{viewModel.status}" />
 
-                    <TextView android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:setupApiErrorMessage="@{viewModel.error}"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:setupApiErrorMessage="@{viewModel.error}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

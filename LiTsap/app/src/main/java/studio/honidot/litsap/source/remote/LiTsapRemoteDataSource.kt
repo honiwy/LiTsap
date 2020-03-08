@@ -536,11 +536,12 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     //If user did the task that is done today will be something wrong with following code
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
+            val point = if(workout.todayDone){ 0L} else{1L}
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
                 .update(
                     mapOf(
                         FIELD_EXPERIENCE to FieldValue.increment(workout.achieveSectionCount * workout.achieveSectionCount.toLong()),
-                        FIELD_TODAY_DONE_COUNT to FieldValue.increment(1L)
+                        FIELD_TODAY_DONE_COUNT to FieldValue.increment(point)
                     )
                 )
                 .addOnCompleteListener { addId ->
