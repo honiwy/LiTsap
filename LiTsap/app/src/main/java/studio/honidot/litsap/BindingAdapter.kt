@@ -433,25 +433,27 @@ fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Wo
 //Profile Fragment
 @BindingAdapter("userProfile")
 fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
-    val userProfile = UserProfile.values()[userProfileId]
-    imageView.background =
-        when (userProfile) {
-            UserProfile.ACTOR -> instance.getDrawable(R.drawable.profile_actor)
-            UserProfile.DETECTIVE -> instance.getDrawable(R.drawable.profile_detective)
-            UserProfile.GIRL -> instance.getDrawable(R.drawable.profile_girl)
-            UserProfile.MAAM -> instance.getDrawable(R.drawable.profile_maam)
-            UserProfile.MAN -> instance.getDrawable(R.drawable.profile_man)
-            UserProfile.PIRATE -> instance.getDrawable(R.drawable.profile_pirate)
-            UserProfile.POLITICIAN -> instance.getDrawable(R.drawable.profile_politician)
-            UserProfile.STUDENT -> instance.getDrawable(R.drawable.profile_student)
-            UserProfile.USER -> instance.getDrawable(R.drawable.profile_user)
-            UserProfile.WOMEN -> instance.getDrawable(R.drawable.profile_woman)
-            UserProfile.CHEMIST -> instance.getDrawable(R.drawable.profile_chemist)
-            UserProfile.FIGHTER -> instance.getDrawable(R.drawable.profile_fighter)
-            UserProfile.SAILOR -> instance.getDrawable(R.drawable.profile_sailor)
-            UserProfile.SOLDIER -> instance.getDrawable(R.drawable.profile_soldier)
-            UserProfile.BEARDMAN -> instance.getDrawable(R.drawable.profile_beardman)
-        }
+    if(userProfileId!=-1) {
+        val userProfile = UserProfile.values()[userProfileId]
+        imageView.background =
+            when (userProfile) {
+                UserProfile.ACTOR -> instance.getDrawable(R.drawable.profile_actor)
+                UserProfile.DETECTIVE -> instance.getDrawable(R.drawable.profile_detective)
+                UserProfile.GIRL -> instance.getDrawable(R.drawable.profile_girl)
+                UserProfile.MAAM -> instance.getDrawable(R.drawable.profile_maam)
+                UserProfile.MAN -> instance.getDrawable(R.drawable.profile_man)
+                UserProfile.PIRATE -> instance.getDrawable(R.drawable.profile_pirate)
+                UserProfile.POLITICIAN -> instance.getDrawable(R.drawable.profile_politician)
+                UserProfile.STUDENT -> instance.getDrawable(R.drawable.profile_student)
+                UserProfile.USER -> instance.getDrawable(R.drawable.profile_user)
+                UserProfile.WOMEN -> instance.getDrawable(R.drawable.profile_woman)
+                UserProfile.CHEMIST -> instance.getDrawable(R.drawable.profile_chemist)
+                UserProfile.FIGHTER -> instance.getDrawable(R.drawable.profile_fighter)
+                UserProfile.SAILOR -> instance.getDrawable(R.drawable.profile_sailor)
+                UserProfile.SOLDIER -> instance.getDrawable(R.drawable.profile_soldier)
+                UserProfile.BEARDMAN -> instance.getDrawable(R.drawable.profile_beardman)
+            }
+    }
 }
 
 @BindingAdapter("levelInfo")
