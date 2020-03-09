@@ -34,7 +34,7 @@ class ShareItemAdapter(
 
     companion object DiffCallback : DiffUtil.ItemCallback<Share>() {
         override fun areItemsTheSame(oldItem: Share, newItem: Share): Boolean {
-            return oldItem === newItem
+            return oldItem.shareId == newItem.shareId
         }
 
         override fun areContentsTheSame(oldItem: Share, newItem: Share): Boolean {

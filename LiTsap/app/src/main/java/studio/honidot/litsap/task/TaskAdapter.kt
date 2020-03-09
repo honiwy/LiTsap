@@ -52,7 +52,7 @@ class TaskAdapter(
 
     companion object DiffCallback : DiffUtil.ItemCallback<TaskItem>() {
         override fun areItemsTheSame(oldItem: TaskItem, newItem: TaskItem): Boolean {
-            return oldItem === newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: TaskItem, newItem: TaskItem): Boolean {

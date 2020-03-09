@@ -17,6 +17,10 @@
         <item name="android:windowBackground">@color/translucent_80</item>
     </style>
 
+    <style name="PostDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
         <item name="colorAccent">@color/royal</item>
     </style>

@@ -162,6 +162,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
                     tools:background="@drawable/category_food" />
 
+                <ImageView
+                    android:id="@+id/image_edit_content"
+                    android:layout_width="@dimen/size_small"
+                    android:layout_height="@dimen/size_small"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/edit" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
