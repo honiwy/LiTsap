@@ -154,9 +154,9 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                             getGroupIdList(it.ongoingTasks)
                             twoList.addAll(it.ongoingTasks)
                         }
-//                        if (it.historyTasks.isNotEmpty()) {
-//                            twoList.addAll(it.historyTasks)
-//                        }
+                        if (it.historyTasks.isNotEmpty()) {
+                            twoList.addAll(it.historyTasks)
+                        }
                         if (twoList.isNotEmpty()) {
                             retrieveHistoryPoints(twoList, BAR_CHART_DRAW_DAYS - 1)
                         }
@@ -188,35 +188,50 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val error: LiveData<String>
         get() = _error
 
+    private val _historyName = MutableLiveData<List<String>>()
+
+    val historyName: LiveData<List<String>>
+        get() = _historyName
+
+    private fun getTaskCount(historyList: List<History>) {
+        var nameList = mutableListOf<String>()
+
+        val sortedHistoryList = historyList.sortedBy { it.taskName }
+        var name = ""
+        sortedHistoryList.forEach { history ->
+            if (history.taskName != name) {
+                nameList.add(history.taskName)
+                name = history.taskName
+            }
+        }
+        _historyName.value = nameList
+        _historyPoints.value = sortedHistoryList
+        _status.value = LoadApiStatus.DONE
+        _error.value = null
+    }
+
     private fun retrieveHistoryPoints(taskIdList: List<String>, passNday: Int) {
         coroutineScope.launch {
             _status.value = LoadApiStatus.LOADING
-            val result = repository.getHistory(taskIdList, passNday)
-            _historyPoints.value = when (result) {
+            when (val result = repository.getHistory(taskIdList, passNday)) {
                 is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
                     if (result.data.isNotEmpty()) {
-                        result.data
+                        getTaskCount(result.data)
                     } else {
                         createMockHistory(taskIdList)
-                        _historyPoints.value
                     }
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
                 else -> {
                     _error.value = Util.getString(R.string.you_know_nothing)
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
             }
         }
@@ -224,23 +239,25 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
 
     private fun createMockHistory(taskIdList: List<String>) {
         coroutineScope.launch {
-            val result = repository.getTasks(taskIdList)
-            _historyPoints.value = when (result) {
+            when (val result = repository.getTasks(taskIdList)) {
                 is Result.Success -> {
                     val tmpList = mutableListOf<History>()
                     result.data.forEach {
                         tmpList.add(History(taskId = it.taskId, taskName = it.taskName))
                     }
-                    tmpList
+                    getTaskCount(tmpList)
                 }
                 is Result.Fail -> {
-                    null
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                 }
                 is Result.Error -> {
-                    null
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
                 }
                 else -> {
-                    null
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
                 }
             }
         }

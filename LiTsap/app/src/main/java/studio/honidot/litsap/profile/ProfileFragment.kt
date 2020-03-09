@@ -25,7 +25,10 @@ import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.profile.face.FaceChooseDialog
 import studio.honidot.litsap.util.ChartColor
+import studio.honidot.litsap.util.Logger
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
@@ -101,7 +104,7 @@ class ProfileFragment : Fragment() {
                     binding.barChart,
                     it,
                     BAR_CHART_DRAW_DAYS,
-                    viewModel.user.value!!.ongoingTasks.size
+                    viewModel.historyName.value!!
                 )
             }
         })
@@ -114,11 +117,12 @@ class ProfileFragment : Fragment() {
         handler.removeCallbacks(runnable)
     }
 
+
     private fun drawBarChart(
         chart: BarChart,
-        history: List<History>,
+        sortedHistory: List<History>,
         dayCount: Int,
-        taskCount: Int
+        historyName: List<String>
     ) {
         val formatter = DateTimeFormatter.ofPattern(
             instance.getString(R.string.barchart_month_date)
@@ -134,10 +138,10 @@ class ProfileFragment : Fragment() {
 
         for (i in dayCount downTo 1) {
             xDate.add(time.minusDays((i - 1).toLong()).format(formatter)) //set each date format in x axis
-            pointArrayList.add(FloatArray(taskCount)) //prepare ${dayCount} FloatArray(taskCount)
+            pointArrayList.add(FloatArray(historyName.size)) //prepare ${dayCount} FloatArray(taskCount)
         }
 
-        val sortedHistory = history.sortedBy { it.taskName }
+//        val sortedHistory = history.sortedBy { it.taskName }
         var taskIndex = 0  // indicate n-th task
         var historyIndex = 0
         var name = sortedHistory[historyIndex].taskName
@@ -168,6 +172,7 @@ class ProfileFragment : Fragment() {
             }
             historyIndex += 1
         }
+
 
         for (i in 0 until dayCount) {
             yEntry.add(BarEntry(i.toFloat(), pointArrayList[i]))
