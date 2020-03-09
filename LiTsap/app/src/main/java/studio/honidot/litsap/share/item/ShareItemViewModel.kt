@@ -69,8 +69,8 @@ class ShareItemViewModel(
             _user.value = when (result) {
                 is Result.Success -> {
                     if (shareType == ShareTypeFilter.PERSONAL) {
-                        if (result.data?.sharingTasks!!.isNotEmpty()) {
-                            retrieveUserSharingTasks(result.data.sharingTasks)
+                        if (result.data?.historyTasks!!.isNotEmpty()) {
+                            retrieveUserSharingTasks(result.data.historyTasks)
                         }
                     } else {
                         retrieveAllSharingInFireStore()

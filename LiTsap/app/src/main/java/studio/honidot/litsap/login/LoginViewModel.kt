@@ -64,7 +64,6 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                             0,
                             emptyList(),
                             emptyList(),
-                            emptyList(),
                             0
                         )
                         createUser(newUser, firstLogin)

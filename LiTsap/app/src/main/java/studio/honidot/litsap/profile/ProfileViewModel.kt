@@ -11,6 +11,7 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 
 private const val BAR_CHART_DRAW_DAYS = 7

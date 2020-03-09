@@ -53,6 +53,8 @@ interface LiTsapDataSource {
 
     suspend fun updateMurmur(member: Member): Result<Boolean>
 
+    suspend fun updateSharePost(share: Share): Result<Boolean>
+
     suspend fun updateTaskStatus(taskId: String, accumulationPoints: Long): Result<Boolean>
 
     suspend fun updateUserStatus(workout: Workout): Result<Boolean>

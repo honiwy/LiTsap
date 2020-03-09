@@ -49,7 +49,7 @@ class WorkoutViewModel(
             _userIconId.value = when (result) {
                 is Result.Success -> {
                     if (result.data == null) {
-                        0
+                        -1
                     } else {
                         result.data.iconId
                     }

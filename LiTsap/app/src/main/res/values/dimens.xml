@@ -27,8 +27,8 @@
     <dimen name="battery_margin">6dp</dimen>
 
     <!-- Profile -->
-    <dimen name="tab_size_null">12sp</dimen>
-    <dimen name="tab_size">14sp</dimen>
+    <dimen name="tab_size_null">12dp</dimen>
+    <dimen name="tab_size">16dp</dimen>
 
     <!-- Create -->
     <dimen name="edge_create_select">2dp</dimen>

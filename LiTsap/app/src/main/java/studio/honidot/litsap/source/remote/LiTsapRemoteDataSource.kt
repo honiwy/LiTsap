@@ -37,7 +37,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val FIELD_HISTORY_TASK = "historyTasks"
     private const val FIELD_ICON_ID = "iconId"
     private const val FIELD_TASK_ID = "taskId"
-    private const val FIELD_SHARE_ID = "shareId"
+    private const val FIELD_NOTE = "note"
     private const val FIELD_TODAY_DONE = "todayDone"
     private const val FIELD_RECORD_DATE = "recordDate"
     private const val FIELD_ACCUMULATE_COUNT = "accumCount"
@@ -533,10 +533,13 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    //If user did the task that is done today will be something wrong with following code
     override suspend fun updateUserStatus(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
-            val point = if(workout.todayDone){ 0L} else{1L}
+            val point = if (workout.todayDone) {
+                0L
+            } else {
+                1L
+            }
             FirebaseFirestore.getInstance().collection(PATH_USERS).document(workout.userId)
                 .update(
                     mapOf(
@@ -579,6 +582,29 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+    override suspend fun updateSharePost(share: Share): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_SHARES).document(share.shareId)
+                .update(
+                    mapOf(
+                        FIELD_NOTE to share.note,
+                        FIELD_RECORD_DATE to share.recordDate
+                    )
+                )
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun updateTaskModule(workout: Workout): Result<Boolean> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_TASKS).document(workout.taskId)
@@ -586,6 +612,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                     PATH_MODULES
                 ).document(workout.moduleId)
                 .update(
+
                     FIELD_ACHIEVE_SECTION,
                     FieldValue.increment(workout.achieveSectionCount.toLong())
                 )

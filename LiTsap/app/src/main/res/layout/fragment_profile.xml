@@ -42,8 +42,7 @@
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:userProfile="@{viewModel.user.iconId}"
-                tools:background="@drawable/profile_actor" />
+                app:userProfile="@{viewModel.user == null ? -1 : viewModel.user.iconId}" />
 
             <TextView
                 android:id="@+id/text_profile_name"
@@ -199,7 +198,7 @@
                     android:id="@+id/text_competition"
                     style="@style/TaskTextStyle"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/profile_competition"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +207,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_competition"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
@@ -224,9 +223,11 @@
                         android:layout_width="0dp"
                         android:layout_height="28dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:orientation="vertical"
                         android:visibility="@{(viewModel.onGoingTasks!= null &amp;&amp; viewModel.editing==null)?View.VISIBLE:View.INVISIBLE}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/image_setting_murmur"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -264,6 +265,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
                         android:background="@drawable/tag_button"
                         android:maxLength="10"
                         android:maxLines="1"
@@ -271,6 +273,7 @@
                         android:paddingEnd="16dp"
                         android:text="@={viewModel.editMurmur}"
                         android:visibility="@{(viewModel.onGoingTasks== null || viewModel.editing==null)?View.INVISIBLE:View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/image_sent_murmur"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

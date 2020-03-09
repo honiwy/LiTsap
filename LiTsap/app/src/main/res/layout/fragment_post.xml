@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="studio.honidot.litsap.share.post.PostViewModel" />
@@ -18,10 +21,10 @@
             android:id="@+id/recycler_post"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_post"
@@ -61,10 +64,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:ellipsize="end"
-                    android:textStyle="bold"
                     android:lines="1"
                     android:text="@{viewModel.share.taskName}"
                     android:textSize="18dp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/image_post_category"
                     app:layout_constraintEnd_toStartOf="@+id/image_edit_content"
                     app:layout_constraintStart_toEndOf="@+id/image_post_category"
@@ -73,32 +76,24 @@
 
                 <TextView
                     android:id="@+id/text_post_user_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/CreateModuleStyle"
                     android:layout_marginStart="4dp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/noto_sans"
-                    android:letterSpacing="0.15"
                     android:lines="1"
                     android:text="@{viewModel.share.userName}"
                     android:textColor="@color/gray_888888"
-                    android:textSize="14dp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/text_post_record_time"
                     app:layout_constraintStart_toEndOf="@+id/view_post_color_separation"
                     tools:text="@string/profile_default_name" />
 
                 <TextView
                     android:id="@+id/text_post_record_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/CreateModuleStyle"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/noto_sans"
-                    android:letterSpacing="0.15"
                     android:lines="1"
                     android:textColor="@color/gray_888888"
-                    android:textSize="14dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image_post_category"
                     app:postDateLongConverter="@{viewModel.share.recordDate}"
@@ -131,7 +126,6 @@
                     android:layout_width="1dp"
                     android:layout_height="14dp"
                     android:layout_marginStart="4dp"
-                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/text_post_record_time"
                     app:layout_constraintStart_toEndOf="@+id/text_post_record_time"
                     app:layout_constraintTop_toTopOf="@+id/text_post_record_time" />
@@ -142,8 +136,8 @@
                     android:layout_height="@dimen/size_small"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/honey"
                     android:background="@drawable/return_back"
+                    android:backgroundTint="@color/honey"
                     android:onClick="@{() -> viewModel.leavePost()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -164,9 +158,9 @@
                     android:layout_height="@dimen/size_small"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="20dp"
-                    app:taskCategory="@{viewModel.share.taskCategoryId}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
+                    app:taskCategory="@{viewModel.share.taskCategoryId}"
                     tools:background="@drawable/category_food" />
 
                 <ImageView
@@ -174,23 +168,43 @@
                     android:layout_width="@dimen/size_small"
                     android:layout_height="@dimen/size_small"
                     android:layout_marginEnd="16dp"
+                    android:background="@drawable/edit"
                     android:onClick="@{()-> viewModel.changeEditing()}"
                     android:visibility="@{(!viewModel.editing) &amp;&amp; viewModel.isSameUser ?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/text_post_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/text_post_title"
-                    android:background="@drawable/edit" />
+                    app:layout_constraintTop_toTopOf="@+id/text_post_title" />
 
                 <ImageView
                     android:id="@+id/image_update_content"
                     android:layout_width="@dimen/size_small"
                     android:layout_height="@dimen/size_small"
                     android:layout_marginEnd="16dp"
+                    android:background="@drawable/email"
+                    android:onClick="@{()->viewModel.updateSharePost()}"
                     android:visibility="@{viewModel.editing &amp;&amp; viewModel.isSameUser ?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/text_post_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/text_post_title"
-                    android:background="@drawable/email" />
+                    app:layout_constraintTop_toTopOf="@+id/text_post_title" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/ProgressTheme"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:setupApiStatus="@{viewModel.status}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:setupApiErrorMessage="@{viewModel.error}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

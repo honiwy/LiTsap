@@ -14,6 +14,7 @@ import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
 import studio.honidot.litsap.data.History
 import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.Share
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
@@ -92,6 +93,19 @@ class FinishViewModel(
         }
     }
 
+    private fun createSharePost(workout: Workout){
+        val newShare = Share(userId=workout.userId)
+//        var shareId: String = "",
+//        var userId: String = "",
+//        var userName: String = "",
+//        var taskId: String = "",
+//        var taskCategoryId: Int = 0,
+//        var taskName: String = "",
+//        var note: String = "",
+//        var recordDate: Long = 0,
+//        var imageUris: List<String> = listOf()
+    }
+
     private fun addHistoryTaskId(userId: String, taskId: String) {
         coroutineScope.launch {
             when (val result = repository.addUserHistoryList(userId, taskId)) {
@@ -141,10 +155,6 @@ class FinishViewModel(
             }
         }
     }
-
-//    private fun moveTaskToHistory(userId: String, taskId: String){
-//
-//    }
 
     private fun updateTaskStatus(taskId: String, accumulationPoints: Long) {
         coroutineScope.launch {

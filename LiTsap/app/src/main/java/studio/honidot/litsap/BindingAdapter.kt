@@ -517,7 +517,3 @@ fun bindRecyclerViewWithFaces(recyclerView: RecyclerView, faces: List<Int>?) {
     }
 }
 
-@BindingAdapter("test", "test2")
-fun bindTest(view:ImageView,userId:String, userId2:String){
-    Logger.w("userId=${userId},userId2=${userId2}")
-}
