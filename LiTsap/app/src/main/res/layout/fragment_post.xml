@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="studio.honidot.litsap.share.post.PostViewModel" />
@@ -55,79 +56,85 @@
 
                 <TextView
                     android:id="@+id/text_post_title"
+                    style="@style/WorkoutAnnounceStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/noto_sans"
-                    android:letterSpacing="0.15"
-                    android:lines="2"
+                    android:textStyle="bold"
+                    android:lines="1"
                     android:text="@{viewModel.share.taskName}"
-                    android:textColor="@color/black_3f3a3a"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/text_post_user_name"
-                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/image_post_category"
+                    app:layout_constraintEnd_toStartOf="@+id/image_edit_content"
                     app:layout_constraintStart_toEndOf="@+id/image_post_category"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
+                    app:layout_constraintTop_toTopOf="@+id/image_post_category"
                     tools:text="@string/mock_task" />
 
                 <TextView
                     android:id="@+id/text_post_user_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="4dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/noto_sans"
                     android:letterSpacing="0.15"
                     android:lines="1"
                     android:text="@{viewModel.share.userName}"
                     android:textColor="@color/gray_888888"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/text_post_title"
+                    android:textSize="14dp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/text_post_record_time"
+                    app:layout_constraintStart_toEndOf="@+id/view_post_color_separation"
                     tools:text="@string/profile_default_name" />
 
                 <TextView
-                    android:id="@+id/text_post_story"
+                    android:id="@+id/text_post_record_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/noto_sans"
                     android:letterSpacing="0.15"
+                    android:lines="1"
+                    android:textColor="@color/gray_888888"
+                    android:textSize="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_post_category"
+                    app:postDateLongConverter="@{viewModel.share.recordDate}"
+                    tools:text="@string/post_record_date" />
+
+                <EditText
+                    android:id="@+id/text_post_story"
+                    style="@style/WorkoutTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/profile_round_recycler"
                     android:lineSpacingExtra="12sp"
-                    android:text="@{viewModel.share.note}"
-                    android:textColor="@color/gray_646464"
-                    android:textSize="15sp"
+                    android:paddingVertical="8dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="@={viewModel.share.note}"
+                    app:editBackground="@{viewModel.editing}"
+                    app:editSharePost="@{viewModel.editing}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_post_title"
+                    app:layout_constraintTop_toBottomOf="@+id/text_post_record_time"
                     tools:text="@string/mock_feedback" />
-
-                <!-- color -->
-                <TextView
-                    android:id="@+id/text_post_color_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:visibility="invisible"
-                    android:text="@string/set_module"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_post_story" />
 
                 <View
                     android:id="@+id/view_post_color_separation"
                     android:layout_width="1dp"
                     android:layout_height="14dp"
+                    android:layout_marginStart="4dp"
                     android:visibility="invisible"
-                    android:layout_marginStart="13dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/text_post_color_title"
-                    app:layout_constraintStart_toEndOf="@+id/text_post_color_title"
-                    app:layout_constraintTop_toTopOf="@+id/text_post_color_title" />
+                    app:layout_constraintBottom_toBottomOf="@+id/text_post_record_time"
+                    app:layout_constraintStart_toEndOf="@+id/text_post_record_time"
+                    app:layout_constraintTop_toTopOf="@+id/text_post_record_time" />
 
                 <ImageButton
                     android:id="@+id/button_post_close"
@@ -167,10 +174,23 @@
                     android:layout_width="@dimen/size_small"
                     android:layout_height="@dimen/size_small"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:onClick="@{()-> viewModel.changeEditing()}"
+                    android:visibility="@{(!viewModel.editing) &amp;&amp; viewModel.isSameUser ?View.VISIBLE:View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_post_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/edit" />
+                    app:layout_constraintTop_toTopOf="@+id/text_post_title"
+                    android:background="@drawable/edit" />
+
+                <ImageView
+                    android:id="@+id/image_update_content"
+                    android:layout_width="@dimen/size_small"
+                    android:layout_height="@dimen/size_small"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="@{viewModel.editing &amp;&amp; viewModel.isSameUser ?View.VISIBLE:View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_post_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_post_title"
+                    android:background="@drawable/email" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

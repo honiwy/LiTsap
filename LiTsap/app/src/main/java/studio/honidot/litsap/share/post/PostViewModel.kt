@@ -17,7 +17,7 @@ import studio.honidot.litsap.source.LiTsapRepository
 
 class PostViewModel(
     private val repository: LiTsapRepository,
-    private val arguments: Share
+    private val arguments: Share, val isSameUser:Boolean
 ) : ViewModel() {
 
     // Detail has product data from arguments
@@ -28,12 +28,20 @@ class PostViewModel(
     val share: LiveData<Share>
         get() = _share
 
-
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    private val _editing = MutableLiveData<Boolean>().apply { value = false }
+
+    val editing: LiveData<Boolean>
+        get() = _editing
+
+    fun changeEditing(){
+        _editing.value = _editing.value==false
+    }
 
     // Handle leave detail
     private val _leavePost = MutableLiveData<Boolean>()

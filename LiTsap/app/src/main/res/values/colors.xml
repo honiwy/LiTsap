@@ -22,6 +22,7 @@
     <color name="chart_6">@color/yale</color>
 
     <!-- Transparent Series -->
+    <color name="transparent">#00000000</color>
     <color name="translucent_80">#cc000000</color>
     <color name="translucent_half">#80000000</color>
     <color name="translucent_half_white">#80ffffff</color>

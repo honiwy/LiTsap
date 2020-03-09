@@ -33,7 +33,7 @@ fun getVmFactory(shareType: ShareTypeFilter): ShareItemViewModelFactory {
     return ShareItemViewModelFactory(repository, shareType)
 }
 
-fun getVmFactory(share: Share): ShareViewModelFactory {
+fun getVmFactory(share: Share, isSameUser:Boolean): ShareViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
-    return ShareViewModelFactory(repository, share)
+    return ShareViewModelFactory(repository, share, isSameUser)
 }

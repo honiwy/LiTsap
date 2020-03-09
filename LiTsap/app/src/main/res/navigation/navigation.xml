@@ -90,6 +90,8 @@
         app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
     <action android:id="@+id/navigate_to_taskFragment" app:destination="@id/taskFragment"
         app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_shareFragment" app:destination="@id/shareFragment"
+        app:popUpTo="@id/navigation" app:popUpToInclusive="true"/>
 
     <action android:id="@+id/action_taskFragment_to_detailFragment" app:destination="@id/detailFragment" />
     <action android:id="@+id/action_detailFragment_to_workoutFragment" app:destination="@id/workoutFragment" />
@@ -99,9 +101,7 @@
         android:name="studio.honidot.litsap.share.ShareFragment"
         tools:layout="@layout/fragment_share"
         android:label="ShareFragment" />
-    <action
-        android:id="@+id/navigate_to_shareFragment"
-        app:destination="@id/shareFragment" />
+
     <fragment
         android:id="@+id/postFragment"
         android:name="studio.honidot.litsap.share.post.PostFragment"
@@ -110,6 +110,9 @@
         <argument
             android:name="shareKey"
             app:argType="studio.honidot.litsap.data.Share" />
+        <argument
+            android:name="isSameUser"
+            app:argType="boolean" />
     </fragment>
     <action
         android:id="@+id/navigate_to_postFragment"

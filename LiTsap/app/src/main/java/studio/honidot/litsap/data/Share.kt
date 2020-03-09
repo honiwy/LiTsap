@@ -12,5 +12,6 @@ data class Share(
     var taskCategoryId: Int = 0,
     var taskName: String = "",
     var note: String = "",
+    var recordDate: Long = 0,
     var imageUris: List<String> = listOf()
 ) : Parcelable

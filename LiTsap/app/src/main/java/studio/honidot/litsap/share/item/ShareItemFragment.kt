@@ -36,13 +36,9 @@ class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
             viewModel.navigateToPost(it)
         })
 
-        viewModel.shareList.observe(this, Observer {
-                Logger.w("Find $it")
-        })
-
         viewModel.navigateToPost.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToPostFragment(it))
+                findNavController().navigate(NavigationDirections.navigateToPostFragment(it,FirebaseAuth.getInstance().currentUser!!.uid==it.userId))
                 viewModel.onPostNavigated()
             }
         })

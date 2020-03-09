@@ -10,6 +10,7 @@ import android.text.format.DateFormat
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -187,6 +188,37 @@ fun bindMinuteHourLong(textView: TextView, timeLong: Long) {
 
 
 //Post Fragment
+@BindingAdapter("postDateLongConverter")
+fun bindPostDateLongConverter(textView: TextView, timeLong: Long) {
+    textView.text =
+        DateFormat.format(instance.getString(R.string.post_record_date), Date(timeLong)).toString()
+}
+
+@BindingAdapter("editBackground")
+fun bindEditBackground(editText: EditText, editing: Boolean) {
+    editText.background =
+        if (editing) {
+            instance.getDrawable(R.drawable.profile_round_recycler)
+        } else {
+            instance.getDrawable(R.color.transparent)
+        }
+
+}
+
+@BindingAdapter("editSharePost")
+fun editSharePost(view: TextView, editSharePost: Boolean) {
+    when (editSharePost) {
+        true -> {
+            view.isFocusableInTouchMode = true
+            view.isFocusable = true
+        }
+        false -> {
+            view.isFocusableInTouchMode = false
+            view.isFocusable = false
+        }
+    }
+}
+
 @BindingAdapter("shareItems")
 fun bindRecyclerViewWithShareItems(recyclerView: RecyclerView, shares: List<Share>?) {
     shares?.let {
@@ -235,9 +267,11 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
                 }
             }
 
-            canvas.drawCircle(this.width / 2, this.height / 2,
+            canvas.drawCircle(
+                this.width / 2, this.height / 2,
                 instance.resources
-                    .getDimensionPixelSize(R.dimen.radius_post_circle).toFloat(), paint)
+                    .getDimensionPixelSize(R.dimen.radius_post_circle).toFloat(), paint
+            )
         }
     })
 }
@@ -481,4 +515,9 @@ fun bindRecyclerViewWithFaces(recyclerView: RecyclerView, faces: List<Int>?) {
             }
         }
     }
+}
+
+@BindingAdapter("test", "test2")
+fun bindTest(view:ImageView,userId:String, userId2:String){
+    Logger.w("userId=${userId},userId2=${userId2}")
 }

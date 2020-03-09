@@ -1,6 +1,5 @@
 package studio.honidot.litsap.share.post
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +9,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.PagerSnapHelper
 import studio.honidot.litsap.databinding.FragmentPostBinding
 import studio.honidot.litsap.extension.getVmFactory
-import studio.honidot.litsap.util.Logger
 
 class PostFragment : Fragment() {
     private val viewModel by viewModels<PostViewModel> {
         getVmFactory(
             PostFragmentArgs.fromBundle(
                 arguments!!
-            ).shareKey
+            ).shareKey, PostFragmentArgs.fromBundle(
+                arguments!!
+            ).isSameUser
         )
     }
 
@@ -53,7 +52,8 @@ class PostFragment : Fragment() {
                 .scrollToPosition(share.imageUris.size * 100)
 
             viewModel.snapPosition.observe(this, Observer {
-                (binding.recyclerPostCircles.adapter as PostCircleAdapter).selectedPosition.value = (it % share.imageUris.size )
+                (binding.recyclerPostCircles.adapter as PostCircleAdapter).selectedPosition.value =
+                    (it % share.imageUris.size)
             })
         }
 

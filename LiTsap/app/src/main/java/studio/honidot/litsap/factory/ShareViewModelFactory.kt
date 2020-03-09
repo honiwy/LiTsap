@@ -9,14 +9,15 @@ import studio.honidot.litsap.source.LiTsapRepository
 @Suppress("UNCHECKED_CAST")
 class ShareViewModelFactory(
     private val liTsapRepository: LiTsapRepository,
-    private val share: Share
+    private val share: Share,
+    private val isSameUser:Boolean
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
                 isAssignableFrom(PostViewModel::class.java) ->
-                    PostViewModel(liTsapRepository, share)
+                    PostViewModel(liTsapRepository, share, isSameUser)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
