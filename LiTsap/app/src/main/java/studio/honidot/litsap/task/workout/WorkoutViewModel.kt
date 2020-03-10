@@ -23,6 +23,8 @@ class WorkoutViewModel(
 
     var newMessage = MutableLiveData<String>()
 
+
+
     fun addMessage() {
         newMessage.value?.let {
             if (it.isNotEmpty()) {

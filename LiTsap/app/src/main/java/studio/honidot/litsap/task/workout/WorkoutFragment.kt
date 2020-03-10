@@ -15,6 +15,7 @@ import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.FragmentWorkoutBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.extension.setTouchDelegate
 
 
 class WorkoutFragment : Fragment() {
@@ -47,10 +48,16 @@ class WorkoutFragment : Fragment() {
                         it
                     )
                 )
-                mediaPlayer.release()
+                if (viewModel.musicPlay.value!=null) {
+                    mediaPlayer.release()
+                }
                 viewModel.onFinishNavigated()
             }
         })
+
+        binding.imageBack.setTouchDelegate()
+        binding.pausePlay.setTouchDelegate()
+        binding.imageWorkoutMusic.setTouchDelegate()
 
         val adapter = RecordAdapter(viewModel)
         binding.recyclerMessage.adapter = adapter
@@ -68,7 +75,9 @@ class WorkoutFragment : Fragment() {
 
         viewModel.leaveWorkout.observe(this, Observer {
             it?.let {
-                mediaPlayer.release()
+                if (viewModel.musicPlay.value!=null) {
+                    mediaPlayer.release()
+                }
                 if (it) findNavController().popBackStack()
             }
         })
@@ -79,7 +88,13 @@ class WorkoutFragment : Fragment() {
                     mediaPlayer.release()
                 }
                 true -> {
-                    mediaPlayer = MediaPlayer.create(activity, R.raw.ocean)
+                    val music = viewModel.workout.value?.taskCategoryId?.rem(2) ?: 0
+                    val musicIndex = if (music == 0) {
+                        R.raw.birds
+                    } else {
+                        R.raw.cicida
+                    }
+                    mediaPlayer = MediaPlayer.create(activity, musicIndex)
                     mediaPlayer.seekTo(0)
                     mediaPlayer.start()
                 }

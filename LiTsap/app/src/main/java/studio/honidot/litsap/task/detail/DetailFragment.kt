@@ -20,6 +20,7 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.databinding.FragmentDetailBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.extension.setTouchDelegate
 import studio.honidot.litsap.util.ChartColor
 import java.text.DecimalFormat
 
@@ -52,6 +53,8 @@ class DetailFragment : Fragment() {
             }
         })
         binding.recyclerModuleDetail.adapter = DetailModuleAdapter(viewModel)
+
+        binding.imageBack.setTouchDelegate()
 
         viewModel.awaitDrawModules.observe(this, Observer {
             it?.let {
