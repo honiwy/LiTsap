@@ -86,6 +86,10 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getModules(taskId)
     }
 
+    override suspend fun createSharePost(share: Share): Result<Boolean>{
+        return remoteDataSource.createSharePost(share)
+    }
+
     override suspend fun createTask(task: Task): Result<String> {
         return remoteDataSource.createTask(task)
     }

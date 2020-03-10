@@ -82,6 +82,10 @@ class LiTsapLocalDataSource(val context: Context) : LiTsapDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun createSharePost(share: Share): Result<Boolean>{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun createTask(task: Task): Result<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

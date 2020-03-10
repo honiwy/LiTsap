@@ -21,7 +21,11 @@ class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
     private val viewModel by viewModels<ShareItemViewModel> { getVmFactory(shareType) }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val binding = FragmentShareItemBinding.inflate(inflater, container, false)
 
@@ -32,13 +36,19 @@ class ShareItemFragment(private val shareType: ShareTypeFilter) : Fragment() {
         viewModel.findUser(FirebaseAuth.getInstance().currentUser!!)
 
 
-        binding.recyclerShareItems.adapter = ShareItemAdapter(viewModel,ShareItemAdapter.OnClickListener {
-            viewModel.navigateToPost(it)
-        })
+        binding.recyclerShareItems.adapter =
+            ShareItemAdapter(viewModel, ShareItemAdapter.OnClickListener {
+                viewModel.navigateToPost(it)
+            })
 
         viewModel.navigateToPost.observe(this, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToPostFragment(it,FirebaseAuth.getInstance().currentUser!!.uid==it.userId))
+                findNavController().navigate(
+                    NavigationDirections.navigateToPostFragment(
+                        it,
+                        FirebaseAuth.getInstance().currentUser!!.uid == it.userId
+                    )
+                )
                 viewModel.onPostNavigated()
             }
         })

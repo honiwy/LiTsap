@@ -43,6 +43,8 @@ interface LiTsapDataSource {
 
     suspend fun getModules(taskId: String): Result<List<Module>>
 
+    suspend fun createSharePost(share: Share): Result<Boolean>
+
     suspend fun createTask(task: Task): Result<String>
 
     suspend fun createTaskModules(taskId: String, modules: Module): Result<Boolean>

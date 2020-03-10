@@ -430,6 +430,23 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
+    override suspend fun createSharePost(share: Share): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val newTaskDocument = FirebaseFirestore.getInstance().collection(PATH_SHARES).document()
+            share.shareId = newTaskDocument.id
+            newTaskDocument.set(share).addOnCompleteListener { addShare ->
+                if (addShare.isSuccessful) {
+                    continuation.resume(Result.Success(true))
+                } else {
+                    addShare.exception?.let {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+                    continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                }
+            }
+        }
+
     override suspend fun createTask(task: Task): Result<String> =
         suspendCoroutine { continuation ->
             val newTaskDocument = FirebaseFirestore.getInstance().collection(PATH_TASKS).document()

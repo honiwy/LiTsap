@@ -62,6 +62,8 @@ class DetailViewModel(
                     _workout.value = Workout(
                         todayDone = arguments.todayDone,
                         taskName = arguments.taskName,
+                        moduleName = result.data[0].moduleName,
+                        moduleId = result.data[0].moduleId,
                         taskCategoryId = arguments.taskCategoryId,
                         userId = arguments.userId,
                         taskId = arguments.taskId,

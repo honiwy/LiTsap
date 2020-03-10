@@ -64,7 +64,9 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
      * @param images: [List] [String]
      */
     fun submitImages(images: List<String>) {
-        this.images = images
-        notifyDataSetChanged()
+        if(images.isNotEmpty()) {
+            this.images = images
+            notifyDataSetChanged()
+        }
     }
 }

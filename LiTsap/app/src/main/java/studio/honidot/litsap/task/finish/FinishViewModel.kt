@@ -86,24 +86,49 @@ class FinishViewModel(
         updateTaskModule(workout)
         updateUserStatus(workout)
         updateTaskStatus(workout.taskId, workout.achieveSectionCount.toLong())
-        if(arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount){
+        if (arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount) {
             deleteUserOngoingTask(workout.userId, workout.taskId)
             addHistoryTaskId(workout.userId, workout.taskId)
-            Toast.makeText(LiTsapApplication.appContext,LiTsapApplication.appContext.getString(R.string.finish_congrats),Toast.LENGTH_SHORT).show()
+            createSharePost(workout)
+            Toast.makeText(
+                LiTsapApplication.appContext,
+                LiTsapApplication.appContext.getString(R.string.finish_congrats),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
-    private fun createSharePost(workout: Workout){
-        val newShare = Share(userId=workout.userId)
-//        var shareId: String = "",
-//        var userId: String = "",
-//        var userName: String = "",
-//        var taskId: String = "",
-//        var taskCategoryId: Int = 0,
-//        var taskName: String = "",
-//        var note: String = "",
-//        var recordDate: Long = 0,
-//        var imageUris: List<String> = listOf()
+    private fun createSharePost(workout: Workout) {
+        val newShare = Share(
+            userId = workout.userId,
+            taskId = workout.taskId,
+            taskCategoryId = workout.taskCategoryId,
+            taskName = workout.taskName,
+            note = "還沒有編輯的內容。",
+            recordDate = Calendar.getInstance().timeInMillis
+        )
+        coroutineScope.launch {
+            when (val result = repository.createSharePost(newShare)) {
+                is Result.Success -> {
+                    null
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
     }
 
     private fun addHistoryTaskId(userId: String, taskId: String) {
@@ -135,7 +160,7 @@ class FinishViewModel(
         coroutineScope.launch {
             when (val result = repository.deleteUserOngoingTask(userId, taskId)) {
                 is Result.Success -> {
-                   null
+                    null
                 }
                 is Result.Fail -> {
                     _error.value = result.error

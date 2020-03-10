@@ -32,22 +32,20 @@ class PostFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerPostGallery.adapter = PostGalleryAdapter()
-        binding.recyclerPostCircles.adapter = PostCircleAdapter()
-
-        val linearSnapHelper = LinearSnapHelper().apply {
-            attachToRecyclerView(binding.recyclerPostGallery)
-        }
-
-        binding.recyclerPostGallery.setOnScrollChangeListener { _, _, _, _, _ ->
-            viewModel.onGalleryScrollChange(
-                binding.recyclerPostGallery.layoutManager,
-                linearSnapHelper
-            )
-        }
 
         // set the initial position to the center of infinite gallery
         viewModel.share.value?.let { share ->
+            binding.recyclerPostGallery.adapter = PostGalleryAdapter()
+            binding.recyclerPostCircles.adapter = PostCircleAdapter()
+            val linearSnapHelper = LinearSnapHelper().apply {
+                attachToRecyclerView(binding.recyclerPostGallery)
+            }
+            binding.recyclerPostGallery.setOnScrollChangeListener { _, _, _, _, _ ->
+                viewModel.onGalleryScrollChange(
+                    binding.recyclerPostGallery.layoutManager,
+                    linearSnapHelper
+                )
+            }
             binding.recyclerPostGallery
                 .scrollToPosition(share.imageUris.size * 100)
 
