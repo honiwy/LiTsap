@@ -18,11 +18,11 @@ class FaceChooseViewModel(private val repository: LiTsapRepository) : ViewModel(
     }
 
     private fun getFaceList(): List<Int> {
-        val tmp = mutableListOf<Int>()
+        val faceList = mutableListOf<Int>()
         for (i in UserProfile.values().indices) {
-            tmp.add(i)
+            faceList.add(i)
         }
-        return tmp
+        return faceList
     }
 
     // Create a Coroutine scope using a job to be able to cancel when needed

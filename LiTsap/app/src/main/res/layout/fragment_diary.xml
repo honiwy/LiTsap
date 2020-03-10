@@ -5,6 +5,7 @@
 
     <data>
 <import type="android.view.View"/>
+        <import type="studio.honidot.litsap.network.LoadApiStatus" />
         <variable
             name="viewModel"
             type="studio.honidot.litsap.diary.DiaryViewModel" />
@@ -74,7 +75,7 @@
             android:id="@+id/text_no_data"
             style="@style/TaskTextStyle"
             android:text="@string/diary_no_data"
-            android:visibility="@{(viewModel.records.empty||viewModel.records==null)? View.VISIBLE:View.INVISIBLE}"
+            android:visibility="@{(viewModel.records.empty||viewModel.records==null)&amp;&amp; viewModel.status == LoadApiStatus.DONE  ? View.VISIBLE:View.INVISIBLE}"
             android:textColor="@color/honey"
             app:layout_constraintBottom_toBottomOf="@+id/recycler_history"
             app:layout_constraintEnd_toEndOf="@+id/recycler_history"

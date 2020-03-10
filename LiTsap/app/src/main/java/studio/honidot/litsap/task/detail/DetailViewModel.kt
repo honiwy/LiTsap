@@ -60,20 +60,12 @@ class DetailViewModel(
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     _workout.value = Workout(
-                        arguments.todayDone,
-                        false,
-                        arguments.taskName,
-                        arguments.taskCategoryId,
-                        result.data[0].moduleName,
-                        result.data[0].moduleId,
-                        arguments.userId,
-                        arguments.taskId,
-                        arguments.groupId,
-                        0,
-                        0,
-                        false,
-                        listOf(""),
-                        "",""
+                        todayDone = arguments.todayDone,
+                        taskName = arguments.taskName,
+                        taskCategoryId = arguments.taskCategoryId,
+                        userId = arguments.userId,
+                        taskId = arguments.taskId,
+                        groupId = arguments.groupId
                     )
                     _awaitDrawModules.value = result.data
                     result.data

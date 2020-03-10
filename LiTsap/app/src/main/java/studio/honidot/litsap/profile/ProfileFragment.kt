@@ -141,7 +141,6 @@ class ProfileFragment : Fragment() {
             pointArrayList.add(FloatArray(historyName.size)) //prepare ${dayCount} FloatArray(taskCount)
         }
 
-//        val sortedHistory = history.sortedBy { it.taskName }
         var taskIndex = 0  // indicate n-th task
         var historyIndex = 0
         var name = sortedHistory[historyIndex].taskName

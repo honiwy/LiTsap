@@ -16,6 +16,7 @@ import studio.honidot.litsap.data.User
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
+import studio.honidot.litsap.util.Util
 import studio.honidot.litsap.util.Util.getString
 
 
@@ -43,23 +44,6 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
     val taskCount: LiveData<Int>
         get() = _taskCount
 
-    private fun addHeader(sortedTasks: List<Task>): List<TaskItem> {
-        val taskItems = mutableListOf<TaskItem>()
-        _taskCount.value = sortedTasks.size
-        var lastStatus = false
-        if (!sortedTasks[0].todayDone) {
-            taskItems.add(TaskItem.Title(LiTsapApplication.instance.getString(R.string.await_todo)))
-        }
-        sortedTasks.forEach {
-            if (it.todayDone != lastStatus) {
-                taskItems.add(TaskItem.Title(LiTsapApplication.instance.getString(R.string.finished)))
-            }
-            taskItems.add(TaskItem.Assignment(it))
-            lastStatus = it.todayDone
-        }
-        return taskItems
-    }
-
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -84,9 +68,11 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
                 val result = repository.getTasks(taskIdList)
                 _taskItems.value = when (result) {
                     is Result.Success -> {
+                        val resultArranged = Util.countTaskNumberAndAddHeader(result.data)
+                        _taskCount.value = resultArranged.first
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        addHeader(result.data)
+                        resultArranged.second
                     }
                     is Result.Fail -> {
                         _error.value = result.error

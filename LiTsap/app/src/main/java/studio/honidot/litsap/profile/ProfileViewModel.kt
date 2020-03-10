@@ -11,8 +11,8 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
+import studio.honidot.litsap.util.Util.sortAndCountTaskNumber
 
 private const val BAR_CHART_DRAW_DAYS = 7
 
@@ -195,18 +195,8 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
         get() = _historyName
 
     private fun getTaskCount(historyList: List<History>) {
-        var nameList = mutableListOf<String>()
-
-        val sortedHistoryList = historyList.sortedBy { it.taskName }
-        var name = ""
-        sortedHistoryList.forEach { history ->
-            if (history.taskName != name) {
-                nameList.add(history.taskName)
-                name = history.taskName
-            }
-        }
-        _historyName.value = nameList
-        _historyPoints.value = sortedHistoryList
+        _historyName.value = sortAndCountTaskNumber(historyList).first
+        _historyPoints.value = sortAndCountTaskNumber(historyList).second
         _status.value = LoadApiStatus.DONE
         _error.value = null
     }

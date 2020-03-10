@@ -35,9 +35,8 @@ class DiaryFragment : Fragment() {
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerHistory)
 
-        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             viewModel.getHistoryOnThatDay("$dayOfMonth/${month + 1}/$year")
-            binding.recyclerHistory.smoothScrollToPosition(0)
         }
 
         return binding.root

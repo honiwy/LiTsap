@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<import type="studio.honidot.litsap.network.LoadApiStatus"/>
+
+        <import type="studio.honidot.litsap.network.LoadApiStatus" />
 
         <import type="android.view.View" />
 
@@ -302,7 +303,7 @@
                         style="@style/CreateModuleStyle"
                         android:text="@string/profile_no_data"
                         android:textColor="@color/honey"
-                        android:visibility="@{viewModel.onGoingTasks== null ?View.VISIBLE:View.INVISIBLE}"
+                        android:visibility="@{viewModel.onGoingTasks == null &amp;&amp; viewModel.status == LoadApiStatus.DONE ?View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

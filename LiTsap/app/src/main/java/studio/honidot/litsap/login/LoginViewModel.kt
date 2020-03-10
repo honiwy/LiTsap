@@ -57,14 +57,10 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                         result.data
                     } else {
                         val newUser = User(
-                            firebaseUser.uid,
-                            _loginVia.value ?: getString(R.string.login_via_unknown),
-                            firebaseUser.displayName ?: getString(R.string.login_name_unknown),
-                            0,
-                            0,
-                            emptyList(),
-                            emptyList(),
-                            0
+                            userId = firebaseUser.uid,
+                            loginVia = _loginVia.value ?: getString(R.string.login_via_unknown),
+                            userName = firebaseUser.displayName ?: getString(R.string.login_name_unknown),
+                            iconId = 0
                         )
                         createUser(newUser, firstLogin)
                         null

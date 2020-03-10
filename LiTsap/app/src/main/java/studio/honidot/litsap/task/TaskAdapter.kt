@@ -56,7 +56,12 @@ class TaskAdapter(
         }
 
         override fun areContentsTheSame(oldItem: TaskItem, newItem: TaskItem): Boolean {
-            return oldItem.id == newItem.id
+            return (oldItem.id == newItem.id) &&
+                    if (oldItem is TaskItem.Assignment && newItem is TaskItem.Assignment) {
+                        oldItem.task.accumCount == newItem.task.accumCount
+                    }else {
+                        false
+                    }
         }
 
         private const val ITEM_VIEW_TYPE_TITLE = 0x00
