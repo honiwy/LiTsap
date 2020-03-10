@@ -8,6 +8,7 @@
             name="viewModel"
             type="studio.honidot.litsap.share.item.ShareItemViewModel" />
         <import type="android.view.View"/>
+        <import type="studio.honidot.litsap.network.LoadApiStatus" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/constraint_share_item"
@@ -17,9 +18,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_share_items"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="4dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         style="@style/TaskTextStyle"
         android:text="@string/post_no_data"
         android:textColor="@color/honey"
-        android:visibility="@{viewModel.shareList == null? View.VISIBLE:View.INVISIBLE}"
+        android:visibility="@{(viewModel.shareList == null &amp;&amp; viewModel.status == LoadApiStatus.DONE)? View.VISIBLE:View.INVISIBLE}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -47,6 +47,7 @@ class WorkoutFragment : Fragment() {
                         it
                     )
                 )
+                mediaPlayer.release()
                 viewModel.onFinishNavigated()
             }
         })

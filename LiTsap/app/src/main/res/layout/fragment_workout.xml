@@ -238,6 +238,7 @@
             android:layout_height="@dimen/size_small"
             android:background="@{viewModel.musicPlay==true?@drawable/volume_up:@drawable/mute}"
             android:backgroundTint="@color/yale"
+            android:visibility="@{viewModel.isCountingRest==true?View.VISIBLE:View.GONE}"
             android:onClick="@{()->viewModel.muteMusic()}"
             app:layout_constraintBottom_toBottomOf="@+id/constraint_title"
             app:layout_constraintStart_toEndOf="@+id/constraint_title"

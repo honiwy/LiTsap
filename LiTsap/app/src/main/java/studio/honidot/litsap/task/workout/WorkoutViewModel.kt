@@ -79,7 +79,6 @@ class WorkoutViewModel(
 
     init {
         _totalTaskRemained.value = arguments.displayProcess
-        _musicPlay.value = true
         startTaskCountDownTimer(arguments.workoutTime * SECOND_TO_MILLISECOND)
 
     }
@@ -125,9 +124,9 @@ class WorkoutViewModel(
                         _totalTaskRemained.value = total
                         if (total.rem(Workout.WORKOUT_TIME) == 0 && total != 0) {
                             _isCountingRest.value = true
-                            _musicPlay.value = null
                             wo.achieveSectionCount += 1
                             pausePlayTimer()
+                            _musicPlay.value = true
                             startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
                         }
                     }
@@ -137,7 +136,6 @@ class WorkoutViewModel(
                     _workout.value?.let {
                         it.achieveSectionCount += 1
                     }
-                    _musicPlay.value = null
                     navigateToFinish()
                 }
             }
@@ -160,7 +158,7 @@ class WorkoutViewModel(
 
                 override fun onFinish() {
                     _isCountingRest.value = false
-                    _musicPlay.value = true
+                    _musicPlay.value = null
                     pausePlayTimer()
                 }
             }

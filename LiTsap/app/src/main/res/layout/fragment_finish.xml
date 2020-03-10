@@ -115,8 +115,8 @@
             style="@style/TaskTextStyle"
             android:text="@string/finish_point"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/text_experience"
-            app:layout_constraintStart_toStartOf="@+id/image_star4"
+            app:layout_constraintEnd_toStartOf="@+id/divider"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/divider" />
 
         <TextView

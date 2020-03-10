@@ -20,10 +20,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.data.*
-import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.diary.HistoryAdapter
+import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.profile.CompetitionAdapter
 import studio.honidot.litsap.profile.MurmurAdapter
 import studio.honidot.litsap.profile.face.FaceAdapter
@@ -36,7 +37,6 @@ import studio.honidot.litsap.task.detail.DetailModuleAdapter
 import studio.honidot.litsap.task.finish.FootprintAdapter
 import studio.honidot.litsap.task.workout.RecordAdapter
 import studio.honidot.litsap.util.CurrentFragmentType
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util.getColor
 import java.util.*
 
@@ -173,8 +173,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions().transform(CenterCrop(), RoundedCorners(15))
-                    .placeholder(R.drawable.loggo)
-                    .error(R.drawable.loggo)
+                    .placeholder(R.drawable.place_holder)
+                    .error(R.drawable.place_holder)
             )
             .into(imgView)
     }
@@ -297,11 +297,32 @@ fun bindImageNoCorner(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(
                 RequestOptions().transform(CenterCrop())
-                    .placeholder(R.drawable.loggo)
-                    .error(R.drawable.loggo)
+                    .placeholder(R.drawable.place_holder)
+                    .error(R.drawable.place_holder)
             )
             .into(imgView)
     }
+}
+
+@BindingAdapter("imageUrlBottomCorner")
+fun bindImageBottomCorner(imgView: ImageView, imgUrl: String?) {
+    val imgUri = imgUrl?.toUri()?.buildUpon()?.build()
+    GlideApp.with(imgView.context)
+        .load(imgUri)
+        .apply(
+            RequestOptions()
+                .transform(
+                    CenterCrop(),
+                    RoundedCornersTransformation(
+                        instance.resources.getDimensionPixelSize(R.dimen.radius_corner),
+                        0,
+                        RoundedCornersTransformation.CornerType.BOTTOM
+                    )
+                )
+                .placeholder(R.drawable.place_holder)
+                .error(R.drawable.place_holder)
+        )
+        .into(imgView)
 }
 
 
@@ -433,7 +454,7 @@ fun bindRecyclerViewWithFootprints(recyclerView: RecyclerView, workoutResult: Wo
 //Profile Fragment
 @BindingAdapter("userProfile")
 fun bindUserProfile(imageView: ImageView, userProfileId: Int) {
-    if(userProfileId!=-1) {
+    if (userProfileId != -1) {
         val userProfile = UserProfile.values()[userProfileId]
         imageView.background =
             when (userProfile) {

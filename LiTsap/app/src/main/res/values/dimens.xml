@@ -46,4 +46,7 @@
     <dimen name="edge_post_circle">1px</dimen>
     <dimen name="radius_post_circle">3dp</dimen>
     <dimen name="height_post_gallery">460dp</dimen>
+
+    <dimen name="radius_corner">16dp</dimen>
+
 </resources>
