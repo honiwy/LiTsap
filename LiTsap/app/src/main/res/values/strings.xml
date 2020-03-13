@@ -114,7 +114,7 @@
     <!-- Date Pattern -->
     <string name="barchart_month_date">MMM dd</string>
     <string name="diary_record_time">HH : mm</string>
-    <string name="post_record_date">MMM dd ,yyyy</string>
+    <string name="post_record_date">MMM dd, yyyy</string>
     <string name="workout_count_down">%02d:%02d</string>
     <string name="detail_end_date">截止時間: yyyy 年 MM 月 dd 日</string>
     <string name="diary_record_date">dd/MM/yyyy</string>
