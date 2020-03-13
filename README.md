@@ -34,4 +34,4 @@
 
 8. 個人頁面可看累積點數, 群組夥伴執行任務之心情狀態及過去七日執行任務狀況; 選擇頭像可做更換
 
-<img alt='Profile Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200308-205935.png'  width="120"></img> <img alt='Profile Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200313-210302.png'  width="120"></img>
+<img alt='Profile Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200308-205935.png'  width="120"></img> <img alt='Profile Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200313-210302.png'  width="125"></img>
