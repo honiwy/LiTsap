@@ -5,7 +5,9 @@
 
 ## Motivation 開發動機
 忙碌生活中，常不自覺陷入心流而忘記時間的流逝，
-此款 App 用意在於協助使用者在執行目標時可以定時每20分鐘休息一下轉換心境、伸伸懶腰、上個廁所等，以保持身體健康。
+
+此 App 用意在於協助使用者在執行目標時可定時每20分鐘休息一下轉換心境、伸伸懶腰、上個廁所等，以保持身體健康。
+
 建立任務時也自動加入同任務類型群組，可彼此鼓勵加油打氣朝目標邁進。
 
 ### User Manual 操作介紹:
@@ -53,9 +55,8 @@ Third Parties - Glide, Moshi, MPAndroidChart, Wasabeef
 Test - JUnit
 
 ### Requirement 環境需求:
-Android Studio 3.5.2+
 Android SDK 26+
-Release 版本更新
-2.3.2 - 2020/03/14
-Contact 聯絡資訊
-honidot.studio@gmail.com
+
+Google Play Release 2.3.3 (2020/03/16)
+
+Contact 聯絡資訊 honidot.studio@gmail.com
