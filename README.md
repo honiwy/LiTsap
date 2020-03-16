@@ -3,7 +3,12 @@
 
 <a href='https://play.google.com/store/apps/details?id=studio.honidot.litsap&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width='200'/></a>
 
-### 操作介紹:
+## Motivation 開發動機
+忙碌生活中，常不自覺陷入心流而忘記時間的流逝，
+此款 App 用意在於協助使用者在執行目標時可以定時每20分鐘休息一下轉換心境、伸伸懶腰、上個廁所等，以保持身體健康。
+建立任務時也自動加入同任務類型群組，可彼此鼓勵加油打氣朝目標邁進。
+
+### User Manual 操作介紹:
 1. 使用 Facebook 或 Google 第三方登入以註冊 LiTsap 帳號
 
 <img alt='Login Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200225-232141.png'  width="120"></img>
@@ -38,9 +43,13 @@
 
 ### Implementations 實作技術與工具:
 Design Patterns - MVVM, Factory, Adapter, Singleton, Observer
-Jetpack - ViewModel, Navigation, LiveData, Data Binding, Permissions, Notifications, Lifecycles
+
+Jetpack - ViewModel, Navigation, LiveData, Data Binding, Permissions, Lifecycles, ViewPager, Media, Fragment
+
 Firebase - Firestore, Firebase Authentication, Firebase Storage, Crashlytics
+
 Third Parties - Glide, Moshi, MPAndroidChart, Wasabeef
+
 Test - JUnit
 
 ### Requirement 環境需求:
