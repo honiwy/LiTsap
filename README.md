@@ -35,3 +35,18 @@
 8. 個人頁面可看累積點數, 群組夥伴執行任務之心情狀態及過去七日執行任務狀況; 選擇頭像可做更換
 
 <img alt='Profile Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200308-205935.png'  width="120"></img> <img alt='Profile Page' src='https://github.com/honiwy/LiTsap/blob/read_me/LiTsap/readme_imgs/Screenshot_20200313-210302.png'  width="125"></img>
+
+### Implementations 實作技術與工具:
+Design Patterns - MVVM, Factory, Adapter, Singleton, Observer
+Jetpack - ViewModel, Navigation, LiveData, Data Binding, Permissions, Notifications, Lifecycles
+Firebase - Firestore, Firebase Authentication, Firebase Storage, Crashlytics
+Third Parties - Glide, Moshi, MPAndroidChart, Wasabeef
+Test - JUnit
+
+### Requirement 環境需求:
+Android Studio 3.5.2+
+Android SDK 26+
+Release 版本更新
+2.3.2 - 2020/03/14
+Contact 聯絡資訊
+honidot.studio@gmail.com
