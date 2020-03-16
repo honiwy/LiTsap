@@ -48,6 +48,41 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val FOLDER_UPLOAD = "uploads/"
     private const val GROUP_NUMBER_LIMIT = 6
 
+
+    override suspend fun eraseTodayDoneCount(userId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_USERS).document(userId)
+                .update(FIELD_TODAY_DONE_COUNT, 0)
+                .addOnCompleteListener { updateId ->
+                    if (updateId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        updateId.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun eraseTaskDone(taskId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(PATH_TASKS).document(taskId)
+                .update( FIELD_TODAY_DONE, false)
+                .addOnCompleteListener { addId ->
+                    if (addId.isSuccessful) {
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        addId.exception?.let {
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                        }
+                        continuation.resume(Result.Fail(instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun addMemberToGroup(member: Member): Result<Boolean> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId)

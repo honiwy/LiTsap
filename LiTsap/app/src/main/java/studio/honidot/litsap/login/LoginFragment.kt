@@ -65,6 +65,12 @@ class LoginFragment : Fragment() {
             }
         })
 
+        viewModel.loginVia.observe(this, Observer {
+            it?.let {
+                Logger.w("loginVia= $it")
+            }
+        })
+
         viewModel.navigateToMain.observe(this, Observer {
             it?.let {
                 findNavController().navigate(

@@ -12,6 +12,14 @@ class DefaultLiTsapRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LiTsapRepository {
 
+    override suspend fun eraseTaskDone(taskId: String): Result<Boolean> {
+        return remoteDataSource.eraseTaskDone(taskId)
+    }
+
+    override suspend fun eraseTodayDoneCount(userId: String): Result<Boolean> {
+        return remoteDataSource.eraseTodayDoneCount(userId)
+    }
+
     override suspend fun addMemberToGroup(member: Member): Result<Boolean> {
         return remoteDataSource.addMemberToGroup(member)
     }
@@ -48,11 +56,11 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getTasks(taskIdList)
     }
 
-    override suspend fun getShares(shareIdList: List<String>): Result<List<Share>>{
+    override suspend fun getShares(shareIdList: List<String>): Result<List<Share>> {
         return remoteDataSource.getShares(shareIdList)
     }
 
-    override suspend fun getAllShares(): Result<List<Share>>{
+    override suspend fun getAllShares(): Result<List<Share>> {
         return remoteDataSource.getAllShares()
     }
 
@@ -86,7 +94,7 @@ class DefaultLiTsapRepository(
         return remoteDataSource.getModules(taskId)
     }
 
-    override suspend fun createSharePost(share: Share): Result<Boolean>{
+    override suspend fun createSharePost(share: Share): Result<Boolean> {
         return remoteDataSource.createSharePost(share)
     }
 
@@ -110,7 +118,7 @@ class DefaultLiTsapRepository(
         return remoteDataSource.updateMurmur(member)
     }
 
-    override suspend fun updateSharePost(share: Share): Result<Boolean>{
+    override suspend fun updateSharePost(share: Share): Result<Boolean> {
         return remoteDataSource.updateSharePost(share)
     }
 

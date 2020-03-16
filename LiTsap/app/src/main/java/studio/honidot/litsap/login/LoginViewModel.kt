@@ -1,5 +1,7 @@
 package studio.honidot.litsap.login
 
+import android.icu.util.Calendar
+import android.text.format.DateFormat
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,6 +28,7 @@ import studio.honidot.litsap.data.User
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util.getString
+import java.util.*
 
 class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
@@ -59,7 +62,8 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
                         val newUser = User(
                             userId = firebaseUser.uid,
                             loginVia = _loginVia.value ?: getString(R.string.login_via_unknown),
-                            userName = firebaseUser.displayName ?: getString(R.string.login_name_unknown),
+                            userName = firebaseUser.displayName
+                                ?: getString(R.string.login_name_unknown),
                             iconId = 0
                         )
                         createUser(newUser, firstLogin)
@@ -81,7 +85,6 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
 
     private fun createUser(user: User, firstLogin: Boolean) {
         coroutineScope.launch {
-
             _user.value = when (repository.createUser(user)) {
                 is Result.Success -> {
                     if (!firstLogin) {
@@ -102,7 +105,49 @@ class LoginViewModel(private val repository: LiTsapRepository) : ViewModel() {
         }
     }
 
+    private fun eraseTaskDone(taskId: String) {
+        coroutineScope.launch {
+            repository.eraseTaskDone(taskId)
+        }
+    }
+
     private fun loginSuccess() {
+        coroutineScope.launch {
+            val date =
+                DateFormat.format(
+                    LiTsapApplication.instance.getString(R.string.diary_select_date),
+                    Date(Calendar.getInstance().timeInMillis)
+                ).toString()
+
+            if ((_loginVia.value == getString(R.string.facebook) || _user.value?.loginVia == getString(
+                    R.string.facebook
+                )) && UserManager.lastTimeFB != date
+            ) {
+                _user.value?.let {
+                    it.ongoingTasks.forEach { taskId ->
+                        eraseTaskDone(taskId)
+                    }
+                    repository.eraseTodayDoneCount(it.userId)
+                }
+                UserManager.lastTimeFB = date
+            } else if ((_loginVia.value == getString(R.string.google) || _user.value?.loginVia == getString(
+                    R.string.google
+                )) && UserManager.lastTimeGoogle != date
+            ) {
+                _user.value?.let {
+                    it.ongoingTasks.forEach { taskId ->
+                        eraseTaskDone(taskId)
+                    }
+                    repository.eraseTodayDoneCount(it.userId)
+                }
+                UserManager.lastTimeGoogle = date
+            }
+            navigateToMain()
+        }
+    }
+
+
+    private fun navigateToMain() {
         _navigateToMain.value = true
         Toast.makeText(
             LiTsapApplication.appContext,

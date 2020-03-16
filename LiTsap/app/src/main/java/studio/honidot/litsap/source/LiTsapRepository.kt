@@ -6,6 +6,10 @@ import studio.honidot.litsap.data.*
 
 interface LiTsapRepository {
 
+    suspend fun eraseTaskDone(taskId: String): Result<Boolean>
+
+    suspend fun eraseTodayDoneCount(userId: String): Result<Boolean>
+
     suspend fun addMemberToGroup(member: Member): Result<Boolean>
 
     suspend fun createGroup(group: Group): Result<String>
