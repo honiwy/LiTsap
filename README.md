@@ -10,7 +10,7 @@
 
 建立任務時也自動加入同任務類型群組，可彼此鼓勵加油打氣朝目標邁進。
 
-### User Manual 操作介紹:
+## User Manual 操作介紹
 1. 使用 Facebook 或 Google 第三方登入以註冊 LiTsap 帳號
 
 2. 點按左下角頁面新增任務項目，包含: 任務名稱、任務類別、細項、截止日期及執行次數
@@ -31,7 +31,7 @@
 <img alt='Task Page' src='LiTsap/readme_imgs/Screenshot_20200225-224312.png'  width="140"></img> 
 <img alt='Detail Page' src='LiTsap/readme_imgs/Screenshot_20200308-210302.png'  width="140"></img>     <img alt='Workout Page' src='LiTsap/readme_imgs/Screenshot_20200225-224836.png'  width="140"></img>   <img alt='Break Page' src='LiTsap/readme_imgs/Screenshot_20200316-235504.png'  width="140"></img>     <img alt='Finish Page' src='/LiTsap/readme_imgs/Screenshot_20200225-231207.png'  width="140"></img>     <img alt='Post Page' src='LiTsap/readme_imgs/Screenshot_20200308-205353.png'  width="140"></img> <img alt='Post Share Page' src='LiTsap/readme_imgs/Screenshot_20200308-205831.png'  width="140"></img>     <img alt='Diary Page' src='LiTsap/readme_imgs/Screenshot_20200308-205847.png'  width="140"></img>     <img alt='Profile Page' src='LiTsap/readme_imgs/Screenshot_20200308-205935.png'  width="140"></img> <img alt='Profile Page' src='LiTsap/readme_imgs/Screenshot_20200313-210303.png'  width="140"></img>
 
-### Implementations 實作技術與工具:
+## Implementations 實作技術與工具
 Design Patterns - MVVM, Factory, Adapter, Singleton, Observer
 
 Jetpack - ViewModel, Navigation, LiveData, Data Binding, Permissions, Lifecycles, ViewPager, Media, Fragment
@@ -42,9 +42,10 @@ Third Parties - Glide, Moshi, MPAndroidChart, Wasabeef
 
 Test - JUnit
 
-### Requirement 環境需求:
+## Others 其他
+### Requirement 環境需求
 Android SDK 26+
-
+### Release version 最新版號
 Google Play Release 2.3.3 (2020/03/16)
-
-Contact 聯絡資訊 honidot.studio@gmail.com
+### Contact 聯絡資訊
+Rachel Chuang honidot.studio@gmail.com
