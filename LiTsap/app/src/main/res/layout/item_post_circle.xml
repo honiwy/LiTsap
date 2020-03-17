@@ -16,7 +16,7 @@
             android:layout_width="@dimen/size_post_circle"
             android:layout_height="@dimen/size_post_circle"
             android:scaleType="centerCrop"
-            app:circleStatus="@{isSelected}"
+            app:circleStatus="@{safeUnbox(isSelected)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

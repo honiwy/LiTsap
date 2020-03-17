@@ -26,7 +26,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:taskCategory="@{categoryId}"
+            app:taskCategory="@{safeUnbox(categoryId)}"
             tools:background="@drawable/category_food" />
 
         <TextView

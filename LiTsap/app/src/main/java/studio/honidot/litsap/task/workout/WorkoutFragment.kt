@@ -20,7 +20,7 @@ import studio.honidot.litsap.extension.setTouchDelegate
 
 class WorkoutFragment : Fragment() {
 
-    lateinit var mediaPlayer: MediaPlayer
+    var mediaPlayer: MediaPlayer? = null
 
     private val viewModel by viewModels<WorkoutViewModel> {
         getVmFactory(
@@ -48,9 +48,6 @@ class WorkoutFragment : Fragment() {
                         it
                     )
                 )
-                if (viewModel.musicPlay.value!=null) {
-                    mediaPlayer.release()
-                }
                 viewModel.onFinishNavigated()
             }
         })
@@ -75,9 +72,7 @@ class WorkoutFragment : Fragment() {
 
         viewModel.leaveWorkout.observe(this, Observer {
             it?.let {
-                if (viewModel.musicPlay.value!=null) {
-                    mediaPlayer.release()
-                }
+
                 if (it) findNavController().popBackStack()
             }
         })
@@ -85,7 +80,7 @@ class WorkoutFragment : Fragment() {
         viewModel.musicPlay.observe(this, Observer {
             when (it) {
                 null -> {
-                    mediaPlayer.release()
+                    mediaPlayer?.release()
                 }
                 true -> {
                     val music = viewModel.workout.value?.taskCategoryId?.rem(2) ?: 0
@@ -95,11 +90,11 @@ class WorkoutFragment : Fragment() {
                         R.raw.cicida
                     }
                     mediaPlayer = MediaPlayer.create(activity, musicIndex)
-                    mediaPlayer.seekTo(0)
-                    mediaPlayer.start()
+                    mediaPlayer?.seekTo(0)
+                    mediaPlayer?.start()
                 }
                 else -> {
-                    mediaPlayer.pause()
+                    mediaPlayer?.pause()
                 }
             }
         })
@@ -107,9 +102,10 @@ class WorkoutFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        mediaPlayer.stop()
-//        mediaPlayer.release()
-//    }
+    override fun onDestroy() {
+        super.onDestroy()
+        if (viewModel.musicPlay.value!=null) {
+            mediaPlayer?.release()
+        }
+    }
 }

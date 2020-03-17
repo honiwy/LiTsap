@@ -50,7 +50,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/workout_message"
                 app:layout_constraintTop_toTopOf="parent"
-                app:userProfile="@{viewModel.userIconId}"
+                app:userProfile="@{safeUnbox(viewModel.userIconId)}"
                 tools:background="@drawable/profile_actor" />
 
             <TextView

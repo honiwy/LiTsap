@@ -26,7 +26,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:taskCategory="@{viewModel.workout.taskCategoryId}"
+            app:taskCategory="@{safeUnbox(viewModel.workout.taskCategoryId)}"
             tools:background="@drawable/category_food" />
 
         <TextView
@@ -50,7 +50,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/task_logo_big"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/task_logo_big"
-            app:taskCategory="@{viewModel.workout.taskCategoryId}"
+            app:taskCategory="@{safeUnbox(viewModel.workout.taskCategoryId)}"
             tools:background="@drawable/category_food" />
 
         <TextView

@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@{viewModel.isCountingRest==true?@color/white:@color/royal}"
+        android:background="@{safeUnbox(viewModel.isCountingRest)?@color/white:@color/royal}"
         tools:background="@color/royal">
 
         <ImageView
@@ -50,7 +50,7 @@
                 android:singleLine="true"
                 android:text="@{viewModel.workout.taskName}"
                 android:textAlignment="textEnd"
-                android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
+                android:textColor="@{safeUnbox(viewModel.isCountingRest)? @color/black : @color/white}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
                 app:layout_constraintEnd_toStartOf="@+id/task_logo_medium"
@@ -70,7 +70,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/text_workout_task"
                 app:layout_constraintTop_toTopOf="parent"
-                app:taskCategory="@{viewModel.workout.taskCategoryId}"
+                app:taskCategory="@{safeUnbox(viewModel.workout.taskCategoryId)}"
                 tools:background="@drawable/category_food" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:singleLine="true"
                 android:text="@{viewModel.workout.moduleName}"
                 android:textAlignment="textStart"
-                android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
+                android:textColor="@{safeUnbox(viewModel.isCountingRest)? @color/black : @color/white}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/task_logo_medium"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,8 +97,8 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:indeterminate="false"
-            android:max="@{viewModel.isCountingRest==true? Workout.BREAK_TIME :viewModel.workout.displayProcess}"
-            android:progress="@{viewModel.isCountingRest==true? (Workout.BREAK_TIME - viewModel.totalRestRemained) :viewModel.workout.displayProcess-viewModel.totalTaskRemained}"
+            android:max="@{safeUnbox(viewModel.isCountingRest)? Workout.BREAK_TIME :viewModel.workout.displayProcess}"
+            android:progress="@{safeUnbox(viewModel.isCountingRest)? (Workout.BREAK_TIME - safeUnbox(viewModel.totalRestRemained)) :viewModel.workout.displayProcess-safeUnbox(viewModel.totalTaskRemained)}"
             android:progressDrawable="@drawable/circular_progress"
             android:secondaryProgress="100"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,10 +111,10 @@
             android:layout_width="@dimen/size_small"
             android:layout_height="@dimen/size_small"
             android:layout_marginTop="4dp"
-            android:background="@{viewModel.isCountingTask? @drawable/pause : @drawable/play}"
+            android:background="@{safeUnbox(viewModel.isCountingTask)? @drawable/pause : @drawable/play}"
             android:backgroundTint="@color/yale"
             android:onClick="@{()->viewModel.pausePlayTimer()}"
-            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/remain_time"
             app:layout_constraintStart_toStartOf="@+id/remain_time"
             app:layout_constraintTop_toBottomOf="@+id/remain_time"
@@ -123,9 +123,9 @@
         <TextView
             android:id="@+id/remain_time"
             style="@style/WorkoutTimerStyle"
-            android:textColor="@{viewModel.isCountingRest==true? @color/black : @color/white}"
+            android:textColor="@{safeUnbox(viewModel.isCountingRest)? @color/black : @color/white}"
             android:textStyle="bold"
-            app:countDownTime="@{viewModel.isCountingRest==true? viewModel.totalRestRemained : viewModel.totalTaskRemained}"
+            app:countDownTime="@{safeUnbox(viewModel.isCountingRest)? safeUnbox(viewModel.totalRestRemained) : safeUnbox(viewModel.totalTaskRemained)}"
             app:layout_constraintBottom_toBottomOf="@+id/countdown_bar"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
@@ -138,7 +138,7 @@
             android:text="@string/break_hint"
             android:textStyle="bold"
             style="@style/WorkoutAnnounceStyle"
-            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
             app:layout_constraintTop_toBottomOf="@+id/remain_time" />
@@ -148,7 +148,7 @@
             style="@style/CreateModuleStyle"
             android:layout_marginBottom="8dp"
             android:text="@string/ad"
-            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/button_finish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -158,7 +158,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:background="@color/mustard"
-            android:visibility="@{viewModel.isCountingRest==true? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/text_ad"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -182,12 +182,12 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/round_button"
-            android:enabled="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>= Workout.WORKOUT_TIME ? true:false}"
+            android:enabled="@{(safeUnbox(viewModel.workout.displayProcess)-safeUnbox(viewModel.totalTaskRemained))>= Workout.WORKOUT_TIME ? true:false}"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.navigateToFinish()}"
             tools:text="@string/workout_lower_than_section"
-            android:text="@{(viewModel.workout.displayProcess-viewModel.totalTaskRemained)>= Workout.WORKOUT_TIME?@string/completed_ahead:@string/workout_lower_than_section}"
+            android:text="@{(safeUnbox(viewModel.workout.displayProcess)-safeUnbox(viewModel.totalTaskRemained))>= Workout.WORKOUT_TIME?@string/completed_ahead:@string/workout_lower_than_section}"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -211,7 +211,7 @@
             android:text="@={viewModel.newMessage}"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/image_message_sent"
             app:layout_constraintEnd_toStartOf="@+id/image_message_sent"
             app:layout_constraintTop_toTopOf="@+id/image_message_sent" />
@@ -236,9 +236,9 @@
             android:id="@+id/image_workout_music"
             android:layout_width="@dimen/size_small"
             android:layout_height="@dimen/size_small"
-            android:background="@{viewModel.musicPlay==true?@drawable/volume_up:@drawable/mute}"
+            android:background="@{safeUnbox(viewModel.musicPlay)?@drawable/volume_up:@drawable/mute}"
             android:backgroundTint="@color/yale"
-            android:visibility="@{viewModel.isCountingRest==true?View.VISIBLE:View.GONE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)?View.VISIBLE:View.GONE}"
             android:onClick="@{()->viewModel.muteMusic()}"
             app:layout_constraintBottom_toBottomOf="@+id/constraint_title"
             app:layout_constraintStart_toEndOf="@+id/constraint_title"
@@ -254,7 +254,7 @@
             android:background="@drawable/email"
             android:backgroundTint="@color/white"
             android:onClick="@{()->viewModel.addMessage()}"
-            android:visibility="@{viewModel.isCountingRest==true? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/button_finish"
             app:layout_constraintEnd_toEndOf="parent" />
 
