@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,19 +29,9 @@ class DiaryViewModel(private val repository: LiTsapRepository, private val argum
     val user: LiveData<User>
         get() = _user
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
-    private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     val layoutManager = CenterZoomLayoutManager(LiTsapApplication.appContext).apply {
         orientation = LinearLayoutManager.HORIZONTAL
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
     init {
@@ -60,7 +51,7 @@ class DiaryViewModel(private val repository: LiTsapRepository, private val argum
         get() = _error
 
     private fun findUser(firebaseUserId: String) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             val result = repository.findUser(firebaseUserId)
             _user.value = when (result) {
                 is Result.Success -> {
@@ -96,7 +87,7 @@ class DiaryViewModel(private val repository: LiTsapRepository, private val argum
             twoList.addAll(it.ongoingTasks)
             twoList.addAll(it.historyTasks)
             if (twoList.isNotEmpty()) {
-                coroutineScope.launch {
+                viewModelScope.launch {
                     _status.value = LoadApiStatus.LOADING
                     val result = repository.getHistoryOnThatDay(twoList, dateSelected)
                     _records.value = when (result) {
