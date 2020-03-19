@@ -187,6 +187,7 @@ class ProfileFragment : Fragment() {
             description.isEnabled = false
             xAxis.valueFormatter = IndexAxisValueFormatter(xDate)
             legend.setCustom(legends)
+            legend.verticalAlignment =Legend.LegendVerticalAlignment.TOP
             legend.form = Legend.LegendForm.CIRCLE
             legend.isWordWrapEnabled = true
             xAxis.position = XAxis.XAxisPosition.BOTTOM

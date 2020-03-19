@@ -61,7 +61,7 @@ class TaskFragment : Fragment() {
         }
 
 
-        viewModel.navigateToDetail.observe(this, Observer {
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(
                     NavigationDirections.actionTaskFragmentToDetailFragment(
