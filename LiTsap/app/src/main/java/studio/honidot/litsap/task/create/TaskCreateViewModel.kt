@@ -77,7 +77,7 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
     }
 
     var dueDate = MutableLiveData<Long>().apply {
-        value = 1
+        value = Calendar.getInstance().timeInMillis
     }
 
     fun increaseAmount() {
