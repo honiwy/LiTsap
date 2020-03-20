@@ -36,16 +36,16 @@ Design Patterns - MVVM, Factory, Adapter, Singleton, Observer
 
 Jetpack - ViewModel, Navigation, LiveData, Data Binding, Permissions, Lifecycles, ViewPager, Media, Fragment
 
-Firebase - Firestore, Firebase Authentication, Firebase Storage, Crashlytics
+Firebase - Firestore, Authentication, Storage, Cloud Messaging, Crashlytics
 
 Third Parties - Glide, Moshi, MPAndroidChart, Wasabeef
 
-Test - JUnit
+Test - JUnit, Espresso
 
 ## Others 其他
 ### Requirement 環境需求
 Android SDK 26+
 ### Release version 最新版號
-Google Play Release 2.3.3 (2020/03/16)
+Google Play Release 2.3.5 (2020/03/19)
 ### Contact 聯絡資訊
 Rachel Chuang honidot.studio@gmail.com
