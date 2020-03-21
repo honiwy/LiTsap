@@ -2,6 +2,7 @@ package studio.honidot.litsap.share.post
 
 import android.graphics.Rect
 import android.icu.util.Calendar
+import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,6 +32,8 @@ class PostViewModel(
 
     val share: LiveData<Share>
         get() = _share
+
+    val filePath = MutableLiveData<Uri>()
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()

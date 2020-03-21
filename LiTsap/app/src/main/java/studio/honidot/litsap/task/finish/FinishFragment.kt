@@ -20,7 +20,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_finish.*
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
@@ -41,17 +40,6 @@ class FinishFragment : Fragment() {
             ).finishKey
         )
     }
-
-    private fun dispatchLaunchGalleryIntent() {
-        val intent = Intent()
-        intent.type = FOLDER_OPEN_DEFAULT
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, INTENT_LAUNCH_GALLERY),
-            PICK_IMAGE_REQUEST
-        )
-    }
-
 
     private fun dispatchTakePictureIntent() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -90,7 +78,7 @@ class FinishFragment : Fragment() {
         val storageDir: File = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
+            EXTENSION_SUFFIX,
             storageDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
@@ -98,21 +86,22 @@ class FinishFragment : Fragment() {
         }
     }
 
+    lateinit var binding: FragmentFinishBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentFinishBinding.inflate(inflater, container, false)
+        binding = FragmentFinishBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerFootprint.adapter = FootprintAdapter()
 
-        binding.imageChoose.setOnClickListener {
-            //launchGallery()
+        binding.imageFinishChoose.setOnClickListener {
             loadCamera()
         }
-        binding.imageDisplay.setOnClickListener {
+        binding.imageFinishDisplay.setOnClickListener {
             loadCamera()
         }
 
@@ -167,54 +156,34 @@ class FinishFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST  && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                bindImage(image_display, uri.toString())
+        if (requestCode == OPEN_CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return
+            }
+            photoURI?.let { uri ->
+                bindImage(binding.imageFinishDisplay, uri.toString())
                 viewModel.filePath.value = uri
             }
         }
-        if( requestCode == OPEN_CAMERA_REQUEST && resultCode == Activity.RESULT_OK){
-                if (data == null) {
-                    return
-                }
-                photoURI?.let {uri->
-                    bindImage(image_display, uri.toString())
-                    viewModel.filePath.value = uri
-                }
-        }
     }
 
-    private fun launchGallery() {
-        if (ContextCompat.checkSelfPermission(
-                LiTsapApplication.instance,
-                permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(
-                arrayOf(permission.READ_EXTERNAL_STORAGE),
-                PICK_IMAGE_REQUEST
-            )
-        } else {
-            dispatchLaunchGalleryIntent()
-        }
-    }
 
     private fun loadCamera() {
-            if (ContextCompat.checkSelfPermission(
-                    LiTsapApplication.instance,
+        if (ContextCompat.checkSelfPermission(
+                LiTsapApplication.instance,
+                permission.CAMERA
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(
                     permission.CAMERA
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissions(
-                    arrayOf(
-                        permission.CAMERA
-                    ),
-                    OPEN_CAMERA_REQUEST
-                )
-            } else {
-                dispatchTakePictureIntent()
-            }
+                ),
+                OPEN_CAMERA_REQUEST
+            )
+        } else {
+            dispatchTakePictureIntent()
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -223,17 +192,6 @@ class FinishFragment : Fragment() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            PICK_IMAGE_REQUEST ->
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    try {
-                        dispatchLaunchGalleryIntent()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                } else {
-                    return
-                }
             OPEN_CAMERA_REQUEST ->
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
@@ -248,12 +206,8 @@ class FinishFragment : Fragment() {
         }
     }
 
-
     companion object {
         const val OPEN_CAMERA_REQUEST = 7
-        const val PICK_IMAGE_REQUEST = 71
-        const val INTENT_LAUNCH_GALLERY = "Select Picture"
-        const val FOLDER_OPEN_DEFAULT = "image/*"
+        const val EXTENSION_SUFFIX = ".jpg"
     }
-
 }

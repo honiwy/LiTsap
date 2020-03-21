@@ -252,7 +252,7 @@
 
 
         <ImageView
-            android:id="@+id/image_display"
+            android:id="@+id/image_finish_display"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -270,14 +270,14 @@
             app:srcCompat="@drawable/gallery" />
 
         <ImageView
-            android:id="@+id/image_choose"
+            android:id="@+id/image_finish_choose"
             android:layout_width="@dimen/size_large"
             android:layout_height="@dimen/size_large"
             android:visibility='@{viewModel.filePath==null? View.VISIBLE:View.INVISIBLE}'
-            app:layout_constraintBottom_toBottomOf="@+id/image_display"
-            app:layout_constraintEnd_toEndOf="@+id/image_display"
-            app:layout_constraintStart_toStartOf="@+id/image_display"
-            app:layout_constraintTop_toTopOf="@+id/image_display"
+            app:layout_constraintBottom_toBottomOf="@+id/image_finish_display"
+            app:layout_constraintEnd_toEndOf="@+id/image_finish_display"
+            app:layout_constraintStart_toStartOf="@+id/image_finish_display"
+            app:layout_constraintTop_toTopOf="@+id/image_finish_display"
             app:srcCompat="@drawable/picture" />
 
         <TextView
@@ -285,8 +285,8 @@
             style="@style/TaskTextStyle"
             android:text="@string/finish_picture"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/image_display"
-            app:layout_constraintStart_toStartOf="@+id/image_display"
+            app:layout_constraintEnd_toEndOf="@+id/image_finish_display"
+            app:layout_constraintStart_toStartOf="@+id/image_finish_display"
             app:layout_constraintTop_toTopOf="@+id/divider" />
 
         <View

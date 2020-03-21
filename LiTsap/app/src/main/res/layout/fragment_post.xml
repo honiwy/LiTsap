@@ -57,6 +57,29 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
+                <ImageView
+                    android:id="@+id/image_post_display"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_post_gallery"
+                    android:visibility='@{(viewModel.filePath==null||viewModel.share.imageUris.size()>0||!viewModel.editing)?View.INVISIBLE:View.VISIBLE}'
+                    app:layout_constraintBottom_toBottomOf="@+id/recycler_post_gallery"
+                    app:layout_constraintEnd_toEndOf="@+id/recycler_post_gallery"
+                    app:layout_constraintStart_toStartOf="@+id/recycler_post_gallery"
+                    app:layout_constraintTop_toTopOf="@+id/recycler_post_gallery"
+                    app:srcCompat="@drawable/gallery" />
+
+                <ImageView
+                    android:id="@+id/image_post_choose"
+                    android:layout_width="@dimen/size_large"
+                    android:layout_height="@dimen/size_large"
+                    android:visibility='@{(viewModel.filePath==null&amp;&amp;viewModel.share.imageUris.size()==0&amp;&amp;viewModel.editing)? View.VISIBLE:View.INVISIBLE}'
+                    app:layout_constraintBottom_toBottomOf="@+id/recycler_post_gallery"
+                    app:layout_constraintEnd_toEndOf="@+id/recycler_post_gallery"
+                    app:layout_constraintStart_toStartOf="@+id/recycler_post_gallery"
+                    app:layout_constraintTop_toTopOf="@+id/recycler_post_gallery"
+                    app:srcCompat="@drawable/picture" />
+
+
                 <TextView
                     android:id="@+id/text_post_title"
                     style="@style/WorkoutAnnounceStyle"
