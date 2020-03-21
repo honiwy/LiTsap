@@ -5,16 +5,19 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_finish.*
@@ -22,10 +25,12 @@ import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.NavigationDirections
 import studio.honidot.litsap.R
 import studio.honidot.litsap.bindImage
-import studio.honidot.litsap.data.Task
 import studio.honidot.litsap.databinding.FragmentFinishBinding
 import studio.honidot.litsap.extension.getVmFactory
+import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FinishFragment : Fragment() {
 
@@ -37,7 +42,7 @@ class FinishFragment : Fragment() {
         )
     }
 
-    private fun launchGallery() {
+    private fun dispatchLaunchGalleryIntent() {
         val intent = Intent()
         intent.type = FOLDER_OPEN_DEFAULT
         intent.action = Intent.ACTION_GET_CONTENT
@@ -45,6 +50,52 @@ class FinishFragment : Fragment() {
             Intent.createChooser(intent, INTENT_LAUNCH_GALLERY),
             PICK_IMAGE_REQUEST
         )
+    }
+
+
+    private fun dispatchTakePictureIntent() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(context!!.packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    null
+                }
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        getString(R.string.finish_provider),
+                        it
+                    )
+                    this.photoURI = photoURI
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST)
+                }
+            }
+        }
+    }
+
+    private var photoURI: Uri? = null
+
+    private lateinit var currentPhotoPath: String
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
     }
 
     override fun onCreateView(
@@ -58,10 +109,11 @@ class FinishFragment : Fragment() {
         binding.recyclerFootprint.adapter = FootprintAdapter()
 
         binding.imageChoose.setOnClickListener {
-            getPermissions()
+            //launchGallery()
+            loadCamera()
         }
         binding.imageDisplay.setOnClickListener {
-            getPermissions()
+            loadCamera()
         }
 
         viewModel.count.observe(this, Observer {
@@ -74,11 +126,13 @@ class FinishFragment : Fragment() {
                 viewModel.onTaskNavigated()
             }
         })
-        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                attemptToLeave()
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    attemptToLeave()
+                }
+            })
 
         return binding.root
     }
@@ -113,33 +167,54 @@ class FinishFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_IMAGE_REQUEST  && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
                 bindImage(image_display, uri.toString())
                 viewModel.filePath.value = uri
             }
         }
+        if( requestCode == OPEN_CAMERA_REQUEST && resultCode == Activity.RESULT_OK){
+                if (data == null) {
+                    return
+                }
+                photoURI?.let {uri->
+                    bindImage(image_display, uri.toString())
+                    viewModel.filePath.value = uri
+                }
+        }
     }
 
-
-    private fun getPermissions() {
-        val permissions = arrayOf(permission.READ_EXTERNAL_STORAGE)
-        when (ContextCompat.checkSelfPermission(
-            LiTsapApplication.instance,
-            permission.READ_EXTERNAL_STORAGE
-        )) {
-            PackageManager.PERMISSION_GRANTED -> {
-//                        isUploadPermissionsGranted = true
-                launchGallery()
-            }
-            else -> {
-                requestPermissions(
-                    permissions,
-                    PICK_IMAGE_REQUEST
-                )
-
-            }
+    private fun launchGallery() {
+        if (ContextCompat.checkSelfPermission(
+                LiTsapApplication.instance,
+                permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(permission.READ_EXTERNAL_STORAGE),
+                PICK_IMAGE_REQUEST
+            )
+        } else {
+            dispatchLaunchGalleryIntent()
         }
+    }
+
+    private fun loadCamera() {
+            if (ContextCompat.checkSelfPermission(
+                    LiTsapApplication.instance,
+                    permission.CAMERA
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(
+                    arrayOf(
+                        permission.CAMERA
+                    ),
+                    OPEN_CAMERA_REQUEST
+                )
+            } else {
+                dispatchTakePictureIntent()
+            }
     }
 
     override fun onRequestPermissionsResult(
@@ -147,25 +222,35 @@ class FinishFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-//        isUploadPermissionsGranted = false
         when (requestCode) {
             PICK_IMAGE_REQUEST ->
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-//                    isUploadPermissionsGranted = true
                     try {
-                        launchGallery()
+                        dispatchLaunchGalleryIntent()
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
                 } else {
-//                    isUploadPermissionsGranted = false
+                    return
+                }
+            OPEN_CAMERA_REQUEST ->
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    try {
+                        dispatchTakePictureIntent()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                } else {
                     return
                 }
         }
     }
 
+
     companion object {
+        const val OPEN_CAMERA_REQUEST = 7
         const val PICK_IMAGE_REQUEST = 71
         const val INTENT_LAUNCH_GALLERY = "Select Picture"
         const val FOLDER_OPEN_DEFAULT = "image/*"

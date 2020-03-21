@@ -16,7 +16,7 @@ data class User(
     var todayDoneCount: Int = 0
 ) : Parcelable{
     companion object {
-        const val INTERVAL_CONSTANT = 50
+        const val INTERVAL_CONSTANT = 30
     }
     val level
         get() = (experience / INTERVAL_CONSTANT)

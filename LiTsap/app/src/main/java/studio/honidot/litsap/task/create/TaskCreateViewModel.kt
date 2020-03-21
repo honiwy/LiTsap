@@ -65,6 +65,8 @@ class TaskCreateViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
+
+
     fun removeModule(module: String) {
         moduleNameList.value?.let { list ->
             list.remove(list.findLast { it == module })
