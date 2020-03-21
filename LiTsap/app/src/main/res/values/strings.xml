@@ -92,6 +92,7 @@
     <string name="finish_leave_content">不領取經驗值直接離開嗎?</string>
     <string name="finish_congrats">已完成該任務目標總次數，真是太棒了!</string>
     <string name="finish_provider">studio.honidot.litsap.fileprovider</string>
+    <string name="finish_content">還沒有編輯的內容。</string>
     <!-- Diary -->
     <string name="diary_no_data">本日未留下任何紀錄</string>
     <!-- Post -->

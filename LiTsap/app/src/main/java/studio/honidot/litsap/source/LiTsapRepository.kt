@@ -61,7 +61,7 @@ interface LiTsapRepository {
 
     suspend fun updateMurmur(member: Member): Result<Boolean>
 
-    suspend fun updateSharePost(share: Share): Result<Boolean>
+    suspend fun updateSharePost(share: Share, addImages: Boolean): Result<Boolean>
 
     suspend fun updateUserStatus(workout: Workout): Result<Boolean>
 

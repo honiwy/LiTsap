@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="studio.honidot.litsap.network.LoadApiStatus" />
         <import type="android.view.View" />
 
         <variable
@@ -194,7 +194,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/edit"
                     android:onClick="@{()-> viewModel.changeEditing()}"
-                    android:visibility="@{(!viewModel.editing) &amp;&amp; viewModel.isSameUser ?View.VISIBLE:View.INVISIBLE}"
+                    android:visibility="@{(!viewModel.editing) &amp;&amp; viewModel.isSameUser&amp;&amp; viewModel.status != LoadApiStatus.LOADING ?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/text_post_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_post_title" />
@@ -205,8 +205,8 @@
                     android:layout_height="@dimen/size_small"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/email"
-                    android:onClick="@{()->viewModel.updateSharePost()}"
-                    android:visibility="@{viewModel.editing &amp;&amp; viewModel.isSameUser ?View.VISIBLE:View.INVISIBLE}"
+                    android:onClick="@{()->viewModel.preUpdateSharePost()}"
+                    android:visibility="@{viewModel.editing &amp;&amp; viewModel.isSameUser &amp;&amp; viewModel.status != LoadApiStatus.LOADING?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/text_post_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_post_title" />
@@ -218,16 +218,17 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
                     app:setupApiStatus="@{viewModel.status}" />
 
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_post_gallery"
                     app:setupApiErrorMessage="@{viewModel.error}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

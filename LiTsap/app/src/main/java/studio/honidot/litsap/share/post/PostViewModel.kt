@@ -15,9 +15,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
-import studio.honidot.litsap.data.*
+import studio.honidot.litsap.data.Result
+import studio.honidot.litsap.data.Share
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 
 class PostViewModel(
@@ -73,16 +75,42 @@ class PostViewModel(
     val error: LiveData<String>
         get() = _error
 
-    fun updateSharePost() {
+    fun preUpdateSharePost() {
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            filePath.value?.let {
+                when (val result = repository.uploadImage(it)) {
+                    is Result.Success -> {
+                        _share.value?.imageUris = listOf(result.data.toString())
+                    }
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = LoadApiStatus.ERROR
+                    }
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = LoadApiStatus.ERROR
+                    }
+                    else -> {
+                        _error.value = Util.getString(R.string.you_know_nothing)
+                        _status.value = LoadApiStatus.ERROR
+                    }
+                }
+            }
+            updateSharePost()
+        }
+    }
+
+
+    private fun updateSharePost() {
         _share.value?.let {
             coroutineScope.launch {
-                _status.value = LoadApiStatus.LOADING
+                _editing.value = false
                 it.recordDate = Calendar.getInstance().timeInMillis
-                when (val result = repository.updateSharePost(it)) {
+                when (val result = repository.updateSharePost(it, filePath.value!=null)) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE
-                        _editing.value = false
                     }
                     is Result.Fail -> {
                         _error.value = result.error

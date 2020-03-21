@@ -40,6 +40,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
     private const val FIELD_NOTE = "note"
     private const val FIELD_TODAY_DONE = "todayDone"
     private const val FIELD_RECORD_DATE = "recordDate"
+    private const val FIELD_IMAGE_URIS = "imageUris"
     private const val FIELD_ACCUMULATE_COUNT = "accumCount"
     private const val FIELD_EXPERIENCE = "experience"
     private const val FIELD_TODAY_DONE_COUNT = "todayDoneCount"
@@ -634,14 +635,19 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                 }
         }
 
-    override suspend fun updateSharePost(share: Share): Result<Boolean> =
+    override suspend fun updateSharePost(share: Share, addImages: Boolean): Result<Boolean> =
         suspendCoroutine { continuation ->
+            val map = if(addImages){ mapOf(
+                FIELD_NOTE to share.note,
+                FIELD_RECORD_DATE to share.recordDate,
+                FIELD_IMAGE_URIS to share.imageUris
+            )}else{ mapOf(
+                FIELD_NOTE to share.note,
+                FIELD_RECORD_DATE to share.recordDate
+            )}
             FirebaseFirestore.getInstance().collection(PATH_SHARES).document(share.shareId)
                 .update(
-                    mapOf(
-                        FIELD_NOTE to share.note,
-                        FIELD_RECORD_DATE to share.recordDate
-                    )
+                    map
                 )
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {

@@ -118,8 +118,8 @@ class DefaultLiTsapRepository(
         return remoteDataSource.updateMurmur(member)
     }
 
-    override suspend fun updateSharePost(share: Share): Result<Boolean> {
-        return remoteDataSource.updateSharePost(share)
+    override suspend fun updateSharePost(share: Share, addImages: Boolean): Result<Boolean> {
+        return remoteDataSource.updateSharePost(share, addImages)
     }
 
     override suspend fun updateTaskStatus(
