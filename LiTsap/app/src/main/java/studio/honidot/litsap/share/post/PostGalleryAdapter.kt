@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import studio.honidot.litsap.R
 import studio.honidot.litsap.databinding.ItemPostGalleryBinding
-import studio.honidot.litsap.util.Logger
 
 class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHolder>() {
 
@@ -17,7 +16,8 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
     // the data of adapter
     private var images: List<String>? = null
 
-    class ImageViewHolder(private var binding: ItemPostGalleryBinding): RecyclerView.ViewHolder(binding.root) {
+    class ImageViewHolder(private var binding: ItemPostGalleryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(context: Context, imageUrl: String) {
             imageUrl.let {
@@ -26,8 +26,10 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
                 // Make sure the size of each image item can display correct
                 val displayMetrics = DisplayMetrics()
                 (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
-                binding.imageDetailGallery.layoutParams = ConstraintLayout.LayoutParams(displayMetrics.widthPixels,
-                    context.resources.getDimensionPixelSize(R.dimen.height_post_gallery))
+                binding.imageDetailGallery.layoutParams = ConstraintLayout.LayoutParams(
+                    displayMetrics.widthPixels,
+                    context.resources.getDimensionPixelSize(R.dimen.height_post_gallery)
+                )
 
                 binding.executePendingBindings()
             }
@@ -36,8 +38,11 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         context = parent.context
-        return ImageViewHolder(ItemPostGalleryBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        return ImageViewHolder(
+            ItemPostGalleryBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
     /**
@@ -63,7 +68,7 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
      * @param images: [List] [String]
      */
     fun submitImages(images: List<String>) {
-        if(images.isNotEmpty()) {
+        if (images.isNotEmpty()) {
             this.images = images
             notifyDataSetChanged()
         }
