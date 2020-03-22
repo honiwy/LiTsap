@@ -16,6 +16,7 @@ import studio.honidot.litsap.data.History
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Share
 import studio.honidot.litsap.data.Workout
+import studio.honidot.litsap.login.UserManager
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
 import studio.honidot.litsap.util.Logger
@@ -61,9 +62,7 @@ class FinishViewModel(
     val workout: LiveData<Workout>
         get() = _workout
 
-
     private val _count = MutableLiveData<Int>()
-
     val count: LiveData<Int>
         get() = _count
 
@@ -79,14 +78,17 @@ class FinishViewModel(
     val error: LiveData<String>
         get() = _error
 
+    private val isTaskDone = (arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount)
+    val apiCount = if (isTaskDone){7}else{4}
+
     fun update(workout: Workout) {
         _status.value = LoadApiStatus.LOADING
         _count.value = 0
-        uploadImage(workout)
+        createTaskHistory(workout)
         updateTaskModule(workout)
         updateUserStatus(workout)
         updateTaskStatus(workout.taskId, workout.achieveSectionCount.toLong())
-        if (arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount) {
+        if (isTaskDone) {
             deleteUserOngoingTask(workout.userId, workout.taskId)
             addHistoryTaskId(workout.userId, workout.taskId)
             createSharePost(workout)
@@ -100,6 +102,7 @@ class FinishViewModel(
 
     private fun createSharePost(workout: Workout) {
         val newShare = Share(
+            userName = UserManager.userName ?: "",
             userId = workout.userId,
             taskId = workout.taskId,
             taskCategoryId = workout.taskCategoryId,
@@ -124,9 +127,9 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
+            _count.value?.plus(1)
         }
     }
-
     private fun addHistoryTaskId(userId: String, taskId: String) {
         coroutineScope.launch {
             when (val result = repository.addUserHistoryList(userId, taskId)) {
@@ -145,9 +148,9 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
+            _count.value?.plus(1)
         }
     }
-
     private fun deleteUserOngoingTask(userId: String, taskId: String) {
         coroutineScope.launch {
             when (val result = repository.deleteUserOngoingTask(userId, taskId)) {
@@ -166,8 +169,11 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
+            _count.value?.plus(1)
         }
     }
+
+    val filePath = MutableLiveData<Uri>()
 
     private fun updateTaskStatus(taskId: String, accumulationPoints: Long) {
         coroutineScope.launch {
@@ -188,12 +194,9 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.let {
-                _count.value = it.plus(1)
-            }
+            _count.value?.plus(1)
         }
     }
-
     private fun updateUserStatus(workout: Workout) {
         coroutineScope.launch {
             when (val result = repository.updateUserStatus(workout)) {
@@ -213,40 +216,9 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.let {
-                _count.value = it.plus(1)
-            }
+            _count.value?.plus(1)
         }
     }
-
-    private fun createTaskHistory(history: History) {
-        coroutineScope.launch {
-            when (val result = repository.createTaskHistory(history)) {
-                is Result.Success -> {
-
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                }
-                else -> {
-                    _error.value = Util.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
-                }
-            }
-            _count.value?.let {
-                _count.value = it.plus(1)
-            }
-        }
-
-    }
-
-    val filePath = MutableLiveData<Uri>()
-
     private fun updateTaskModule(workout: Workout) {
         coroutineScope.launch {
             when (val result = repository.updateTaskModule(workout)) {
@@ -266,13 +238,10 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.let {
-                _count.value = it.plus(1)
-            }
+            _count.value?.plus(1)
         }
     }
-
-    private fun uploadImage(workout: Workout) {
+    private fun createTaskHistory(workout: Workout) {
         coroutineScope.launch {
             filePath.value?.let {
                 when (val result = repository.uploadImage(it)) {
@@ -296,19 +265,32 @@ class FinishViewModel(
                     }
                 }
             }
-            createTaskHistory(
-                History(
-                    workout.note,
-                    if (filePath.value == null) "" else _workout.value!!.imageUri,
-                    workout.achieveSectionCount,
-                    Calendar.getInstance().timeInMillis,
-                    workout.taskId,
-                    workout.taskName
-                )
+            val history = History(
+                workout.note,
+                if (filePath.value == null) "" else _workout.value!!.imageUri,
+                workout.achieveSectionCount,
+                Calendar.getInstance().timeInMillis,
+                workout.taskId,
+                workout.taskName
             )
-            _count.value?.let {
-                _count.value = it.plus(1)
+            when (val result = repository.createTaskHistory(history)) {
+                is Result.Success -> {
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
             }
+            _count.value?.plus(1)
         }
     }
 

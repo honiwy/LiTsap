@@ -97,7 +97,6 @@ class FinishFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerFootprint.adapter = FootprintAdapter()
-
         binding.imageFinishChoose.setOnClickListener {
             loadCamera()
         }
@@ -106,7 +105,7 @@ class FinishFragment : Fragment() {
         }
 
         viewModel.count.observe(this, Observer {
-            if (it == 5) {
+            if (it == viewModel.apiCount) {
                 findNavController().navigate(
                     NavigationDirections.navigateToTaskFragment(
                         FirebaseAuth.getInstance().currentUser!!.uid
