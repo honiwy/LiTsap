@@ -14,11 +14,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.github.mikephil.charting.charts.RadarChart
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import studio.honidot.litsap.LiTsapApplication
+import studio.honidot.litsap.R
 import studio.honidot.litsap.bindImageNoCorner
 import studio.honidot.litsap.databinding.FragmentPostBinding
 import studio.honidot.litsap.extension.getVmFactory
+import studio.honidot.litsap.util.ChartColor
 import java.io.IOException
+
 
 class PostFragment : Fragment() {
     private val viewModel by viewModels<PostViewModel> {
@@ -57,8 +65,7 @@ class PostFragment : Fragment() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
+        requestCode: Int, permissions: Array<out String>,
         grantResults: IntArray
     ) {
         when (requestCode) {
@@ -85,7 +92,6 @@ class PostFragment : Fragment() {
         binding = FragmentPostBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
 
         // set the initial position to the center of infinite gallery
         viewModel.share.value?.let { share ->
@@ -126,7 +132,33 @@ class PostFragment : Fragment() {
             }
         })
 
+        drawRadarChart(binding.radarChart)
+
         return binding.root
+    }
+
+    private fun drawRadarChart(chart: RadarChart) {
+        val radarEntries = ArrayList<RadarEntry>()
+        radarEntries.add(RadarEntry(7f))
+        radarEntries.add(RadarEntry(1f))
+        radarEntries.add(RadarEntry(4f))
+        radarEntries.add(RadarEntry(2f))
+        radarEntries.add(RadarEntry(8f))
+        radarEntries.add(RadarEntry(4f))
+        val radarDataSet = RadarDataSet(radarEntries, "")
+
+        radarDataSet.colors = listOf(LiTsapApplication.instance.getColor(R.color.honey))
+        radarDataSet.fillColor = LiTsapApplication.instance.getColor(R.color.honey)
+        radarDataSet.setDrawFilled(true)
+
+        chart.apply {
+            data = RadarData(radarDataSet)
+            chart.description.isEnabled = false
+            chart.legend.isEnabled = false
+            xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("HELLO", "Haha", "Hola","Talk","Sing","dance"))
+            animateY(CHART_ANIMATION_TIME)
+            invalidate()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -143,5 +175,6 @@ class PostFragment : Fragment() {
         const val PICK_IMAGE_REQUEST = 71
         const val INTENT_LAUNCH_GALLERY = "Select Picture"
         const val FOLDER_OPEN_DEFAULT = "image/*"
+        private const val CHART_ANIMATION_TIME = 1000
     }
 }

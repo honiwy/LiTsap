@@ -47,7 +47,6 @@ class TaskFragment : Fragment() {
             viewModel.longPressTaskItem(it)
         })
         binding.fab.setOnClickListener {
-            Logger.w("YOu press fab, viewModel.taskCount.value: ${viewModel.taskCount.value}")
             viewModel.taskCount.value?.let {
                 if (it >= TASK_COUNT_LIMIT) {
                     Toast.makeText(
