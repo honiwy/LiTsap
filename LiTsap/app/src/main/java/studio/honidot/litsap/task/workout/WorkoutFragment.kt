@@ -72,7 +72,6 @@ class WorkoutFragment : Fragment() {
 
         viewModel.leaveWorkout.observe(this, Observer {
             it?.let {
-
                 if (it) findNavController().popBackStack()
             }
         })
@@ -102,10 +101,4 @@ class WorkoutFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onStop() {
-//        super.onStop()
-//        if (viewModel.musicPlay.value!=null) {
-//            mediaPlayer?.release()
-//        }
-//    }
 }

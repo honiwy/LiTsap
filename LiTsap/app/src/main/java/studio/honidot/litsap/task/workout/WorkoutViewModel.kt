@@ -119,8 +119,12 @@ class WorkoutViewModel(
 
     fun onFinishNavigated() {
         _musicPlay.value = null
-        taskCountDownTimer.cancel()
-        restCountDownTimer.cancel()
+        _totalTaskRemained.value?.let {
+            taskCountDownTimer.cancel()
+        }
+        _totalRestRemained.value?.let {
+            restCountDownTimer.cancel()
+        }
         _navigateToFinish.value = null
     }
 
@@ -206,8 +210,12 @@ class WorkoutViewModel(
 
     fun leaveWorkout() {
         _musicPlay.value = null
-        taskCountDownTimer.cancel()
-        restCountDownTimer.cancel()
+        _totalTaskRemained.value?.let {
+            taskCountDownTimer.cancel()
+        }
+        _totalRestRemained.value?.let {
+            restCountDownTimer.cancel()
+        }
         _leaveWorkout.value = true
     }
 
