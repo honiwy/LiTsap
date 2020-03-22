@@ -145,15 +145,28 @@
                 <com.github.mikephil.charting.charts.RadarChart
                     android:id="@+id/radar_chart"
                     android:layout_width="0dp"
-                    android:layout_height="300dp"
+                    android:layout_height="400dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
+                    android:visibility="@{(viewModel.modules.size()>=3)&amp;&amp; viewModel.status == LoadApiStatus.DONE  ? View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_post_story" />
 
+                <TextView
+                    android:id="@+id/text_no_data"
+                    style="@style/CreateModuleStyle"
+                    android:text="@string/post_less_data"
+                    android:textColor="@color/honey"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="@{(viewModel.modules.size()&lt;3)&amp;&amp; viewModel.status == LoadApiStatus.DONE  ? View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_post_story"
+                    app:layout_constraintStart_toStartOf="parent" />
                 <View
                     android:id="@+id/view_post_color_separation"
                     android:layout_width="1dp"

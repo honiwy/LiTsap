@@ -22,9 +22,9 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.R
 import studio.honidot.litsap.bindImageNoCorner
+import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.databinding.FragmentPostBinding
 import studio.honidot.litsap.extension.getVmFactory
-import studio.honidot.litsap.util.ChartColor
 import java.io.IOException
 
 
@@ -132,21 +132,23 @@ class PostFragment : Fragment() {
             }
         })
 
-        drawRadarChart(binding.radarChart)
+        viewModel.modules.observe(this, Observer {
+            if (it.size >= 3) {
+                drawRadarChart(binding.radarChart, it)
+            }
+        })
 
         return binding.root
     }
 
-    private fun drawRadarChart(chart: RadarChart) {
+    private fun drawRadarChart(chart: RadarChart, modules: List<Module>) {
         val radarEntries = ArrayList<RadarEntry>()
-        radarEntries.add(RadarEntry(7f))
-        radarEntries.add(RadarEntry(1f))
-        radarEntries.add(RadarEntry(4f))
-        radarEntries.add(RadarEntry(2f))
-        radarEntries.add(RadarEntry(8f))
-        radarEntries.add(RadarEntry(4f))
+        val names = ArrayList<String>()
+        modules.forEach {
+            radarEntries.add(RadarEntry(it.achieveSection.toFloat()))
+            names.add(it.moduleName)
+        }
         val radarDataSet = RadarDataSet(radarEntries, "")
-
         radarDataSet.colors = listOf(LiTsapApplication.instance.getColor(R.color.honey))
         radarDataSet.fillColor = LiTsapApplication.instance.getColor(R.color.honey)
         radarDataSet.setDrawFilled(true)
@@ -155,7 +157,8 @@ class PostFragment : Fragment() {
             data = RadarData(radarDataSet)
             chart.description.isEnabled = false
             chart.legend.isEnabled = false
-            xAxis.valueFormatter = IndexAxisValueFormatter(arrayOf("HELLO", "Haha", "Hola","Talk","Sing","dance"))
+            setExtraOffsets(35f, 5f, 35f, 5f)
+            xAxis.valueFormatter = IndexAxisValueFormatter(names)
             animateY(CHART_ANIMATION_TIME)
             invalidate()
         }

@@ -20,7 +20,6 @@ class PostGalleryAdapter : RecyclerView.Adapter<PostGalleryAdapter.ImageViewHold
     class ImageViewHolder(private var binding: ItemPostGalleryBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(context: Context, imageUrl: String) {
-            Logger.w("ImageViewHolder: $imageUrl")
             imageUrl.let {
                 binding.imageUrl = it
 

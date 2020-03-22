@@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.honidot.litsap.LiTsapApplication.Companion.instance
 import studio.honidot.litsap.R
+import studio.honidot.litsap.data.Module
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Share
 import studio.honidot.litsap.network.LoadApiStatus
@@ -172,6 +173,44 @@ class PostViewModel(
                 outRect.left = 0
             } else {
                 outRect.left = instance.resources.getDimensionPixelSize(R.dimen.space_post_circle)
+            }
+        }
+    }
+
+    init {
+        retrieveModules(arguments.taskId)
+    }
+
+    private val _modules = MutableLiveData<List<Module>>()
+
+    val modules: LiveData<List<Module>>
+        get() = _modules
+
+    private fun retrieveModules(taskId: String) {
+        coroutineScope.launch {
+            _status.value = LoadApiStatus.LOADING
+            val result = repository.getModules(taskId)
+            _modules.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
             }
         }
     }
