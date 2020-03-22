@@ -109,6 +109,10 @@ class PostFragment : Fragment() {
             binding.imagePostDisplay.setOnClickListener {
                 launchGallery()
             }
+            viewModel.share.observe(this, Observer {
+                binding.recyclerPostGallery.adapter?.notifyDataSetChanged()
+                binding.recyclerPostCircles.adapter?.notifyDataSetChanged()
+            })
 
             viewModel.snapPosition.observe(this, Observer {
                 (binding.recyclerPostCircles.adapter as PostCircleAdapter).selectedPosition.value =

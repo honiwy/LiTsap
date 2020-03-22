@@ -81,7 +81,11 @@ class PostViewModel(
             filePath.value?.let {
                 when (val result = repository.uploadImage(it)) {
                     is Result.Success -> {
-                        _share.value?.imageUris = listOf(result.data.toString())
+                        val tmpUris = mutableListOf<String>()
+                        _share.value?.imageUris?.toCollection(tmpUris)
+                        tmpUris.add(result.data.toString())
+                        _share.value?.imageUris = tmpUris
+                        _share.value = _share.value
                     }
                     is Result.Fail -> {
                         _error.value = result.error
@@ -107,7 +111,7 @@ class PostViewModel(
             coroutineScope.launch {
                 _editing.value = false
                 it.recordDate = Calendar.getInstance().timeInMillis
-                when (val result = repository.updateSharePost(it, filePath.value!=null)) {
+                when (val result = repository.updateSharePost(it, filePath.value != null)) {
                     is Result.Success -> {
                         _error.value = null
                         _status.value = LoadApiStatus.DONE

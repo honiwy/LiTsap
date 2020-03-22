@@ -102,10 +102,10 @@ class WorkoutFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (viewModel.musicPlay.value!=null) {
-            mediaPlayer?.release()
-        }
-    }
+//    override fun onStop() {
+//        super.onStop()
+//        if (viewModel.musicPlay.value!=null) {
+//            mediaPlayer?.release()
+//        }
+//    }
 }

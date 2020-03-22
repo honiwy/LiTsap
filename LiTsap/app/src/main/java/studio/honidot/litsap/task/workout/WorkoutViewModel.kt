@@ -17,6 +17,13 @@ class WorkoutViewModel(
     private val arguments: Workout
 ) : ViewModel() {
 
+
+    private val _workout = MutableLiveData<Workout>().apply {
+        value = arguments
+    }
+    val workout: LiveData<Workout>
+        get() = _workout
+
     var messageList = MutableLiveData<MutableList<String>>().apply {
         value = mutableListOf()
     }
@@ -80,6 +87,7 @@ class WorkoutViewModel(
         get() = _isCountingTask
 
     init {
+        _workout.value?.achieveSectionCount = 0
         _totalTaskRemained.value = arguments.displayProcess
         startTaskCountDownTimer(arguments.workoutTime * SECOND_TO_MILLISECOND)
 
@@ -110,6 +118,9 @@ class WorkoutViewModel(
     }
 
     fun onFinishNavigated() {
+        _musicPlay.value = null
+        taskCountDownTimer.cancel()
+        restCountDownTimer.cancel()
         _navigateToFinish.value = null
     }
 
@@ -136,7 +147,7 @@ class WorkoutViewModel(
 
                 override fun onFinish() {
                     _workout.value?.let {
-                        it.achieveSectionCount += 1
+                            it.achieveSectionCount += 1
                     }
                     navigateToFinish()
                 }
@@ -167,11 +178,6 @@ class WorkoutViewModel(
         restCountDownTimer.start()
     }
 
-    private val _workout = MutableLiveData<Workout>().apply {
-        value = arguments
-    }
-    val workout: LiveData<Workout>
-        get() = _workout
 
     private val _navigateToFinish = MutableLiveData<Workout>()
 
@@ -199,7 +205,9 @@ class WorkoutViewModel(
     }
 
     fun leaveWorkout() {
+        _musicPlay.value = null
         taskCountDownTimer.cancel()
+        restCountDownTimer.cancel()
         _leaveWorkout.value = true
     }
 
