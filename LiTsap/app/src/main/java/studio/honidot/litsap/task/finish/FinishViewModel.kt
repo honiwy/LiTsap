@@ -78,8 +78,13 @@ class FinishViewModel(
     val error: LiveData<String>
         get() = _error
 
-    private val isTaskDone = (arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount)
-    val apiCount = if (isTaskDone){7}else{4}
+    private val isTaskDone =
+        (arguments.lastTime && arguments.achieveSectionCount == arguments.planSectionCount)
+    val apiCount = if (isTaskDone) {
+        7
+    } else {
+        4
+    }
 
     fun update(workout: Workout) {
         _status.value = LoadApiStatus.LOADING
@@ -127,9 +132,12 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
+
     private fun addHistoryTaskId(userId: String, taskId: String) {
         coroutineScope.launch {
             when (val result = repository.addUserHistoryList(userId, taskId)) {
@@ -148,9 +156,12 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
+
     private fun deleteUserOngoingTask(userId: String, taskId: String) {
         coroutineScope.launch {
             when (val result = repository.deleteUserOngoingTask(userId, taskId)) {
@@ -169,7 +180,9 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
 
@@ -194,9 +207,12 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
+
     private fun updateUserStatus(workout: Workout) {
         coroutineScope.launch {
             when (val result = repository.updateUserStatus(workout)) {
@@ -216,9 +232,12 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
+
     private fun updateTaskModule(workout: Workout) {
         coroutineScope.launch {
             when (val result = repository.updateTaskModule(workout)) {
@@ -238,9 +257,12 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
+
     private fun createTaskHistory(workout: Workout) {
         coroutineScope.launch {
             filePath.value?.let {
@@ -290,7 +312,9 @@ class FinishViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            _count.value?.plus(1)
+            _count.value?.let {
+                _count.value = it.plus(1)
+            }
         }
     }
 

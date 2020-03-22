@@ -31,12 +31,6 @@ class FaceChooseViewModel(private val repository: LiTsapRepository) : ViewModel(
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val _taskId = MutableLiveData<String>()
-
-    val taskId: LiveData<String>
-        get() = _taskId
-
-
     fun updateUserIcon(userId: String, iconId: Int) {
         coroutineScope.launch {
             when (repository.updateUserIcon(userId, iconId)) {
@@ -47,8 +41,6 @@ class FaceChooseViewModel(private val repository: LiTsapRepository) : ViewModel(
         }
     }
 
-    val selectedFacePosition = MutableLiveData<Int>().apply {
-        value = 0
-    }
+    val selectedFacePosition = MutableLiveData<Int>()
 
 }

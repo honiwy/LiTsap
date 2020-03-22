@@ -42,11 +42,13 @@ class FaceChooseDialog : DialogFragment() {
         }
 
         binding.buttonConfirm.setOnClickListener {
-            FirebaseAuth.getInstance().currentUser?.let {
-                viewModel.updateUserIcon(
-                    it.uid,
-                    viewModel.selectedFacePosition.value ?: 0
-                )
+            viewModel.selectedFacePosition.value?.let{chooseId->
+                FirebaseAuth.getInstance().currentUser?.let {firebaseUser->
+                    viewModel.updateUserIcon(
+                        firebaseUser.uid,
+                        chooseId
+                    )
+                }
             }
             dismiss()
         }

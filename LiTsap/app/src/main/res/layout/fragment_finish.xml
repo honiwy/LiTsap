@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="studio.honidot.litsap.network.LoadApiStatus" />
         <import type="android.view.View" />
 
         <variable
@@ -137,7 +137,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/round_button"
-            android:enabled="@{viewModel.count>0?false:true}"
+            android:enabled="@{viewModel.status == LoadApiStatus.LOADING ?false:true}"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.update(viewModel.workout)}"
