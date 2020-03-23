@@ -41,7 +41,7 @@ class WorkoutFragment : Fragment() {
 
         viewModel.findUser(FirebaseAuth.getInstance().currentUser!!.uid)
 
-        viewModel.navigateToFinish.observe(this, Observer {
+        viewModel.navigateToFinish.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(
                     NavigationDirections.actionWorkoutFragmentToFinishFragment(
@@ -58,7 +58,7 @@ class WorkoutFragment : Fragment() {
 
         val adapter = RecordAdapter(viewModel)
         binding.recyclerMessage.adapter = adapter
-        viewModel.messageList.observe(this, Observer {
+        viewModel.messageList.observe(viewLifecycleOwner, Observer {
             binding.recyclerMessage.adapter?.notifyDataSetChanged()
             binding.recyclerMessage.smoothScrollToPosition(adapter.itemCount)
         })
@@ -70,13 +70,13 @@ class WorkoutFragment : Fragment() {
             } else false
         }
 
-        viewModel.leaveWorkout.observe(this, Observer {
+        viewModel.leaveWorkout.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) findNavController().popBackStack()
             }
         })
 
-        viewModel.musicPlay.observe(this, Observer {
+        viewModel.musicPlay.observe(viewLifecycleOwner, Observer {
             when (it) {
                 null -> {
                     mediaPlayer?.release()

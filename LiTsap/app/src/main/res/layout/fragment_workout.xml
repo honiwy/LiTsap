@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
-<import type="studio.honidot.litsap.data.Workout"/>
+
+        <import type="studio.honidot.litsap.data.Workout" />
+
         <variable
             name="viewModel"
             type="studio.honidot.litsap.task.workout.WorkoutViewModel" />
@@ -134,10 +135,10 @@
 
         <TextView
             android:id="@+id/timer_text"
+            style="@style/WorkoutAnnounceStyle"
             android:layout_marginTop="4dp"
             android:text="@string/break_hint"
             android:textStyle="bold"
-            style="@style/WorkoutAnnounceStyle"
             android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/countdown_bar"
             app:layout_constraintStart_toStartOf="@+id/countdown_bar"
@@ -186,14 +187,14 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:onClick="@{()->viewModel.navigateToFinish()}"
-            tools:text="@string/workout_lower_than_section"
             android:text="@{(safeUnbox(viewModel.workout.displayProcess)-safeUnbox(viewModel.totalTaskRemained))>= Workout.WORKOUT_TIME?@string/completed_ahead:@string/workout_lower_than_section}"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/workout_lower_than_section" />
 
         <EditText
             android:id="@+id/edit_talk"
@@ -238,8 +239,8 @@
             android:layout_height="@dimen/size_small"
             android:background="@{safeUnbox(viewModel.musicPlay)?@drawable/volume_up:@drawable/mute}"
             android:backgroundTint="@color/yale"
-            android:visibility="@{safeUnbox(viewModel.isCountingRest)?View.VISIBLE:View.GONE}"
             android:onClick="@{()->viewModel.muteMusic()}"
+            android:visibility="@{safeUnbox(viewModel.isCountingRest)?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/constraint_title"
             app:layout_constraintStart_toEndOf="@+id/constraint_title"
             app:layout_constraintTop_toTopOf="@+id/constraint_title"
@@ -257,7 +258,6 @@
             android:visibility="@{safeUnbox(viewModel.isCountingRest)? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/button_finish"
             app:layout_constraintEnd_toEndOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

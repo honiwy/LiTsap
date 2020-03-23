@@ -86,11 +86,14 @@ class WorkoutViewModel(
     val isCountingTask: LiveData<Boolean>
         get() = _isCountingTask
 
+
     init {
-        _workout.value?.achieveSectionCount = 0
+        _workout.value?.let{
+            it.achieveSectionCount = 0
+            _workout.value = it
+        }
         _totalTaskRemained.value = arguments.displayProcess
         startTaskCountDownTimer(arguments.workoutTime * SECOND_TO_MILLISECOND)
-
     }
 
     companion object {
@@ -142,6 +145,9 @@ class WorkoutViewModel(
                         if (total.rem(Workout.WORKOUT_TIME) == 0 && total != 0) {
                             _isCountingRest.value = true
                             wo.achieveSectionCount += 1
+                            _workout.value = wo
+                            println("HAHA _workout.value.achieveSectionCount=${_workout.value?.achieveSectionCount}")
+
                             pausePlayTimer()
                             _musicPlay.value = true
                             startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
@@ -205,6 +211,9 @@ class WorkoutViewModel(
      */
     override fun onCleared() {
         super.onCleared()
+
+        println("HAHA: onClear")
+
         viewModelJob.cancel()
     }
 
