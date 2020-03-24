@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 
 class WorkoutViewModel(
     private val repository: LiTsapRepository,
@@ -29,7 +30,6 @@ class WorkoutViewModel(
     }
 
     var newMessage = MutableLiveData<String>()
-
 
 
     fun addMessage() {
@@ -86,14 +86,17 @@ class WorkoutViewModel(
     val isCountingTask: LiveData<Boolean>
         get() = _isCountingTask
 
+    private val _remainCount = MutableLiveData<Int>().apply {
+        value = arguments.planSectionCount
+    }
+    val remainCount: LiveData<Int>
+        get() = _remainCount
 
     init {
-        _workout.value?.let{
-            it.achieveSectionCount = 0
-            _workout.value = it
-        }
+        Logger.w("_totalTaskRemained.value= ${_totalTaskRemained.value}")
         _totalTaskRemained.value = arguments.displayProcess
-        startTaskCountDownTimer(arguments.workoutTime * SECOND_TO_MILLISECOND)
+        Logger.w("_totalTaskRemained.value= ${_totalTaskRemained.value}")
+        startTaskCountDownTimer(Workout.WORKOUT_TIME * SECOND_TO_MILLISECOND.toLong())
     }
 
     companion object {
@@ -109,7 +112,7 @@ class WorkoutViewModel(
             taskCountDownTimer.cancel()
             _isCountingTask.value = false
         } else {
-            startTaskCountDownTimer(_totalTaskRemained.value!! * SECOND_TO_MILLISECOND.toLong())
+            startTaskCountDownTimer(Workout.WORKOUT_TIME * SECOND_TO_MILLISECOND.toLong())
         }
     }
 
@@ -139,27 +142,22 @@ class WorkoutViewModel(
         taskCountDownTimer =
             object : CountDownTimer(timeCountInMilliSeconds - 1, SECOND_TO_MILLISECOND.toLong()) {
                 override fun onTick(millisUntilFinished: Long) {
-                    _workout.value?.let { wo ->
-                        val total = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
-                        _totalTaskRemained.value = total
-                        if (total.rem(Workout.WORKOUT_TIME) == 0 && total != 0) {
-                            _isCountingRest.value = true
-                            wo.achieveSectionCount += 1
-                            _workout.value = wo
-                            println("HAHA _workout.value.achieveSectionCount=${_workout.value?.achieveSectionCount}")
-
-                            pausePlayTimer()
-                            _musicPlay.value = true
-                            startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
-                        }
-                    }
+                    _totalTaskRemained.value =  _totalTaskRemained.value?.minus(1)
                 }
 
                 override fun onFinish() {
+                    _remainCount.value = _remainCount.value?.minus(1)
                     _workout.value?.let {
-                            it.achieveSectionCount += 1
+                        it.achieveSectionCount += 1
                     }
-                    navigateToFinish()
+                    if (_remainCount.value == 0) {
+                        navigateToFinish()
+                    } else {
+                        _musicPlay.value = true
+                        _isCountingRest.value = true
+                        pausePlayTimer()
+                        startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
+                    }
                 }
             }
         _isCountingTask.value = true
@@ -211,9 +209,6 @@ class WorkoutViewModel(
      */
     override fun onCleared() {
         super.onCleared()
-
-        println("HAHA: onClear")
-
         viewModelJob.cancel()
     }
 
