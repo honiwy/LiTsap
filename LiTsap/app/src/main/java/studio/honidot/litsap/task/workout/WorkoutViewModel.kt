@@ -92,11 +92,14 @@ class WorkoutViewModel(
     val remainCount: LiveData<Int>
         get() = _remainCount
 
+    private val _sectionTimeRemained = MutableLiveData<Int>()
+    val sectionTimeRemained: LiveData<Int>
+        get() = _sectionTimeRemained
+
     init {
-        Logger.w("_totalTaskRemained.value= ${_totalTaskRemained.value}")
         _totalTaskRemained.value = arguments.displayProcess
-        Logger.w("_totalTaskRemained.value= ${_totalTaskRemained.value}")
-        startTaskCountDownTimer(Workout.WORKOUT_TIME * SECOND_TO_MILLISECOND.toLong())
+        _sectionTimeRemained.value = Workout.WORKOUT_TIME
+        startTaskCountDownTimer(_sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong())?:0)
     }
 
     companion object {
@@ -107,14 +110,6 @@ class WorkoutViewModel(
     val isCountingRest: LiveData<Boolean>
         get() = _isCountingRest
 
-    fun pausePlayTimer() {
-        if (_isCountingTask.value == true) {
-            taskCountDownTimer.cancel()
-            _isCountingTask.value = false
-        } else {
-            startTaskCountDownTimer(Workout.WORKOUT_TIME * SECOND_TO_MILLISECOND.toLong())
-        }
-    }
 
     fun navigateToFinish() {
         _workout.value?.let {
@@ -138,11 +133,21 @@ class WorkoutViewModel(
         _musicPlay.value = (_musicPlay.value == false)
     }
 
+    fun pausePlayTimer() {
+        if (_isCountingTask.value == true) {
+            taskCountDownTimer.cancel()
+            _isCountingTask.value = false
+        } else {
+            startTaskCountDownTimer(_sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong())?:0)
+        }
+    }
+
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
         taskCountDownTimer =
             object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
                 override fun onTick(millisUntilFinished: Long) {
                     _totalTaskRemained.value =  _totalTaskRemained.value?.minus(1)
+                    _sectionTimeRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
                 }
 
                 override fun onFinish() {
@@ -150,13 +155,13 @@ class WorkoutViewModel(
                     _workout.value?.let {
                         it.achieveSectionCount += 1
                     }
+                    _isCountingTask.value = false
                     if (_remainCount.value == 0) {
                         navigateToFinish()
                     } else {
-                        _musicPlay.value = true
-                        _isCountingRest.value = true
-                        pausePlayTimer()
                         startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
+                        _musicPlay.value = true
+
                     }
                 }
             }
@@ -180,9 +185,11 @@ class WorkoutViewModel(
                 override fun onFinish() {
                     _isCountingRest.value = false
                     _musicPlay.value = null
-                    pausePlayTimer()
+                    _sectionTimeRemained.value = Workout.WORKOUT_TIME
+                    startTaskCountDownTimer(_sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong())?:0)
                 }
             }
+        _isCountingRest.value = true
         restCountDownTimer.start()
     }
 
