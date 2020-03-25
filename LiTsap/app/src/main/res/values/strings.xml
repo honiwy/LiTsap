@@ -112,6 +112,8 @@
     <string name="profile_complete">本週狀況</string>
     <string name="profile_calendar">個人紀錄</string>
     <string name="profile_update">更新</string>
+    <string name="profile_achievement">成就勳章</string>
+    <string name="profile_coming_soon">即將推出，敬請期待</string>
     <!-- Choose face -->
     <string name="dialog_choose_face">選擇頭像:</string>
     <!-- Date Pattern -->

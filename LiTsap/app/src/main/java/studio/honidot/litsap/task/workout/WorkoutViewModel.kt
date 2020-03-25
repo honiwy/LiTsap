@@ -140,7 +140,7 @@ class WorkoutViewModel(
 
     private fun startTaskCountDownTimer(timeCountInMilliSeconds: Long) {
         taskCountDownTimer =
-            object : CountDownTimer(timeCountInMilliSeconds - 1, SECOND_TO_MILLISECOND.toLong()) {
+            object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
                 override fun onTick(millisUntilFinished: Long) {
                     _totalTaskRemained.value =  _totalTaskRemained.value?.minus(1)
                 }

@@ -23,15 +23,4 @@ data class User(
     val levelProcess
         get() = (experience % INTERVAL_CONSTANT).toInt()
 
-//    fun isLoginFrom(from: Int): Boolean {
-//        return loginVia == when (from) {
-//            GOOGLE -> LiTsapApplication.instance.getString(R.string.google)
-//            FACEBOOK -> LiTsapApplication.instance.getString(R.string.facebook)
-//            else -> ""
-//        }
-//    }
 }
-
-//const val GOOGLE = 0x01
-//const val FACEBOOK = 0x02
-//const val UNKNOWN = -1

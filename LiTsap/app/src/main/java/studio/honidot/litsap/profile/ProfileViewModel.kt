@@ -121,7 +121,6 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     }
 
     private fun getGroupIdList(taskIdList: List<String>) {
-        //find groupMurmur depend on group id
         coroutineScope.launch {
             val result = repository.getTasks(taskIdList)
             _onGoingTasks.value = when (result) {

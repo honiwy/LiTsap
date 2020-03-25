@@ -332,6 +332,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                         for (documentT in findShare.result!!) {
                             shares.add(documentT.toObject(Share::class.java))
                         }
+                       shares.sortByDescending  { it.recordDate }
                         continuation.resume(Result.Success(shares))
                     } else {
                         findShare.exception?.let {
@@ -353,6 +354,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
                         for (documentT in findShare.result!!) {
                             shares.add(documentT.toObject(Share::class.java))
                         }
+                        shares.sortByDescending { it.recordDate }
                         continuation.resume(Result.Success(shares))
                     } else {
                         findShare.exception?.let {
