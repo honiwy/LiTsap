@@ -1,6 +1,5 @@
 package studio.honidot.litsap.extension
 
-import androidx.fragment.app.Fragment
 import studio.honidot.litsap.LiTsapApplication
 import studio.honidot.litsap.data.Share
 import studio.honidot.litsap.data.Task
@@ -33,7 +32,7 @@ fun getVmFactory(shareType: ShareTypeFilter): ShareItemViewModelFactory {
     return ShareItemViewModelFactory(repository, shareType)
 }
 
-fun getVmFactory(share: Share, isSameUser:Boolean): ShareViewModelFactory {
+fun getVmFactory(share: Share, isSameUser: Boolean): ShareViewModelFactory {
     val repository = (LiTsapApplication.appContext as LiTsapApplication).liTsapRepository
     return ShareViewModelFactory(repository, share, isSameUser)
 }

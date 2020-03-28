@@ -13,6 +13,14 @@
     <color name="yale">#41a8d1</color>
     <color name="maya">#84eaff</color>
 
+    <!-- Bar -->
+    <color name="bar_1">@color/mustard</color>
+    <color name="bar_2">#a8c66d</color>
+    <color name="bar_3">#53b782</color>
+    <color name="bar_4">#00a19c</color>
+    <color name="bar_5">#0086a9</color>
+    <color name="bar_6">#07689f</color> 
+
     <!-- Chart -->
     <color name="chart_1">@color/mustard</color>
     <color name="chart_2">#bdd176</color>

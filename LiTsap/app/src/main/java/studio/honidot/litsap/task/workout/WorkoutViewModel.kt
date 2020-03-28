@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import studio.honidot.litsap.data.Result
 import studio.honidot.litsap.data.Workout
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 
 class WorkoutViewModel(
     private val repository: LiTsapRepository,
@@ -99,7 +98,9 @@ class WorkoutViewModel(
     init {
         _totalTaskRemained.value = arguments.displayProcess
         _sectionTimeRemained.value = Workout.WORKOUT_TIME
-        startTaskCountDownTimer(_sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong())?:0)
+        startTaskCountDownTimer(
+            _sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong()) ?: 0
+        )
     }
 
     companion object {
@@ -138,7 +139,9 @@ class WorkoutViewModel(
             taskCountDownTimer.cancel()
             _isCountingTask.value = false
         } else {
-            startTaskCountDownTimer(_sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong())?:0)
+            startTaskCountDownTimer(
+                _sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong()) ?: 0
+            )
         }
     }
 
@@ -146,22 +149,25 @@ class WorkoutViewModel(
         taskCountDownTimer =
             object : CountDownTimer(timeCountInMilliSeconds, SECOND_TO_MILLISECOND.toLong()) {
                 override fun onTick(millisUntilFinished: Long) {
-                    _totalTaskRemained.value =  _totalTaskRemained.value?.minus(1)
-                    _sectionTimeRemained.value = (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
+                    _totalTaskRemained.value = _totalTaskRemained.value?.minus(1)
+                    _sectionTimeRemained.value =
+                        (millisUntilFinished / SECOND_TO_MILLISECOND).toInt()
                 }
 
                 override fun onFinish() {
-                    _remainCount.value = _remainCount.value?.minus(1)
                     _workout.value?.let {
                         it.achieveSectionCount += 1
                     }
                     _isCountingTask.value = false
-                    if (_remainCount.value == 0) {
-                        navigateToFinish()
-                    } else {
-                        startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
-                        _musicPlay.value = true
-
+                    _remainCount.value?.let {
+                        _remainCount.value = it - 1
+                        if (it - 1 == 0) {
+                            navigateToFinish()
+                        } else {
+                            _totalTaskRemained.value = (it - 1) * Workout.WORKOUT_TIME
+                            startRestCountDownTimer(Workout.BREAK_TIME * SECOND_TO_MILLISECOND.toLong())
+                            _musicPlay.value = true
+                        }
                     }
                 }
             }
@@ -186,7 +192,9 @@ class WorkoutViewModel(
                     _isCountingRest.value = false
                     _musicPlay.value = null
                     _sectionTimeRemained.value = Workout.WORKOUT_TIME
-                    startTaskCountDownTimer(_sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong())?:0)
+                    startTaskCountDownTimer(
+                        _sectionTimeRemained.value?.times(SECOND_TO_MILLISECOND.toLong()) ?: 0
+                    )
                 }
             }
         _isCountingRest.value = true

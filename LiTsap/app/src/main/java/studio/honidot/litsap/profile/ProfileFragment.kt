@@ -25,10 +25,7 @@ import studio.honidot.litsap.databinding.FragmentProfileBinding
 import studio.honidot.litsap.extension.getVmFactory
 import studio.honidot.litsap.profile.face.FaceChooseDialog
 import studio.honidot.litsap.util.ChartColor
-import studio.honidot.litsap.util.Logger
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
