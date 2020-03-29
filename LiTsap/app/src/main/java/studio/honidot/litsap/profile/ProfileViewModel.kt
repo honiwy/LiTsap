@@ -11,6 +11,7 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
+import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 import studio.honidot.litsap.util.Util.sortAndCountTaskNumber
 
@@ -28,6 +29,11 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
 
     val murmurs: LiveData<List<Member>>
         get() = _murmurs
+
+    private val _groupProgress = MutableLiveData<List<Float>>()
+
+    val groupProgress: LiveData<List<Float>>
+        get() = _groupProgress
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -99,12 +105,44 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     }
 
 
+    private fun getProgress(members:List<Member>){
+        val taskList = mutableListOf<String>()
+        members.forEach {member->
+            taskList.add(member.taskId)
+        }
+        Logger.e("taskList=$taskList")
+        coroutineScope.launch {
+            val result = repository.getTasks(taskList)
+            val groupProgress = mutableListOf<Float>()
+            when (result) {
+                is Result.Success -> {
+                    result.data.forEach {
+                        if(it.goalCount!=0) {
+                            groupProgress.add(it.accumCount.toFloat() / it.goalCount)
+                        }
+                    }
+                    groupProgress.sortBy { it }
+                    _groupProgress.value = groupProgress.toList()
+                    Logger.i("groupProgress=$groupProgress")
+                }
+                is Result.Fail -> {
+                }
+                is Result.Error -> {
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
     fun getMurmur(groupId: String) {
         coroutineScope.launch {
             val result = repository.getMemberMurmurs(groupId)
             _murmurs.value = when (result) {
                 is Result.Success -> {
                     _editing.value = null
+                    Logger.d("murmurs=${result.data}")
+                    getProgress(result.data)
                     result.data
                 }
                 is Result.Fail -> {

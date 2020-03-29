@@ -285,14 +285,22 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.97" />
+
                     <View
                         android:id="@+id/view_progress_background"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/tag_button"
                         android:backgroundTint="@color/gray_999999"
+                        android:visibility="@{(viewModel.onGoingTasks== null)? View.INVISIBLE:View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@+id/view_progress1"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline7"
                         app:layout_constraintStart_toStartOf="@+id/view_progress1"
                         app:layout_constraintTop_toTopOf="@+id/view_progress1" />
 
@@ -301,14 +309,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.8" />
+                        tools:layout_constraintGuide_percent="0.8" />
 
                     <View
                         android:id="@+id/view_progress6"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/tag_button"
-                        android:backgroundTint="@color/bar_6"
+                        android:backgroundTint="@color/chart_6"
+                        android:visibility="@{(viewModel.groupProgress.size() >5)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@+id/view_progress1"
                         app:layout_constraintEnd_toStartOf="@+id/guideline6"
                         app:layout_constraintStart_toStartOf="@+id/view_progress1"
@@ -319,14 +328,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.6" />
+                        tools:layout_constraintGuide_percent="0.6" />
 
                     <View
                         android:id="@+id/view_progress5"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/tag_button"
-                        android:backgroundTint="@color/bar_5"
+                        android:backgroundTint="@color/chart_5"
+                        android:visibility="@{(viewModel.groupProgress.size() >4)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@+id/view_progress1"
                         app:layout_constraintEnd_toStartOf="@+id/guideline5"
                         app:layout_constraintStart_toStartOf="@+id/view_progress1"
@@ -337,14 +347,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.48" />
+                        tools:layout_constraintGuide_percent="0.48" />
 
                     <View
                         android:id="@+id/view_progress4"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/tag_button"
-                        android:backgroundTint="@color/bar_4"
+                        android:backgroundTint="@color/chart_4"
+                        android:visibility="@{(viewModel.groupProgress.size() >3)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@+id/view_progress1"
                         app:layout_constraintEnd_toStartOf="@+id/guideline4"
                         app:layout_constraintStart_toStartOf="@+id/view_progress1"
@@ -355,14 +366,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.36" />
+                        tools:layout_constraintGuide_percent="0.36" />
 
                     <View
                         android:id="@+id/view_progress3"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/tag_button"
-                        android:backgroundTint="@color/bar_3"
+                        android:backgroundTint="@color/chart_3"
+                        android:visibility="@{(viewModel.groupProgress.size() >2)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@+id/view_progress1"
                         app:layout_constraintEnd_toStartOf="@+id/guideline3"
                         app:layout_constraintStart_toStartOf="@+id/view_progress1"
@@ -373,46 +385,57 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.2" />
+                        tools:layout_constraintGuide_percent="0.2" />
 
                     <View
                         android:id="@+id/view_progress2"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/tag_button"
-                        android:backgroundTint="@color/bar_2"
+                        android:backgroundTint="@color/chart_2"
+                        android:visibility="@{(viewModel.groupProgress.size() >1)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@+id/view_progress1"
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
                         app:layout_constraintStart_toStartOf="@+id/view_progress1"
-                        app:layout_constraintTop_toTopOf="@+id/view_progress1" />
+                        app:layout_constraintTop_toBottomOf="@+id/image_profile_other1" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.08" />
+                        tools:layout_constraintGuide_percent="0.08" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.03" />
 
                     <View
                         android:id="@+id/view_progress1"
                         android:layout_width="0dp"
                         android:layout_height="12dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="12dp"
                         android:background="@drawable/tag_button"
-                        android:backgroundTint="@color/bar_1"
+                        android:backgroundTint="@color/chart_1"
+                        android:visibility="@{(viewModel.groupProgress.size() >0)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/guideline1"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recycler_murmur" />
+                        app:layout_constraintStart_toStartOf="@+id/guideline0"
+                        app:layout_constraintTop_toBottomOf="@+id/image_profile_personal" />
 
                     <ImageView
                         android:id="@+id/image_profile_personal"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_marginTop="4dp"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@+id/view_progress5"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                        android:visibility="@{(viewModel.groupProgress.size() >0)? View.VISIBLE:View.INVISIBLE}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+                        app:layout_constraintStart_toStartOf="@+id/guideline1"
+                        app:layout_constraintTop_toBottomOf="@+id/recycler_murmur"
                         app:userProfile="@{viewModel.user == null ? -1 : safeUnbox(viewModel.user.iconId)}" />
 
                     <ImageView
@@ -420,35 +443,21 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@+id/view_progress5"
+                        android:visibility="@{(viewModel.groupProgress.size()>1)? View.VISIBLE:View.INVISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                        app:layout_constraintStart_toStartOf="@+id/guideline2"
+                        app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
                         app:userProfile="@{10}" />
-
-                    <ImageView
-                        android:id="@+id/image_profile_other4"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@+id/view_progress5"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-                        app:userProfile="@{6}" />
-
-                    <ImageView
-                        android:id="@+id/image_profile_other5"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@+id/view_progress5"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                        app:userProfile="@{5}" />
 
                     <ImageView
                         android:id="@+id/image_profile_other2"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@+id/view_progress5"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                        android:visibility="@{(viewModel.groupProgress.size()>2)? View.VISIBLE:View.INVISIBLE}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
                         app:userProfile="@{1}" />
 
                     <ImageView
@@ -456,9 +465,34 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@+id/view_progress5"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                        android:visibility="@{(viewModel.groupProgress.size()>3)? View.VISIBLE:View.INVISIBLE}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintStart_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
                         app:userProfile="@{12}" />
+
+                    <ImageView
+                        android:id="@+id/image_profile_other4"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="@{(viewModel.groupProgress.size() >4)? View.VISIBLE:View.INVISIBLE}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                        app:layout_constraintStart_toStartOf="@+id/guideline5"
+                        app:layout_constraintTop_toTopOf="@id/image_profile_personal"
+                        app:userProfile="@{6}" />
+
+                    <ImageView
+                        android:id="@+id/image_profile_other5"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="@{(viewModel.groupProgress.size()>5)? View.VISIBLE:View.INVISIBLE}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                        app:layout_constraintStart_toStartOf="@+id/guideline6"
+                        app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
+                        app:userProfile="@{5}" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -533,11 +567,11 @@
                     android:id="@+id/constraint_achievement"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/profile_round_recycler"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:background="@drawable/profile_round_recycler"
                     android:elevation="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -547,8 +581,8 @@
                     <TextView
                         android:id="@+id/text_coming_soon"
                         style="@style/CreateModuleStyle"
-                        android:textColor="@color/honey"
                         android:text="@string/profile_coming_soon"
+                        android:textColor="@color/honey"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -558,6 +592,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

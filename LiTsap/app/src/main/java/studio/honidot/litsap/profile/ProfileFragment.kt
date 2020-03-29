@@ -48,6 +48,8 @@ class ProfileFragment : Fragment() {
         private const val CHART_ANIMATION_TIME = 1000
         private const val DIALOG_FACE = "face"
         private const val MURMUR_RUN_TIME = 2000L
+        private const val SCALE_PROGRESS = 0.94f
+        private const val DEPOSITION_PROGRESS = 0.03f
     }
 
     override fun onCreateView(
@@ -68,7 +70,17 @@ class ProfileFragment : Fragment() {
         binding.recyclerTab.adapter =
             CompetitionAdapter(viewModel, CompetitionAdapter.OnClickListener {
                 viewModel.getMurmur(it.groupId)
+
             })
+
+        viewModel.groupProgress.observe(this, Observer {list->
+            binding.guideline1.setGuidelinePercent(if(list.isNotEmpty()){list[0]* SCALE_PROGRESS+ DEPOSITION_PROGRESS}else{0f+ DEPOSITION_PROGRESS})
+            binding.guideline2.setGuidelinePercent(if(list.size>1){list[1]* SCALE_PROGRESS+ DEPOSITION_PROGRESS}else{0f+ DEPOSITION_PROGRESS})
+            binding.guideline3.setGuidelinePercent(if(list.size>2){list[2]* SCALE_PROGRESS+ DEPOSITION_PROGRESS}else{0f+ DEPOSITION_PROGRESS})
+            binding.guideline4.setGuidelinePercent(if(list.size>3){list[3]* SCALE_PROGRESS+ DEPOSITION_PROGRESS}else{0f+ DEPOSITION_PROGRESS})
+            binding.guideline5.setGuidelinePercent(if(list.size>4){list[4]* SCALE_PROGRESS+ DEPOSITION_PROGRESS}else{0f+ DEPOSITION_PROGRESS})
+            binding.guideline6.setGuidelinePercent(if(list.size>5){list[5]* SCALE_PROGRESS+ DEPOSITION_PROGRESS}else{0f+ DEPOSITION_PROGRESS})
+        })
 
         viewModel.murmurs.observe(this, Observer {
             binding.recyclerMurmur.adapter?.notifyDataSetChanged()
