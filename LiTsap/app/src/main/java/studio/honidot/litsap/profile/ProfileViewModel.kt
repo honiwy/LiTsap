@@ -11,7 +11,6 @@ import studio.honidot.litsap.R
 import studio.honidot.litsap.data.*
 import studio.honidot.litsap.network.LoadApiStatus
 import studio.honidot.litsap.source.LiTsapRepository
-import studio.honidot.litsap.util.Logger
 import studio.honidot.litsap.util.Util
 import studio.honidot.litsap.util.Util.sortAndCountTaskNumber
 
@@ -30,9 +29,9 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     val murmurs: LiveData<List<Member>>
         get() = _murmurs
 
-    private val _groupProgress = MutableLiveData<List<Float>>()
+    private val _groupProgress = MutableLiveData<List<Progress>>()
 
-    val groupProgress: LiveData<List<Float>>
+    val groupProgress: LiveData<List<Progress>>
         get() = _groupProgress
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -105,25 +104,37 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
     }
 
 
-    private fun getProgress(members:List<Member>){
-        val taskList = mutableListOf<String>()
-        members.forEach {member->
-            taskList.add(member.taskId)
-        }
-        Logger.e("taskList=$taskList")
+    private fun getProgress(members: List<Member>) {
         coroutineScope.launch {
-            val result = repository.getTasks(taskList)
-            val groupProgress = mutableListOf<Float>()
-            when (result) {
+            val taskList = mutableListOf<String>()
+            val groupProgress = mutableListOf<Progress>()
+            members.forEach { member ->
+                taskList.add(member.taskId)
+                when (val resultI = repository.findUser(member.userId)) {
+                    is Result.Success -> {
+                        groupProgress.add(Progress(member.userId, resultI.data?.iconId ?: 0, 0.0f))
+                    }
+                    is Result.Fail -> {
+                    }
+                    is Result.Error -> {
+                    }
+                    else -> {
+                    }
+                }
+            }
+            when (val result = repository.getTasks(taskList)) {
                 is Result.Success -> {
-                    result.data.forEach {
-                        if(it.goalCount!=0) {
-                            groupProgress.add(it.accumCount.toFloat() / it.goalCount)
+                    result.data.forEach { task ->
+                        if (task.goalCount != 0) {
+                            val index = groupProgress.indexOfFirst { it.userId == task.userId }
+                            if(index!=-1){
+                                groupProgress[index].percent =
+                                    task.accumCount.toFloat() / task.goalCount
+                            }
                         }
                     }
-                    groupProgress.sortBy { it }
+                    groupProgress.sortBy { it.percent }
                     _groupProgress.value = groupProgress.toList()
-                    Logger.i("groupProgress=$groupProgress")
                 }
                 is Result.Fail -> {
                 }
@@ -132,6 +143,7 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
                 else -> {
                 }
             }
+
         }
     }
 
@@ -141,7 +153,6 @@ class ProfileViewModel(private val repository: LiTsapRepository, private val arg
             _murmurs.value = when (result) {
                 is Result.Success -> {
                     _editing.value = null
-                    Logger.d("murmurs=${result.data}")
                     getProgress(result.data)
                     result.data
                 }

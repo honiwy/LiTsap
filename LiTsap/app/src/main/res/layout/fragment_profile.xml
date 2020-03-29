@@ -436,7 +436,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline1"
                         app:layout_constraintStart_toStartOf="@+id/guideline1"
                         app:layout_constraintTop_toBottomOf="@+id/recycler_murmur"
-                        app:userProfile="@{viewModel.user == null ? -1 : safeUnbox(viewModel.user.iconId)}" />
+                        app:userProfile="@{(viewModel.groupProgress.size()>0)?viewModel.groupProgress[0].iconId:0}" />
 
                     <ImageView
                         android:id="@+id/image_profile_other1"
@@ -447,7 +447,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
                         app:layout_constraintStart_toStartOf="@+id/guideline2"
                         app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
-                        app:userProfile="@{10}" />
+                        app:userProfile="@{(viewModel.groupProgress.size()>1)?viewModel.groupProgress[1].iconId:0}" />
 
                     <ImageView
                         android:id="@+id/image_profile_other2"
@@ -458,7 +458,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline3"
                         app:layout_constraintStart_toStartOf="@+id/guideline3"
                         app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
-                        app:userProfile="@{1}" />
+                        app:userProfile="@{(viewModel.groupProgress.size()>2)?viewModel.groupProgress[2].iconId:0}" />
 
                     <ImageView
                         android:id="@+id/image_profile_other3"
@@ -469,7 +469,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline4"
                         app:layout_constraintStart_toStartOf="@+id/guideline4"
                         app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
-                        app:userProfile="@{12}" />
+                        app:userProfile="@{(viewModel.groupProgress.size()>3)?viewModel.groupProgress[3].iconId:0}" />
 
                     <ImageView
                         android:id="@+id/image_profile_other4"
@@ -480,7 +480,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline5"
                         app:layout_constraintStart_toStartOf="@+id/guideline5"
                         app:layout_constraintTop_toTopOf="@id/image_profile_personal"
-                        app:userProfile="@{6}" />
+                        app:userProfile="@{(viewModel.groupProgress.size()>4)?viewModel.groupProgress[4].iconId:0}" />
 
                     <ImageView
                         android:id="@+id/image_profile_other5"
@@ -491,7 +491,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline6"
                         app:layout_constraintStart_toStartOf="@+id/guideline6"
                         app:layout_constraintTop_toTopOf="@+id/image_profile_personal"
-                        app:userProfile="@{5}" />
+                        app:userProfile="@{(viewModel.groupProgress.size()>5)?viewModel.groupProgress[5].iconId:0}" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
