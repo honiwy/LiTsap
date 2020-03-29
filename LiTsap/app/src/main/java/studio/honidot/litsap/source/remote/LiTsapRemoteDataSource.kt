@@ -89,7 +89,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
             FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId)
                 .collection(
                     PATH_MEMBERS
-                ).document(member.userId).set(member)
+                ).document(member.taskId).set(member)
                 .addOnCompleteListener { addMember ->
                     if (addMember.isSuccessful) {
                         continuation.resume(Result.Success(true))
@@ -621,7 +621,7 @@ object LiTsapRemoteDataSource : LiTsapDataSource {
             FirebaseFirestore.getInstance().collection(PATH_GROUPS).document(member.groupId)
                 .collection(
                     PATH_MEMBERS
-                ).document(member.userId)
+                ).document(member.taskId)
                 .update(FIELD_MURMUR, member.murmur)
                 .addOnCompleteListener { addId ->
                     if (addId.isSuccessful) {

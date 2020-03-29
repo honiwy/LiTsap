@@ -99,35 +99,12 @@ class TaskViewModel(private val repository: LiTsapRepository, private val argume
         coroutineScope.launch {
             when (repository.deleteUserOngoingTask(userId, taskId)) {
                 is Result.Success -> {
-                    deleteTaskFromCollection(taskId)
                 }
                 is Result.Fail -> {
-                    null
                 }
                 is Result.Error -> {
-                    null
                 }
                 else -> {
-                    null
-                }
-            }
-        }
-    }
-
-    private fun deleteTaskFromCollection(taskId: String) {
-        coroutineScope.launch {
-            when (repository.deleteTask(taskId)) {
-                is Result.Success -> {
-                    Logger.d("Delete success")
-                }
-                is Result.Fail -> {
-                    null
-                }
-                is Result.Error -> {
-                    null
-                }
-                else -> {
-                    null
                 }
             }
         }
