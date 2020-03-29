@@ -45,6 +45,7 @@ Test - JUnit, Espresso
 ## Others 其他
 ### Requirement 環境需求
 Android SDK 26+
+Gradle 5.4.1+
 ### Release version 最新版號
 Google Play Release 2.4.5 (2020/03/25)
 ### Contact 聯絡資訊
